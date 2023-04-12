@@ -8,7 +8,6 @@ class FinalDalrunApplicationTests {
 
 	@Test
 	void contextLoads() {
-		testest
 	}
 
 }
