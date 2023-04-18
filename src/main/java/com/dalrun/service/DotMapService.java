@@ -3,8 +3,8 @@ package com.dalrun.service;
 import com.dalrun.domain.DotMap;
 import com.dalrun.domain.User;
 import com.dalrun.dto.DotMapDto;
-import com.dalrun.repository.DotMapRepositoey;
-import com.dalrun.repository.UserRepository;
+//import com.dalrun.repository.DotMapRepository;
+//import com.dalrun.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,14 +15,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Service
 public class DotMapService {
-    private final DotMapRepositoey dotMapRepositoey;
-    private final UserRepository userRepository;
-    
-    public DotMapService(final DotMapRepositoey dotMapRepositoey ,final UserRepository userRepository) {
-    	this.dotMapRepositoey=dotMapRepositoey;
-    	this.userRepository=userRepository;
-		// TODO Auto-generated constructor stub
-	}
+//    private final DotMapRepository dotMapRepositoey;
+//    private final UserRepository userRepository;
+//    
+//    public DotMapService(final DotMapRepository dotMapRepositoey ,final UserRepository userRepository) {
+//    	this.dotMapRepositoey=dotMapRepositoey;
+//    	this.userRepository=userRepository;
+//		// TODO Auto-generated constructor stub
+//	}
 
 //    /* CREATE (도트맵 구매) */
 //    @Transactional
