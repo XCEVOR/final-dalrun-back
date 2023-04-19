@@ -4,16 +4,18 @@ import java.io.Serializable;
 
 public class ProductDto  implements Serializable{
 
-	private String id;
-	private String name;
-	private String price;
-	private String category;
-	private String content; 
-	private String originalfile;// 상품 원본 사진
-	private String newfile; // 상품 변경 사진
-	private int stock; // 상품 재고 
-	private int sale; // 판매 여부 [0 - 미판매 / 1- 판매]
-	private int soldout; // 품절 여부 [0 - 품절x / 1-품절 o ]
+	private String productId;
+	private String productName;
+	private String productPrice;
+	private String productCategory;
+	private String productDescription;
+	private String productRegiDate;
+	private String productOrigFile;// 상품 원본 사진
+	private String productNewFile; // 상품 변경 사진
+	private int productStock; // 상품 재고 
+	private int productSale; // 판매 여부 [0 - 미판매 / 1- 판매]
+	private int productSoldout; // 품절 여부 [0 - 품절x / 1-품절 o ]
+
 	
 	
 	public ProductDto() {
@@ -21,128 +23,166 @@ public class ProductDto  implements Serializable{
 	}
 
 
-	public ProductDto(String id, String name, String price, String category, String content, String originalfile,
-			String newfile, int stock, int sale, int soldout) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.price = price;
-		this.category = category;
-		this.content = content;
-		this.originalfile = originalfile;
-		this.newfile = newfile;
-		this.stock = stock;
-		this.sale = sale;
-		this.soldout = soldout;
-	}
+
+    public ProductDto(String productId, String productName, String productPrice, String productCategory,
+            String productDescription, String productRegiDate, String productOrigFile, String productNewFile,
+            int productStock, int productSale, int productSoldout) {
+        super();
+        this.productId = productId;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productCategory = productCategory;
+        this.productDescription = productDescription;
+        this.productRegiDate = productRegiDate;
+        this.productOrigFile = productOrigFile;
+        this.productNewFile = productNewFile;
+        this.productStock = productStock;
+        this.productSale = productSale;
+        this.productSoldout = productSoldout;
+    }
 
 
-	public String getId() {
-		return id;
-	}
+
+    public String getProductId() {
+        return productId;
+    }
 
 
-	public void setId(String id) {
-		this.id = id;
-	}
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
 
 
-	public String getName() {
-		return name;
-	}
+
+    public String getProductName() {
+        return productName;
+    }
 
 
-	public void setName(String name) {
-		this.name = name;
-	}
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
 
-	public String getPrice() {
-		return price;
-	}
+
+    public String getProductPrice() {
+        return productPrice;
+    }
 
 
-	public void setPrice(String price) {
-		this.price = price;
-	}
+
+    public void setProductPrice(String productPrice) {
+        this.productPrice = productPrice;
+    }
 
 
-	public String getCategory() {
-		return category;
-	}
+
+    public String getProductCategory() {
+        return productCategory;
+    }
 
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+
+    public void setProductCategory(String productCategory) {
+        this.productCategory = productCategory;
+    }
 
 
-	public String getContent() {
-		return content;
-	}
+
+    public String getProductDescription() {
+        return productDescription;
+    }
 
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
 
 
-	public String getOriginalfile() {
-		return originalfile;
-	}
+
+    public String getProductRegiDate() {
+        return productRegiDate;
+    }
 
 
-	public void setOriginalfile(String originalfile) {
-		this.originalfile = originalfile;
-	}
+
+    public void setProductRegiDate(String productRegiDate) {
+        this.productRegiDate = productRegiDate;
+    }
 
 
-	public String getNewfile() {
-		return newfile;
-	}
+
+    public String getProductOrigFile() {
+        return productOrigFile;
+    }
 
 
-	public void setNewfile(String newfile) {
-		this.newfile = newfile;
-	}
+
+    public void setProductOrigFile(String productOrigFile) {
+        this.productOrigFile = productOrigFile;
+    }
 
 
-	public int getStock() {
-		return stock;
-	}
+
+    public String getProductNewFile() {
+        return productNewFile;
+    }
 
 
-	public void setStock(int stock) {
-		this.stock = stock;
-	}
+
+    public void setProductNewFile(String productNewFile) {
+        this.productNewFile = productNewFile;
+    }
 
 
-	public int getSale() {
-		return sale;
-	}
+
+    public int getProductStock() {
+        return productStock;
+    }
 
 
-	public void setSale(int sale) {
-		this.sale = sale;
-	}
+
+    public void setProductStock(int productStock) {
+        this.productStock = productStock;
+    }
 
 
-	public int getSoldout() {
-		return soldout;
-	}
+
+    public int getProductSale() {
+        return productSale;
+    }
 
 
-	public void setSoldout(int soldout) {
-		this.soldout = soldout;
-	}
+
+    public void setProductSale(int productSale) {
+        this.productSale = productSale;
+    }
 
 
-	@Override
-	public String toString() {
-		return "ProductDto [id=" + id + ", name=" + name + ", price=" + price + ", category=" + category + ", content="
-				+ content + ", originalfile=" + originalfile + ", newfile=" + newfile + ", stock=" + stock + ", sale="
-				+ sale + ", soldout=" + soldout + "]";
-	}
+
+    public int getProductSoldout() {
+        return productSoldout;
+    }
+
+
+
+    public void setProductSoldout(int productSoldout) {
+        this.productSoldout = productSoldout;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "ProductDto [productId=" + productId + ", productName=" + productName + ", productPrice=" + productPrice
+                + ", productCategory=" + productCategory + ", productDescription=" + productDescription
+                + ", productRegiDate=" + productRegiDate + ", productOrigFile=" + productOrigFile + ", productNewFile="
+                + productNewFile + ", productStock=" + productStock + ", productSale=" + productSale
+                + ", productSoldout=" + productSoldout + "]";
+    }
 	
 	
 	
