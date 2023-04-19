@@ -18,7 +18,7 @@ public class ProductController {
     
     @GetMapping(value = "productlist")
     public List<ProductDto> productlist () {
-        System.out.println("  ProductController List<ProductDto> productlist () { " + new Date());
+        System.out.println("  @ ProductController List<ProductDto> productlist () { " + new Date());
         return service.productlist();
     }
 }

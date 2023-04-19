@@ -4,123 +4,135 @@ import java.io.Serializable;
 
 public class OrderDto implements Serializable{
 	
-	private String id;
-	private String name;
-	private String addres;
-	private String phone;
-	private String requir; // 주문 요청 사항
-	private int totalprice; // 총 구매 금액
-	private String date;
-	private int amount;
-	private String ostate; // 주문 상태
-	private String dstate; // 배송상태
+    private int orderSeq;
+	private String memId;
+	private String oderName;
+	private String orderAddress;
+	private String orderPhone;
+	private String orderRequirment; // 주문 요청 사항
+	private String orderTotalprice; // 총 구매 금액
+	private String orderDate;
+	private int orderQuantity;
+	private String orderState; // 주문 상태
+	private String deliveryState; // 배송상태
 	
 	public OrderDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public OrderDto(String id, String name, String addres, String phone, String requir, int totalprice, String date,
-			int amount, String ostate, String dstate) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.addres = addres;
-		this.phone = phone;
-		this.requir = requir;
-		this.totalprice = totalprice;
-		this.date = date;
-		this.amount = amount;
-		this.ostate = ostate;
-		this.dstate = dstate;
-	}
+    public OrderDto(int orderSeq, String memId, String oderName, String orderAddress, String orderPhone,
+            String orderRequirment, String orderTotalprice, String orderDate, int orderQuantity, String orderState,
+            String deliveryState) {
+        super();
+        this.orderSeq = orderSeq;
+        this.memId = memId;
+        this.oderName = oderName;
+        this.orderAddress = orderAddress;
+        this.orderPhone = orderPhone;
+        this.orderRequirment = orderRequirment;
+        this.orderTotalprice = orderTotalprice;
+        this.orderDate = orderDate;
+        this.orderQuantity = orderQuantity;
+        this.orderState = orderState;
+        this.deliveryState = deliveryState;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public int getOrderSeq() {
+        return orderSeq;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setOrderSeq(int orderSeq) {
+        this.orderSeq = orderSeq;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getMemId() {
+        return memId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setMemId(String memId) {
+        this.memId = memId;
+    }
 
-	public String getAddres() {
-		return addres;
-	}
+    public String getOderName() {
+        return oderName;
+    }
 
-	public void setAddres(String addres) {
-		this.addres = addres;
-	}
+    public void setOderName(String oderName) {
+        this.oderName = oderName;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public String getOrderAddress() {
+        return orderAddress;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public void setOrderAddress(String orderAddress) {
+        this.orderAddress = orderAddress;
+    }
 
-	public String getRequir() {
-		return requir;
-	}
+    public String getOrderPhone() {
+        return orderPhone;
+    }
 
-	public void setRequir(String requir) {
-		this.requir = requir;
-	}
+    public void setOrderPhone(String orderPhone) {
+        this.orderPhone = orderPhone;
+    }
 
-	public int getTotalprice() {
-		return totalprice;
-	}
+    public String getOrderRequirment() {
+        return orderRequirment;
+    }
 
-	public void setTotalprice(int totalprice) {
-		this.totalprice = totalprice;
-	}
+    public void setOrderRequirment(String orderRequirment) {
+        this.orderRequirment = orderRequirment;
+    }
 
-	public String getDate() {
-		return date;
-	}
+    public String getOrderTotalprice() {
+        return orderTotalprice;
+    }
 
-	public void setDate(String date) {
-		this.date = date;
-	}
+    public void setOrderTotalprice(String orderTotalprice) {
+        this.orderTotalprice = orderTotalprice;
+    }
 
-	public int getAmount() {
-		return amount;
-	}
+    public String getOrderDate() {
+        return orderDate;
+    }
 
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
+    }
 
-	public String getOstate() {
-		return ostate;
-	}
+    public int getOrderQuantity() {
+        return orderQuantity;
+    }
 
-	public void setOstate(String ostate) {
-		this.ostate = ostate;
-	}
+    public void setOrderQuantity(int orderQuantity) {
+        this.orderQuantity = orderQuantity;
+    }
 
-	public String getDstate() {
-		return dstate;
-	}
+    public String getOrderState() {
+        return orderState;
+    }
 
-	public void setDstate(String dstate) {
-		this.dstate = dstate;
-	}
+    public void setOrderState(String orderState) {
+        this.orderState = orderState;
+    }
 
-	@Override
-	public String toString() {
-		return "OrderDto [id=" + id + ", name=" + name + ", addres=" + addres + ", phone=" + phone + ", requir="
-				+ requir + ", totalprice=" + totalprice + ", date=" + date + ", amount=" + amount + ", ostate=" + ostate
-				+ ", dstate=" + dstate + "]";
-	}
-	
+    public String getDeliveryState() {
+        return deliveryState;
+    }
+
+    public void setDeliveryState(String deliveryState) {
+        this.deliveryState = deliveryState;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDto [orderSeq=" + orderSeq + ", memId=" + memId + ", oderName=" + oderName + ", orderAddress="
+                + orderAddress + ", orderPhone=" + orderPhone + ", orderRequirment=" + orderRequirment
+                + ", orderTotalprice=" + orderTotalprice + ", orderDate=" + orderDate + ", orderQuantity="
+                + orderQuantity + ", orderState=" + orderState + ", deliveryState=" + deliveryState + "]";
+    }
+
 	
 	
 
