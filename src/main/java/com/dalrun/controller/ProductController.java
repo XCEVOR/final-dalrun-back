@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.dalrun.dto.ProductDto;
 import com.dalrun.service.ProductService;
+import com.dalrun.util.EditorUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -60,8 +61,16 @@ public class ProductController {
         // filename 취득. (이 라인에서 파일 이름이 null 인지 판단하여 파일이 들어온지 확인. 그렇지 않으면 아래 코드 실행 X)
         String origFilename = mpFileLoad.getOriginalFilename();  // 불러온 원본 파일명.
         
+        // pdto origFilename에 저장.
+        
+        
+        String newFilename = EditorUtil.getNewFileName(origFilename);
+        
+        // pdto newFilename에 저장.
+        
+        
         // 파일 업로드 경로.
-        String fileupload_file_path = fileupload_path + "/" + origFilename;
+        String fileupload_file_path = fileupload_path + "/" + newFilename;
         System.out.println("  @@ fileupload_file_path: " + fileupload_file_path);
         
         
