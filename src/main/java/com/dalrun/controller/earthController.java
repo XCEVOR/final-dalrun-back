@@ -20,7 +20,7 @@ import java.util.List;
 public class earthController {
 	@Autowired
 	DotMapService service;
-	
+	 
     private final DotMapService dotMapService=null;
 
     //@Operation(summary = "페이지를 반환", description = "도트맵 페이지를 반환 합니다.")
