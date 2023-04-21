@@ -30,10 +30,16 @@ public class ProductController {
     
     // ====================================================================================================    
     // server test
-    @GetMapping(value = "productlist")
-    public List<ProductDto> productlist () {
+    @GetMapping(value = "allProductListGetMapping")
+    public List<ProductDto> allProductListGetMapping () {
         System.out.println("  @ ProductController List<ProductDto> productlist () { " + new Date());
-        return service.productlist();
+        return service.allProductListService();
+    }
+    
+    @PostMapping(value = "getProductData")
+    public ProductDto getProductData (String productId) {
+        System.out.println("ProductController ProductDto getProductData (String productId) { " + new Date());
+        return service.getProductData(productId);     
     }
     
     
@@ -90,6 +96,8 @@ public class ProductController {
         
         return "file upload SUCCESS!";
     }
+    
+    
     
 
     
