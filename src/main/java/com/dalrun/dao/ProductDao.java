@@ -13,6 +13,6 @@ public interface ProductDao {
 
     List<ProductDto> allProductList ();
     
-    ProductDto getProductData (String productId);
+    List<ProductDto> getProductData (String productCode);
     
 }

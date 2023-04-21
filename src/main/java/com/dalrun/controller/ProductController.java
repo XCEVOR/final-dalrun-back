@@ -37,9 +37,9 @@ public class ProductController {
     }
     
     @PostMapping(value = "getProductData")
-    public ProductDto getProductData (String productId) {
-        System.out.println("ProductController ProductDto getProductData (String productId) { " + new Date());
-        return service.getProductData(productId);     
+    public List<ProductDto> getProductData (String productCode) {
+        System.out.println("ProductController ProductDto getProductData (String productCode) { " + new Date());
+        return service.getProductData(productCode);     
     }
     
     

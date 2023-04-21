@@ -12,7 +12,7 @@
     <select id="getProductData" parameterType="String" resultType="com.dalrun.dto.ProductDto">
 	    SELECT *
 	    FROM PRODUCT
-	    WHERE productId=#{productId}
+	    WHERE productCode=#{productCode}
 	</select>
 
 </mapper>

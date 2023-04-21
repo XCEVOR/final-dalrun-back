@@ -5,9 +5,13 @@ import java.io.Serializable;
 public class ProductDto  implements Serializable{
 
 	private String productId;
+	private String productCode;
+	private String productCategory;
+	private String productBrand;
 	private String productName;
 	private String productPrice;
-	private String productCategory;
+	private String productColor;
+	private String productSize;
 	private String productDescription;
 	private String productRegiDate;
 	private String productOrigFile;// 상품 원본 사진
@@ -24,14 +28,19 @@ public class ProductDto  implements Serializable{
 
 
 
-    public ProductDto(String productId, String productName, String productPrice, String productCategory,
-            String productDescription, String productRegiDate, String productOrigFile, String productNewFile,
-            int productStock, int productSale, int productSoldout) {
+    public ProductDto(String productId, String productCode, String productCategory, String productBrand,
+            String productName, String productPrice, String productColor, String productSize, String productDescription,
+            String productRegiDate, String productOrigFile, String productNewFile, int productStock, int productSale,
+            int productSoldout) {
         super();
         this.productId = productId;
+        this.productCode = productCode;
+        this.productCategory = productCategory;
+        this.productBrand = productBrand;
         this.productName = productName;
         this.productPrice = productPrice;
-        this.productCategory = productCategory;
+        this.productColor = productColor;
+        this.productSize = productSize;
         this.productDescription = productDescription;
         this.productRegiDate = productRegiDate;
         this.productOrigFile = productOrigFile;
@@ -51,6 +60,42 @@ public class ProductDto  implements Serializable{
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+
+
+    public String getProductCategory() {
+        return productCategory;
+    }
+
+
+
+    public void setProductCategory(String productCategory) {
+        this.productCategory = productCategory;
+    }
+
+
+
+    public String getProductBrand() {
+        return productBrand;
+    }
+
+
+
+    public void setProductBrand(String productBrand) {
+        this.productBrand = productBrand;
     }
 
 
@@ -79,14 +124,26 @@ public class ProductDto  implements Serializable{
 
 
 
-    public String getProductCategory() {
-        return productCategory;
+    public String getProductColor() {
+        return productColor;
     }
 
 
 
-    public void setProductCategory(String productCategory) {
-        this.productCategory = productCategory;
+    public void setProductColor(String productColor) {
+        this.productColor = productColor;
+    }
+
+
+
+    public String getProductSize() {
+        return productSize;
+    }
+
+
+
+    public void setProductSize(String productSize) {
+        this.productSize = productSize;
     }
 
 
@@ -177,13 +234,15 @@ public class ProductDto  implements Serializable{
 
     @Override
     public String toString() {
-        return "ProductDto [productId=" + productId + ", productName=" + productName + ", productPrice=" + productPrice
-                + ", productCategory=" + productCategory + ", productDescription=" + productDescription
-                + ", productRegiDate=" + productRegiDate + ", productOrigFile=" + productOrigFile + ", productNewFile="
-                + productNewFile + ", productStock=" + productStock + ", productSale=" + productSale
-                + ", productSoldout=" + productSoldout + "]";
+        return "ProductDto [productId=" + productId + ", productCode=" + productCode + ", productCategory="
+                + productCategory + ", productBrand=" + productBrand + ", productName=" + productName
+                + ", productPrice=" + productPrice + ", productColor=" + productColor + ", productSize=" + productSize
+                + ", productDescription=" + productDescription + ", productRegiDate=" + productRegiDate
+                + ", productOrigFile=" + productOrigFile + ", productNewFile=" + productNewFile + ", productStock="
+                + productStock + ", productSale=" + productSale + ", productSoldout=" + productSoldout + "]";
     }
-	
-	
+
+
+
 	
 }
