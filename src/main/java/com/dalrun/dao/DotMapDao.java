@@ -3,16 +3,18 @@ package com.dalrun.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.dalrun.dto.ProductDto;
+
+import com.dalrun.dto.DotMapDto;
+
 
 @Mapper
 @Repository
-public interface ProductDao {
+public interface DotMapDao {
 
-    List<ProductDto> allProductList ();
-    
-    ProductDto getProductData (String productId);
-    
+	 List<DotMapDto> getAllDotMap();
+	
+	
 }

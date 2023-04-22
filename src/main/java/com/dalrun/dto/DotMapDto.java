@@ -1,55 +1,128 @@
 package com.dalrun.dto;
 
-import com.dalrun.domain.DotMap;
-import com.dalrun.domain.User;
-import lombok.*;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class DotMapDto implements Serializable {
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class Request {
-        private Long id;
-        private User user;
-        private String dotId;
-        private LocalDateTime createdDate;
-        private String description;
-        private String color;
-        private String txHash;
+		private int location;
+        private String crewName;
+        private String id;
+        private String regdate;
+        private String message;
+        private String groundcolor;
+        private String image;
+        private String sale;
+        private int price;
+        
+       public DotMapDto() {
+		// TODO Auto-generated constructor stub
+	}
+       
+       
+       
+     
+	public DotMapDto(int location, String crewName, String id, String regdate, String message, String groundcolor,
+			String image, String sale, int price) {
+		super();
+		this.location = location;
+		this.crewName = crewName;
+		this.id = id;
+		this.regdate = regdate;
+		this.message = message;
+		this.groundcolor = groundcolor;
+		this.image = image;
+		this.sale = sale;
+		this.price = price;
+	}
 
-        /* DTO -> Entity */
-//        public DotMap toEntity() {
-//            DotMap dotmap = DotMap.builder().id(id).user(user).dotId(dotId).description(description).color(color).txHash(txHash).build();
-//            return dotmap;
-//        }
-    }
 
-    @Getter
-    public static class Response {
-        private Long id;
-        private String userName;
-        private String dotId;
-        private LocalDateTime createdDate;
-        private String description;
-        private String color;
-        private String txHash;
-        private String picture;
 
-//        /* Entity -> DTO */
-//        public Response(DotMap dotmap) {
-//            this.id = dotmap.getId();
-//            this.userName = dotmap.getUser().getName();
-//            this.dotId = dotmap.getDotId();
-//            this.createdDate = dotmap.getCreatedDate();
-//            this.description  = dotmap.getDescription();
-//            this.color = dotmap.getColor();
-//            this.txHash = dotmap.getTxHash();
-//            this.picture = dotmap.getUser().getPicture();
-//        }
-    }
+
+	public int getLocation() {
+		return location;
+	}
+
+
+
+	public void setLocation(int location) {
+		this.location = location;
+	}
+
+
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public String getCrewName() {
+		return crewName;
+	}
+
+	public void setCrewName(String crewName) {
+		this.crewName = crewName;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getRegdate() {
+		return regdate;
+	}
+
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getGroundcolor() {
+		return groundcolor;
+	}
+
+	public void setGroundcolor(String groundcolor) {
+		this.groundcolor = groundcolor;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getSale() {
+		return sale;
+	}
+
+	public void setSale(String sale) {
+		this.sale = sale;
+	}
+
+        
+        
+        
+        
+        
+      
+        
+
+        
+    
 }
