@@ -16,11 +16,11 @@ public class AdminService {
 	@Autowired
 	AdminDao dao;
 	
-	public List<MemberDto> memberlist(SearchParam params, String grade) {
-		return dao.memberlist(params, grade);
+	public List<MemberDto> memberlist(SearchParam params) {
+		return dao.memberlist(params);
 	}
 	
-	public int getAllMember(SearchParam params, String grade) {
-		return dao.getAllMember(params, grade);
+	public int getAllMember(SearchParam params) {
+		return dao.getAllMember(params);
 	}
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.dalrun.dao.AdminDao">
+	<!-- 공통  -->
+	<sql id="searchMember">
+		<if test="choice != null and choice != '' and search != null and search != ''">
+			<if test="choice == 'memId'">
+				WHERE memId = #{search}
+			</if>
+			<if test="choice == 'name'">
+				WHERE memberName = #{search}
+			</if>
+			<if test="choice == 'phone'">
+				WHERE phone = #{search}
+			</if>
+		</if>
+	</sql>
+	
+	<!-- 회원 리스트 -->
+	<select id="memberlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.MemberDto">
+		SELECT *
+		FROM 
+			(SELECT ROW_NUMBER()OVER(ORDER BY regdate DESC) AS RNUM, memId, password, memberName, 
+				phone, birth, foot, profile, regdate, memberupdate, auth, del, point, grade
+			FROM MEMBER
+			<choose>
+				<when test="grade != null and grade !=''">
+					<include refid="searchMember"></include>
+				</when>
+				<otherwise>
+					<include refid="searchMember"></include>
+				</otherwise>
+			</choose>
+			ORDER BY regdate DESC) A
+		WHERE RNUM BETWEEN ${start} AND ${end}
+	</select>
+
+	<!-- 회원 총 수 -->
+	<select id="getAllMember" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
+		SELECT IFNULL(COUNT(*), 0)
+		FROM MEMBER
+		<choose>
+			<when test="grade != null and grade !=''">
+				<include refid="searchMember"></include>
+			</when>
+			<otherwise>
+				<include refid="searchMember"></include>
+			</otherwise>
+		</choose>
+	</select>
+</mapper>

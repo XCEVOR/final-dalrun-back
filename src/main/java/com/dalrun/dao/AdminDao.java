@@ -12,7 +12,7 @@ import com.dalrun.dto.SearchParam;
 @Mapper
 public interface AdminDao {
 	
-	List<MemberDto> memberlist(SearchParam params, String grade);
+	List<MemberDto> memberlist(SearchParam params);
 	
-	int getAllMember(SearchParam params, String grade);
+	int getAllMember(SearchParam params);
 }

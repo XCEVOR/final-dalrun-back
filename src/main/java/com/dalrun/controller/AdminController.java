@@ -20,7 +20,7 @@ public class AdminController {
 	
 	// 각 데이터 리스트 가져오기
 	@GetMapping(value = "memberlist")
-	public Map<String, Object> memberlist(SearchParam params,String grade) {
+	public Map<String, Object> memberlist(SearchParam params) {
 		System.out.println("AdminController memberlist " + new Date());
 		
 		// 글의 시작과 끝
@@ -31,11 +31,11 @@ public class AdminController {
 		params.setStart(start);
 		params.setEnd(end);
 		
-		List<MemberDto> memlist = service.memberlist(params, grade);
-		int len = service.getAllMember(params, grade);
+		List<MemberDto> memberlist = service.memberlist(params);
+		int len = service.getAllMember(params);
 		
 		Map<String, Object> m_map = new HashMap<>();
-		m_map.put("memlist", memlist);
+		m_map.put("list", memberlist);
 		m_map.put("cnt", len);
 		
 		return m_map;
