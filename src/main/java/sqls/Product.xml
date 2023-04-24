@@ -4,9 +4,15 @@
     
 <mapper namespace="com.dalrun.dao.ProductDao">
 
-    <select id="productlist" resultType="com.dalrun.dto.ProductDto">
+    <select id="allProductList" resultType="com.dalrun.dto.ProductDto">
         SELECT *
         FROM PRODUCT
     </select>
+    
+    <select id="getProductData" parameterType="String" resultType="com.dalrun.dto.ProductDto">
+	    SELECT *
+	    FROM PRODUCT
+	    WHERE productId=#{productId}
+	</select>
 
 </mapper>

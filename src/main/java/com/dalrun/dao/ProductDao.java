@@ -11,6 +11,8 @@ import com.dalrun.dto.ProductDto;
 @Repository
 public interface ProductDao {
 
-    List<ProductDto> productlist ();
+    List<ProductDto> allProductList ();
+    
+    ProductDto getProductData (String productId);
     
 }

@@ -16,7 +16,6 @@ public class DotMapService {
 	 @Autowired
 	 DotMapDao dao;
 
-
     
 //    /* CREATE (도트맵 구매) */
 //    @Transactional

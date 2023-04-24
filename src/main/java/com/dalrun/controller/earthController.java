@@ -20,6 +20,7 @@ import java.util.List;
 public class earthController {
 	@Autowired
 	DotMapService service;
+
 	 
 
     //@Operation(summary = "페이지를 반환", description = "도트맵 페이지를 반환 합니다.")
@@ -30,6 +31,7 @@ public class earthController {
         return dotList;
     }
     
+
 
 ////    @Operation(summary = "도트맵 구매 요청", description = "스마트컨트랙트가 성공적으로 마쳤을때 호출 됩니다.")
 //    @PostMapping("/{userid}")
