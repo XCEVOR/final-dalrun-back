@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dalrun.dao.ProductDao;
 import com.dalrun.dto.ProductDto;
+import com.dalrun.dto.ProductInquiryDto;
 
 @Service
 @Transactional
@@ -23,4 +24,11 @@ public class ProductService {
     public List<ProductDto> getProductData (String productCode) {
         return dao.getProductData(productCode);
     }
+    
+    public boolean writeProductInquiry (ProductInquiryDto pidto) {
+        int isSucc = dao.writeProductInquiry(pidto);
+        return isSucc > 0 ? true : false;
+    }
+    
+
 }
