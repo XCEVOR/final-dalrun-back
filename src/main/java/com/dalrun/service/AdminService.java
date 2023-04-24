@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dalrun.dao.AdminDao;
+import com.dalrun.dto.CrewDto;
 import com.dalrun.dto.MemberDto;
 import com.dalrun.dto.SearchParam;
 
@@ -22,5 +23,13 @@ public class AdminService {
 	
 	public int getAllMember(SearchParam params) {
 		return dao.getAllMember(params);
+	}
+	
+	public List<CrewDto> crewlist(SearchParam params) {
+		return dao.crewlist(params);
+	}
+	
+	public int getAllCrew(SearchParam params) {
+		return dao.getAllCrew(params);
 	}
 }

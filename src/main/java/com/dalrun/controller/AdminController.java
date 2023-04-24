@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dalrun.dto.CrewDto;
 import com.dalrun.dto.MemberDto;
 import com.dalrun.dto.SearchParam;
 import com.dalrun.service.AdminService;
@@ -39,6 +40,28 @@ public class AdminController {
 		m_map.put("cnt", len);
 		
 		return m_map;
+	}
+	
+	@GetMapping(value = "crewlist")
+	public Map<String, Object> crewlist(SearchParam params) {
+		System.out.println("AdminController crewlist " + new Date());
+		
+		// 글의 시작과 끝
+		int pn = params.getPageNumber();  // 0 1 2 3 4
+		int start = 1 + (pn * 10);	// 1  11
+		int end = (pn + 1) * 10;	// 10 20
+		
+		params.setStart(start);
+		params.setEnd(end);
+		
+		List<CrewDto> crewlist = service.crewlist(params);
+		int len = service.getAllCrew(params);
+		
+		Map<String, Object> c_map = new HashMap<>();
+		c_map.put("list", crewlist);
+		c_map.put("cnt", len);
+		
+		return c_map;
 	}
 	
 	

@@ -7,17 +7,74 @@
 	<sql id="searchMember">
 		<if test="choice != null and choice != '' and search != null and search != ''">
 			<if test="choice == 'memId'">
-				WHERE memId = #{search}
+				WHERE memId LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'name'">
-				WHERE memberName = #{search}
+				WHERE memberName LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'phone'">
-				WHERE phone = #{search}
+				WHERE phone LIKE CONCAT('%', #{search}, '%')
 			</if>
 		</if>
 	</sql>
 	
+	<sql id="searchCrew">
+		<if test="choice != null and choice != '' and search != null and search != ''">
+			<if test="choice == 'memId'">
+				WHERE memId LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'crewName'">
+				WHERE crewName LIKE CONCAT('%', #{search}, '%')
+			</if>
+		</if>
+	</sql>
+	
+	<sql id="searchProductinqiry">
+		<if test="choice != null and choice != '' and search != null and search != ''">
+			<if test="choice == 'memId'">
+				WHERE memId LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'productId'">
+				WHERE productId LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'content'">
+				WHERE inqContent LIKE CONCAT('%',#{search},'%')
+			</if>
+		</if>
+	</sql>
+	
+	<sql id="searchQna">
+		<if test="choice != null and choice != '' and search != null and search != ''">
+			<if test="choice == 'memId'">
+				WHERE memId LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'category'">
+				WHERE category = #{search}
+			</if>
+			<if test="choice == 'qnaTitle'">
+				WHERE qnaTitle LIKE CONCAT('%',#{search},'%')
+			</if>
+			<if test="choice == 'question'">
+				WHERE question LIKE CONCAT('%',#{search},'%')
+			</if>
+		</if>
+	</sql>
+	
+	<sql id="searchShoereview">
+		<if test="choice != null and choice != '' and search != null and search != ''">
+			<if test="choice == 'memId'">
+				WHERE memId = #{search}
+			</if>
+			<if test="choice == 'title'">
+				WHERE shoereviewTitle LIKE CONCAT('%',#{search},'%')
+			</if>
+			<if test="choice == 'content'">
+				WHERE shoereviewContent LIKE CONCAT('%',#{search},'%')
+			</if>
+		</if>
+	</sql>
+	
+	<!-- Member -->
 	<!-- 회원 리스트 -->
 	<select id="memberlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.MemberDto">
 		SELECT *
@@ -50,4 +107,55 @@
 			</otherwise>
 		</choose>
 	</select>
+	
+	<!-- Crew -->
+	<select id="crewlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.CrewDto">
+		SELECT *
+		FROM 
+			(SELECT ROW_NUMBER()OVER(ORDER BY crewcreateDate DESC) AS RNUM, crewsetUp, crewupdate, maxmem, 
+				crewdel, crewlevel, crewimg, crewname, crewscore, crewcolor
+			FROM CREW
+			<include refid="searchCrew"></include>
+			ORDER BY crewcreateDate DESC) A
+		WHERE RNUM BETWEEN ${start} AND ${end}
+	</select>
+	<select id="getAllCrew" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
+		SELECT IFNULL(COUNT(*), 0)
+		FROM CREW
+		<include refid="searchCrew"></include>
+	</select>
+	
+	<!-- Question -->
+	<!-- 상품문의 -->
+	<!-- <select id="productinquirylist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductinquiryDto">
+		SELECT *
+		FROM 
+			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, inqSeq, intWriter, inqContent, inqDate, productId, memId
+			FROM PRODUCTINQUIRY
+			<include refid="searchProductinqiry"></include>
+			ORDER BY wdate DESC) A
+		WHERE RNUM BETWEEN ${start} AND ${end}
+	</select>
+	<select id="getAllProductinquiry" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
+		SELECT IFNULL(COUNT(*), 0)
+		FROM PRODUCTINQUIRY
+		<include refid="searchProductinqiry"></include>
+	</select>
+	
+	질의응답
+	<select id="qnalist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.QnaDto">
+		SELECT *
+		FROM 
+			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, qnaSeq, category, shopSeq, 
+				normalSeq, qnaTitle, wdate, readCount, question, answer, auth, del, memId
+			FROM QNA
+			<include refid="searchQna"></include>
+			ORDER BY wdate DESC) A
+		WHERE RNUM BETWEEN ${start} AND ${end}
+	</select>
+	<select id="getAllQna" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
+		SELECT IFNULL(COUNT(*), 0)
+		FROM QNA
+		<include refid="searchQna"></include>
+	</select> -->
 </mapper>
