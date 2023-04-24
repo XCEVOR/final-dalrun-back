@@ -25,6 +25,10 @@ public class ProductService {
         return dao.getProductData(productCode);
     }
     
+    public List<ProductInquiryDto> getProductInquiry () {
+        return dao.getProductInquiry();
+    }
+    
     public boolean writeProductInquiry (ProductInquiryDto pidto) {
         int isSucc = dao.writeProductInquiry(pidto);
         return isSucc > 0 ? true : false;

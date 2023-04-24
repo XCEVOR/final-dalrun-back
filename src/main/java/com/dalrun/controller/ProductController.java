@@ -43,6 +43,13 @@ public class ProductController {
         return service.getProductData(productCode);     
     }
     
+    @PostMapping(value = "getProductInquiry")
+    public List<ProductInquiryDto> getProductInquiry (String productCode) {
+        System.out.println("ProductController ProductDto getProductData (String productCode) { " + new Date());
+        System.out.println(productCode);
+        return service.getProductInquiry();     
+    }
+    
     @PostMapping(value = "writeProductInquiry")
     public String writeComment (ProductInquiryDto pidto) {
         System.out.println("ProductController ProductDto writeComment (ProductInquiryDto pidto) { " + new Date());
