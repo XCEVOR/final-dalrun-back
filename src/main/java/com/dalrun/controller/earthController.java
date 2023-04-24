@@ -6,37 +6,39 @@ import com.dalrun.dto.DotMapDto;
 import com.dalrun.service.DotMapService;
 
 import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
-@AllArgsConstructor
-@Controller @RequestMapping("earth")
+@RestController
 public class earthController {
-	
+	@Autowired
+	DotMapService service;
+	 
 
-    private final DotMapService dotMapService=null;
+    //@Operation(summary = "페이지를 반환", description = "도트맵 페이지를 반환 합니다.")
+    @GetMapping("earthPage")
+    public List<DotMapDto> earthPage() {
+    	System.out.println("earthController earthPage"+new Date());
+        List<DotMapDto> dotList = service.getDotMapInfo();
+        return dotList;
+    }
     
-/*
-//    @Operation(summary = "페이지를 반환", description = "도트맵 페이지를 반환 합니다.")
-    @GetMapping("")
-    public String earthPage(Model model) {
-        List<DotMapDto.Response> dotList = dotMapService.getDotMapInfo();
-        model.addAttribute("dotList",dotList);
-        return "earth/earth";
-    }
 
-//    @Operation(summary = "도트맵 구매 요청", description = "스마트컨트랙트가 성공적으로 마쳤을때 호출 됩니다.")
-    @PostMapping("/{userid}")
-    public ResponseEntity buyDot(@PathVariable Long userid ,@RequestBody DotMapDto.Request dotDto,@LoginUser SessionUser sessionUser) {
-
-        if(!userid.equals(sessionUser.getId())) {
-            return ResponseEntity.status(400).build();
-        }
-        return ResponseEntity.ok(dotMapService.saveDot(dotDto,userid));
-    }
-    */
+////    @Operation(summary = "도트맵 구매 요청", description = "스마트컨트랙트가 성공적으로 마쳤을때 호출 됩니다.")
+//    @PostMapping("/{userid}")
+//    public ResponseEntity buyDot(@PathVariable Long userid ,@RequestBody DotMapDto.Request dotDto,@LoginUser SessionUser sessionUser) {
+//
+//        if(!userid.equals(sessionUser.getId())) {
+//            return ResponseEntity.status(400).build();
+//        }
+//        return ResponseEntity.ok(dotMapService.saveDot(dotDto,userid));
+//    }
+   
 }
