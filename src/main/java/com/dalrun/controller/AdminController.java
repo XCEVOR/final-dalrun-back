@@ -19,50 +19,44 @@ public class AdminController {
 	@Autowired
 	AdminService service;
 	
-	// 각 데이터 리스트 가져오기
+	private void pageNumber(SearchParam params) {
+	    // 글의 시작과 끝
+	    int pn = params.getPageNumber();  // 0 1 2 3 4
+	    int start = 1 + (pn * 10);    // 1  11
+	    int end = (pn + 1) * 10;    // 10 20
+
+	    params.setStart(start);
+	    params.setEnd(end);
+	}
+	
+	private Map<String, Object> getList(List<?> list, int cnt) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("list", list);
+		map.put("cnt", cnt);
+		
+		return map;
+	}
+	
 	@GetMapping(value = "memberlist")
 	public Map<String, Object> memberlist(SearchParam params) {
-		System.out.println("AdminController memberlist " + new Date());
-		
-		// 글의 시작과 끝
-		int pn = params.getPageNumber();  // 0 1 2 3 4
-		int start = 1 + (pn * 10);	// 1  11
-		int end = (pn + 1) * 10;	// 10 20
-		
-		params.setStart(start);
-		params.setEnd(end);
-		
-		List<MemberDto> memberlist = service.memberlist(params);
+	    System.out.println("AdminController memberlist " + new Date());
+	    
+	    pageNumber(params);	    
+	    List<MemberDto> memberlist = service.memberlist(params);
 		int len = service.getAllMember(params);
-		
-		Map<String, Object> m_map = new HashMap<>();
-		m_map.put("list", memberlist);
-		m_map.put("cnt", len);
-		
-		return m_map;
+	    
+	    return getList(memberlist, len);
 	}
-	
+
 	@GetMapping(value = "crewlist")
 	public Map<String, Object> crewlist(SearchParam params) {
-		System.out.println("AdminController crewlist " + new Date());
-		
-		// 글의 시작과 끝
-		int pn = params.getPageNumber();  // 0 1 2 3 4
-		int start = 1 + (pn * 10);	// 1  11
-		int end = (pn + 1) * 10;	// 10 20
-		
-		params.setStart(start);
-		params.setEnd(end);
-		
-		List<CrewDto> crewlist = service.crewlist(params);
-		int len = service.getAllCrew(params);
-		
-		Map<String, Object> c_map = new HashMap<>();
-		c_map.put("list", crewlist);
-		c_map.put("cnt", len);
-		
-		return c_map;
+	    System.out.println("AdminController crewlist " + new Date());
+	    
+	    pageNumber(params);
+	    List<CrewDto> crewlist = service.crewlist(params);
+	    int len = service.getAllCrew(params);
+	    
+	    return getList(crewlist, len);
 	}
-	
 	
 }
