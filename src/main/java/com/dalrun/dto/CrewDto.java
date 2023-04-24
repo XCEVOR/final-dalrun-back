@@ -5,54 +5,76 @@ import java.io.Serializable;
 public class CrewDto implements Serializable {
 	
 
-	private String setup; // 크루 소개
-	private String date; // 크루 생성일
-	private String update; //크루 수정일
+	private String crewsetUp; // 크루 소개
+	private String crewcreateDate; // 크루 생성일
+	private String crewupdate; //크루 수정일
 	private int maxmem; // 크루 인원 수
-	private int del; 
-	private int level;
-	private String img; // 크루 이미지
-	private String name; // 크루 이름
+	private int crewdel; 
+	private int crewlevel;
+	private String crewimg; // 크루 이미지
+	private String crewname; // 크루 이름
+	private int crewscore; // 크루 점수
+	private String myrank; // 나의 크루 랭킹 
+	private String crewcolor; // 크루 색상
 	
 	public CrewDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CrewDto(String setup, String date, String update, int maxmem, int del, int level, String img,
-			String name) {
+	public CrewDto(String crewsetUp, String crewcreateDate, String crewupdate, int maxmem, int crewdel, int crewlevel,
+			String crewimg, String crewname, int crewscore, String myrank,String crewcolor) {
 		super();
-		this.setup = setup;
-		this.date = date;
-		this.update = update;
+		this.crewsetUp = crewsetUp;
+		this.crewcreateDate = crewcreateDate;
+		this.crewupdate = crewupdate;
 		this.maxmem = maxmem;
-		this.del = del;
-		this.level = level;
-		this.img = img;
-		this.name = name;
+		this.crewdel = crewdel;
+		this.crewlevel = crewlevel;
+		this.crewimg = crewimg;
+		this.crewname = crewname;
+		this.crewscore = crewscore;
+		this.myrank = myrank;
+		this.crewcolor = crewcolor;
 	}
 
-	public String getSetup() {
-		return setup;
+	public String getCrewcolor() {
+		return crewcolor;
 	}
 
-	public void setSetup(String setup) {
-		this.setup = setup;
+	public void setCrewcolor(String crewcolor) {
+		this.crewcolor = crewcolor;
 	}
 
-	public String getDate() {
-		return date;
+	public String getMyrank() {
+		return myrank;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setMyrank(String myrank) {
+		this.myrank = myrank;
 	}
 
-	public String getUpdate() {
-		return update;
+	public String getCrewsetUp() {
+		return crewsetUp;
 	}
 
-	public void setUpdate(String update) {
-		this.update = update;
+	public void setCrewsetUp(String crewsetUp) {
+		this.crewsetUp = crewsetUp;
+	}
+
+	public String getCrewcreateDate() {
+		return crewcreateDate;
+	}
+
+	public void setCrewcreateDate(String crewcreateDate) {
+		this.crewcreateDate = crewcreateDate;
+	}
+
+	public String getCrewupdate() {
+		return crewupdate;
+	}
+
+	public void setCrewupdate(String crewupdate) {
+		this.crewupdate = crewupdate;
 	}
 
 	public int getMaxmem() {
@@ -63,45 +85,46 @@ public class CrewDto implements Serializable {
 		this.maxmem = maxmem;
 	}
 
-	public int getDel() {
-		return del;
+	public int getCrewdel() {
+		return crewdel;
 	}
 
-	public void setDel(int del) {
-		this.del = del;
+	public void setCrewdel(int crewdel) {
+		this.crewdel = crewdel;
 	}
 
-	public int getLevel() {
-		return level;
+	public int getCrewlevel() {
+		return crewlevel;
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
+	public void setCrewlevel(int crewlevel) {
+		this.crewlevel = crewlevel;
 	}
 
-	public String getImg() {
-		return img;
+	public String getCrewimg() {
+		return crewimg;
 	}
 
-	public void setImg(String img) {
-		this.img = img;
+	public void setCrewimg(String crewimg) {
+		this.crewimg = crewimg;
 	}
 
-	public String getName() {
-		return name;
+	public String getCrewname() {
+		return crewname;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCrewname(String crewname) {
+		this.crewname = crewname;
 	}
 
-	@Override
-	public String toString() {
-		return "CrewBbsDto [setup=" + setup + ", date=" + date + ", update=" + update + ", maxmem=" + maxmem + ", del="
-				+ del + ", level=" + level + ", img=" + img + ", name=" + name + "]";
+	public int getCrewscore() {
+		return crewscore;
 	}
+
+	public void setCrewscore(int crewscore) {
+		this.crewscore = crewscore;
+	}
+
 	
-	 
 	
-
 }
