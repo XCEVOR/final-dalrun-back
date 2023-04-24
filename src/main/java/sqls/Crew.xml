@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.dalrun.dao.CrewDao">
+
+<select id="getCrewRank" resultType="com.dalrun.dto.CrewDto">
+
+select * from crew order by crewscore desc limit 3;
+
+</select>
+
+<select id="getMyCrewRank" resultType="com.dalrun.dto.CrewDto"  parameterType="String">
+
+select *, rank() over(order by crewscore desc) myrank from crew where crewName=#{crewName}
+
+
+</select>
+
+<insert id="sendDonation"  parameterType="com.dalrun.dto.CrewPointDto">
+	 insert into crewpoint(crewseq,id,regdate,score) values(
+(select crewseq from crew where crewname=#{crewname}),#{id},now(),#{score})
+</insert>
+
+<update id="addPoint" parameterType="com.dalrun.dto.CrewPointDto">
+
+</update>
+
+
+
+
+</mapper>
