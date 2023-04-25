@@ -25,6 +25,10 @@ public class ProductService {
         return dao.getProductData(productCode);
     }
     
+    public List<ProductDto> getSelectedProductInfo (ProductDto pdto) {
+        return dao.getSelectedProductInfo(pdto);
+    }
+    
     public List<ProductInquiryDto> getProductInquiry () {
         return dao.getProductInquiry();
     }

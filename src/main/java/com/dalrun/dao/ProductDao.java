@@ -16,6 +16,8 @@ public interface ProductDao {
     
     List<ProductDto> getProductData (String productCode);
     
+    List<ProductDto> getSelectedProductInfo (ProductDto pdto);
+    
     List<ProductInquiryDto> getProductInquiry ();
     
     int writeProductInquiry (ProductInquiryDto pidto);
