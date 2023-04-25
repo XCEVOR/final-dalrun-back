@@ -216,7 +216,7 @@
 	<!-- <select id="productinquirylist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductinquiryDto">
 		SELECT *
 		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY inqDate DESC) AS RNUM, inqSeq, intWriter, inqContent, inqDate, productId, memId, inqDate
+			(SELECT ROW_NUMBER()OVER(ORDER BY inqDate DESC) AS RNUM, inqSeq, intWriter, inqContent, inqDate, productId, memId
 			FROM PRODUCTINQUIRY
 			<include refid="searchProductinqiry"></include>
 			ORDER BY inqDate DESC) A
@@ -292,6 +292,7 @@
 		FROM COMPETITION
 		<include refid="searchCompetition"></include>
 	</select> 
+	-->
 	
 	<select id="productlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductDto">
 		SELECT *
@@ -314,15 +315,15 @@
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY orderDate DESC) AS RNUM, orderSeq, memId, orderName, orderAddress, 
 				orderPhone, orderRequirment, orderTotalprice, orderDate, orderQauntity, orderState, deliveryState
-			FROM ORDER
+			FROM PRODUCTORDER
 			<include refid="searchOrder"></include>
 			ORDER BY orderDate DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllOrder" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
-		FROM ORDER
+		FROM PRODUCTORDER
 		<include refid="searchOrder"></include>
-	</select> -->
+	</select>
 	
 </mapper>

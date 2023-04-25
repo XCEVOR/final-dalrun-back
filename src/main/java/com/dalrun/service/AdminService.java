@@ -82,7 +82,7 @@ public class AdminService {
 	public int getAllCompetition(SearchParam params) {
 		return dao.getAllCompetition(params);
 	}
-	
+	*/
 	// 상품관리
 	public List<ProductDto> productlist(SearchParam params) {
 		return dao.productlist(params);
@@ -99,5 +99,4 @@ public class AdminService {
 	public int getAllOrder(SearchParam params) {
 		return dao.getAllOrder(params);
 	}
-	*/
 }

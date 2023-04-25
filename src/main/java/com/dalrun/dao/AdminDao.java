@@ -51,7 +51,7 @@ public interface AdminDao {
 	List<CompetitionDto> competitionlist(SearchParam params);
 	
 	int getAllCompetition(SearchParam params);
-	
+	*/
 	// 상품 관리
 	List<ProductDto> productlist(SearchParam params);
 	
@@ -60,5 +60,4 @@ public interface AdminDao {
 	List<OrderDto> orderlist(SearchParam params);
 	
 	int getAllOrder(SearchParam params);
-	*/
 }

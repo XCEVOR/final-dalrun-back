@@ -112,7 +112,9 @@ public class AdminController {
 	    
 	    return getList(competitionlist, len);
 	}
-
+	*/
+	
+	// 상품 관리
 	@GetMapping(value = "admin_productlist")
 	public Map<String, Object> productlist(SearchParam params) {
 	    System.out.println("AdminController productlist " + new Date());
@@ -134,5 +136,4 @@ public class AdminController {
 	    
 	    return getList(orderlist, len);
 	}
-	*/
 }
