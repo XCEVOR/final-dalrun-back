@@ -40,8 +40,16 @@ public class ProductController {
     
     @PostMapping(value = "getProductData")
     public List<ProductDto> getProductData (String productCode) {
-        System.out.println("ProductController ProductDto getProductData (String productCode) { " + new Date());
+        System.out.println("  @ ProductController ProductDto getProductData (String productCode) { " + new Date());
         return service.getProductData(productCode);     
+    }
+    
+    @PostMapping(value = "getSelectedProductInfo")
+    public List<ProductDto> getSelectedProduct (String productCode, String productColor, String productSize) {
+        System.out.println("  @ ProductController getSelectedProduct { " + new Date());
+        System.out.println("  @ String productCode, String productColor, String productSize) {" + productCode + " " + productColor + " " + productSize);
+        ProductDto pdto = new ProductDto(productCode, productColor, productSize);
+        return service.getSelectedProductInfo(pdto);
     }
     
     @PostMapping(value = "getProductInquiry")
@@ -53,7 +61,7 @@ public class ProductController {
     
     @PostMapping(value = "writeProductInquiry")
     public String writeComment (ProductInquiryDto pidto) {
-        System.out.println("ProductController ProductDto writeComment (ProductInquiryDto pidto) { " + new Date());
+        System.out.println("  @ ProductController ProductDto writeComment (ProductInquiryDto pidto) { " + new Date());
         System.out.println(pidto);
         boolean isSucc = service.writeProductInquiry(pidto);
         if (isSucc == false) {
