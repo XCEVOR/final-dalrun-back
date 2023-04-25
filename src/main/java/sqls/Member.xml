@@ -4,7 +4,27 @@
 	
 <mapper namespace="com.dalrun.dao.MemberDao">
 
+<!-- 아이디 중복확인 -->
+<select id="idcheck" parameterType="String" resultType="Integer">
+	select count(*)
+	from member
+	where memId=#{memId}
+</select>
 
+<!-- 회원가입 -->
+<insert id="addmember" parameterType="com.dalrun.dto.MemberDto" >
+	insert into member(memId, password, memberName, email, phone, birth, foot, regdate, auth, del, crewSeq)
+	values(#{memId}, #{password}, #{memberName}, #{email}, #{phone}, #{birth}, #{foot}, now(), 1, 1, 0)
+</insert>
 
+<!-- 로그인 확인 -->
+<select id="login" parameterType="com.dalrun.dto.MemberDto" resultType="com.dalrun.dto.MemberDto">
+	select *
+	from member
+	where memId=#{memId} and password=#{password}
+</select>
 
 </mapper>
+
+
+
