@@ -4,13 +4,13 @@
 	
 <mapper namespace="com.dalrun.dao.CrewBbsDao">
 	
-	<select id="getCrewBbs" parameterType="Integer" resultType="dalrun.com.dto.CrewBbsDto">
+	<select id="getCrewBbs" parameterType="Integer" resultType="com.dalrun.dto.CrewBbsDto">
 		select cBbSeq, memId, title, content, type, wdate, readcount, likecount, del, img
 		from crewRecruitBbs
 		where cBbsSeq=#{cBbsSeq}
 	</select>
 	
-	<insert id="writeCrewBbs" parameterType="dalrun.com.dto.CrewBbsDto">
+	<insert id="writeCrewBbs" parameterType="com.dalrun.dto.CrewBbsDto">
 		insert into crewRecruitBbs(memId, title, content, type, wdate, readcount, likecount, del, img)
 		values(#{memId}, #{title}, #{content}, #{type}, now(), 0, 0 , 0 , 1, #{img})
 	</insert>
