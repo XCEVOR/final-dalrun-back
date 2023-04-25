@@ -19,6 +19,7 @@ import com.dalrun.dto.ProductDto;
 import com.dalrun.dto.ProductInquiryDto;
 import com.dalrun.service.ProductService;
 import com.dalrun.util.EditorUtil;
+import com.dalrun.util.FileNameListUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -61,6 +62,19 @@ public class ProductController {
         return "SUCCESS";  
     }
     
+    @GetMapping(value = "getpath")
+    public void getpath (HttpServletRequest hsreq) {
+        String fileuploaded_path = hsreq.getServletContext().getRealPath("/dalrun-hc/uploadtemp");
+        System.out.println("  @@ fileuploaded_path: " + fileuploaded_path);
+    }
+    
+    @GetMapping(value = "getFileNamePath")
+    public void getFileNamePath (HttpServletRequest hsreq) {
+        String fileuploaded_path = hsreq.getServletContext().getRealPath("/dalrun-hc/uploadtemp");
+        FileNameListUtil.getFileNameList(fileuploaded_path);
+        System.out.println("  @@ fileuploaded_path: " + fileuploaded_path);
+    }
+    
     
     // ====================================================================================================    
     // upload test
@@ -72,6 +86,7 @@ public class ProductController {
         
         System.out.println("  @ ProductController uploadMyFile ()");
         System.out.println(pdto.toString());
+        System.out.println("  @ hsreq: " + hsreq);
         
         
         // upload의 경로 설정.
