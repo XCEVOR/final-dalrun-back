@@ -4,123 +4,137 @@ import java.io.Serializable;
 
 public class CompetitionDto implements Serializable{
 
-	private String title;
-	private String content;
-	private String location; // 대회 지역
-	private String date;
-	private String orginalfile;// 대회 원본 사진
-	private String newfile; // 대회 변경 사진 
-	private int price; 
-	private String map;// 대회 상세 지도
-	private String link; // 대회 상세 링크
+    private int compdetailSeq;
+    private int compSeq;
+	private String compdetailTitle;
+	private String conpdetailContent;
+	private String compdetailLocation; // 대회 지역
+	private String compdetailDate;
+	private String compdetailOrigFilename;// 대회 원본 사진
+	private String compdetailNewFilename; // 대회 변경 사진 
+	private int compdetailPrice; 
+	private String compdetailMap;// 대회 상세 지도
+	private String compdetailLink; // 대회 상세 링크
 	
 	public CompetitionDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CompetitionDto(String title, String content, String location, String date, String orginalfile,
-			String newfile) {
-		super();
-		this.title = title;
-		this.content = content;
-		this.location = location;
-		this.date = date;
-		this.orginalfile = orginalfile;
-		this.newfile = newfile;
-	}
+    public CompetitionDto(int compdetailSeq, int compSeq, String compdetailTitle, String conpdetailContent,
+            String compdetailLocation, String compdetailDate, String compdetailOrigFilename,
+            String compdetailNewFilename, int compdetailPrice, String compdetailMap, String compdetailLink) {
+        super();
+        this.compdetailSeq = compdetailSeq;
+        this.compSeq = compSeq;
+        this.compdetailTitle = compdetailTitle;
+        this.conpdetailContent = conpdetailContent;
+        this.compdetailLocation = compdetailLocation;
+        this.compdetailDate = compdetailDate;
+        this.compdetailOrigFilename = compdetailOrigFilename;
+        this.compdetailNewFilename = compdetailNewFilename;
+        this.compdetailPrice = compdetailPrice;
+        this.compdetailMap = compdetailMap;
+        this.compdetailLink = compdetailLink;
+    }
 
-	public CompetitionDto(String title, String content, String location, String date, String orginalfile,
-			String newfile, int price, String map, String link) {
-		super();
-		this.title = title;
-		this.content = content;
-		this.location = location;
-		this.date = date;
-		this.orginalfile = orginalfile;
-		this.newfile = newfile;
-		this.price = price;
-		this.map = map;
-		this.link = link;
-	}
+    public int getCompdetailSeq() {
+        return compdetailSeq;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public void setCompdetailSeq(int compdetailSeq) {
+        this.compdetailSeq = compdetailSeq;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public int getCompSeq() {
+        return compSeq;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public void setCompSeq(int compSeq) {
+        this.compSeq = compSeq;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public String getCompdetailTitle() {
+        return compdetailTitle;
+    }
 
-	public String getLocation() {
-		return location;
-	}
+    public void setCompdetailTitle(String compdetailTitle) {
+        this.compdetailTitle = compdetailTitle;
+    }
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    public String getConpdetailContent() {
+        return conpdetailContent;
+    }
 
-	public String getDate() {
-		return date;
-	}
+    public void setConpdetailContent(String conpdetailContent) {
+        this.conpdetailContent = conpdetailContent;
+    }
 
-	public void setDate(String date) {
-		this.date = date;
-	}
+    public String getCompdetailLocation() {
+        return compdetailLocation;
+    }
 
-	public String getOrginalfile() {
-		return orginalfile;
-	}
+    public void setCompdetailLocation(String compdetailLocation) {
+        this.compdetailLocation = compdetailLocation;
+    }
 
-	public void setOrginalfile(String orginalfile) {
-		this.orginalfile = orginalfile;
-	}
+    public String getCompdetailDate() {
+        return compdetailDate;
+    }
 
-	public String getNewfile() {
-		return newfile;
-	}
+    public void setCompdetailDate(String compdetailDate) {
+        this.compdetailDate = compdetailDate;
+    }
 
-	public void setNewfile(String newfile) {
-		this.newfile = newfile;
-	}
+    public String getCompdetailOrigFilename() {
+        return compdetailOrigFilename;
+    }
 
-	public int getPrice() {
-		return price;
-	}
+    public void setCompdetailOrigFilename(String compdetailOrigFilename) {
+        this.compdetailOrigFilename = compdetailOrigFilename;
+    }
 
-	public void setPrice(int price) {
-		this.price = price;
-	}
+    public String getCompdetailNewFilename() {
+        return compdetailNewFilename;
+    }
 
-	public String getMap() {
-		return map;
-	}
+    public void setCompdetailNewFilename(String compdetailNewFilename) {
+        this.compdetailNewFilename = compdetailNewFilename;
+    }
 
-	public void setMap(String map) {
-		this.map = map;
-	}
+    public int getCompdetailPrice() {
+        return compdetailPrice;
+    }
 
-	public String getLink() {
-		return link;
-	}
+    public void setCompdetailPrice(int compdetailPrice) {
+        this.compdetailPrice = compdetailPrice;
+    }
 
-	public void setLink(String link) {
-		this.link = link;
-	}
+    public String getCompdetailMap() {
+        return compdetailMap;
+    }
 
-	@Override
-	public String toString() {
-		return "CompetitionDto [title=" + title + ", content=" + content + ", location=" + location + ", date=" + date
-				+ ", orginalfile=" + orginalfile + ", newfile=" + newfile + ", price=" + price + ", map=" + map
-				+ ", link=" + link + "]";
-	}
+    public void setCompdetailMap(String compdetailMap) {
+        this.compdetailMap = compdetailMap;
+    }
+
+    public String getCompdetailLink() {
+        return compdetailLink;
+    }
+
+    public void setCompdetailLink(String compdetailLink) {
+        this.compdetailLink = compdetailLink;
+    }
+
+    @Override
+    public String toString() {
+        return "CompetitionDto [compdetailSeq=" + compdetailSeq + ", compSeq=" + compSeq + ", compdetailTitle="
+                + compdetailTitle + ", conpdetailContent=" + conpdetailContent + ", compdetailLocation="
+                + compdetailLocation + ", compdetailDate=" + compdetailDate + ", compdetailOrigFilename="
+                + compdetailOrigFilename + ", compdetailNewFilename=" + compdetailNewFilename + ", compdetailPrice="
+                + compdetailPrice + ", compdetailMap=" + compdetailMap + ", compdetailLink=" + compdetailLink + "]";
+    }
+
+
 	
 	
 	

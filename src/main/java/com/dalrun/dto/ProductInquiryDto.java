@@ -3,7 +3,9 @@ package com.dalrun.dto;
 public class ProductInquiryDto {
 
     private int inqSeq;
+    private int inqSubseq;
     private String inqWriter;
+    private String inqTitle;
     private String inqContent;
     private String inqDate;
     private String productId;
@@ -13,11 +15,13 @@ public class ProductInquiryDto {
 
     }
 
-    public ProductInquiryDto(int inqSeq, String inqWriter, String inqContent, String inqDate, String productId,
-            String memId) {
+    public ProductInquiryDto(int inqSeq, int inqSubseq, String inqWriter, String inqTitle, String inqContent,
+            String inqDate, String productId, String memId) {
         super();
         this.inqSeq = inqSeq;
+        this.inqSubseq = inqSubseq;
         this.inqWriter = inqWriter;
+        this.inqTitle = inqTitle;
         this.inqContent = inqContent;
         this.inqDate = inqDate;
         this.productId = productId;
@@ -32,12 +36,28 @@ public class ProductInquiryDto {
         this.inqSeq = inqSeq;
     }
 
+    public int getInqSubseq() {
+        return inqSubseq;
+    }
+
+    public void setInqSubseq(int inqSubseq) {
+        this.inqSubseq = inqSubseq;
+    }
+
     public String getInqWriter() {
         return inqWriter;
     }
 
     public void setInqWriter(String inqWriter) {
         this.inqWriter = inqWriter;
+    }
+
+    public String getInqTitle() {
+        return inqTitle;
+    }
+
+    public void setInqTitle(String inqTitle) {
+        this.inqTitle = inqTitle;
     }
 
     public String getInqContent() {
@@ -74,9 +94,11 @@ public class ProductInquiryDto {
 
     @Override
     public String toString() {
-        return "ProductInquiryDto [inqSeq=" + inqSeq + ", inqWriter=" + inqWriter + ", inqContent=" + inqContent
-                + ", inqDate=" + inqDate + ", productId=" + productId + ", memId=" + memId + "]";
+        return "ProductInquiryDto [inqSeq=" + inqSeq + ", inqSubseq=" + inqSubseq + ", inqWriter=" + inqWriter
+                + ", inqTitle=" + inqTitle + ", inqContent=" + inqContent + ", inqDate=" + inqDate + ", productId="
+                + productId + ", memId=" + memId + "]";
     }
+
     
     
 }
