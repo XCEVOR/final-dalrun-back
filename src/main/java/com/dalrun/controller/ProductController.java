@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dalrun.dto.ProductDto;
+import com.dalrun.dto.ProductInquiryDto;
 import com.dalrun.service.ProductService;
 import com.dalrun.util.EditorUtil;
 
@@ -37,9 +38,27 @@ public class ProductController {
     }
     
     @PostMapping(value = "getProductData")
-    public ProductDto getProductData (String productId) {
-        System.out.println("ProductController ProductDto getProductData (String productId) { " + new Date());
-        return service.getProductData(productId);     
+    public List<ProductDto> getProductData (String productCode) {
+        System.out.println("ProductController ProductDto getProductData (String productCode) { " + new Date());
+        return service.getProductData(productCode);     
+    }
+    
+    @PostMapping(value = "getProductInquiry")
+    public List<ProductInquiryDto> getProductInquiry (String productCode) {
+        System.out.println("ProductController ProductDto getProductData (String productCode) { " + new Date());
+        System.out.println(productCode);
+        return service.getProductInquiry();     
+    }
+    
+    @PostMapping(value = "writeProductInquiry")
+    public String writeComment (ProductInquiryDto pidto) {
+        System.out.println("ProductController ProductDto writeComment (ProductInquiryDto pidto) { " + new Date());
+        System.out.println(pidto);
+        boolean isSucc = service.writeProductInquiry(pidto);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";  
     }
     
     

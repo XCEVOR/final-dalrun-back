@@ -12,7 +12,17 @@
     <select id="getProductData" parameterType="String" resultType="com.dalrun.dto.ProductDto">
 	    SELECT *
 	    FROM PRODUCT
-	    WHERE productId=#{productId}
+	    WHERE productCode=#{productCode}
 	</select>
+	
+	<select id="getProductInquiry" resultType="com.dalrun.dto.ProductInquiryDto">
+        SELECT *
+        FROM productinquiry
+    </select>
+
+    <insert id="writeProductInquiry" parameterType="com.dalrun.dto.ProductInquiryDto"> 
+        INSERT INTO productinquiry (inqWriter, inqContent, inqDate, productId, memId) 
+        VALUES (#{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
+    </insert>
 
 </mapper>
