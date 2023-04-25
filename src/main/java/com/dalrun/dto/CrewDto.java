@@ -2,106 +2,156 @@ package com.dalrun.dto;
 
 import java.io.Serializable;
 
+//크루
 public class CrewDto implements Serializable {
 	
-
-	private String setup; // 크루 소개
-	private String date; // 크루 생성일
-	private String update; //크루 수정일
-	private int maxmem; // 크루 인원 수
-	private int del; 
-	private int level;
-	private String img; // 크루 이미지
-	private String name; // 크루 이름
+	private int crewSeq;
+	private String memId;
+	private String crewSetUp; // 크루 소개
+	private String crewCreateDate; // 크루 생성일
+	private String crewUpdate; //크루 수정일
+	private int maxMem; // 크루 인원 수
+	private int crewDel; 
+	private int crewLevel;
+	private String crewImg; // 크루 이미지
+	private String crewName; // 크루 이름
+	private int crewScore; // 크루 점수
+	private String myrank; // 나의 크루 랭킹 
+	private String crewcolor; // 크루 색상
 	
 	public CrewDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CrewDto(String setup, String date, String update, int maxmem, int del, int level, String img,
-			String name) {
+	public CrewDto(int crewSeq, String memId, String crewSetUp, String crewCreateDate, String crewUpdate, int maxMem,
+			int crewDel, int crewLevel, String crewImg, String crewName, int crewScore, String myrank,
+			String crewcolor) {
 		super();
-		this.setup = setup;
-		this.date = date;
-		this.update = update;
-		this.maxmem = maxmem;
-		this.del = del;
-		this.level = level;
-		this.img = img;
-		this.name = name;
+		this.crewSeq = crewSeq;
+		this.memId = memId;
+		this.crewSetUp = crewSetUp;
+		this.crewCreateDate = crewCreateDate;
+		this.crewUpdate = crewUpdate;
+		this.maxMem = maxMem;
+		this.crewDel = crewDel;
+		this.crewLevel = crewLevel;
+		this.crewImg = crewImg;
+		this.crewName = crewName;
+		this.crewScore = crewScore;
+		this.myrank = myrank;
+		this.crewcolor = crewcolor;
 	}
 
-	public String getSetup() {
-		return setup;
+	public int getCrewSeq() {
+		return crewSeq;
 	}
 
-	public void setSetup(String setup) {
-		this.setup = setup;
+	public void setCrewSeq(int crewSeq) {
+		this.crewSeq = crewSeq;
 	}
 
-	public String getDate() {
-		return date;
+	public String getMemId() {
+		return memId;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setMemId(String memId) {
+		this.memId = memId;
 	}
 
-	public String getUpdate() {
-		return update;
+	public String getCrewSetUp() {
+		return crewSetUp;
 	}
 
-	public void setUpdate(String update) {
-		this.update = update;
+	public void setCrewSetUp(String crewSetUp) {
+		this.crewSetUp = crewSetUp;
 	}
 
-	public int getMaxmem() {
-		return maxmem;
+	public String getCrewCreateDate() {
+		return crewCreateDate;
 	}
 
-	public void setMaxmem(int maxmem) {
-		this.maxmem = maxmem;
+	public void setCrewCreateDate(String crewCreateDate) {
+		this.crewCreateDate = crewCreateDate;
 	}
 
-	public int getDel() {
-		return del;
+	public String getCrewUpdate() {
+		return crewUpdate;
 	}
 
-	public void setDel(int del) {
-		this.del = del;
+	public void setCrewUpdate(String crewUpdate) {
+		this.crewUpdate = crewUpdate;
 	}
 
-	public int getLevel() {
-		return level;
+	public int getMaxMem() {
+		return maxMem;
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
+	public void setMaxMem(int maxMem) {
+		this.maxMem = maxMem;
 	}
 
-	public String getImg() {
-		return img;
+	public int getCrewDel() {
+		return crewDel;
 	}
 
-	public void setImg(String img) {
-		this.img = img;
+	public void setCrewDel(int crewDel) {
+		this.crewDel = crewDel;
 	}
 
-	public String getName() {
-		return name;
+	public int getCrewLevel() {
+		return crewLevel;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCrewLevel(int crewLevel) {
+		this.crewLevel = crewLevel;
+	}
+
+	public String getCrewImg() {
+		return crewImg;
+	}
+
+	public void setCrewImg(String crewImg) {
+		this.crewImg = crewImg;
+	}
+
+	public String getCrewName() {
+		return crewName;
+	}
+
+	public void setCrewName(String crewName) {
+		this.crewName = crewName;
+	}
+
+	public int getCrewScore() {
+		return crewScore;
+	}
+
+	public void setCrewScore(int crewScore) {
+		this.crewScore = crewScore;
+	}
+
+	public String getMyrank() {
+		return myrank;
+	}
+
+	public void setMyrank(String myrank) {
+		this.myrank = myrank;
+	}
+
+	public String getCrewcolor() {
+		return crewcolor;
+	}
+
+	public void setCrewcolor(String crewcolor) {
+		this.crewcolor = crewcolor;
 	}
 
 	@Override
 	public String toString() {
-		return "CrewBbsDto [setup=" + setup + ", date=" + date + ", update=" + update + ", maxmem=" + maxmem + ", del="
-				+ del + ", level=" + level + ", img=" + img + ", name=" + name + "]";
+		return "CrewDto [crewSeq=" + crewSeq + ", memId=" + memId + ", crewSetUp=" + crewSetUp + ", crewCreateDate="
+				+ crewCreateDate + ", crewUpdate=" + crewUpdate + ", maxMem=" + maxMem + ", crewDel=" + crewDel
+				+ ", crewLevel=" + crewLevel + ", crewImg=" + crewImg + ", crewName=" + crewName + ", crewScore="
+				+ crewScore + ", myrank=" + myrank + ", crewcolor=" + crewcolor + "]";
 	}
 	
-	 
-	
-
 }
