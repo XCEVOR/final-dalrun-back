@@ -37,7 +37,7 @@ public class AdminController {
 		return map;
 	}
 	
-	@GetMapping(value = "memberlist")
+	@GetMapping(value = "admin_memberlist")
 	public Map<String, Object> memberlist(SearchParam params) {
 	    System.out.println("AdminController memberlist " + new Date());
 	    
@@ -48,7 +48,7 @@ public class AdminController {
 	    return getList(memberlist, len);
 	}
 
-	@GetMapping(value = "crewlist")
+	@GetMapping(value = "admin_crewlist")
 	public Map<String, Object> crewlist(SearchParam params) {
 	    System.out.println("AdminController crewlist " + new Date());
 	    

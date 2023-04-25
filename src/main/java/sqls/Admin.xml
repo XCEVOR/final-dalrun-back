@@ -7,15 +7,28 @@
 	<sql id="searchMember">
 		<if test="choice != null and choice != '' and search != null and search != ''">
 			<if test="choice == 'memId'">
-				WHERE memId LIKE CONCAT('%', #{search}, '%')
+				AND memId LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'name'">
-				WHERE memberName LIKE CONCAT('%', #{search}, '%')
+				AND memberName LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'phone'">
-				WHERE phone LIKE CONCAT('%', #{search}, '%')
+				AND phone LIKE CONCAT('%', #{search}, '%')
 			</if>
 		</if>
+	</sql>
+	
+	<sql id="member">
+		<choose>
+			<when test="grade != null and grade !=''">
+				WHERE grade = #{grade} 
+				<include refid="searchMember"></include>
+			</when>
+			<otherwise>
+				WHERE 1=1 
+				<include refid="searchMember"></include>
+			</otherwise>
+		</choose>
 	</sql>
 	
 	<sql id="searchCrew">
@@ -63,7 +76,7 @@
 	<sql id="searchShoereview">
 		<if test="choice != null and choice != '' and search != null and search != ''">
 			<if test="choice == 'memId'">
-				WHERE memId = #{search}
+				WHERE memId LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'title'">
 				WHERE shoereviewTitle LIKE CONCAT('%',#{search},'%')
@@ -74,6 +87,93 @@
 		</if>
 	</sql>
 	
+	<sql id="searchDiary">
+		<if test="choice != null and choice != '' and search != null and search != ''">
+			<if test="choice == 'memId'">
+				WHERE memId LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'title'">
+				WHERE diaryTitle LIKE CONCAT('%',#{search},'%')
+			</if>
+			<if test="choice == 'content'">
+				WHERE content LIKE CONCAT('%',#{search},'%')
+			</if>
+			<if test="choice == 'crew'">
+				WHERE crewSeq = (SELECT crewSeq 
+					   			 FROM CREW
+					   			 WHERE #{search} = crewName) as C 
+			</if>
+		</if>
+	</sql>
+	
+	<sql id="searchCompetition">
+		<if test="choice != null and choice != '' and search != null and search != ''">
+			<if test="choice == 'seq'">
+				WHERE compSeq = #{search}
+			</if>
+			<if test="choice == 'title'">
+				WHERE compTitle LIKE CONCAT('%',#{search},'%')
+			</if>
+			<if test="choice == 'content'">
+				WHERE compContent LIKE CONCAT('%',#{search},'%')
+			</if>
+			<if test="choice == 'location'">
+				WHERE compLocation LIKE CONCAT('%',#{search},'%') 
+			</if>
+		</if>
+	</sql>
+	
+	<sql id="searchProduct">
+		<where>
+			<if test="sale != null and sale !=''">
+				productSale= #{sale} AND
+			</if>
+			<if test="stock != null and stock !=''">
+				productStock = #{stock} AND
+			</if>
+			<choose>
+				<when test="choice == 'category'">
+					productCategory = #{search}
+				</when>
+				<when test="choice == 'productId'">
+					productId LIKE CONCAT('%',#{search},'%')
+				</when>
+				<when test="choice == 'name'">
+					productName LIKE CONCAT('%',#{search},'%')
+				</when>
+				<otherwise>
+					1=1
+				</otherwise>
+			</choose>
+		</where>
+	</sql>
+	
+	<sql id="searchOrder">
+		<where>
+			<if test="order != null and order !=''">
+				orderState = #{order} AND
+			</if>
+			<if test="delivery != null and delivery !=''">
+				deliveryState = #{delivery} AND
+			</if>
+			<choose>
+				<when test="choice == 'orderSeq'">
+					orderSeq = #{search}
+				</when>
+				<when test="choice == 'memId'">
+					memId LIKE CONCAT('%',#{search},'%')
+				</when>
+				<when test="choice == 'productId'">
+					productId LIKE CONCAT('%',#{search},'%')
+				</when>
+				<otherwise>
+					1=1
+				</otherwise>
+			</choose>
+		</where>
+	</sql>
+
+	
 	<!-- Member -->
 	<!-- 회원 리스트 -->
 	<select id="memberlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.MemberDto">
@@ -82,14 +182,7 @@
 			(SELECT ROW_NUMBER()OVER(ORDER BY regdate DESC) AS RNUM, memId, password, memberName, 
 				phone, birth, foot, profile, regdate, memberupdate, auth, del, point, grade
 			FROM MEMBER
-			<choose>
-				<when test="grade != null and grade !=''">
-					<include refid="searchMember"></include>
-				</when>
-				<otherwise>
-					<include refid="searchMember"></include>
-				</otherwise>
-			</choose>
+			<include refid="member"></include>
 			ORDER BY regdate DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
@@ -98,14 +191,7 @@
 	<select id="getAllMember" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM MEMBER
-		<choose>
-			<when test="grade != null and grade !=''">
-				<include refid="searchMember"></include>
-			</when>
-			<otherwise>
-				<include refid="searchMember"></include>
-			</otherwise>
-		</choose>
+		<include refid="member"></include>
 	</select>
 	
 	<!-- Crew -->
@@ -113,7 +199,7 @@
 		SELECT *
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY crewcreateDate DESC) AS RNUM, crewsetUp, crewupdate, maxmem, 
-				crewdel, crewlevel, crewimg, crewname, crewscore, crewcolor
+				crewdel, crewlevel, crewimg, crewname, crewscore, crewcolor, crewcreateDate
 			FROM CREW
 			<include refid="searchCrew"></include>
 			ORDER BY crewcreateDate DESC) A
@@ -130,7 +216,7 @@
 	<!-- <select id="productinquirylist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductinquiryDto">
 		SELECT *
 		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, inqSeq, intWriter, inqContent, inqDate, productId, memId
+			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, inqSeq, intWriter, inqContent, inqDate, productId, memId, wdate
 			FROM PRODUCTINQUIRY
 			<include refid="searchProductinqiry"></include>
 			ORDER BY wdate DESC) A
@@ -157,5 +243,86 @@
 		SELECT IFNULL(COUNT(*), 0)
 		FROM QNA
 		<include refid="searchQna"></include>
+	</select> 
+	
+	<select id="shoereviewlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ShoereviewDto">
+		SELECT *
+		FROM 
+			(SELECT ROW_NUMBER()OVER(ORDER BY shoereviewRegdate DESC) AS RNUM, shereviewSeq, shoereviewTitle, 
+				shoereviewContent, shoereviewOrigFilename, shoereviewNewFilename, memId, shoereviewRegdate
+			FROM SHOEREVIEW
+			<include refid="searchShoereview"></include>
+			ORDER BY shoereviewRegdate DESC) A
+		WHERE RNUM BETWEEN ${start} AND ${end}
+	</select>
+	<select id="getAllShoereview" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
+		SELECT IFNULL(COUNT(*), 0)
+		FROM SHOEREVIEW
+		<include refid="searchShoereview"></include>
+	</select>
+	
+	<select id="diarylist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.DiaryDto">
+		SELECT *
+		FROM 
+			(SELECT ROW_NUMBER()OVER(ORDER BY date DESC) AS RNUM, diarySeq, diaryTitle, 
+				content, gpx, record, time, dReplySeq, crewSeq, date
+			FROM DIARY
+			<include refid="searchDiary"></include>
+			ORDER BY shoereviewRegdate DESC) A
+		WHERE RNUM BETWEEN ${start} AND ${end}
+	</select>
+	<select id="getAllDiary" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
+		SELECT IFNULL(COUNT(*), 0)
+		FROM DIARY
+		<include refid="searchDiary"></include>
+	</select>
+	
+	<select id="competitionlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.CompetitionDto">
+		SELECT *
+		FROM 
+			(SELECT ROW_NUMBER()OVER(ORDER BY compDate DESC) AS RNUM, compSeq, compTitle, 
+				compContent, compLocation, compOrigFile, compNewFile, compDate
+			FROM COMPETITION
+			<include refid="searchCompetition"></include>
+			ORDER BY shoereviewRegdate DESC) A
+		WHERE RNUM BETWEEN ${start} AND ${end}
+	</select>
+	<select id="getAllCompetition" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
+		SELECT IFNULL(COUNT(*), 0)
+		FROM COMPETITION
+		<include refid="searchCompetition"></include>
+	</select> 
+	
+	<select id="productlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductDto">
+		SELECT *
+		FROM 
+			(SELECT ROW_NUMBER()OVER(ORDER BY productRegiDate DESC) AS RNUM, productId, productCode, productCategory, productBrand, productName, productPrice, 
+				productColor, productSize, productDescription, productOrigFile, productNewFile, productStock, productSale, productSoldout, productRegiDate
+			FROM PRODUCT
+			<include refid="searchProduct"></include>
+			ORDER BY productRegiDate DESC) A
+		WHERE RNUM BETWEEN ${start} AND ${end}
+	</select>
+	<select id="getAllProduct" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
+		SELECT IFNULL(COUNT(*), 0)
+		FROM PRODUCT
+		<include refid="searchProduct"></include>
+	</select>
+	
+	<select id="orderlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.OrderDto">
+		SELECT *
+		FROM 
+			(SELECT ROW_NUMBER()OVER(ORDER BY orderDate DESC) AS RNUM, orderSeq, memId, orderName, orderAddress, 
+				orderPhone, orderRequirment, orderTotalprice, orderDate, orderQauntity, orderState, deliveryState
+			FROM ORDER
+			<include refid="searchOrder"></include>
+			ORDER BY orderDate DESC) A
+		WHERE RNUM BETWEEN ${start} AND ${end}
+	</select>
+	<select id="getAllOrder" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
+		SELECT IFNULL(COUNT(*), 0)
+		FROM ORDER
+		<include refid="searchOrder"></include>
 	</select> -->
+	
 </mapper>
