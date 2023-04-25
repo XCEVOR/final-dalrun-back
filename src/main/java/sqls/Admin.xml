@@ -198,11 +198,11 @@
 	<select id="crewlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.CrewDto">
 		SELECT *
 		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY crewcreateDate DESC) AS RNUM, crewsetUp, crewupdate, maxmem, 
-				crewdel, crewlevel, crewimg, crewname, crewscore, crewcolor, crewcreateDate
+			(SELECT ROW_NUMBER()OVER(ORDER BY crewCreateDate DESC) AS RNUM, crewSeq, memId, crewSetUp,
+				crewUpdate, maxMem, crewDel, crewLevel, crewImg, crewName, crewScore, crewcolor, crewCreateDate
 			FROM CREW
 			<include refid="searchCrew"></include>
-			ORDER BY crewcreateDate DESC) A
+			ORDER BY crewCreateDate DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllCrew" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
