@@ -2,14 +2,18 @@ package com.dalrun.dto;
 
 import java.io.Serializable;
 
+//크루모집 게시판 - db(crewRecuritBbs)
 public class CrewBbsDto implements Serializable{
 	
+	private int cBbsSeq;
+	private String memId;
+	private String crewName; //크루명
 	private String tilte;
 	private String content;
-	private String category;
+	private String category; //table에는 없는데 나중에 쓸 수도 있을 것 같아서 남겨뒀습니다.
 	private String img;
 	private int del;
-	private String type; 
+	private String type; //모집중, 모집완료 
 	private String wdate;
 	private int likecount; // 좋아요 수
 	private int readcount; // 조회수 수
@@ -20,8 +24,9 @@ public class CrewBbsDto implements Serializable{
 	}
 
 
-	public CrewBbsDto(String tilte, String content, String category, String img, int del, int readcount) {
+	public CrewBbsDto(String memId, String tilte, String content, String category, String img, int del, int readcount) {
 		super();
+		this.memId = memId;
 		this.tilte = tilte;
 		this.content = content;
 		this.category = category;
@@ -31,9 +36,10 @@ public class CrewBbsDto implements Serializable{
 	}
 
 
-	public CrewBbsDto(String tilte, String content, String category, String img, int del, String type, String wdate,
+	public CrewBbsDto(String memId,String tilte, String content, String category, String img, int del, String type, String wdate,
 			int likecount, int readcount) {
 		super();
+		this.memId = memId;
 		this.tilte = tilte;
 		this.content = content;
 		this.category = category;
@@ -43,6 +49,16 @@ public class CrewBbsDto implements Serializable{
 		this.wdate = wdate;
 		this.likecount = likecount;
 		this.readcount = readcount;
+	}
+	
+
+	public String getMemId() {
+		return memId;
+	}
+
+
+	public void setMemId(String memId) {
+		this.memId = memId;
 	}
 
 

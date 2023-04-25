@@ -1,51 +1,53 @@
 package com.dalrun.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public class MemberDto  implements Serializable{
-
-	private String id;
-	private String password;
-	private String name;
-	private String phone;
-	private String birth;
-	private String foot;
-	private String profile;
-	private String regdate;
-	private String update;
-	private int auth;
-	private int del;
-	private int point;
-	private String grade;
-	
+public class MemberDto implements Serializable {
+	private String memId;
+    private String password;
+    private String memberName;
+    private String email;
+    private String phone;
+    private String birth;
+    private String foot;
+    private String profile;
+    private Date regdate;
+    private Date memberupdate;
+    private int auth; ///1 : 일반회원
+    private int del;
+    private String point;
+    private String grade;
+    private int crewSeq;
+    
 	public MemberDto() {
-		// TODO Auto-generated constructor stub
 	}
 
-	public MemberDto(String id, String password, String name, String phone, String birth, String foot, String profile,
-			String regdate, String update, int auth, int del, int point, String grade) {
-		super();
-		this.id = id;
+	//로그인
+	public MemberDto(String memId, String password) {
+		this.memId = memId;
 		this.password = password;
-		this.name = name;
+	}
+
+	//회원가입
+	public MemberDto(String memId, String password, String memberName, String email, String phone, String birth,
+			String foot, String profile) {
+		this.memId = memId;
+		this.password = password;
+		this.memberName = memberName;
+		this.email = email;
 		this.phone = phone;
 		this.birth = birth;
 		this.foot = foot;
 		this.profile = profile;
-		this.regdate = regdate;
-		this.update = update;
-		this.auth = auth;
-		this.del = del;
-		this.point = point;
-		this.grade = grade;
 	}
 
-	public String getId() {
-		return id;
+	public String getMemId() {
+		return memId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setMemId(String memId) {
+		this.memId = memId;
 	}
 
 	public String getPassword() {
@@ -56,12 +58,20 @@ public class MemberDto  implements Serializable{
 		this.password = password;
 	}
 
-	public String getName() {
-		return name;
+	public String getMemberName() {
+		return memberName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPhone() {
@@ -96,20 +106,20 @@ public class MemberDto  implements Serializable{
 		this.profile = profile;
 	}
 
-	public String getRegdate() {
+	public Date getRegdate() {
 		return regdate;
 	}
 
-	public void setRegdate(String regdate) {
+	public void setRegdate(Date regdate) {
 		this.regdate = regdate;
 	}
 
-	public String getUpdate() {
-		return update;
+	public Date getMemberupdate() {
+		return memberupdate;
 	}
 
-	public void setUpdate(String update) {
-		this.update = update;
+	public void setMemberupdate(Date memberupdate) {
+		this.memberupdate = memberupdate;
 	}
 
 	public int getAuth() {
@@ -128,11 +138,11 @@ public class MemberDto  implements Serializable{
 		this.del = del;
 	}
 
-	public int getPoint() {
+	public String getPoint() {
 		return point;
 	}
 
-	public void setPoint(int point) {
+	public void setPoint(String point) {
 		this.point = point;
 	}
 
@@ -144,14 +154,19 @@ public class MemberDto  implements Serializable{
 		this.grade = grade;
 	}
 
+	public int getCrewSeq() {
+		return crewSeq;
+	}
+
+	public void setCrewSeq(int crewSeq) {
+		this.crewSeq = crewSeq;
+	}
+
 	@Override
 	public String toString() {
-		return "MemberDto [id=" + id + ", password=" + password + ", name=" + name + ", phone=" + phone + ", birth="
-				+ birth + ", foot=" + foot + ", profile=" + profile + ", regdate=" + regdate + ", update=" + update
-				+ ", auth=" + auth + ", del=" + del + ", point=" + point + ", grade=" + grade + "]";
+		return "MemberDto [memId=" + memId + ", password=" + password + ", memberName=" + memberName + ", email="
+				+ email + ", phone=" + phone + ", birth=" + birth + ", foot=" + foot + ", profile=" + profile
+				+ ", regdate=" + regdate + ", memberupdate=" + memberupdate + ", auth=" + auth + ", del=" + del
+				+ ", point=" + point + ", grade=" + grade + ", crewSeq=" + crewSeq + "]";
 	}
-	
-	
-	
-	
 }
