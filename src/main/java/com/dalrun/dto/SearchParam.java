@@ -7,6 +7,8 @@ public class SearchParam {
 	private String grade;
 	private int sale;
 	private int stock;
+	private int order;
+	private int delivery;
 	
 	private int start;
 	private int end;
@@ -14,8 +16,8 @@ public class SearchParam {
 	public SearchParam() {
 	}
 
-	public SearchParam(String choice, String search, int pageNumber, String grade, int sale, int stock, int start,
-			int end) {
+	public SearchParam(String choice, String search, int pageNumber, String grade, int sale, int stock, int order,
+			int delivery, int start, int end) {
 		super();
 		this.choice = choice;
 		Search = search;
@@ -23,6 +25,8 @@ public class SearchParam {
 		this.grade = grade;
 		this.sale = sale;
 		this.stock = stock;
+		this.order = order;
+		this.delivery = delivery;
 		this.start = start;
 		this.end = end;
 	}
@@ -75,6 +79,22 @@ public class SearchParam {
 		this.stock = stock;
 	}
 
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
+	}
+
+	public int getDelivery() {
+		return delivery;
+	}
+
+	public void setDelivery(int delivery) {
+		this.delivery = delivery;
+	}
+
 	public int getStart() {
 		return start;
 	}
@@ -94,6 +114,7 @@ public class SearchParam {
 	@Override
 	public String toString() {
 		return "SearchParam [choice=" + choice + ", Search=" + Search + ", pageNumber=" + pageNumber + ", grade="
-				+ grade + ", sale=" + sale + ", stock=" + stock + ", start=" + start + ", end=" + end + "]";
+				+ grade + ", sale=" + sale + ", stock=" + stock + ", order=" + order + ", delivery=" + delivery
+				+ ", start=" + start + ", end=" + end + "]";
 	}
 }
