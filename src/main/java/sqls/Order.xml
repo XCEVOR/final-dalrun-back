@@ -8,5 +8,12 @@
         SELECT *
         FROM PRODUCTORDER
     </select>
-
+    
+    
+    <insert id="addToCart" parameterType="com.dalrun.dto.CartDto">
+        INSERT INTO cart (cartId, cartProdQuantity, productId, memId, orderSeq)
+        VALUES (#{cartId}, #{cartProdQuantity}, #{productId}, #{memId}, #{orderSeq})
+    </insert>
+    
+    
 </mapper>
