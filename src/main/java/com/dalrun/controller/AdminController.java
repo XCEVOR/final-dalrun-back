@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dalrun.dto.CompetitionDto;
@@ -134,5 +135,20 @@ public class AdminController {
 	    int len = service.getAllOrder(params);
 	    
 	    return getList(orderlist, len);
+	}
+	
+	// 수정/삭제
+	private String update(boolean b) {
+		if(!b) return "NO";
+		return "YES";
+	}
+	
+	@PostMapping(value = "admin_updatemember")
+	public String updatemember(MemberDto memDto) {
+		System.out.println("AdminController updatemember " + new Date());
+		System.out.println(memDto);
+		
+		boolean b = service.updatemember(memDto);
+		return update(b);
 	}
 }

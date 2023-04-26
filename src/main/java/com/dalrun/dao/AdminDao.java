@@ -60,4 +60,7 @@ public interface AdminDao {
 	List<OrderDto> orderlist(SearchParam params);
 	
 	int getAllOrder(SearchParam params);
+	
+	// 수정/삭제
+	int updatemember(MemberDto memDto);
 }

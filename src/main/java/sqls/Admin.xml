@@ -330,4 +330,12 @@
 		<include refid="searchOrder"></include>
 	</select>
 	
+	<!-- 수정/삭제 -->
+	<update id="updatemember" parameterType="com.dalrun.dto.MemberDto">
+		UPDATE MEMBER
+		SET password=#{password}, memberName=#{memberName}, email=#{email}, phone=#{phone}, birth=#{birth}, 
+			point=#{point}, grade=#{grade}, foot=#{foot}, memberupdate=now()
+		WHERE memId=#{memId}  
+	</update>
+	
 </mapper>

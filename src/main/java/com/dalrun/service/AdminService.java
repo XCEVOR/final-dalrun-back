@@ -100,4 +100,10 @@ public class AdminService {
 	public int getAllOrder(SearchParam params) {
 		return dao.getAllOrder(params);
 	}
+	
+	// 수정/삭제
+	public boolean updatemember(MemberDto memDto) {
+		int n = dao.updatemember(memDto); 
+		return n>0?true:false;
+	}
 }
