@@ -2,14 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="com.dalrun.dao.OrderDao">
+<mapper namespace="com.dalrun.dao.CartDao">
 
-    <select id="orderlist" resultType="com.dalrun.dto.OrderDto">
-        SELECT *
-        FROM PRODUCTORDER
-    </select>
-    
-    
     <insert id="addToCart" parameterType="com.dalrun.dto.CartDto">
         INSERT INTO cart (cartId, cartProdQuantity, productId, memId, orderSeq)
         VALUES (#{cartId}, #{cartProdQuantity}, #{productId}, #{memId}, #{orderSeq})
@@ -19,6 +13,16 @@
         SELECT *
         FROM cart
     </select>
+    
+    <select id="getUserCartList" parameterType="String" resultType="com.dalrun.dto.CartDto">
+        SELECT *
+        FROM cart
+        WHERE memId=#{memId}
+    </select>
+    
+    <delete id="deleteCartItem" parameterType="String">
+        DELETE FROM cart WHERE productId=#{productId}
+    </delete>
     
     
 </mapper>
