@@ -27,6 +27,13 @@ public class ProductDto  implements Serializable{
 	}
 
 
+    public ProductDto(String productCode, String productColor, String productSize) {
+        super();
+        this.productCode = productCode;
+        this.productColor = productColor;
+        this.productSize = productSize;
+    }
+
 
     public ProductDto(String productId, String productCode, String productCategory, String productBrand,
             String productName, String productPrice, String productColor, String productSize, String productDescription,

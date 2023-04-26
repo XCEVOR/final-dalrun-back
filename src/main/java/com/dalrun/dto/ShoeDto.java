@@ -4,90 +4,106 @@ import java.io.Serializable;
 
 public class ShoeDto implements Serializable{
 	
-	
-	private String content;
-	private int del; // 삭제 여부
-	private String title;
-	private String originalfile; // 원본 파일
-	private String newfile; // 변경 파일
-	private String date; 
-	private String id;
+    private int shoereviewdetailSeq;
+    private int shoereviewSeq;
+	private String shoereviewdetailTitle;
+	private String shoereviewdetailContent;
+	private String shoereviewdetailOrigFilename; // 원본 파일
+	private String shoereviewdetailNewFilename; // 변경 파일
+	private String memId; 
+	private String shoereviewdetailRegdate;
 	
 	public ShoeDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ShoeDto(String content, int del, String title, String originalfile, String newfile, String date, String id) {
-		super();
-		this.content = content;
-		this.del = del;
-		this.title = title;
-		this.originalfile = originalfile;
-		this.newfile = newfile;
-		this.date = date;
-		this.id = id;
-	}
+    public ShoeDto(int shoereviewdetailSeq, int shoereviewSeq, String shoereviewdetailTitle,
+            String shoereviewdetailContent, String shoereviewdetailOrigFilename, String shoereviewdetailNewFilename,
+            String memId, String shoereviewdetailRegdate) {
+        super();
+        this.shoereviewdetailSeq = shoereviewdetailSeq;
+        this.shoereviewSeq = shoereviewSeq;
+        this.shoereviewdetailTitle = shoereviewdetailTitle;
+        this.shoereviewdetailContent = shoereviewdetailContent;
+        this.shoereviewdetailOrigFilename = shoereviewdetailOrigFilename;
+        this.shoereviewdetailNewFilename = shoereviewdetailNewFilename;
+        this.memId = memId;
+        this.shoereviewdetailRegdate = shoereviewdetailRegdate;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public int getShoereviewdetailSeq() {
+        return shoereviewdetailSeq;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public void setShoereviewdetailSeq(int shoereviewdetailSeq) {
+        this.shoereviewdetailSeq = shoereviewdetailSeq;
+    }
 
-	public int getDel() {
-		return del;
-	}
+    public int getShoereviewSeq() {
+        return shoereviewSeq;
+    }
 
-	public void setDel(int del) {
-		this.del = del;
-	}
+    public void setShoereviewSeq(int shoereviewSeq) {
+        this.shoereviewSeq = shoereviewSeq;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getShoereviewdetailTitle() {
+        return shoereviewdetailTitle;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setShoereviewdetailTitle(String shoereviewdetailTitle) {
+        this.shoereviewdetailTitle = shoereviewdetailTitle;
+    }
 
-	public String getOriginalfile() {
-		return originalfile;
-	}
+    public String getShoereviewdetailContent() {
+        return shoereviewdetailContent;
+    }
 
-	public void setOriginalfile(String originalfile) {
-		this.originalfile = originalfile;
-	}
+    public void setShoereviewdetailContent(String shoereviewdetailContent) {
+        this.shoereviewdetailContent = shoereviewdetailContent;
+    }
 
-	public String getNewfile() {
-		return newfile;
-	}
+    public String getShoereviewdetailOrigFilename() {
+        return shoereviewdetailOrigFilename;
+    }
 
-	public void setNewfile(String newfile) {
-		this.newfile = newfile;
-	}
+    public void setShoereviewdetailOrigFilename(String shoereviewdetailOrigFilename) {
+        this.shoereviewdetailOrigFilename = shoereviewdetailOrigFilename;
+    }
 
-	public String getDate() {
-		return date;
-	}
+    public String getShoereviewdetailNewFilename() {
+        return shoereviewdetailNewFilename;
+    }
 
-	public void setDate(String date) {
-		this.date = date;
-	}
+    public void setShoereviewdetailNewFilename(String shoereviewdetailNewFilename) {
+        this.shoereviewdetailNewFilename = shoereviewdetailNewFilename;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getMemId() {
+        return memId;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setMemId(String memId) {
+        this.memId = memId;
+    }
 
-	@Override
-	public String toString() {
-		return "ShoeDto [content=" + content + ", del=" + del + ", title=" + title + ", originalfile=" + originalfile
-				+ ", newfile=" + newfile + ", date=" + date + ", id=" + id + "]";
-	}
+    public String getShoereviewdetailRegdate() {
+        return shoereviewdetailRegdate;
+    }
+
+    public void setShoereviewdetailRegdate(String shoereviewdetailRegdate) {
+        this.shoereviewdetailRegdate = shoereviewdetailRegdate;
+    }
+
+    @Override
+    public String toString() {
+        return "ShoeDto [shoereviewdetailSeq=" + shoereviewdetailSeq + ", shoereviewSeq=" + shoereviewSeq
+                + ", shoereviewdetailTitle=" + shoereviewdetailTitle + ", shoereviewdetailContent="
+                + shoereviewdetailContent + ", shoereviewdetailOrigFilename=" + shoereviewdetailOrigFilename
+                + ", shoereviewdetailNewFilename=" + shoereviewdetailNewFilename + ", memId=" + memId
+                + ", shoereviewdetailRegdate=" + shoereviewdetailRegdate + "]";
+    }
+
+	
 	
 }
