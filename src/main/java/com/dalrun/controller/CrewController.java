@@ -28,7 +28,7 @@ public class CrewController {
 	
 	@GetMapping("sendDonation")
 	public boolean sendDonation(CrewPointDto dto){
-	
+		service.PlusPoint(dto);
 		return service.sendDonation(dto);
 
 	}

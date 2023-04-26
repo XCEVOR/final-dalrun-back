@@ -30,5 +30,11 @@ public class CrewService {
 	public boolean sendDonation(CrewPointDto dto) {
 		return dao.sendDonation(dto)>0;
 	}
+	public boolean MinusPoint(CrewPointDto dto) {
+		return dao.MinusPoint(dto)>0;
+	}
+	public boolean PlusPoint(CrewPointDto dto) {
+		return dao.PlusPoint(dto)>0;
+	}
 	
 }

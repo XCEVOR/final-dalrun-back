@@ -10,39 +10,57 @@ public class DotMapDto implements Serializable {
         private String id;
         private String regdate;
         private String message;
-        private String groundcolor;
-        private String image;
+        private String groundColor;
+    	private String dotOrigFile;// 도트맵 원본 사진
+    	private String dotNewFile; // 도트맵 변경 사진
         private String sale;
         private int price;
         
        public DotMapDto() {
 		// TODO Auto-generated constructor stub
 	}
-       
-       
-       
-     
-	public DotMapDto(int location, String crewName, String id, String regdate, String message, String groundcolor,
-			String image, String sale, int price) {
+   
+	public DotMapDto(int location, String crewName, String id, String regdate, String message, String groundColor,
+			String dotOrigFile, String dotNewFile, String sale, int price) {
 		super();
 		this.location = location;
 		this.crewName = crewName;
 		this.id = id;
 		this.regdate = regdate;
 		this.message = message;
-		this.groundcolor = groundcolor;
-		this.image = image;
+		this.groundColor = groundColor;
+		this.dotOrigFile = dotOrigFile;
+		this.dotNewFile = dotNewFile;
 		this.sale = sale;
 		this.price = price;
 	}
 
 
 
+	public String getDotOrigFile() {
+		return dotOrigFile;
+	}
+
+
+
+	public void setDotOrigFile(String dotOrigFile) {
+		this.dotOrigFile = dotOrigFile;
+	}
+
+
+	public String getDotNewFile() {
+		return dotNewFile;
+	}
+
+
+	public void setDotNewFile(String dotNewFile) {
+		this.dotNewFile = dotNewFile;
+	}
+
 
 	public int getLocation() {
 		return location;
 	}
-
 
 
 	public void setLocation(int location) {
@@ -92,20 +110,13 @@ public class DotMapDto implements Serializable {
 	}
 
 	public String getGroundcolor() {
-		return groundcolor;
+		return groundColor;
 	}
 
-	public void setGroundcolor(String groundcolor) {
-		this.groundcolor = groundcolor;
+	public void setGroundcolor(String groundColor) {
+		this.groundColor = groundColor;
 	}
 
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
 
 	public String getSale() {
 		return sale;
