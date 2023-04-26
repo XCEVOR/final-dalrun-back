@@ -6,16 +6,18 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.dalrun.dto.CartDto;
-import com.dalrun.dto.OrderDto;
 
 @Mapper
 @Repository
-public interface OrderDao {
+public interface CartDao {
 
-    List<OrderDto> orderlist ();
-    
     int addToCart (CartDto cdto);
     
     List<CartDto> getCartList ();
     
 }
+
+
+
+
+

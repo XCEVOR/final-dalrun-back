@@ -24,16 +24,8 @@ public class OrderController {
         return service.orderlist();
     }
     
-    @PostMapping(value = "addToCart")
-    public String addToCart (CartDto cdto) {
-        System.out.println("  @ OrderController String addToCart (CartDto cdto) { " + new Date());
-        System.out.println(cdto);
-        boolean isSucc = service.addToCart(cdto);
-        if (isSucc == false) {
-            return "FAIL";
-        }
-        return "SUCCESS";
-    }
+
+
 
 }
 

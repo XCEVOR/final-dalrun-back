@@ -6,20 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dalrun.dao.OrderDao;
+import com.dalrun.dao.CartDao;
 import com.dalrun.dto.CartDto;
-import com.dalrun.dto.OrderDto;
 
 @Service
 @Transactional
-public class OrderService {
+public class CartService {
 
     @Autowired
-    OrderDao dao;
-    
-    public List<OrderDto> orderlist () {
-        return dao.orderlist();
-    }
+    CartDao dao;
     
     public boolean addToCart (CartDto cdto) {
         int isSucc = dao.addToCart(cdto);
@@ -29,6 +24,5 @@ public class OrderService {
     public List<CartDto> getCartList () {
         return dao.getCartList();
     }
-    
     
 }
