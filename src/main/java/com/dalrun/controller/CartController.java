@@ -24,7 +24,7 @@ public class CartController {
     
     @PostMapping(value = "addToCart")
     public String addToCart (CartDto cdto) {
-        System.out.println("  @ OrderController String addToCart (CartDto cdto) { " + new Date());
+        System.out.println("  @ CartController String addToCart (CartDto cdto) { " + new Date());
         System.out.println(cdto);
         boolean isSucc = service.addToCart(cdto);
         if (isSucc == false) {
@@ -66,6 +66,17 @@ public class CartController {
         System.out.println(Arrays.toString(productInfoList.toArray()));
         
         return productInfoList;  // 완성된 상품 정보 리스트를 프론트에 반환함.
+    }
+    
+    @PostMapping(value = "deleteCartItem")
+    public String deleteCartItem (String productId) {
+        System.out.println("  @ CartController String deleteCartItem (String productId) { " + new Date());
+        System.out.println("System.out.println(productId); " + productId);
+        boolean isSucc = service.deleteCartItem(productId);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";
     }
     
     

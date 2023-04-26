@@ -17,6 +17,8 @@ public interface CartDao {
     
     List<CartDto> getUserCartList (String memId);
     
+    int deleteCartItem (String productId);
+    
 }
 
 
