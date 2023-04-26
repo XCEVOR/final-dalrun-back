@@ -43,7 +43,6 @@ public class AdminService {
 	}
 	
 	// 게시물 관리
-	/*
 	public List<ProductInquiryDto> productinquirylist(SearchParam params) {
 		return dao.productinquirylist(params);
 	}
@@ -52,6 +51,7 @@ public class AdminService {
 		return dao.getAllProductinquiry(params);
 	}
 	
+	/*
 	public List<QnaDto> qnalist(SearchParam params) {
 		return dao.qnalist(params);
 	}
@@ -59,6 +59,7 @@ public class AdminService {
 	public int getAllQna(SearchParam params) {
 		return dao.getAllQna(params);
 	}
+	*/
 	public List<ShoeDto> shoereviewlist(SearchParam params) {
 		return dao.shoereviewlist(params);
 	}
@@ -66,7 +67,7 @@ public class AdminService {
 	public int getAllShoereview(SearchParam params) {
 		return dao.getAllShoereview(params);
 	}
-	
+	/*
 	public List<DiaryDto> diarylist(SearchParam params) {
 		return dao.diarylist(params);
 	}
@@ -74,7 +75,7 @@ public class AdminService {
 	public int getAllDiary(SearchParam params) {
 		return dao.getAllDiary(params);
 	}
-	
+	*/
 	public List<CompetitionDto> competitionlist(SearchParam params) {
 		return dao.competitionlist(params);
 	}
@@ -82,7 +83,7 @@ public class AdminService {
 	public int getAllCompetition(SearchParam params) {
 		return dao.getAllCompetition(params);
 	}
-	*/
+	
 	// 상품관리
 	public List<ProductDto> productlist(SearchParam params) {
 		return dao.productlist(params);

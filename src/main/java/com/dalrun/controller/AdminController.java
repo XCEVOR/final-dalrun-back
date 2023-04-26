@@ -68,7 +68,6 @@ public class AdminController {
 	}
 	
 	// 게시물 관리
-	/*
 	@GetMapping(value = "admin_productinquirylist")
 	public Map<String, Object> productinquirylist(SearchParam params) {
 	    System.out.println("AdminController productinquirylist " + new Date());
@@ -80,6 +79,7 @@ public class AdminController {
 	    return getList(productinquirylist, len);
 	}
 	
+	/*
 	@GetMapping(value = "admin_qnalist")
 	public Map<String, Object> qnalist(SearchParam params) {
 	    System.out.println("AdminController qnalist " + new Date());
@@ -90,7 +90,7 @@ public class AdminController {
 	    
 	    return getList(qnalist, len);
 	}
-
+	*/
 	@GetMapping(value = "admin_shoereviewlist")
 	public Map<String, Object> shoereviewlist(SearchParam params) {
 	    System.out.println("AdminController shoereviewlist " + new Date());
@@ -112,7 +112,6 @@ public class AdminController {
 	    
 	    return getList(competitionlist, len);
 	}
-	*/
 	
 	// 상품 관리
 	@GetMapping(value = "admin_productlist")

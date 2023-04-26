@@ -31,27 +31,27 @@ public interface AdminDao {
 	int getAllCrew(SearchParam params);
 	
 	// 게시물 관리
-	/*
 	List<ProductInquiryDto> productinquirylist(SearchParam params);
 	
 	int getAllProductinquiry(SearchParam params);
 	
+	/*
 	List<QnaDto> qnalist(SearchParam params);
 	
 	int getAllQna(SearchParam params);
-	
+	*/
 	List<ShoeDto> shoereviewlist(SearchParam params);
 	
 	int getAllShoereview(SearchParam params);
-	
+	/*
 	List<DiaryDto> diarylist(SearchParam params);
 	
 	int getAllDiary(SearchParam params);
-	
+	*/
 	List<CompetitionDto> competitionlist(SearchParam params);
 	
 	int getAllCompetition(SearchParam params);
-	*/
+	
 	// 상품 관리
 	List<ProductDto> productlist(SearchParam params);
 	
