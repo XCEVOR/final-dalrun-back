@@ -1,5 +1,6 @@
 package com.dalrun.controller;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dalrun.dto.CompetitionDto;
@@ -138,7 +140,7 @@ public class AdminController {
 	}
 	
 	// 수정/삭제
-	private String update(boolean b) {
+	private String str(boolean b) {
 		if(!b) return "NO";
 		return "YES";
 	}
@@ -149,6 +151,15 @@ public class AdminController {
 		System.out.println(memDto);
 		
 		boolean b = service.updatemember(memDto);
-		return update(b);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_delmember")
+	public String delmember(@RequestParam("checkedList") String[] checkedList) {
+		System.out.println("AdminController delmember " + new Date());
+		System.out.println("checkedList = " + Arrays.toString(checkedList));
+		
+		boolean b = service.delmember(checkedList);
+		return str(b);
 	}
 }

@@ -63,4 +63,6 @@ public interface AdminDao {
 	
 	// 수정/삭제
 	int updatemember(MemberDto memDto);
+	
+	int delmember(String[] checkedList);
 }

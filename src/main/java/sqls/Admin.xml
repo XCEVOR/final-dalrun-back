@@ -338,4 +338,12 @@
 		WHERE memId=#{memId}  
 	</update>
 	
+	<update id="delmember" parameterType="List">
+		UPDATE MEMBER
+		SET del=1
+		WHERE memId IN 
+		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>	
 </mapper>

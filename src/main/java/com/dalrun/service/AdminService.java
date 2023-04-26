@@ -106,4 +106,9 @@ public class AdminService {
 		int n = dao.updatemember(memDto); 
 		return n>0?true:false;
 	}
+	
+	public boolean delmember(String[] checkedList) {
+		int n = dao.delmember(checkedList);
+		return n>0?true:false;
+	}
 }
