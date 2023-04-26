@@ -15,6 +15,8 @@ public interface CartDao {
     
     List<CartDto> getCartList ();
     
+    List<CartDto> getUserCartList (String memId);
+    
 }
 
 

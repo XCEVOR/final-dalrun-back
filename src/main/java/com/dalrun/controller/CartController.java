@@ -1,5 +1,7 @@
 package com.dalrun.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -8,13 +10,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dalrun.dto.CartDto;
+import com.dalrun.dto.ProductDto;
 import com.dalrun.service.CartService;
+import com.dalrun.service.ProductService;
 
 @RestController
 public class CartController {
 
     @Autowired
     CartService service;
+    @Autowired
+    ProductService prodservice;
     
     @PostMapping(value = "addToCart")
     public String addToCart (CartDto cdto) {
@@ -28,9 +34,38 @@ public class CartController {
     }
     
     @PostMapping(value = "getCartList")
-    public List<CartDto> getCartList () {
+    public List<CartDto> getCartList (String memId) {
         System.out.println("  @ CartController List<CartDto> getCartList () { " + new Date());
         return service.getCartList();
+    }
+    
+    @PostMapping(value = "getUserCartList")
+    public List<CartDto> getUserCartList (String memId) {
+        System.out.println("  @ CartController List<CartDto> getUserCartList () { " + new Date());
+        System.out.println("  @ memId: " + memId);
+        return service.getUserCartList(memId);
+    }
+    
+    @PostMapping(value = "getUserCartInfoList")  // 카트의 상품 내용을 포기하기 위한 메서드
+    public List<ProductDto> getUserCartInfoList (String memId) {
+        System.out.println("  @ CartController List<CartDto> getUserCartList () { " + new Date());
+        System.out.println("  @ memId: " + memId);
+        
+        List<CartDto> productIdList = service.getUserCartList(memId);  // 로그인된 멤버 아이디로 카트에 저장된 모든 productId 를 가져옴.
+        List<ProductDto> productInfoList =  new ArrayList();  // 카트에 담딘 상품의 정보만 담기 위한 list
+        
+        
+        for (CartDto cDto : productIdList) {  // productId 를 하나씩 빼내어 그에 해당하는 상품의 모든 정보를 저장.
+            System.out.println(cDto.getProductId());
+            String productId = cDto.getProductId();  // cDto 에서 productId 만 빼냄.
+            
+            ProductDto cartProdInfoDto = prodservice.getCartProductInfo(productId);  // productId 로 해당 상품의 개별 정보를 가져옴.
+            productInfoList.add(cartProdInfoDto);  // 개별 정보를 list 하나씩 저장.
+        }
+        
+        System.out.println(Arrays.toString(productInfoList.toArray()));
+        
+        return productInfoList;  // 완성된 상품 정보 리스트를 프론트에 반환함.
     }
     
     

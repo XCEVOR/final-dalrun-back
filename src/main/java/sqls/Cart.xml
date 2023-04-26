@@ -14,5 +14,11 @@
         FROM cart
     </select>
     
+    <select id="getUserCartList" parameterType="String" resultType="com.dalrun.dto.CartDto">
+        SELECT *
+        FROM cart
+        WHERE memId=#{memId}
+    </select>
+    
     
 </mapper>

@@ -25,4 +25,8 @@ public class CartService {
         return dao.getCartList();
     }
     
+    public List<CartDto> getUserCartList (String memId) {
+        return dao.getUserCartList(memId);
+    }
+    
 }
