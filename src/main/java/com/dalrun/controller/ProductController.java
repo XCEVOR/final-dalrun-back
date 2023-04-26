@@ -68,8 +68,6 @@ public class ProductController {
         String origFilename = mpFileLoad.getOriginalFilename();  // 불러온 원본 파일명.
         
         // pdto origFilename에 저장.
-        
-        
         String newFilename = EditorUtil.getNewFileName(origFilename);
         
         // pdto newFilename에 저장.

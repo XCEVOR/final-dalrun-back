@@ -12,7 +12,11 @@ select * from crew order by crewscore desc limit 3;
 
 <select id="getMyCrewRank" resultType="com.dalrun.dto.CrewDto"  parameterType="String">
 
-select *, rank() over(order by crewscore desc) myrank from crew where crewName=#{crewName}
+
+SELECT *, 
+  (SELECT COUNT(*) FROM crew c2 WHERE c2.crewscore > c1.crewscore) + 1 AS myrank 
+FROM crew c1
+WHERE crewName = #{crewName}
 
 
 </select>
@@ -22,8 +26,12 @@ select *, rank() over(order by crewscore desc) myrank from crew where crewName=#
 (select crewseq from crew where crewname=#{crewname}),#{id},now(),#{score})
 </insert>
 
-<update id="addPoint" parameterType="com.dalrun.dto.CrewPointDto">
+<update id="PlusPoint" parameterType="com.dalrun.dto.CrewPointDto">
+	update crew  SET crewScore=crewScore+#{score} where crewname=#{crewname}
+</update>
 
+<update id="MinusPoint" parameterType="com.dalrun.dto.CrewPointDto">
+update crew  SET crewScore=crewScore-#{score} where crewName=#{crewname}
 </update>
 
 
