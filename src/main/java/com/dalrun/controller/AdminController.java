@@ -182,4 +182,20 @@ public class AdminController {
 		
 		return map; 
 	}
+	
+	@PostMapping(value = "admin_updateproduct")
+	public String updateproduct(ProductDto productdto) {
+		System.out.println("AdminController updateproduct " + new Date());
+		
+		boolean b = service.updateproduct(productdto);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_delproduct")
+	public String delproduct(@RequestParam("checkedList") String[] checkedList) {
+		System.out.println("AdminController delproduct " + new Date());
+		
+		boolean b = service.delproduct(checkedList);
+		return str(b);
+	}
 }

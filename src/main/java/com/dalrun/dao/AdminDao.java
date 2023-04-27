@@ -69,4 +69,8 @@ public interface AdminDao {
 	
 	// 쇼핑몰 관리
 	int getProductOrder(String productId);
+	
+	int updateproduct(ProductDto productdto);
+	
+	int delproduct(String[] checkedList);
 }

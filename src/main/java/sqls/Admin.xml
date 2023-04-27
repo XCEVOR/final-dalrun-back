@@ -297,7 +297,7 @@
 		SELECT *
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY productRegiDate DESC) AS RNUM, productId, productCode, productCategory, productBrand, productName, productPrice, 
-				productColor, productSize, productDescription, productOrigFile, productNewFile, productStock, productSale, productSoldout, productRegiDate
+				productColor, productSize, productDescription, productOrigFile, productNewFile, productStock, productSale, productRegiDate
 			FROM PRODUCT
 			<include refid="searchProduct"></include>
 			ORDER BY productRegiDate DESC) A
@@ -349,4 +349,17 @@
 		FROM PRODUCTORDER
 		WHERE productId = #{productId}
 	</select>
+	<update id="updateproduct" parameterType="com.dalrun.dto.ProductDto">
+		UPDATE PRODUCT
+		SET productCode=#{productCode}, productCategory=#{productCategory}, productName=#{productName}, productDescription=#{productDescription},
+			productPrice=#{productPrice}, productStock=#{productStock}, productSale=#{productSale}, productRegiDate=#{productRegiDate}
+		WHERE productId=#{productId}
+	</update>
+	<delete id="delproduct" parameterType="String">
+		DELETE FROM PRODUCT
+		WHERE productId IN
+		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 </mapper>
