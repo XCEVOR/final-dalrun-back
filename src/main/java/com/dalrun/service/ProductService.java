@@ -37,6 +37,6 @@ public class ProductService {
         int isSucc = dao.writeProductInquiry(pidto);
         return isSucc > 0 ? true : false;
     }
-    
+   
 
 }

@@ -4,51 +4,46 @@ import java.io.Serializable;
 
 public class QnaDto implements Serializable{
 	
-	private String id;
-	private String category;
-	private String title;
-	private String wdate;
-	private int readcount;
-	private String quest;
-	private String answer;
-	private int auth;
-	private int del;
+	private int qnaSeq;			// QnA 번호 
+	private int category;		// 질문 카테고리
+	private String title;		// 질문 제목
+	private String wdate;		// 작성 일
+	private int readcount;		// 조회 수
+	private String question;	// 질문 글 내용 
+	private String answer;		// 답변 글 내용
+	private int auth;			// 운영자, 작성자 구분
+	private int del;			// 삭제x
 	
 	public QnaDto() {
-		// TODO Auto-generated constructor stub
 	}
-  
-	
 
-	public QnaDto(String id, String category, String title, String wdate, int readcount, String quest, String answer,
+	public QnaDto(int qnaSeq, int category, String title, String wdate, int readcount, String question, String answer,
 			int auth, int del) {
 		super();
-		this.id = id;
+		this.qnaSeq = qnaSeq;
 		this.category = category;
 		this.title = title;
 		this.wdate = wdate;
 		this.readcount = readcount;
-		this.quest = quest;
+		this.question = question;
 		this.answer = answer;
 		this.auth = auth;
 		this.del = del;
 	}
 
-
-
-	public String getId() {
-		return id;
+	public int getQnaSeq() {
+		return qnaSeq;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setQnaSeq(int qnaSeq) {
+		this.qnaSeq = qnaSeq;
 	}
 
-	public String getCategory() {
+	public int getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(int category) {
 		this.category = category;
 	}
 
@@ -76,12 +71,12 @@ public class QnaDto implements Serializable{
 		this.readcount = readcount;
 	}
 
-	public String getQuest() {
-		return quest;
+	public String getQuestion() {
+		return question;
 	}
 
-	public void setQuest(String quest) {
-		this.quest = quest;
+	public void setQuestion(String question) {
+		this.question = question;
 	}
 
 	public String getAnswer() {
@@ -106,11 +101,6 @@ public class QnaDto implements Serializable{
 
 	public void setDel(int del) {
 		this.del = del;
-	}
-	@Override
-	public String toString() {
-		return "QnaDto [id=" + id + ", category=" + category + ", title=" + title + ", wdate=" + wdate + ", readcount="
-				+ readcount + ", quest=" + quest + ", answer=" + answer + ", auth=" + auth + ", del=" + del + "]";
 	}
 
 }
