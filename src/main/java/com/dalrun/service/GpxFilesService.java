@@ -16,8 +16,15 @@ public class GpxFilesService {
 	@Autowired
 	GpxFilesDao dao;
 
+	// gpx 파일 리스트 조회
 	public List<GpxFilesDto> gpxFilesList() {
 		return dao.gpxFilesList();
+	}
+	
+	// gpx 파일 정보 삽입
+	public boolean insertGpxFile(GpxFilesDto gpx) {
+		int n = dao.insertGpxFile(gpx);
+		return n>0? true : false; 
 	}
 
 }
