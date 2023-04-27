@@ -17,10 +17,8 @@ public class ProductDto  implements Serializable{
 	private String productOrigFile;// 상품 원본 사진
 	private String productNewFile; // 상품 변경 사진
 	private int productStock; // 상품 재고 
-	private int productSale; // 판매 여부 [0 - 미판매 / 1- 판매]
-	private int productSoldout; // 품절 여부 [0 - 품절x / 1-품절 o ]
+	private int productSale; // 판매 여부 [0 - 품절 / 1- 판매]
 
-	
 	
 	public ProductDto() {
 		// TODO Auto-generated constructor stub
@@ -37,8 +35,7 @@ public class ProductDto  implements Serializable{
 
     public ProductDto(String productId, String productCode, String productCategory, String productBrand,
             String productName, String productPrice, String productColor, String productSize, String productDescription,
-            String productRegiDate, String productOrigFile, String productNewFile, int productStock, int productSale,
-            int productSoldout) {
+            String productRegiDate, String productOrigFile, String productNewFile, int productStock, int productSale) {
         super();
         this.productId = productId;
         this.productCode = productCode;
@@ -54,7 +51,6 @@ public class ProductDto  implements Serializable{
         this.productNewFile = productNewFile;
         this.productStock = productStock;
         this.productSale = productSale;
-        this.productSoldout = productSoldout;
     }
 
 
@@ -225,20 +221,6 @@ public class ProductDto  implements Serializable{
         this.productSale = productSale;
     }
 
-
-
-    public int getProductSoldout() {
-        return productSoldout;
-    }
-
-
-
-    public void setProductSoldout(int productSoldout) {
-        this.productSoldout = productSoldout;
-    }
-
-
-
     @Override
     public String toString() {
         return "ProductDto [productId=" + productId + ", productCode=" + productCode + ", productCategory="
@@ -246,7 +228,7 @@ public class ProductDto  implements Serializable{
                 + ", productPrice=" + productPrice + ", productColor=" + productColor + ", productSize=" + productSize
                 + ", productDescription=" + productDescription + ", productRegiDate=" + productRegiDate
                 + ", productOrigFile=" + productOrigFile + ", productNewFile=" + productNewFile + ", productStock="
-                + productStock + ", productSale=" + productSale + ", productSoldout=" + productSoldout + "]";
+                + productStock + ", productSale=" + productSale + "]";
     }
 
 
