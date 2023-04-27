@@ -97,5 +97,5 @@ public class MemberController {
 		return null;	
 		// return에 페이지를 해도 되고, 여기서는 코드가 넘어오는지만 확인할거기 때문에 따로 return 값을 두지는 않았음
 	}
-	
+		
 }
