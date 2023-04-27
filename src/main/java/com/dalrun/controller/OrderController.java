@@ -25,7 +25,16 @@ public class OrderController {
     }
     
 
-
+    @PostMapping(value = "writeOrderData")
+    public String writeOrderData (OrderDto oDto) {
+        System.out.println("  @ OrderController String writeOrderData (CartDto cdto) { " + new Date());
+        System.out.println(oDto);
+        boolean isSucc = service.writeOrderData(oDto);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";
+    }
 
 }
 

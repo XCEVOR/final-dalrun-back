@@ -5,8 +5,9 @@ import java.io.Serializable;
 public class OrderDto implements Serializable{
 	
     private int orderSeq;
+    private int orderNumber;
 	private String memId;
-	private String oderName;
+	private String orderName;
 	private String orderAddress;
 	private String orderPhone;
 	private String orderRequirment; // 주문 요청 사항
@@ -20,13 +21,14 @@ public class OrderDto implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-    public OrderDto(int orderSeq, String memId, String oderName, String orderAddress, String orderPhone,
-            String orderRequirment, String orderTotalprice, String orderDate, int orderQuantity, String orderState,
-            String deliveryState) {
+    public OrderDto(int orderSeq, int orderNumber, String memId, String orderName, String orderAddress,
+            String orderPhone, String orderRequirment, String orderTotalprice, String orderDate, int orderQuantity,
+            String orderState, String deliveryState) {
         super();
         this.orderSeq = orderSeq;
+        this.orderNumber = orderNumber;
         this.memId = memId;
-        this.oderName = oderName;
+        this.orderName = orderName;
         this.orderAddress = orderAddress;
         this.orderPhone = orderPhone;
         this.orderRequirment = orderRequirment;
@@ -45,6 +47,14 @@ public class OrderDto implements Serializable{
         this.orderSeq = orderSeq;
     }
 
+    public int getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(int orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
     public String getMemId() {
         return memId;
     }
@@ -53,12 +63,12 @@ public class OrderDto implements Serializable{
         this.memId = memId;
     }
 
-    public String getOderName() {
-        return oderName;
+    public String getOrderName() {
+        return orderName;
     }
 
-    public void setOderName(String oderName) {
-        this.oderName = oderName;
+    public void setOrderName(String orderName) {
+        this.orderName = orderName;
     }
 
     public String getOrderAddress() {
@@ -127,12 +137,14 @@ public class OrderDto implements Serializable{
 
     @Override
     public String toString() {
-        return "OrderDto [orderSeq=" + orderSeq + ", memId=" + memId + ", oderName=" + oderName + ", orderAddress="
-                + orderAddress + ", orderPhone=" + orderPhone + ", orderRequirment=" + orderRequirment
-                + ", orderTotalprice=" + orderTotalprice + ", orderDate=" + orderDate + ", orderQuantity="
-                + orderQuantity + ", orderState=" + orderState + ", deliveryState=" + deliveryState + "]";
+        return "OrderDto [orderSeq=" + orderSeq + ", orderNumber=" + orderNumber + ", memId=" + memId + ", orderName="
+                + orderName + ", orderAddress=" + orderAddress + ", orderPhone=" + orderPhone + ", orderRequirment="
+                + orderRequirment + ", orderTotalprice=" + orderTotalprice + ", orderDate=" + orderDate
+                + ", orderQuantity=" + orderQuantity + ", orderState=" + orderState + ", deliveryState=" + deliveryState
+                + "]";
     }
 
+   
 	
 	
 
