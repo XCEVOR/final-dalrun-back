@@ -174,6 +174,11 @@ public class MemberService {
 		}
 		return userInfo;
 	}
+	
+	// 회원 조회
+	public MemberDto getmember(String target) {
+		return dao.getmember(target);
+	}
 
 }
 

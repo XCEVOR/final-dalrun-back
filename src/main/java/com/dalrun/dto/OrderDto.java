@@ -15,29 +15,31 @@ public class OrderDto implements Serializable{
 	private int orderQuantity;
 	private String orderState; // 주문 상태
 	private String deliveryState; // 배송상태
+	private String productId;	// 주문한 상품 아이디
 	
 	public OrderDto() {
 		// TODO Auto-generated constructor stub
 	}
 
     public OrderDto(int orderSeq, String memId, String oderName, String orderAddress, String orderPhone,
-            String orderRequirment, String orderTotalprice, String orderDate, int orderQuantity, String orderState,
-            String deliveryState) {
-        super();
-        this.orderSeq = orderSeq;
-        this.memId = memId;
-        this.oderName = oderName;
-        this.orderAddress = orderAddress;
-        this.orderPhone = orderPhone;
-        this.orderRequirment = orderRequirment;
-        this.orderTotalprice = orderTotalprice;
-        this.orderDate = orderDate;
-        this.orderQuantity = orderQuantity;
-        this.orderState = orderState;
-        this.deliveryState = deliveryState;
-    }
+			String orderRequirment, String orderTotalprice, String orderDate, int orderQuantity, String orderState,
+			String deliveryState, String productId) {
+		super();
+		this.orderSeq = orderSeq;
+		this.memId = memId;
+		this.oderName = oderName;
+		this.orderAddress = orderAddress;
+		this.orderPhone = orderPhone;
+		this.orderRequirment = orderRequirment;
+		this.orderTotalprice = orderTotalprice;
+		this.orderDate = orderDate;
+		this.orderQuantity = orderQuantity;
+		this.orderState = orderState;
+		this.deliveryState = deliveryState;
+		this.productId = productId;
+	}
 
-    public int getOrderSeq() {
+	public int getOrderSeq() {
         return orderSeq;
     }
 
@@ -124,16 +126,25 @@ public class OrderDto implements Serializable{
     public void setDeliveryState(String deliveryState) {
         this.deliveryState = deliveryState;
     }
+    
 
-    @Override
-    public String toString() {
-        return "OrderDto [orderSeq=" + orderSeq + ", memId=" + memId + ", oderName=" + oderName + ", orderAddress="
-                + orderAddress + ", orderPhone=" + orderPhone + ", orderRequirment=" + orderRequirment
-                + ", orderTotalprice=" + orderTotalprice + ", orderDate=" + orderDate + ", orderQuantity="
-                + orderQuantity + ", orderState=" + orderState + ", deliveryState=" + deliveryState + "]";
-    }
+    public String getProductId() {
+		return productId;
+	}
 
-	
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
+	@Override
+	public String toString() {
+		return "OrderDto [orderSeq=" + orderSeq + ", memId=" + memId + ", oderName=" + oderName + ", orderAddress="
+				+ orderAddress + ", orderPhone=" + orderPhone + ", orderRequirment=" + orderRequirment
+				+ ", orderTotalprice=" + orderTotalprice + ", orderDate=" + orderDate + ", orderQuantity="
+				+ orderQuantity + ", orderState=" + orderState + ", deliveryState=" + deliveryState + ", productId="
+				+ productId + "]";
+	}
+
 	
 
 }

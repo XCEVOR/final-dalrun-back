@@ -24,6 +24,12 @@
 	where memId=#{memId} and password=#{password}
 </select>
 
+<!-- 회원 조회 -->
+<select id="getmember" parameterType="String" resultType="com.dalrun.dto.MemberDto">
+	select *
+	from member
+	where memId=#{target}
+</select>
 </mapper>
 
 
