@@ -9,20 +9,30 @@ public class CrewPointDto  implements Serializable{
 	private String crewname;
 	private String regdate;
 	private int score;
+	private String crewseq;
 	
 	public CrewPointDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CrewPointDto(String id, int pointseq, String regdate, int score, String crewname) {
+	public CrewPointDto(String id, int pointseq, String crewname, String regdate, int score, String crewseq) {
 		super();
 		this.id = id;
 		this.pointseq = pointseq;
+		this.crewname = crewname;
 		this.regdate = regdate;
 		this.score = score;
-		this.crewname = crewname;
+		this.crewseq = crewseq;
 	}
-	
+
+	public String getCrewseq() {
+		return crewseq;
+	}
+
+	public void setCrewseq(String crewseq) {
+		this.crewseq = crewseq;
+	}
+
 
 	public String getCrewname() {
 		return crewname;
