@@ -62,7 +62,11 @@ public interface AdminDao {
 	int getAllOrder(SearchParam params);
 	
 	// 수정/삭제
+	// 회원 관리
 	int updatemember(MemberDto memDto);
 	
 	int delmember(String[] checkedList);
+	
+	// 쇼핑몰 관리
+	int getProductOrder(String productId);
 }

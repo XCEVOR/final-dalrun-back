@@ -102,6 +102,7 @@ public class AdminService {
 	}
 	
 	// 수정/삭제
+	// 회원 관리
 	public boolean updatemember(MemberDto memDto) {
 		int n = dao.updatemember(memDto); 
 		return n>0?true:false;
@@ -111,4 +112,10 @@ public class AdminService {
 		int n = dao.delmember(checkedList);
 		return n>0?true:false;
 	}
+	
+	// 쇼핑몰 관리
+	public int getProductOrder(String productId) {
+		return dao.getProductOrder(productId);
+	}
+	
 }

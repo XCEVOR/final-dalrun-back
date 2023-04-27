@@ -22,11 +22,14 @@ import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
 import com.dalrun.dto.ShoeDto;
 import com.dalrun.service.AdminService;
+import com.dalrun.service.ProductService;
 
 @RestController
 public class AdminController {
 	@Autowired
 	AdminService service;
+	@Autowired
+	ProductService productService;
 	 
 	private void pageNumber(SearchParam params) {
 	    // 글의 시작과 끝
@@ -145,6 +148,7 @@ public class AdminController {
 		return "YES";
 	}
 	
+	// 회원 관리
 	@PostMapping(value = "admin_updatemember")
 	public String updatemember(MemberDto memDto) {
 		System.out.println("AdminController updatemember " + new Date());
@@ -161,5 +165,21 @@ public class AdminController {
 		
 		boolean b = service.delmember(checkedList);
 		return str(b);
+	}
+	
+	// 쇼핑몰 관리
+	@PostMapping(value = "getproduct")
+	public Map<String, Object> getProduct(@RequestParam("target") String productId) {
+		System.out.println("AdminController getProduct " + new Date());
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		int orderCnt = service.getProductOrder(productId);
+		ProductDto product = productService.getCartProductInfo(productId);
+		
+		map.put("getProduct", product);
+		map.put("orderCnt", orderCnt);
+		
+		return map; 
 	}
 }
