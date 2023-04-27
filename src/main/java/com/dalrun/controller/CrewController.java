@@ -21,9 +21,10 @@ public class CrewController {
 		return service.getCrewRank();
 	}
 	
-	@GetMapping("getMyCrewRank")
-	public CrewDto getMyCrewRank(String crewName){
-		return service.getMyCrewRank(crewName);
+	@GetMapping("getMyCrewinfo")
+	public CrewDto getMyCrewinfo(String crewseq){
+		System.out.println("CrewController getMyCrewinfo");
+		return service.getMyCrewinfo(crewseq);
 	}
 	
 	@GetMapping("sendDonation")

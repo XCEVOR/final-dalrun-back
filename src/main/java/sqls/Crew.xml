@@ -10,20 +10,20 @@ select * from crew order by crewscore desc limit 3;
 
 </select>
 
-<select id="getMyCrewRank" resultType="com.dalrun.dto.CrewDto"  parameterType="String">
+<select id="getMyCrewinfo" resultType="com.dalrun.dto.CrewDto"  parameterType="String">
 
 
 SELECT *, 
   (SELECT COUNT(*) FROM crew c2 WHERE c2.crewscore > c1.crewscore) + 1 AS myrank 
 FROM crew c1
-WHERE crewName = #{crewName}
+WHERE crewSeq = #{crewseq}
 
 
 </select>
 
 <insert id="sendDonation"  parameterType="com.dalrun.dto.CrewPointDto">
 	 insert into crewpoint(crewseq,id,regdate,score) values(
-(select crewseq from crew where crewname=#{crewname}),#{id},now(),#{score})
+crewseq,#{id},now(),#{score})
 </insert>
 
 <update id="PlusPoint" parameterType="com.dalrun.dto.CrewPointDto">
