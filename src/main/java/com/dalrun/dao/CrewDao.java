@@ -13,7 +13,7 @@ import com.dalrun.dto.CrewPointDto;
 public interface CrewDao {
 	
 	List<CrewDto> getCrewRank();
-	CrewDto getMyCrewRank(String crewName);
+	CrewDto getMyCrewinfo(String crewseq);
 	int sendDonation(CrewPointDto dto);
 	int MinusPoint(CrewPointDto dto);
 	int PlusPoint(CrewPointDto dto);
