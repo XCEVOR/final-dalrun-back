@@ -1,6 +1,6 @@
 package com.dalrun.dto;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class DiaryReplyDto {
 
@@ -9,14 +9,14 @@ public class DiaryReplyDto {
 	private int crewSeq;	// 크루 번호
 	private String content;	// 댓글 내용
 	private int diarySeq;	// 다이어리 번호
-	private Timestamp wdate;// 작성 일
+	private Date wdate;// 작성 일
 
 	public DiaryReplyDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public DiaryReplyDto(int dReplySeq, int crewSeq, String content, int diarySeq, String memId, Timestamp wdate) {
+	public DiaryReplyDto(int dReplySeq, int crewSeq, String content, int diarySeq, String memId, Date wdate) {
 		super();
 		this.dReplySeq = dReplySeq;
 		this.crewSeq = crewSeq;
@@ -66,11 +66,11 @@ public class DiaryReplyDto {
 		this.memId = memId;
 	}
 
-	public Timestamp getWdate() {
+	public Date getWdate() {
 		return wdate;
 	}
 
-	public void setWdate(Timestamp wdate) {
+	public void setWdate(Date wdate) {
 		this.wdate = wdate;
 	}
 

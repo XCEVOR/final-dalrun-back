@@ -1,6 +1,6 @@
 package com.dalrun.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class GpxFilesDto {
 
@@ -11,14 +11,14 @@ public class GpxFilesDto {
 	private String filePath;	// gpx 파일 경로
 	private String memId;		// 유저 ID 	   fk
 	private double distance;	// 이동 거리 값
-	private int maxAltitude;	// 최고 고도 값
+	private double maxAltitude;	// 최고 고도 값
 	private Date uploadDate;	// 업로드 시간
 
 	public GpxFilesDto() {
 	}
 
 	public GpxFilesDto(int fileSeq, int diarySeq, int courseSeq, String fileName, String filePath, String memId,
-			double distance, int maxAltitude, Date uploadDate) {
+			double distance, double maxAltitude, Date uploadDate) {
 		super();
 		this.fileSeq = fileSeq;
 		this.diarySeq = diarySeq;
@@ -87,11 +87,11 @@ public class GpxFilesDto {
 		this.distance = distance;
 	}
 
-	public int getMaxAltitude() {
+	public double getMaxAltitude() {
 		return maxAltitude;
 	}
 
-	public void setMaxAltitude(int maxAltitude) {
+	public void setMaxAltitude(double maxAltitude) {
 		this.maxAltitude = maxAltitude;
 	}
 

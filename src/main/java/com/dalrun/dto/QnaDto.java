@@ -1,13 +1,14 @@
 package com.dalrun.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class QnaDto implements Serializable{
 
 	private int qnaSeq;			// QnA 번호
 	private int category;		// 질문 카테고리
 	private String title;		// 질문 제목
-	private String wdate;		// 작성 일
+	private Date wdate;			// 작성 일
 	private int readcount;		// 조회 수
 	private String question;	// 질문 글 내용
 	private String answer;		// 답변 글 내용
@@ -17,7 +18,7 @@ public class QnaDto implements Serializable{
 	public QnaDto() {
 	}
 
-	public QnaDto(int qnaSeq, int category, String title, String wdate, int readcount, String question, String answer,
+	public QnaDto(int qnaSeq, int category, String title, Date wdate, int readcount, String question, String answer,
 			int auth, int del) {
 		super();
 		this.qnaSeq = qnaSeq;
@@ -55,11 +56,11 @@ public class QnaDto implements Serializable{
 		this.title = title;
 	}
 
-	public String getWdate() {
+	public Date getWdate() {
 		return wdate;
 	}
 
-	public void setWdate(String wdate) {
+	public void setWdate(Date wdate) {
 		this.wdate = wdate;
 	}
 
