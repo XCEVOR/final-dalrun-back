@@ -22,11 +22,13 @@ public class DiaryController {
 
 	@GetMapping("getAllDiary")
 	public List<DiaryDto> getAllDiary(){
+		System.out.println("DiaryController getAllDiary" + new Date());
 		return dService.getAllDiary();
 	}
 
 	@GetMapping("diaryReplyList")
 	public List<DiaryReplyDto> diaryReplyList(){
+		System.out.println("DiaryController diaryReplyList" + new Date());
 		return drService.diaryReplyList();
 	}
 

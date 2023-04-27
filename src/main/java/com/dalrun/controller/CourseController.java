@@ -22,11 +22,13 @@ public class CourseController {
 
 	@GetMapping("courseList")
 	public List<CourseDto> courseList(){
+		System.out.println("CourseController courseList" + new Date());
 		return cService.courseList();
 	}
 
 	@GetMapping("courseReplyList")
 	public List<CourseReplyDto> courseReplyList(){
+		System.out.println("CourseController courseReplyList" + new Date());
 		return crService.courseReplyList();
 	}
 
