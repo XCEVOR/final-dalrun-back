@@ -43,11 +43,11 @@ public interface AdminDao {
 	List<ShoeDto> shoereviewlist(SearchParam params);
 	
 	int getAllShoereview(SearchParam params);
-	/*
+	
 	List<DiaryDto> diarylist(SearchParam params);
 	
 	int getAllDiary(SearchParam params);
-	*/
+	
 	List<CompetitionDto> competitionlist(SearchParam params);
 	
 	int getAllCompetition(SearchParam params);

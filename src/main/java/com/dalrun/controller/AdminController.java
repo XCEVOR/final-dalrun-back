@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
 import com.dalrun.dto.OrderDto;
 import com.dalrun.dto.ProductDto;
@@ -106,6 +107,17 @@ public class AdminController {
 	    int len = service.getAllShoereview(params);
 	    
 	    return getList(shoereviewlist, len);
+	}
+	
+	@GetMapping(value = "admin_diarylist")
+	public Map<String, Object> diarylist(SearchParam param) {
+		System.out.println("AdminController diarylist " + new Date());
+		
+		pageNumber(param);
+		List<DiaryDto> diarylist = service.diarylist(param);
+		int len = service.getAllDiary(param);
+		
+		return getList(diarylist, len);
 	}
 	
 	@GetMapping(value = "admin_competitionlist")

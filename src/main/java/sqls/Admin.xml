@@ -96,15 +96,10 @@
 				WHERE memId LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'title'">
-				WHERE diaryTitle LIKE CONCAT('%',#{search},'%')
+				WHERE title LIKE CONCAT('%',#{search},'%')
 			</if>
 			<if test="choice == 'content'">
 				WHERE content LIKE CONCAT('%',#{search},'%')
-			</if>
-			<if test="choice == 'crew'">
-				WHERE crewSeq = (SELECT crewSeq 
-					   			 FROM CREW
-					   			 WHERE #{search} = crewName) as C 
 			</if>
 		</if>
 	</sql>
@@ -259,22 +254,22 @@
 		FROM SHOEREVIEWDETAIL
 		<include refid="searchShoereview"></include>
 	</select>
-	<!--
+	
 	<select id="diarylist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.DiaryDto">
 		SELECT *
 		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY date DESC) AS RNUM, diarySeq, diaryTitle, 
-				content, gpx, record, time, dReplySeq, crewSeq, date
+			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, diarySeq, memId, crewSeq
+				title, content, gpx, distance, rTime, wdate
 			FROM DIARY
 			<include refid="searchDiary"></include>
-			ORDER BY shoereviewRegdate DESC) A
+			ORDER BY wdate DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllDiary" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM DIARY
 		<include refid="searchDiary"></include>
-	</select> -->
+	</select>
 	
 	<select id="competitionlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.CompetitionDto">
 		SELECT *

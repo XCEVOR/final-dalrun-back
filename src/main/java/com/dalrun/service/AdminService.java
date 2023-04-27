@@ -67,7 +67,7 @@ public class AdminService {
 	public int getAllShoereview(SearchParam params) {
 		return dao.getAllShoereview(params);
 	}
-	/*
+	
 	public List<DiaryDto> diarylist(SearchParam params) {
 		return dao.diarylist(params);
 	}
@@ -75,7 +75,7 @@ public class AdminService {
 	public int getAllDiary(SearchParam params) {
 		return dao.getAllDiary(params);
 	}
-	*/
+	
 	public List<CompetitionDto> competitionlist(SearchParam params) {
 		return dao.competitionlist(params);
 	}
