@@ -1,28 +1,52 @@
 package com.dalrun.dto;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class DiaryDto implements Serializable {
 
-	private String title;
-	private String content;
-	private String gpx; // 파일 내용
-	private String record; // 기록
-	private String time; // 측정 시간
-	private String wdate;
-	
+	private int diarySeq;	// 다이어리 번호 pk
+	private String memId;	// 유저 ID
+	private int crewSeq;	// 크루 번호 FK
+	private String title;	// 다이어리 글 제목
+	private String content; // 다이어리 글 내용
+	private Date wdate;	// 다이어리 작성일
+
 	public DiaryDto() {
-		// TODO Auto-generated constructor stub
 	}
 
-	public DiaryDto(String title, String content, String gpx, String record, String time, String wdate) {
+	public DiaryDto(int diarySeq, String memId, int crewSeq, String title, String content, Date wdate) {
 		super();
+		this.diarySeq = diarySeq;
+		this.memId = memId;
+		this.crewSeq = crewSeq;
 		this.title = title;
 		this.content = content;
-		this.gpx = gpx;
-		this.record = record;
-		this.time = time;
 		this.wdate = wdate;
+	}
+
+	public int getDiarySeq() {
+		return diarySeq;
+	}
+
+	public void setDiarySeq(int diarySeq) {
+		this.diarySeq = diarySeq;
+	}
+
+	public String getMemId() {
+		return memId;
+	}
+
+	public void setMemId(String memId) {
+		this.memId = memId;
+	}
+
+	public int getCrewSeq() {
+		return crewSeq;
+	}
+
+	public void setCrewSeq(int crewSeq) {
+		this.crewSeq = crewSeq;
 	}
 
 	public String getTitle() {
@@ -41,44 +65,12 @@ public class DiaryDto implements Serializable {
 		this.content = content;
 	}
 
-	public String getGpx() {
-		return gpx;
-	}
-
-	public void setGpx(String gpx) {
-		this.gpx = gpx;
-	}
-
-	public String getRecord() {
-		return record;
-	}
-
-	public void setRecord(String record) {
-		this.record = record;
-	}
-
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
-	}
-
-	public String getWdate() {
+	public Date getWdate() {
 		return wdate;
 	}
 
-	public void setWdate(String wdate) {
+	public void setWdate(Date wdate) {
 		this.wdate = wdate;
 	}
 
-	@Override
-	public String toString() {
-		return "DiaryDto [title=" + title + ", content=" + content + ", gpx=" + gpx + ", record=" + record + ", time="
-				+ time + ", wdate=" + wdate + "]";
-	}
-	
-	
-	
 }

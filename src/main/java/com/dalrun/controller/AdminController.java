@@ -1,5 +1,6 @@
 package com.dalrun.controller;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dalrun.dto.CompetitionDto;
@@ -19,11 +22,14 @@ import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
 import com.dalrun.dto.ShoeDto;
 import com.dalrun.service.AdminService;
+import com.dalrun.service.ProductService;
 
 @RestController
 public class AdminController {
 	@Autowired
 	AdminService service;
+	@Autowired
+	ProductService productService;
 	 
 	private void pageNumber(SearchParam params) {
 	    // 글의 시작과 끝
@@ -134,5 +140,62 @@ public class AdminController {
 	    int len = service.getAllOrder(params);
 	    
 	    return getList(orderlist, len);
+	}
+	
+	// 수정/삭제
+	private String str(boolean b) {
+		if(!b) return "NO";
+		return "YES";
+	}
+	
+	// 회원 관리
+	@PostMapping(value = "admin_updatemember")
+	public String updatemember(MemberDto memDto) {
+		System.out.println("AdminController updatemember " + new Date());
+		System.out.println(memDto);
+		
+		boolean b = service.updatemember(memDto);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_delmember")
+	public String delmember(@RequestParam("checkedList") String[] checkedList) {
+		System.out.println("AdminController delmember " + new Date());
+		System.out.println("checkedList = " + Arrays.toString(checkedList));
+		
+		boolean b = service.delmember(checkedList);
+		return str(b);
+	}
+	
+	// 쇼핑몰 관리
+	@PostMapping(value = "getproduct")
+	public Map<String, Object> getProduct(@RequestParam("target") String productId) {
+		System.out.println("AdminController getProduct " + new Date());
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		int orderCnt = service.getProductOrder(productId);
+		ProductDto product = productService.getCartProductInfo(productId);
+		
+		map.put("getProduct", product);
+		map.put("orderCnt", orderCnt);
+		
+		return map; 
+	}
+	
+	@PostMapping(value = "admin_updateproduct")
+	public String updateproduct(ProductDto productdto) {
+		System.out.println("AdminController updateproduct " + new Date());
+		
+		boolean b = service.updateproduct(productdto);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_delproduct")
+	public String delproduct(@RequestParam("checkedList") String[] checkedList) {
+		System.out.println("AdminController delproduct " + new Date());
+		
+		boolean b = service.delproduct(checkedList);
+		return str(b);
 	}
 }

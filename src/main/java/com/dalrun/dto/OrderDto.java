@@ -17,6 +17,7 @@ public class OrderDto implements Serializable{
     private String orderState; // 주문 상태
     private String deliveryState; // 배송상태
     private String productId;   // 주문한 상품 아이디
+
 	
 	public OrderDto() {
 		// TODO Auto-generated constructor stub
@@ -41,7 +42,7 @@ public class OrderDto implements Serializable{
         this.productId = productId;
     }
 
-    public int getOrderSeq() {
+	public int getOrderSeq() {
         return orderSeq;
     }
 
@@ -136,6 +137,7 @@ public class OrderDto implements Serializable{
     public void setDeliveryState(String deliveryState) {
         this.deliveryState = deliveryState;
     }
+    
 
     public String getProductId() {
         return productId;

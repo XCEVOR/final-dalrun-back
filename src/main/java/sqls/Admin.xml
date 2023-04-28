@@ -177,8 +177,7 @@
 	</sql>
 
 	
-	<!-- Member -->
-	<!-- 회원 리스트 -->
+	<!-- 회원 관리 -->
 	<select id="memberlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.MemberDto">
 		SELECT *
 		FROM 
@@ -189,15 +188,12 @@
 			ORDER BY regdate DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
-
-	<!-- 회원 총 수 -->
 	<select id="getAllMember" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM MEMBER
 		<include refid="member"></include>
 	</select>
 	
-	<!-- Crew -->
 	<select id="crewlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.CrewDto">
 		SELECT *
 		FROM 
@@ -214,8 +210,7 @@
 		<include refid="searchCrew"></include>
 	</select>
 	
-	<!-- Question -->
-	<!-- 상품문의 -->
+	<!-- 게시물 관리 -->
 	<select id="productinquirylist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductInquiryDto">
 		SELECT *
 		FROM 
@@ -232,7 +227,6 @@
 		<include refid="searchProductinqiry"></include>
 	</select>
 	
-	<!-- 질의응답 -->
 	<!-- 
 	<select id="qnalist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.QnaDto">
 		SELECT *
@@ -298,11 +292,12 @@
 		<include refid="searchCompetition"></include>
 	</select> 
 	
+	<!-- 쇼핑몰 관리 -->
 	<select id="productlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductDto">
 		SELECT *
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY productRegiDate DESC) AS RNUM, productId, productCode, productCategory, productBrand, productName, productPrice, 
-				productColor, productSize, productDescription, productOrigFile, productNewFile, productStock, productSale, productSoldout, productRegiDate
+				productColor, productSize, productDescription, productOrigFile, productNewFile, productStock, productSale, productRegiDate
 			FROM PRODUCT
 			<include refid="searchProduct"></include>
 			ORDER BY productRegiDate DESC) A
@@ -330,4 +325,41 @@
 		<include refid="searchOrder"></include>
 	</select>
 	
+	<!-- 수정/삭제 -->
+	<!-- 회원 관리 -->
+	<update id="updatemember" parameterType="com.dalrun.dto.MemberDto">
+		UPDATE MEMBER
+		SET password=#{password}, memberName=#{memberName}, email=#{email}, phone=#{phone}, birth=#{birth}, 
+			point=#{point}, grade=#{grade}, foot=#{foot}, memberupdate=now()
+		WHERE memId=#{memId}  
+	</update>
+	
+	<update id="delmember" parameterType="List">
+		UPDATE MEMBER
+		SET del=1
+		WHERE memId IN 
+		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>	
+	
+	<!-- 쇼핑몰 관리 -->
+	<select id="getProductOrder" parameterType="String" resultType="int">
+		SELECT IFNULL(COUNT(*), 0) 
+		FROM PRODUCTORDER
+		WHERE productId = #{productId}
+	</select>
+	<update id="updateproduct" parameterType="com.dalrun.dto.ProductDto">
+		UPDATE PRODUCT
+		SET productCode=#{productCode}, productCategory=#{productCategory}, productName=#{productName}, productDescription=#{productDescription},
+			productPrice=#{productPrice}, productStock=#{productStock}, productSale=#{productSale}, productRegiDate=#{productRegiDate}
+		WHERE productId=#{productId}
+	</update>
+	<delete id="delproduct" parameterType="String">
+		DELETE FROM PRODUCT
+		WHERE productId IN
+		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 </mapper>
