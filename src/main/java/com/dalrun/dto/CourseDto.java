@@ -9,14 +9,13 @@ public class CourseDto implements Serializable{
 	private String level; 		// 난이도
 	private String courseTitle; // 코스 이름
 	private String thumbnail; 	// 코스 썸네일
-	private String gpx; 		// gpx
 	private String content;		// 코스 소개 내용
 	private int star; 			// 평점
 
 	public CourseDto() {
 	}
 
-	public CourseDto(int courseSeq, int areaCode, String level, String courseTitle, String thumbnail, String gpx,
+	public CourseDto(int courseSeq, int areaCode, String level, String courseTitle, String thumbnail,
 			String content, int star) {
 		super();
 		this.courseSeq = courseSeq;
@@ -24,7 +23,6 @@ public class CourseDto implements Serializable{
 		this.level = level;
 		this.courseTitle = courseTitle;
 		this.thumbnail = thumbnail;
-		this.gpx = gpx;
 		this.content = content;
 		this.star = star;
 	}
@@ -67,14 +65,6 @@ public class CourseDto implements Serializable{
 
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
-	}
-
-	public String getGpx() {
-		return gpx;
-	}
-
-	public void setGpx(String gpx) {
-		this.gpx = gpx;
 	}
 
 	public String getContent() {
