@@ -36,5 +36,7 @@ public class CrewService {
 	public boolean PlusPoint(CrewPointDto dto) {
 		return dao.PlusPoint(dto)>0;
 	}
-	
+	public CrewDto getCrew(int crewSeq) {
+		return dao.getCrew(crewSeq);
+	}
 }

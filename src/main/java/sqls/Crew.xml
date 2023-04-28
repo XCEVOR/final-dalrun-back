@@ -34,7 +34,10 @@ crewseq,#{id},now(),#{score})
 update crew  SET crewScore=crewScore-#{score} where crewName=#{crewname}
 </update>
 
-
-
-
+<!-- 크루 멤버수를 포함한 크루 정보 -->
+<select id="getCrew" parameterType="int" resultType="com.dalrun.dto.CrewDto">
+	SELECT *, (SELECT COUNT(*) FROM CREWMEMBER WHERE crewSeq = #{crewSeq}) crewMemberCnt
+	FROM CREW
+	WHERE crewSeq = #{crewSeq};
+</select>
 </mapper>
