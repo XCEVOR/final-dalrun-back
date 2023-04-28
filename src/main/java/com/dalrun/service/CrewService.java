@@ -23,12 +23,18 @@ public class CrewService {
 		return dao.getCrewRank();
 	}
 	
-	public CrewDto getMyCrewRank(String crewName) {
-		return dao.getMyCrewRank(crewName);
+	public CrewDto getMyCrewinfo(String crewseq) {
+		return dao.getMyCrewinfo(crewseq);
 	}
 	
 	public boolean sendDonation(CrewPointDto dto) {
 		return dao.sendDonation(dto)>0;
+	}
+	public boolean MinusPoint(CrewPointDto dto) {
+		return dao.MinusPoint(dto)>0;
+	}
+	public boolean PlusPoint(CrewPointDto dto) {
+		return dao.PlusPoint(dto)>0;
 	}
 	
 }

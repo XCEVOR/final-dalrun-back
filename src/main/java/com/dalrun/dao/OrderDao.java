@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import com.dalrun.dto.CartDto;
 import com.dalrun.dto.OrderDto;
 
 @Mapper
@@ -12,5 +13,7 @@ import com.dalrun.dto.OrderDto;
 public interface OrderDao {
 
     List<OrderDto> orderlist ();
+    
+    int writeOrderData (OrderDto oDto);
     
 }

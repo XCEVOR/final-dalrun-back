@@ -32,5 +32,9 @@ public class DotMapService {
       List<DotMapDto> dolist=dao.getAllDotMap();
       return dolist;
    }
+   public boolean buydotMap(DotMapDto dto){
+	   return dao.buydotMap(dto)>0;
+	
+}
 
 }

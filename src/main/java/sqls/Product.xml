@@ -31,5 +31,16 @@
         INSERT INTO productinquiry (inqWriter, inqContent, inqDate, productId, memId) 
         VALUES (#{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
     </insert>
+    
+    
+    
+    
+    
+    
+    <select id="getCartProductInfo" parameterType="String" resultType="com.dalrun.dto.ProductDto">
+        SELECT *
+        FROM product
+        WHERE productId=#{productId}
+    </select>
 
 </mapper>
