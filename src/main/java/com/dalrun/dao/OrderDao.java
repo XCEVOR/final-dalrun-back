@@ -14,8 +14,6 @@ public interface OrderDao {
 
     List<OrderDto> orderlist ();
     
-    int addToCart (CartDto cdto);
-    
-    List<CartDto> getCartList ();
+    int writeOrderData (OrderDto oDto);
     
 }
