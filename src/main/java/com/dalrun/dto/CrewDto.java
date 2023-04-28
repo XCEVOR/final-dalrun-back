@@ -18,14 +18,15 @@ public class CrewDto implements Serializable {
 	private int crewScore; // 크루 점수
 	private String myrank; // 나의 크루 랭킹 
 	private String crewcolor; // 크루 색상
+	private int crewMemberCnt;	// 크루 멤버 수
 	
 	public CrewDto() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public CrewDto(int crewSeq, String memId, String crewSetUp, String crewCreateDate, String crewUpdate, int maxMem,
-			int crewDel, int crewLevel, String crewImg, String crewName, int crewScore, String myrank,
-			String crewcolor) {
+			int crewDel, int crewLevel, String crewImg, String crewName, int crewScore, String myrank, String crewcolor,
+			int crewMemberCnt) {
 		super();
 		this.crewSeq = crewSeq;
 		this.memId = memId;
@@ -40,6 +41,7 @@ public class CrewDto implements Serializable {
 		this.crewScore = crewScore;
 		this.myrank = myrank;
 		this.crewcolor = crewcolor;
+		this.crewMemberCnt = crewMemberCnt;
 	}
 
 	public int getCrewSeq() {
@@ -146,12 +148,20 @@ public class CrewDto implements Serializable {
 		this.crewcolor = crewcolor;
 	}
 
+	public int getCrewMemberCnt() {
+		return crewMemberCnt;
+	}
+
+	public void setCrewMemberCnt(int crewMemberCnt) {
+		this.crewMemberCnt = crewMemberCnt;
+	}
+
 	@Override
 	public String toString() {
 		return "CrewDto [crewSeq=" + crewSeq + ", memId=" + memId + ", crewSetUp=" + crewSetUp + ", crewCreateDate="
 				+ crewCreateDate + ", crewUpdate=" + crewUpdate + ", maxMem=" + maxMem + ", crewDel=" + crewDel
 				+ ", crewLevel=" + crewLevel + ", crewImg=" + crewImg + ", crewName=" + crewName + ", crewScore="
-				+ crewScore + ", myrank=" + myrank + ", crewcolor=" + crewcolor + "]";
+				+ crewScore + ", myrank=" + myrank + ", crewcolor=" + crewcolor + "crewMemberCnt=" + crewMemberCnt + "]";
 	}
 	
 }

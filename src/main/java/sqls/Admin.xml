@@ -34,10 +34,10 @@
 	<sql id="searchCrew">
 		<if test="choice != null and choice != '' and search != null and search != ''">
 			<if test="choice == 'memId'">
-				WHERE memId LIKE CONCAT('%', #{search}, '%')
+				WHERE c.memId LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'crewName'">
-				WHERE crewName LIKE CONCAT('%', #{search}, '%')
+				WHERE c.crewName LIKE CONCAT('%', #{search}, '%')
 			</if>
 		</if>
 	</sql>
@@ -192,16 +192,18 @@
 	<select id="crewlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.CrewDto">
 		SELECT *
 		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY crewCreateDate DESC) AS RNUM, crewSeq, memId, crewSetUp,
-				crewUpdate, maxMem, crewDel, crewLevel, crewImg, crewName, crewScore, crewcolor, crewCreateDate
-			FROM CREW
+			(SELECT ROW_NUMBER()OVER(ORDER BY c.crewCreateDate DESC) AS RNUM, c.crewSeq, c.memId, c.crewSetUp, c.crewUpdate, c.maxMem, c.crewDel, c.crewLevel, 
+				c.crewImg, c.crewName, c.crewScore, c.crewcolor, c.crewCreateDate, IFNULL(count(m.memId),0) AS crewMemberCnt
+			FROM CREW c 
+			LEFT JOIN CREWMEMBER m ON c.crewSeq = m.crewSeq
 			<include refid="searchCrew"></include>
-			ORDER BY crewCreateDate DESC) A
+			GROUP BY c.crewSeq
+			ORDER BY c.crewCreateDate DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllCrew" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
-		FROM CREW
+		FROM CREW c
 		<include refid="searchCrew"></include>
 	</select>
 	
