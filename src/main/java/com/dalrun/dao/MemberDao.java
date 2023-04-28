@@ -21,4 +21,6 @@ public interface MemberDao{
 
 	//회원조회
 	MemberDto getmember(String target);
+	
+	int MinusPoint(MemberDto dto);
 }

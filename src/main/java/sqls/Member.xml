@@ -30,6 +30,12 @@
 	from member
 	where memId=#{target}
 </select>
+
+<update id="MinusPoint" parameterType="com.dalrun.dto.MemberDto">
+update member  SET point=point-#{point} where memId=#{memId}
+</update>
+
+
 </mapper>
 
 
