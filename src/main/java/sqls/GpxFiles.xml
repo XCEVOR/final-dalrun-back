@@ -4,9 +4,18 @@
 	
 <mapper namespace="com.dalrun.dao.GpxFilesDao">
 
+	<!-- gpx 파일 리스트 조회 -->
     <select id="gpxFilesList" resultType="com.dalrun.dto.GpxFilesDto">
         SELECT *
         FROM gpxfiles
     </select>
+    
+    <!-- gpx 파일 업로드 -->
+    <insert id="insertGpxFile" parameterType="com.dalrun.dto.GpxFilesDto">
+    	INSERT INTO gpxFiles
+    	(fileName, filePath, memId, uploadDate)
+    	VALUES (#{fileName}, #{filePath}, #{memId}, #{uploadDate})
+    	
+    </insert>
     
 </mapper>

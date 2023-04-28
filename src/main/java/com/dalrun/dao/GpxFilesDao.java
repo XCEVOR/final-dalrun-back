@@ -11,5 +11,10 @@ import com.dalrun.dto.GpxFilesDto;
 @Repository
 public interface GpxFilesDao {
 
+	// gpx 파일 리스트 조회
 	List<GpxFilesDto> gpxFilesList();
+	
+	// gpx 파일 정보 삽입
+	int insertGpxFile(GpxFilesDto gpx);
+	
 }
