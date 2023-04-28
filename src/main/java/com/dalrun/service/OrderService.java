@@ -21,14 +21,10 @@ public class OrderService {
         return dao.orderlist();
     }
     
-    public boolean addToCart (CartDto cdto) {
-        int isSucc = dao.addToCart(cdto);
-        return isSucc > 0 ? true : false;
+    public boolean writeOrderData (OrderDto oDto ) {
+        int num = dao.writeOrderData(oDto);
+        return num > 0 ? true : false;
     }
     
-    public List<CartDto> getCartList () {
-        return dao.getCartList();
-    }
-    
-    
+  
 }

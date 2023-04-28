@@ -15,10 +15,24 @@
         VALUES (#{cartId}, #{cartProdQuantity}, #{productId}, #{memId}, #{orderSeq})
     </insert>
     
-    <select id="getCartList" resultType="com.dalrun.dto.CartDto">
-        SELECT *
-        FROM cart
-    </select>
     
+    <insert id="writeOrderData" parameterType="com.dalrun.dto.OrderDto">
+        INSERT INTO productorder (orderNunber,
+                                  memId, 
+                                  orderName, 
+                                  orderAddress, 
+                                  orderPhone, 
+                                  orderRequirment,          
+                                  orderTotalprice,          
+                                  orderQuantity)
+        VALUES                   (ROUND(UNIX_TIMESTAMP(CURTIME(4)) * 1000),
+                                  #{memId}, 
+                                  #{orderName}, 
+                                  #{orderAddress}, 
+                                  #{orderPhone}, 
+                                  #{orderRequirment},          
+                                  #{orderTotalprice},          
+                                  #{orderQuantity})
+    </insert>
     
 </mapper>
