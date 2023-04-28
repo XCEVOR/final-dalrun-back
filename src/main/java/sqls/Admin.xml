@@ -222,12 +222,11 @@
 		<include refid="searchProductinqiry"></include>
 	</select>
 	
-	<!-- 
 	<select id="qnalist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.QnaDto">
 		SELECT *
 		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, qnaSeq, category, shopSeq, 
-				normalSeq, qnaTitle, wdate, readCount, question, answer, auth, del, memId
+			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, qnaSeq, category, qnaTitle, 
+				wdate, readCount, question, answer, auth, del, memId
 			FROM QNA
 			<include refid="searchQna"></include>
 			ORDER BY wdate DESC) A
@@ -237,7 +236,7 @@
 		SELECT IFNULL(COUNT(*), 0)
 		FROM QNA
 		<include refid="searchQna"></include>
-	</select> -->
+	</select>
 	
 	<select id="shoereviewlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ShoeDto">
 		SELECT *

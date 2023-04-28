@@ -51,7 +51,6 @@ public class AdminService {
 		return dao.getAllProductinquiry(params);
 	}
 	
-	/*
 	public List<QnaDto> qnalist(SearchParam params) {
 		return dao.qnalist(params);
 	}
@@ -59,7 +58,7 @@ public class AdminService {
 	public int getAllQna(SearchParam params) {
 		return dao.getAllQna(params);
 	}
-	*/
+	
 	public List<ShoeDto> shoereviewlist(SearchParam params) {
 		return dao.shoereviewlist(params);
 	}

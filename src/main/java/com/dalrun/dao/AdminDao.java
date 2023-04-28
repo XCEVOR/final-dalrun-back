@@ -35,11 +35,10 @@ public interface AdminDao {
 	
 	int getAllProductinquiry(SearchParam params);
 	
-	/*
 	List<QnaDto> qnalist(SearchParam params);
 	
 	int getAllQna(SearchParam params);
-	*/
+	
 	List<ShoeDto> shoereviewlist(SearchParam params);
 	
 	int getAllShoereview(SearchParam params);

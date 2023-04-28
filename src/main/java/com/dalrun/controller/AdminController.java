@@ -86,7 +86,6 @@ public class AdminController {
 	    return getList(productinquirylist, len);
 	}
 	
-	/*
 	@GetMapping(value = "admin_qnalist")
 	public Map<String, Object> qnalist(SearchParam params) {
 	    System.out.println("AdminController qnalist " + new Date());
@@ -97,7 +96,7 @@ public class AdminController {
 	    
 	    return getList(qnalist, len);
 	}
-	*/
+	
 	@GetMapping(value = "admin_shoereviewlist")
 	public Map<String, Object> shoereviewlist(SearchParam params) {
 	    System.out.println("AdminController shoereviewlist " + new Date());
