@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.CrewMemberDto;
 import com.dalrun.dto.CrewPointDto;
 
 @Mapper
@@ -18,5 +19,6 @@ public interface CrewDao {
 	int MinusPoint(CrewPointDto dto);
 	int PlusPoint(CrewPointDto dto);
 	CrewDto getCrew(int crewSeq);
+	List<CrewMemberDto> getCrewMember(int crewSeq);
 	
 }

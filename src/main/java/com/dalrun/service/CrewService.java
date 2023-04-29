@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.dalrun.dao.CrewDao;
 import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.CrewMemberDto;
 import com.dalrun.dto.CrewPointDto;
 
 import lombok.AllArgsConstructor;
@@ -38,5 +39,8 @@ public class CrewService {
 	}
 	public CrewDto getCrew(int crewSeq) {
 		return dao.getCrew(crewSeq);
+	}
+	public List<CrewMemberDto> getCrewMember(int crewSeq) {
+		return dao.getCrewMember(crewSeq);
 	}
 }

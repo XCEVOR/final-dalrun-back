@@ -40,4 +40,11 @@ update crew  SET crewScore=crewScore-#{score} where crewName=#{crewname}
 	FROM CREW
 	WHERE crewSeq = #{crewSeq};
 </select>
+
+<!-- 크루 멤버 정보 -->
+<select id="getCrewMember" parameterType="int" resultType="com.dalrun.dto.CrewMemberDto">
+	SELECT *
+	FROM CREWMEMBER
+	WHERE crewSeq = #{crewSeq};
+</select>
 </mapper>

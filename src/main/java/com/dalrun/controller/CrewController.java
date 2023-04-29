@@ -1,5 +1,6 @@
 package com.dalrun.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.CrewMemberDto;
 import com.dalrun.dto.CrewPointDto;
 import com.dalrun.service.CrewService;
 
@@ -38,7 +40,13 @@ public class CrewController {
 	
 	@PostMapping(value = "getcrew")
 	public CrewDto getCrew(@RequestParam("target") int crewSeq) {
-		System.out.println("CrewController getCrew");
+		System.out.println("CrewController getCrew " + new Date());
 		return service.getCrew(crewSeq);
+	}
+	
+	@PostMapping(value = "getCrewMember")
+	public List<CrewMemberDto> getCrewMember(int crewSeq) {
+		System.out.println("CrewController getCrewMember " + new Date());
+		return service.getCrewMember(crewSeq);
 	}
 }
