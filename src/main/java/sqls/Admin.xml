@@ -336,7 +336,22 @@
 		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
 			#{item}
 		</foreach>
+	</update>
+	
+	<update id="updatecrew" parameterType="com.dalrun.dto.CrewDto">
+		UPDATE CREW
+		SET crewSetUp=#{crewSetUp}, crewUpdate=DATE_FORMAT(now(), "%Y-%m-%d"), maxMem=#{maxMem}, crewLevel=#{crewLevel}, crewScore=#{crewScore}, crewcolor=#{crewcolor}
+		WHERE crewSeq = #{crewSeq}
 	</update>	
+	
+	<update id="delcrew" parameterType="List">
+		UPDATE CREW
+		SET crewDel=1
+		WHERE crewSeq IN 
+		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
 	
 	<!-- 쇼핑몰 관리 -->
 	<select id="getProductOrder" parameterType="String" resultType="int">

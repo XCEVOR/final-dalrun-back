@@ -178,6 +178,24 @@ public class AdminController {
 		return str(b);
 	}
 	
+	@PostMapping(value = "admin_updatecrew")
+	public String updatecrew(CrewDto crewdto) {
+		System.out.println("AdminController updatecrew " + new Date());
+		System.out.println(crewdto);
+		
+		boolean b = service.updatcrew(crewdto);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_delcrew")
+	public String delcrew(@RequestParam("checkedList") String[] checkedList) {
+		System.out.println("AdminController delcrew " + new Date());
+		System.out.println("checkedList = " + Arrays.toString(checkedList));
+		
+		boolean b = service.delcrew(checkedList);
+		return str(b);
+	}
+	
 	// 쇼핑몰 관리
 	@PostMapping(value = "getproduct")
 	public Map<String, Object> getProduct(@RequestParam("target") String productId) {

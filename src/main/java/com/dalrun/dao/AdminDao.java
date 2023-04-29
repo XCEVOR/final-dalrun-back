@@ -66,6 +66,10 @@ public interface AdminDao {
 	
 	int delmember(String[] checkedList);
 	
+	int updatecrew(CrewDto crewdto);
+	
+	int delcrew(String[] checkedList);
+	
 	// 쇼핑몰 관리
 	int getProductOrder(String productId);
 	

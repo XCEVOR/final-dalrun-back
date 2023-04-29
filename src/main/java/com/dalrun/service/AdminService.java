@@ -112,6 +112,16 @@ public class AdminService {
 		return n>0?true:false;
 	}
 	
+	public boolean updatcrew(CrewDto crewdto) {
+		int n = dao.updatecrew(crewdto); 
+		return n>0?true:false;
+	}
+	
+	public boolean delcrew(String[] checkedList) {
+		int n = dao.delcrew(checkedList);
+		return n>0?true:false;
+	}
+	
 	// 쇼핑몰 관리
 	public int getProductOrder(String productId) {
 		return dao.getProductOrder(productId);
