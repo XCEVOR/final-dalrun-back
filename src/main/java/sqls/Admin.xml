@@ -193,7 +193,7 @@
 		SELECT *
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY c.crewCreateDate DESC) AS RNUM, c.crewSeq, c.memId, c.crewSetUp, c.crewUpdate, c.maxMem, c.crewDel, c.crewLevel, 
-				c.crewImg, c.crewName, c.crewScore, c.crewcolor, c.crewCreateDate, IFNULL(count(m.memId),0) AS crewMemberCnt
+				c.crewImg, c.crewName, c.crewScore, c.crewcolor, c.crewCreateDate, IFNULL(count(CASE WHEN m.crewDel = 0 THEN m.memId END),0) AS crewMemberCnt
 			FROM CREW c 
 			LEFT JOIN CREWMEMBER m ON c.crewSeq = m.crewSeq
 			<include refid="searchCrew"></include>
