@@ -16,8 +16,14 @@ public class DiaryService {
 	@Autowired
 	DiaryDao dao;
 
+	// 다이어리 리스트 조회
 	public List<DiaryDto> getAllDiary() {
 		return dao.getAllDiary();
+	}
+	
+	// 다이어리 글 작성 후 키 값 넘겨주기
+	public int insertDiary(DiaryDto diary) {
+		return dao.insertDiary(diary); // diarySeq
 	}
 
 }
