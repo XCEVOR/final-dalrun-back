@@ -23,11 +23,11 @@ WHERE crewSeq = #{crewseq}
 
 <insert id="sendDonation"  parameterType="com.dalrun.dto.CrewPointDto">
 	 insert into crewpoint(crewseq,id,regdate,score) values(
-crewseq,#{id},now(),#{score})
+#{crewseq},#{id},now(),#{score})
 </insert>
 
 <update id="PlusPoint" parameterType="com.dalrun.dto.CrewPointDto">
-	update crew  SET crewScore=crewScore+#{score} where crewname=#{crewname}
+	update crew  SET crewScore=crewScore+#{score} where crewSeq=#{crewseq}
 </update>
 
 <update id="MinusPoint" parameterType="com.dalrun.dto.CrewPointDto">

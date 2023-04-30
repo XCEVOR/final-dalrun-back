@@ -12,13 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dalrun.dto.CrewDto;
 import com.dalrun.dto.CrewMemberDto;
 import com.dalrun.dto.CrewPointDto;
+import com.dalrun.dto.MemberDto;
 import com.dalrun.service.CrewService;
+import com.dalrun.service.MemberService;
 
 @RestController
 public class CrewController {
 
 	@Autowired
 	CrewService service;
+	
+	@Autowired
+	MemberService Mservice;
 	
 	@GetMapping("getCrewRank")
 	public List<CrewDto>getCrewRank(){
@@ -34,6 +39,13 @@ public class CrewController {
 	@GetMapping("sendDonation")
 	public boolean sendDonation(CrewPointDto dto){
 		service.PlusPoint(dto);
+		
+		MemberDto mdto = new MemberDto();
+		mdto.setPoint(dto.getScore());
+		mdto.setMemId(dto.getId());
+		
+		
+		Mservice.MinusPoint(mdto);
 		return service.sendDonation(dto);
 
 	}
