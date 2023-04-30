@@ -30,7 +30,6 @@ public class GpxController {
 	@PostMapping("/gpxUpload")
 	public String gpxUpload (GpxFilesDto gpx,
 							 @RequestParam(value = "gpxFile")MultipartFile gpxFile,
-							 @RequestParam(value = "memId")String memId,
 							 HttpServletRequest req) {
 		
 		System.out.println("GpxController gpxUpload" + new Date());
@@ -58,13 +57,13 @@ public class GpxController {
 		String filePath = path + "/" + fileName;
 		System.out.println(" gpxFile path:" + filePath); // 경로 확인
 		
-		// DTO 객체에 값 저장
-		gpx.setMemId(memId);
+		// gpxFiles DTO 객체에 값 저장
+		gpx.setMemId(gpx.getMemId());
 		gpx.setFilePath(filePath);
 		gpx.setFileName(fileName);
 		gpx.setUploadDate(new Date());
 		
-		// service
+		// gpxFiles Service
 		boolean result = gfService.insertGpxFile(gpx);
 		
 		if (result) {
