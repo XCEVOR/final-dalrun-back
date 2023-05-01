@@ -42,5 +42,13 @@
         FROM product
         WHERE productId=#{productId}
     </select>
+    
+    <!-- 상품 등록 -->
+    <insert id="insertProduct" parameterType="com.dalrun.dto.ProductDto">
+		INSERT INTO PRODUCT(productId, productCode, productCategory, productBrand, productName, productPrice, productColor, productSize, productDescription, productOrigFile, productNewFile, productStock, productSale, productRegiDate)
+		SELECT concat('pid', LPAD(MAX(SUBSTR(productId, 4)+1),3,0)), #{productCode}, #{productCategory}, #{productBrand}, #{productName},
+		        #{productPrice}, #{productColor}, #{productSize}, #{productDescription}, #{productOrigFile}, #{productNewFile}, #{productStock}, #{productSale}, DATE_FORMAT(now(), "%Y-%m-%d")
+		FROM PRODUCT;
+    </insert>
 
 </mapper>

@@ -29,4 +29,6 @@ public interface ProductDao {
     
     ProductDto getCartProductInfo (String productId);
     
+    int insertProduct(ProductDto pdto);
+    
 }
