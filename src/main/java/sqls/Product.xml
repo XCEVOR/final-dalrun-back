@@ -37,6 +37,11 @@
         VALUES (#{inqSubseq}, #{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
     </insert>
     
+    <insert id="writeProductInquiryRefDepth" parameterType="com.dalrun.dto.ProductInquiryDto"> 
+        INSERT INTO productinquiry (inqSubseq, inqRef, inqDepth, inqWriter, inqContent, inqDate, productId, memId) 
+        VALUES (#{inqSubseq}, (select ifnull(max(inqSeq), 0) + 1 from productinquiry b), #{inqDepth}, #{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
+    </insert>
+    
     
     
     

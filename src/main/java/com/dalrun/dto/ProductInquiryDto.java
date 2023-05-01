@@ -4,6 +4,8 @@ public class ProductInquiryDto {
 
     private int inqSeq;
     private int inqSubseq;
+    private int inqRef;
+    private int inqDepth;
     private String inqWriter;
     private String inqTitle;
     private String inqContent;
@@ -15,11 +17,13 @@ public class ProductInquiryDto {
 
     }
 
-    public ProductInquiryDto(int inqSeq, int inqSubseq, String inqWriter, String inqTitle, String inqContent,
-            String inqDate, String productId, String memId) {
+    public ProductInquiryDto(int inqSeq, int inqSubseq, int inqRef, int inqDepth, String inqWriter, String inqTitle,
+            String inqContent, String inqDate, String productId, String memId) {
         super();
         this.inqSeq = inqSeq;
         this.inqSubseq = inqSubseq;
+        this.inqRef = inqRef;
+        this.inqDepth = inqDepth;
         this.inqWriter = inqWriter;
         this.inqTitle = inqTitle;
         this.inqContent = inqContent;
@@ -42,6 +46,22 @@ public class ProductInquiryDto {
 
     public void setInqSubseq(int inqSubseq) {
         this.inqSubseq = inqSubseq;
+    }
+
+    public int getInqRef() {
+        return inqRef;
+    }
+
+    public void setInqRef(int inqRef) {
+        this.inqRef = inqRef;
+    }
+
+    public int getInqDepth() {
+        return inqDepth;
+    }
+
+    public void setInqDepth(int inqDepth) {
+        this.inqDepth = inqDepth;
     }
 
     public String getInqWriter() {
@@ -94,9 +114,9 @@ public class ProductInquiryDto {
 
     @Override
     public String toString() {
-        return "ProductInquiryDto [inqSeq=" + inqSeq + ", inqSubseq=" + inqSubseq + ", inqWriter=" + inqWriter
-                + ", inqTitle=" + inqTitle + ", inqContent=" + inqContent + ", inqDate=" + inqDate + ", productId="
-                + productId + ", memId=" + memId + "]";
+        return "ProductInquiryDto [inqSeq=" + inqSeq + ", inqSubseq=" + inqSubseq + ", inqRef=" + inqRef + ", inqDepth="
+                + inqDepth + ", inqWriter=" + inqWriter + ", inqTitle=" + inqTitle + ", inqContent=" + inqContent
+                + ", inqDate=" + inqDate + ", productId=" + productId + ", memId=" + memId + "]";
     }
 
     

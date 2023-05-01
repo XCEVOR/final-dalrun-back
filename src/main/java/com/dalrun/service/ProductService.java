@@ -43,6 +43,10 @@ public class ProductService {
         return isSucc > 0 ? true : false;
     }
     
+    public boolean writeProductInquiryRefDepth (ProductInquiryDto pidto) {
+        int isSucc = dao.writeProductInquiryRefDepth(pidto);
+        return isSucc > 0 ? true : false;
+    }
     
     
     public ProductDto getCartProductInfo (String productId) {
