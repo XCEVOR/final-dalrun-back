@@ -47,5 +47,10 @@ public class ProductService {
         return dao.getCartProductInfo(productId);
     }
     
+    public boolean insertProduct(ProductDto pdto) {
+		int n = dao.insertProduct(pdto);
+		return n>0?true:false;
+	}
+    
 
 }

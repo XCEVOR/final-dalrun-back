@@ -35,19 +35,18 @@ public interface AdminDao {
 	
 	int getAllProductinquiry(SearchParam params);
 	
-	/*
 	List<QnaDto> qnalist(SearchParam params);
 	
 	int getAllQna(SearchParam params);
-	*/
+	
 	List<ShoeDto> shoereviewlist(SearchParam params);
 	
 	int getAllShoereview(SearchParam params);
-	/*
+	
 	List<DiaryDto> diarylist(SearchParam params);
 	
 	int getAllDiary(SearchParam params);
-	*/
+	
 	List<CompetitionDto> competitionlist(SearchParam params);
 	
 	int getAllCompetition(SearchParam params);
@@ -66,6 +65,10 @@ public interface AdminDao {
 	int updatemember(MemberDto memDto);
 	
 	int delmember(String[] checkedList);
+	
+	int updatecrew(CrewDto crewdto);
+	
+	int delcrew(String[] checkedList);
 	
 	// 쇼핑몰 관리
 	int getProductOrder(String productId);

@@ -87,6 +87,7 @@ public class ProductController {
     public String[] getProductAllPictureList (String productCode, HttpServletRequest hsreq) {
         // 실제 배포시 문제 가능성 예상. 어떻게 될지 모르겠으니 예의주시 바람. HttpServletRequest 에 따름.
         String fileuploaded_path = hsreq.getServletContext().getRealPath("/dalrun-hc/store/products/" + productCode);
+      
         System.out.println("  @@ fileuploaded_path: " + fileuploaded_path);
         
         String[] filenamesList = FileNameListUtil.getFileNameList(fileuploaded_path);
@@ -148,7 +149,71 @@ public class ProductController {
         return "file upload SUCCESS!";
     }
     
-    
+    // 상품 등록
+    @PostMapping(value = "productRegi")
+	public String productRegi(ProductDto pdto,
+							  @RequestParam(value="fileList", required=false) List<MultipartFile> files,
+							  HttpServletRequest request) {
+		
+		System.out.println("AdminController productRegi " + new Date());
+		
+		// 파일 upload 경로
+		String path = request.getServletContext().getRealPath("/dalrun-hc/store/products/" + pdto.getProductCode());
+		System.out.println(" fileUpload path = " + path);
+				
+		// 폴더 생성
+		File folder = new File(path);
+		if(!folder.exists()) {
+			try {
+				folder.mkdir();
+				System.out.println("폴더 생성 성공");				
+			} catch (Exception e) {
+				System.out.println("폴더 생성 실패");
+			}
+		}
+			
+		// 파일명 취득후 저장
+		int size = files.size();
+		String[] filenames = new String[size];	// 원본 파일명을 저장할 배열
+		// String[] newFilenames = new String[size];	// 새로운 파일명을 저장할 배열
+		String[] filepath = new String[size];	// 파일경로를 저장할 배열
+		
+		for(int i = 0; i < size; i++) {
+		    MultipartFile file = files.get(i);
+		    String fileName = file.getOriginalFilename();	// 원본 파일명
+		    // String newFileName = EditorUtil.getNewFileName(fileName);	// 새로운 파일명
+		    
+		    filenames[i] = fileName;
+		    // newFilenames[i] = newFileName;
+		    filepath[i] = path + "/" + fileName;
+		    
+		    System.out.println("filepath = " + filepath[i]);
+		}
+		
+		// ;으로 구분된 하나의 문자열로 저장
+		// pdto.setProductOrigFile(String.join(";", filenames));
+		// pdto.setProductNewFile(String.join(";", newFilenames));
+		System.out.println(pdto.toString());
+		
+		// 상품 등록
+		boolean b = service.insertProduct(pdto);
+		if(b) {
+			// 파일 업로드
+			for(int i = 0; i < size; i++) {
+				File file = new File(filepath[i]);
+				
+				try {
+					BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+					bos.write(files.get(i).getBytes());
+					bos.close();
+				} catch (Exception e) {
+					return "file upload fail";
+				} 
+			}
+			return "YES";			
+		}
+		return "NO";
+	}
     
 
     

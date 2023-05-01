@@ -51,7 +51,6 @@ public class AdminService {
 		return dao.getAllProductinquiry(params);
 	}
 	
-	/*
 	public List<QnaDto> qnalist(SearchParam params) {
 		return dao.qnalist(params);
 	}
@@ -59,7 +58,7 @@ public class AdminService {
 	public int getAllQna(SearchParam params) {
 		return dao.getAllQna(params);
 	}
-	*/
+	
 	public List<ShoeDto> shoereviewlist(SearchParam params) {
 		return dao.shoereviewlist(params);
 	}
@@ -67,7 +66,7 @@ public class AdminService {
 	public int getAllShoereview(SearchParam params) {
 		return dao.getAllShoereview(params);
 	}
-	/*
+	
 	public List<DiaryDto> diarylist(SearchParam params) {
 		return dao.diarylist(params);
 	}
@@ -75,7 +74,7 @@ public class AdminService {
 	public int getAllDiary(SearchParam params) {
 		return dao.getAllDiary(params);
 	}
-	*/
+	
 	public List<CompetitionDto> competitionlist(SearchParam params) {
 		return dao.competitionlist(params);
 	}
@@ -110,6 +109,16 @@ public class AdminService {
 	
 	public boolean delmember(String[] checkedList) {
 		int n = dao.delmember(checkedList);
+		return n>0?true:false;
+	}
+	
+	public boolean updatcrew(CrewDto crewdto) {
+		int n = dao.updatecrew(crewdto); 
+		return n>0?true:false;
+	}
+	
+	public boolean delcrew(String[] checkedList) {
+		int n = dao.delcrew(checkedList);
 		return n>0?true:false;
 	}
 	

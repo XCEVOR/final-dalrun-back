@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
 import com.dalrun.dto.OrderDto;
 import com.dalrun.dto.ProductDto;
@@ -85,7 +86,6 @@ public class AdminController {
 	    return getList(productinquirylist, len);
 	}
 	
-	/*
 	@GetMapping(value = "admin_qnalist")
 	public Map<String, Object> qnalist(SearchParam params) {
 	    System.out.println("AdminController qnalist " + new Date());
@@ -96,7 +96,7 @@ public class AdminController {
 	    
 	    return getList(qnalist, len);
 	}
-	*/
+	
 	@GetMapping(value = "admin_shoereviewlist")
 	public Map<String, Object> shoereviewlist(SearchParam params) {
 	    System.out.println("AdminController shoereviewlist " + new Date());
@@ -106,6 +106,17 @@ public class AdminController {
 	    int len = service.getAllShoereview(params);
 	    
 	    return getList(shoereviewlist, len);
+	}
+	
+	@GetMapping(value = "admin_diarylist")
+	public Map<String, Object> diarylist(SearchParam param) {
+		System.out.println("AdminController diarylist " + new Date());
+		
+		pageNumber(param);
+		List<DiaryDto> diarylist = service.diarylist(param);
+		int len = service.getAllDiary(param);
+		
+		return getList(diarylist, len);
 	}
 	
 	@GetMapping(value = "admin_competitionlist")
@@ -164,6 +175,24 @@ public class AdminController {
 		System.out.println("checkedList = " + Arrays.toString(checkedList));
 		
 		boolean b = service.delmember(checkedList);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_updatecrew")
+	public String updatecrew(CrewDto crewdto) {
+		System.out.println("AdminController updatecrew " + new Date());
+		System.out.println(crewdto);
+		
+		boolean b = service.updatcrew(crewdto);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_delcrew")
+	public String delcrew(@RequestParam("checkedList") String[] checkedList) {
+		System.out.println("AdminController delcrew " + new Date());
+		System.out.println("checkedList = " + Arrays.toString(checkedList));
+		
+		boolean b = service.delcrew(checkedList);
 		return str(b);
 	}
 	
