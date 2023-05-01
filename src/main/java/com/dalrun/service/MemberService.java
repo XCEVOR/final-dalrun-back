@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dalrun.dao.MemberDao;
+import com.dalrun.dto.CrewPointDto;
 import com.dalrun.dto.MemberDto;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -179,6 +180,11 @@ public class MemberService {
 	public MemberDto getmember(String target) {
 		return dao.getmember(target);
 	}
+	
+	public boolean MinusPoint(MemberDto dto) {
+		return dao.MinusPoint(dto)>0;
+	}
+	
 
 }
 

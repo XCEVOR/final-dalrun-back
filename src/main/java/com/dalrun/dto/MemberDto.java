@@ -16,7 +16,7 @@ public class MemberDto implements Serializable {
     private Date memberupdate;
     private int auth; ///1 : 일반회원
     private int del;
-    private String point;
+    private int point;
     private String grade;
     private int crewSeq;
     
@@ -31,7 +31,7 @@ public class MemberDto implements Serializable {
 
 	//회원가입
 	public MemberDto(String memId, String password, String memberName, String email, String phone, String birth,
-			String foot, String profile) {
+			String foot, String profile,int point) {
 		this.memId = memId;
 		this.password = password;
 		this.memberName = memberName;
@@ -40,6 +40,8 @@ public class MemberDto implements Serializable {
 		this.birth = birth;
 		this.foot = foot;
 		this.profile = profile;
+		this.point = point;
+		
 	}
 
 	public String getMemId() {
@@ -138,11 +140,11 @@ public class MemberDto implements Serializable {
 		this.del = del;
 	}
 
-	public String getPoint() {
+	public int getPoint() {
 		return point;
 	}
 
-	public void setPoint(String point) {
+	public void setPoint(int point) {
 		this.point = point;
 	}
 
