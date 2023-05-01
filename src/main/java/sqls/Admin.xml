@@ -341,7 +341,7 @@
 	
 	<update id="updatecrew" parameterType="com.dalrun.dto.CrewDto">
 		UPDATE CREW
-		SET crewSetUp=#{crewSetUp}, crewUpdate=DATE_FORMAT(now(), "%Y-%m-%d"), maxMem=#{maxMem}, crewLevel=#{crewLevel}, crewScore=#{crewScore}, crewcolor=#{crewcolor}
+		SET crewName=#{crewName}, memId=#{memId}, crewSetUp=#{crewSetUp}, crewUpdate=DATE_FORMAT(now(), "%Y-%m-%d"), maxMem=#{maxMem}, crewLevel=#{crewLevel}, crewScore=#{crewScore}, crewcolor=#{crewcolor}
 		WHERE crewSeq = #{crewSeq}
 	</update>	
 	
