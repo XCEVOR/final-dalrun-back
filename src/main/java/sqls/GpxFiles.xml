@@ -15,7 +15,9 @@
     	INSERT INTO gpxFiles
     	(diarySeq, fileName, filePath, memId, uploadDate)
     	VALUES (#{diarySeq}, #{fileName}, #{filePath}, #{memId}, #{uploadDate})
-    	
+		<selectKey keyProperty="fileSeq" resultType="int" order="AFTER">
+			SELECT max(fileSeq) FROM gpxFiles
+		</selectKey>
     </insert>
     
 </mapper>
