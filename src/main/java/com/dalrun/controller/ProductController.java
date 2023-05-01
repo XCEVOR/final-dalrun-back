@@ -92,6 +92,17 @@ public class ProductController {
         return "SUCCESS";  
     }
     
+    @PostMapping(value = "writeProductInquiryRefDepthSub")
+    public String writeProductInquiryRefDepthSub (ProductInquiryDto pidto) {
+        System.out.println("  @ ProductController writeProductInquiryRefDepthSub (ProductInquiryDto pidto) { " + new Date());
+        System.out.println(pidto);
+        boolean isSucc = service.writeProductInquiryRefDepthSub(pidto);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";  
+    }
+    
     
     
     @GetMapping(value = "getpath")
