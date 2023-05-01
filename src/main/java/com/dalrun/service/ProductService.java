@@ -38,8 +38,10 @@ public class ProductService {
         return isSucc > 0 ? true : false;
     }
     
-    
-    
+    public boolean writeProductInquirySub (ProductInquiryDto pidto) {
+        int isSucc = dao.writeProductInquirySub(pidto);
+        return isSucc > 0 ? true : false;
+    }
     
     
     

@@ -22,6 +22,8 @@ public interface ProductDao {
     
     int writeProductInquiry (ProductInquiryDto pidto);
     
+    int writeProductInquirySub (ProductInquiryDto pidto);
+    
     
     
     

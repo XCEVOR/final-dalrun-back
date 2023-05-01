@@ -32,6 +32,11 @@
         VALUES (#{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
     </insert>
     
+    <insert id="writeProductInquirySub" parameterType="com.dalrun.dto.ProductInquiryDto"> 
+        INSERT INTO productinquiry (inqSubseq, inqWriter, inqContent, inqDate, productId, memId) 
+        VALUES (#{inqSubseq}, #{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
+    </insert>
+    
     
     
     
