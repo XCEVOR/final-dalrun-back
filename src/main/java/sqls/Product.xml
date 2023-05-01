@@ -28,8 +28,8 @@
 
 
     <insert id="writeProductInquiry" parameterType="com.dalrun.dto.ProductInquiryDto"> 
-        INSERT INTO productinquiry (inqWriter, inqContent, inqDate, productId, memId) 
-        VALUES (#{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
+        INSERT INTO productinquiry (inqSubseq, inqWriter, inqContent, inqDate, productId, memId) 
+        VALUES ((SELECT inqSeq FROM productinquiry a ORDER BY inqSeq DESC LIMIT 1)+1, #{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
     </insert>
     
     <insert id="writeProductInquirySub" parameterType="com.dalrun.dto.ProductInquiryDto"> 
