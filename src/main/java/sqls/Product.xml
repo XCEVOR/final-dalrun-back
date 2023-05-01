@@ -42,6 +42,8 @@
     
     
     
+    
+    
     <select id="getCartProductInfo" parameterType="String" resultType="com.dalrun.dto.ProductDto">
         SELECT *
         FROM product
