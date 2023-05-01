@@ -175,24 +175,24 @@ public class ProductController {
 		// 파일명 취득후 저장
 		int size = files.size();
 		String[] filenames = new String[size];	// 원본 파일명을 저장할 배열
-		String[] newFilenames = new String[size];	// 새로운 파일명을 저장할 배열
+		// String[] newFilenames = new String[size];	// 새로운 파일명을 저장할 배열
 		String[] filepath = new String[size];	// 파일경로를 저장할 배열
 		
 		for(int i = 0; i < size; i++) {
 		    MultipartFile file = files.get(i);
 		    String fileName = file.getOriginalFilename();	// 원본 파일명
-		    String newFileName = EditorUtil.getNewFileName(fileName);	// 새로운 파일명
+		    // String newFileName = EditorUtil.getNewFileName(fileName);	// 새로운 파일명
 		    
 		    filenames[i] = fileName;
-		    newFilenames[i] = newFileName;
+		    // newFilenames[i] = newFileName;
 		    filepath[i] = path + "/" + fileName;
 		    
 		    System.out.println("filepath = " + filepath[i]);
 		}
 		
 		// ;으로 구분된 하나의 문자열로 저장
-		pdto.setProductOrigFile(String.join(";", filenames));
-		pdto.setProductNewFile(String.join(";", newFilenames));
+		// pdto.setProductOrigFile(String.join(";", filenames));
+		// pdto.setProductNewFile(String.join(";", newFilenames));
 		System.out.println(pdto.toString());
 		
 		// 상품 등록
