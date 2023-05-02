@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +31,7 @@ import com.dalrun.dto.SearchParam;
 import com.dalrun.dto.ShoeDto;
 import com.dalrun.service.AdminService;
 import com.dalrun.service.ProductService;
+import com.dalrun.util.EditorUtil;
 import com.dalrun.util.FileNameListUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -224,13 +226,15 @@ public class AdminController {
 	@PostMapping(value = "admin_updateproduct")
 	public String updateproduct(ProductDto productdto, 
 								@RequestParam("updateImg") List<String> updatedFiles,
-								@RequestParam("addFiles") List<MultipartFile> addFiles,
+								@RequestParam(value="addFiles", required=false) List<MultipartFile> addFiles,
 								HttpServletRequest req) {
 		System.out.println("AdminController updateproduct " + new Date());
 		System.out.println("update file =" + updatedFiles);
 		
-		// 파일 수정
-		String fileuploaded_path = req.getServletContext().getRealPath("/dalrun-hc/store/products/" + productdto.getProductCode());
+		// 파일 수정 : 파일 삭제 + 파일 추가
+		String code = productdto.getProductCode();	// 상품 코드
+		
+		String fileuploaded_path = req.getServletContext().getRealPath("/dalrun-hc/store/products/" + code);
 		String[] filenamesList = FileNameListUtil.getFileNameList(fileuploaded_path);
 		
 		for(String filename : filenamesList) {
@@ -242,21 +246,18 @@ public class AdminController {
 			}
 		}
 		
-		int size = addFiles.size();
-		String[] addFilepath = new String[size];	// 추가 파일경로를 저장할 배열
-		
-		for(int i = 0; i < size; i++) {
-			MultipartFile file = addFiles.get(i);
-		    String addFileName = file.getOriginalFilename();	// 추가 파일 원본 파일명
-		    
-		    addFilepath[i] = fileuploaded_path + "/" + addFileName;    
-		}
-		
-		boolean b = service.updateproduct(productdto);
-		if(b) {
-			// 파일 업로드
+		if(!CollectionUtils.isEmpty(addFiles)) {	// 추가 파일이 있을 경우
+			int size = addFiles.size();
+			String[] addFilepath = new String[size];	// 추가 파일경로를 저장할 배열
+			
 			for(int i = 0; i < size; i++) {
-				File addFile = new File(addFilepath[i]);
+				MultipartFile file = addFiles.get(i);
+			    String addFileName = file.getOriginalFilename();	// 추가 파일 원본 파일명
+			    String newAddFilename = EditorUtil.getNewProductCodeFileName(addFileName, code, i);
+			    
+			    addFilepath[i] = fileuploaded_path + "/" + newAddFilename;
+			    
+			    File addFile = new File(addFilepath[i]);
 				
 				if(!addFile.exists()) {	// 해당 파일이 존재하지 않으면 파일 업로드
 					try {
@@ -270,9 +271,10 @@ public class AdminController {
 				}
 				System.out.println("exist file : " + addFiles.get(i).getOriginalFilename());
 			}
-			return "YES";			
 		}
-		return "NO";
+		
+		boolean b = service.updateproduct(productdto);
+		return str(b);
 	}
 	
 	@PostMapping(value = "admin_delproduct")
