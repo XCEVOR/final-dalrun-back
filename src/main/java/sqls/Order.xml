@@ -35,4 +35,10 @@
                                   #{orderQuantity})
     </insert>
     
+    <!-- 주문 조회 -->
+    <select id="getOrder" parameterType="int" resultType="com.dalrun.dto.OrderDto">
+    	SELECT *
+    	FROM PRODUCTORDER
+    	WHERE orderSeq = #{orderSeq}
+    </select>
 </mapper>

@@ -16,4 +16,6 @@ public interface OrderDao {
     
     int writeOrderData (OrderDto oDto);
     
+    OrderDto getOrder(int orderSeq);
+    
 }
