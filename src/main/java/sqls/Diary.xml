@@ -5,11 +5,22 @@
 
 <mapper namespace="com.dalrun.dao.DiaryDao">
 
-<!-- 다이어리 전체 조회 -->
-<select id="getAllDiary" resultType="com.dalrun.dto.DiaryDto">
-	select *
-	from diary
-</select>
+	<!-- 다이어리 전체 조회 -->
+	<select id="getAllDiary" resultType="com.dalrun.dto.DiaryDto">
+		select *
+		from diary
+	</select>
+
+	<!-- 다이어리 작성 -->
+<insert id="insertDiary" parameterType="com.dalrun.dto.DiaryDto">
+    INSERT INTO diary
+    (memId, title, content, wdate)
+    VALUES
+    (#{memId}, #{title}, #{content}, #{wdate})
+    <selectKey keyProperty="diarySeq" resultType="int" order="AFTER">
+    	SELECT LAST_INSERT_ID()
+    </selectKey>
+</insert>
 
 
 

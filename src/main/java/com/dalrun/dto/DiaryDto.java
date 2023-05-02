@@ -1,7 +1,7 @@
 package com.dalrun.dto;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 public class DiaryDto implements Serializable {
 
@@ -72,5 +72,13 @@ public class DiaryDto implements Serializable {
 	public void setWdate(Date wdate) {
 		this.wdate = wdate;
 	}
+
+	@Override
+	public String toString() {
+		return "DiaryDto [diarySeq=" + diarySeq + ", memId=" + memId + ", crewSeq=" + crewSeq + ", title=" + title
+				+ ", content=" + content + ", wdate=" + wdate + "]";
+	}
+	
+	
 
 }
