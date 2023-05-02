@@ -225,7 +225,7 @@ public class AdminController {
 	
 	@PostMapping(value = "admin_updateproduct")
 	public String updateproduct(ProductDto productdto, 
-								@RequestParam("updateImg") List<String> updatedFiles,
+								@RequestParam(value = "updateImg", required=false) List<String> updatedFiles,
 								@RequestParam(value="addFiles", required=false) List<MultipartFile> addFiles,
 								HttpServletRequest req) {
 		System.out.println("AdminController updateproduct " + new Date());
@@ -265,14 +265,14 @@ public class AdminController {
 						bos.write(addFiles.get(i).getBytes());
 						bos.close();
 					} catch (Exception e) {
-						System.out.println(i + " : file upload fail");
+						System.out.println("file upload fail : " + addFileName);
 					} 
-					System.out.println(i + " : file upload success");
+					System.out.println("file upload success : " + addFileName);
 				}
-				System.out.println("exist file : " + addFiles.get(i).getOriginalFilename());
+				System.out.println("exist file : " + addFileName);
 			}
 		}
-		
+		System.out.println(productdto.toString());
 		boolean b = service.updateproduct(productdto);
 		return str(b);
 	}
