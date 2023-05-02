@@ -309,7 +309,7 @@
 		SELECT *
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY orderDate DESC) AS RNUM, orderSeq, memId, orderName, orderAddress, 
-				orderPhone, orderRequirment, orderTotalprice, orderDate, orderQauntity, orderState, deliveryState
+				orderPhone, orderRequirment, orderTotalprice, orderDate, orderQuantity, orderState, deliveryState
 			FROM PRODUCTORDER
 			<include refid="searchOrder"></include>
 			ORDER BY orderDate DESC) A
