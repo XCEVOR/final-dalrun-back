@@ -60,8 +60,8 @@ public class ProductController {
     }
     
     @PostMapping(value = "writeProductInquiry")
-    public String writeComment (ProductInquiryDto pidto) {
-        System.out.println("  @ ProductController ProductDto writeComment (ProductInquiryDto pidto) { " + new Date());
+    public String writeProductInquiry (ProductInquiryDto pidto) {
+        System.out.println("  @ ProductController writeProductInquiry (ProductInquiryDto pidto) { " + new Date());
         System.out.println(pidto);
         boolean isSucc = service.writeProductInquiry(pidto);
         if (isSucc == false) {
@@ -69,6 +69,41 @@ public class ProductController {
         }
         return "SUCCESS";  
     }
+    
+    @PostMapping(value = "writeProductInquirySub")
+    public String writeProductInquirySub (ProductInquiryDto pidto) {
+        System.out.println("  @ ProductController writeProductInquirySub (ProductInquiryDto pidto) { " + new Date());
+        System.out.println(pidto);
+        boolean isSucc = service.writeProductInquirySub(pidto);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";  
+    }
+    
+    @PostMapping(value = "writeProductInquiryRefDepth")
+    public String writeProductInquiryRefDepth (ProductInquiryDto pidto) {
+        System.out.println("  @ ProductController writeProductInquiryRefDepth (ProductInquiryDto pidto) { " + new Date());
+        System.out.println(pidto);
+        boolean isSucc = service.writeProductInquiryRefDepth(pidto);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";  
+    }
+    
+    @PostMapping(value = "writeProductInquiryRefDepthSub")
+    public String writeProductInquiryRefDepthSub (ProductInquiryDto pidto) {
+        System.out.println("  @ ProductController writeProductInquiryRefDepthSub (ProductInquiryDto pidto) { " + new Date());
+        System.out.println(pidto);
+        boolean isSucc = service.writeProductInquiryRefDepthSub(pidto);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";  
+    }
+    
+    
     
     @GetMapping(value = "getpath")
     public void getpath (HttpServletRequest hsreq) {
