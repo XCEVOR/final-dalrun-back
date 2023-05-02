@@ -22,8 +22,9 @@ public class GpxFilesService {
 	}
 	
 	// gpx 파일 입력 후 fileSeq 넘겨줌
-	public int insertGpxFile(GpxFilesDto gpx) {
-		return dao.insertGpxFile(gpx);
+	public boolean insertGpxFile(GpxFilesDto gpx) {
+		int n = dao.insertGpxFile(gpx);
+		return n>0? true:false;
 	}
 
 }

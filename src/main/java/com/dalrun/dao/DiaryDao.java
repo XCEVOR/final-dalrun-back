@@ -15,5 +15,5 @@ public interface DiaryDao {
 	List<DiaryDto> getAllDiary();
 	
 	// 다이어리 작성
-	int insertDiary(DiaryDto diary); // diarySeq(pk) 넘어옴
+	int insertDiary(DiaryDto diary); // 성공 시 row 개수 넘어옴 = 1
 }

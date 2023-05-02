@@ -22,8 +22,9 @@ public class DiaryService {
 	}
 	
 	// 다이어리 글 작성 후 키 값 넘겨주기
-	public int insertDiary(DiaryDto diary) {
-		return dao.insertDiary(diary); // diarySeq
+	public boolean insertDiary(DiaryDto diary) {
+		int n = dao.insertDiary(diary);
+		return n>0? true:false;
 	}
 
 }

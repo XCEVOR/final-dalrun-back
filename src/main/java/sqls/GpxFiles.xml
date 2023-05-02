@@ -16,7 +16,7 @@
     	(diarySeq, fileName, filePath, memId, uploadDate)
     	VALUES (#{diarySeq}, #{fileName}, #{filePath}, #{memId}, #{uploadDate})
 		<selectKey keyProperty="fileSeq" resultType="int" order="AFTER">
-			SELECT max(fileSeq) FROM gpxFiles
+			SELECT LAST_INSERT_ID()
 		</selectKey>
     </insert>
     

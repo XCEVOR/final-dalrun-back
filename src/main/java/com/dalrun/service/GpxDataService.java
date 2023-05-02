@@ -24,7 +24,7 @@ public class GpxDataService {
 	// 데이터 삽입
 	public boolean insertGpxData(GpxDataDto point) {
 		int n = dao.insertGpxData(point);
-		return n==0? true:false;
+		return n>0? true:false;
 	}
 	
 

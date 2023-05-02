@@ -2,7 +2,10 @@
 
   import java.io.File;
   import java.text.SimpleDateFormat;
-  import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
   import java.util.Date;
   import java.util.List;
 
@@ -17,57 +20,61 @@
 
   public class GpxParserUtil {
 
-    public static List<GpxDataDto> parseGPXFile(File file) throws Exception{
+	  public static List<GpxDataDto> parseGPXFile(File file) throws Exception {
+		  
+		    List<GpxDataDto> points = new ArrayList<>(); // 넘길 데이터
 
-      List<GpxDataDto> points	 = new ArrayList<>();	// 넘길 데이터
+		    // xml 파싱 빌드
+		    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		    
+		    // xml 파일을 Document로 파싱하기
+		    Document doc = factory.newDocumentBuilder().parse(file);
+		    doc.getDocumentElement().normalize();
 
-      // xml 파싱 빌드
-      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-      // xml 파일을 Document로 파싱하
-      Document doc = factory.newDocumentBuilder().parse(file);
-      doc.getDocumentElement().normalize();
+		    // <trkseg> 안에 <trkpt>섹션 별로 데이터 저장되어 있음.
+		    NodeList trkseg = doc.getElementsByTagName("trkseg");
+		    
+		    // <trkpt>
+		    NodeList trkpts = trkseg.item(0).getChildNodes();
+		    System.out.println("측정 데이터 수 : " + trkpts.getLength());
+		    
+		    // 데이터 추출
+	        for (int j = 0; j < trkpts.getLength(); j++) {
+	            Node trkpt = trkpts.item(j);
 
-      // 각 데이터가 <trkpts> 단위로나눠짐
-      NodeList trkpts = doc.getElementsByTagName("trkpts");
+	            if (trkpt.getNodeType() == Node.ELEMENT_NODE) {
+	                // 위도
+	                double lat = Double.parseDouble(trkpt.getAttributes().getNamedItem("lat").getNodeValue());
 
-      // 단위 별 데이터 넣기
-      for (int i = 0; i < trkpts.getLength(); i++) {
+	                // 경도
+	                double lon = Double.parseDouble(trkpt.getAttributes().getNamedItem("lon").getNodeValue());
 
-        // trkpt 하나 씩 보기
-        Node trkpt = trkpts.item(i);
+	                // 고도
+	                double ele = 0.0;
+	                Node eleNode = trkpt.getFirstChild();	// eleNode = <ele>
+	                if (eleNode != null && eleNode.getNodeName().equals("ele")) {
+	                    ele = Double.parseDouble(eleNode.getTextContent())*0.3048;	// 단위 변환
+	                }
 
-        // 위도
-        double lat = Double.parseDouble(trkpt.getAttributes().getNamedItem("lat").getNodeValue());
+	                // 측정 시간
+	                LocalTime time = null;
+	                Node timeNode = trkpt.getLastChild();	// timeNode = <time>
+	                if (timeNode != null && timeNode.getNodeName().equals("time")) {
+	                    String timeStr = timeNode.getTextContent();
+	                    LocalDateTime dateT = LocalDateTime.parse(timeStr, DateTimeFormatter.ISO_DATE_TIME);
+	                    time = dateT.toLocalTime();
+	                }
 
-        // 경도
-        double lon = Double.parseDouble(trkpt.getAttributes().getNamedItem("lon").getNodeValue());
 
-        // 고도
-        double ele = 0.0;
-        if (trkpt.hasChildNodes()) {
-                   Node eleNode = trkpt.getFirstChild();
-                   if (eleNode.getNodeName().equals("ele")) {
-                       ele = Double.parseDouble(eleNode.getTextContent());
-                   }
-               }
-
-        // 측정 시간
-        Date time =  null;
-        if (trkpt.hasChildNodes()) {
-          Node timeNode = trkpt.getFirstChild();
-          if (timeNode.getNodeName().equals("time")) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-            time = dateFormat.parse(timeNode.getTextContent());
-          }
-        }
-        GpxDataDto gpxData = new GpxDataDto();
-              gpxData.setLatitude(lat);
-              gpxData.setLongitude(lon);
-              gpxData.setAltitude(ele);
-              gpxData.setmTime(time.toString()); // or you can convert to any desired format
-              points.add(gpxData);
-      }
-      return points;
-    }
+	                GpxDataDto gpxData = new GpxDataDto();
+	                gpxData.setLatitude(lat);
+	                gpxData.setLongitude(lon);
+	                gpxData.setAltitude(ele);
+	                gpxData.setmTime(time);
+	                points.add(gpxData);
+	            }
+		    }
+		    return points;
+		}
 
   }

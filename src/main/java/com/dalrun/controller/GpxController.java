@@ -57,10 +57,10 @@ public class GpxController {
 //			return "gpx 파일만 업로드 가능합니다.";
 //		}
 		
-		// new 파일 명 : 멤버ID + 업로드 시간(초 단위까지)
+		// new 파일 명 : 업로드 시간(초 단위까지) + 멤버ID 
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyMMddHHmmss");
 		String now = dtf.format(LocalDateTime.now());
-		String fileName = diary.getMemId() + "_" + now + ".gpx";
+		String fileName = now + "_" + diary.getMemId() + ".gpx";
 		
 		
 		// 파일 업로드 경로
@@ -70,23 +70,25 @@ public class GpxController {
 		// diary DTO 객체에 값 저장
 		diary.setWdate(new Date());
 		
-		// diary Service => fileSeq 반환
-		int diarySeq = dService.insertDiary(diary);
+		// diary Service => insert 성공 여부
+		boolean diaryResult = dService.insertDiary(diary);
+		System.out.println("diary insert result: " + diaryResult);
 		
-		if (diarySeq > 0) {
+		if (diaryResult) {
 			
 			// gpxFiles DTO 객체에 값 저장
 			GpxFilesDto gpx = new GpxFilesDto();
 			gpx.setMemId(diary.getMemId());
-			gpx.setDiarySeq(diarySeq+1);
+			gpx.setDiarySeq(diary.getDiarySeq());
 			gpx.setFilePath(filePath);
 			gpx.setFileName(fileName);
 			gpx.setUploadDate(new Date());
 			
-			// gpxFiles Service => fileSeq 반환
-			int fileSeq = gfService.insertGpxFile(gpx);
+			// gpxFiles Service => insert 성공 여부
+			boolean fileResult = gfService.insertGpxFile(gpx);
+			System.out.println("gpxfile insert result: " + fileResult);
 		
-			if (fileSeq > 0) {	// 0이 아니면 값 들어갔을거라 판단
+			if (fileResult) {	// 0이 아니면 값 들어갔을거라 판단
 				// 파일 저장
 				File file = new File(filePath);
 				try {
@@ -97,32 +99,39 @@ public class GpxController {
 					
 					// Gpx Data 파싱하여 DB에 저장
 					List<GpxDataDto> points = GpxParserUtil.parseGPXFile(file);
-                    GpxDataDto gpxData = new GpxDataDto();
-					 for (GpxDataDto point : points) {
-		                    gpxData.setFileSeq(fileSeq);
-		                    gpxData.setDiarySeq(diarySeq);
-		                    gpxData.setCourseSeq(0);
-		                    gpxData.setMemId(gpx.getMemId());
-		                    gpxData.setLatitude(point.getLatitude());
-		                    gpxData.setLongitude(point.getLongitude());
-		                    gpxData.setAltitude(point.getAltitude());
-		                    gpxData.setmTime(point.getmTime());
-		                    boolean result = gdService.insertGpxData(gpxData);
-		                    
-		                    if(!result) {
-		                    	return "Upload Fail";
-		                    }
-		                }
+
+					for (GpxDataDto point : points) {
+					    GpxDataDto gpxData = new GpxDataDto();
+					    gpxData.setFileSeq(gpx.getFileSeq());
+					    gpxData.setDiarySeq(diary.getDiarySeq());
+					    gpxData.setMemId(gpx.getMemId());
+					    gpxData.setLatitude(point.getLatitude());
+					    gpxData.setLongitude(point.getLongitude());
+					    gpxData.setAltitude(point.getAltitude());
+					    gpxData.setmTime(point.getmTime());
+					    
+					    boolean result = gdService.insertGpxData(gpxData);
+
+					    if (!result) { // insert 실패 시
+					    	System.out.println("gpxData insert 실패!");
+					        return "gpxData insert Fail";
+					    }
+					}
+					
+					System.out.println("모든 업로드 성공!");
 	                return "Upload Success";
 
-	            } catch (Exception e) {
+	            } catch (Exception e) {	// 파일 저장 실패 시
+	            	System.out.println("gpxFile 저장 실패!");
 	                return "Upload Fail";
 	            }
 	        } else {
-	            return "Insert Fail";
+	        	System.out.println("gpxFile insert 실패!");
+	            return "gpxFile Insert Fail";
 	        }
 	    } else {
-	        return "Insert Fail";
+	    	System.out.println("diary insert 실패!");
+	        return "diary Insert Fail";
 		}
 	}	// <GPX Upload/>
 	

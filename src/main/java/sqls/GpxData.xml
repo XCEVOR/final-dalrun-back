@@ -13,8 +13,8 @@
     <!-- 업로드 시 하나의 기록 insert -->
     <insert id="insertGpxData" parameterType="com.dalrun.dto.GpxDataDto">
     	INSERT INTO gpxdata
-    	(fileSeq, diarySeq, courseSeq, memId, latitude, longitude, altitude, mTime)
-    	VALUES (#{fileSeq}, #{diarySeq}, #{courseSeq}, #{memId}, #{latitude}, #{longitude}, #{altitude}, #{mTime})
+    	(fileSeq, diarySeq, memId, latitude, longitude, altitude, mTime)
+    	VALUES (#{fileSeq}, #{diarySeq}, #{memId}, #{latitude}, #{longitude}, #{altitude}, #{mTime})
     </insert>
     
 </mapper>
