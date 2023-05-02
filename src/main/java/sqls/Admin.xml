@@ -322,6 +322,12 @@
 	</select>
 	
 	<!-- 수정/삭제 -->
+	<sql id="commonForeach">
+		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</sql>
+	
 	<!-- 회원 관리 -->
 	<update id="updatemember" parameterType="com.dalrun.dto.MemberDto">
 		UPDATE MEMBER
@@ -334,9 +340,7 @@
 		UPDATE MEMBER
 		SET del=1
 		WHERE memId IN 
-		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
-			#{item}
-		</foreach>
+		<include refid="commonForeach"></include>
 	</update>
 	
 	<update id="updatecrew" parameterType="com.dalrun.dto.CrewDto">
@@ -349,9 +353,7 @@
 		UPDATE CREW
 		SET crewDel=1
 		WHERE crewSeq IN 
-		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
-			#{item}
-		</foreach>
+		<include refid="commonForeach"></include>
 	</update>
 	
 	<!-- 쇼핑몰 관리 -->
@@ -369,8 +371,6 @@
 	<delete id="delproduct" parameterType="String">
 		DELETE FROM PRODUCT
 		WHERE productId IN
-		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
-			#{item}
-		</foreach>
+		<include refid="commonForeach"></include>
 	</delete>
 </mapper>

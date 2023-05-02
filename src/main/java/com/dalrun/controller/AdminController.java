@@ -272,7 +272,6 @@ public class AdminController {
 				System.out.println("exist file : " + addFileName);
 			}
 		}
-		System.out.println(productdto.toString());
 		boolean b = service.updateproduct(productdto);
 		return str(b);
 	}
