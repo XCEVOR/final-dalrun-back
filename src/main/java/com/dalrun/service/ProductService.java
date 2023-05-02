@@ -21,6 +21,10 @@ public class ProductService {
         return dao.allProductList();
     }
     
+    public List<ProductDto> allProductListDistinct () {
+        return dao.allProductListDistinct();
+    }
+    
     public List<ProductDto> getProductData (String productCode) {
         return dao.getProductData(productCode);
     }

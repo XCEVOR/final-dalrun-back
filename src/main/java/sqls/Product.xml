@@ -9,6 +9,11 @@
         FROM PRODUCT
     </select>
     
+    <select id="allProductListDistinct" resultType="com.dalrun.dto.ProductDto">
+        SELECT DISTINCT productCode
+        FROM product
+    </select>
+    
     <select id="getProductData" parameterType="String" resultType="com.dalrun.dto.ProductDto">
 	    SELECT *
 	    FROM PRODUCT
