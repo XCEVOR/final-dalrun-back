@@ -14,8 +14,8 @@ public class OrderDto implements Serializable{
     private String orderTotalprice; // 총 구매 금액
     private String orderDate;
     private int orderQuantity;
-    private String orderState; // 주문 상태
-    private String deliveryState; // 배송상태
+    private int orderState; // 주문 상태 [0 - 주문완료 / 1 - 환불 / 2 - 취소 / 3 - 반품]
+    private int deliveryState; // 배송상태 [0 - 배송준비 / 1 - 배송중 / 2 - 배송완료]
     private String productId;   // 주문한 상품 아이디
 
 	
@@ -25,7 +25,7 @@ public class OrderDto implements Serializable{
 
     public OrderDto(int orderSeq, int orderNumber, String memId, String orderName, String orderAddress,
             String orderPhone, String orderRequirment, String orderTotalprice, String orderDate, int orderQuantity,
-            String orderState, String deliveryState, String productId) {
+            int orderState, int deliveryState, String productId) {
         super();
         this.orderSeq = orderSeq;
         this.orderNumber = orderNumber;
@@ -122,19 +122,19 @@ public class OrderDto implements Serializable{
         this.orderQuantity = orderQuantity;
     }
 
-    public String getOrderState() {
+    public int getOrderState() {
         return orderState;
     }
 
-    public void setOrderState(String orderState) {
+    public void setOrderState(int orderState) {
         this.orderState = orderState;
     }
 
-    public String getDeliveryState() {
+    public int getDeliveryState() {
         return deliveryState;
     }
 
-    public void setDeliveryState(String deliveryState) {
+    public void setDeliveryState(int deliveryState) {
         this.deliveryState = deliveryState;
     }
     
