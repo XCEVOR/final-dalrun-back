@@ -218,11 +218,11 @@ public class ProductController {
 		    String fileName = file.getOriginalFilename();	// 원본 파일명
 		    // String newFileName = EditorUtil.getNewFileName(fileName);	// 새로운 파일명
 		    
-//		    filenames[i] = fileName;
-		    filenames[i] = EditorUtil.getNewProductCodeFileName(fileName, pdto.getProductCode(), i);
+		    // filenames[i] = fileName;
+		    filenames[i] = EditorUtil.getNewProductCodeFileName(fileName, pdto.getProductCode(), i);  // ProductCode == newFolder == newFileName+(num)
 		    // newFilenames[i] = newFileName;
-//		    filepath[i] = path + "/" + fileName;
-		    filepath[i] = path + "/" + EditorUtil.getNewProductCodeFileName(fileName, pdto.getProductCode(), i);
+		    // filepath[i] = path + "/" + fileName;
+		    filepath[i] = path + "/" + EditorUtil.getNewProductCodeFileName(fileName, pdto.getProductCode(), i);  // ProductCode == newFolder == newFileName+(num)
 		    
 		    System.out.println("filepath = " + filepath[i]);
 		}
