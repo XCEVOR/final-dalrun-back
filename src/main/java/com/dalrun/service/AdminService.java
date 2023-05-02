@@ -136,4 +136,14 @@ public class AdminService {
 		int n = dao.delproduct(checkedList);
 		return n>0?true:false;
 	}
+	
+	public boolean updateorder(OrderDto orderdto) {
+		int n = dao.updateorder(orderdto);
+		return n>0?true:false;
+	}
+	
+	public boolean delorder(String[] checkedList) {
+		int n = dao.delorder(checkedList);
+		return n>0?true:false;
+	}
 }

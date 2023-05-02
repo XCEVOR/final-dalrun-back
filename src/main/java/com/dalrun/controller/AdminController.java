@@ -33,6 +33,7 @@ import com.dalrun.service.AdminService;
 import com.dalrun.service.ProductService;
 import com.dalrun.util.EditorUtil;
 import com.dalrun.util.FileNameListUtil;
+import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -281,6 +282,22 @@ public class AdminController {
 		System.out.println("AdminController delproduct " + new Date());
 		
 		boolean b = service.delproduct(checkedList);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_updateorder")
+	public String updateorder(OrderDto orderdto) {
+		System.out.println("AdminController updateorder " + new Date());
+		
+		boolean b = service.updateorder(orderdto);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_delorder")
+	public String delorder(@RequestParam("checkedList") String[] checkedList) {
+		System.out.println("AdminController delorder " + new Date());
+		
+		boolean b = service.delorder(checkedList);
 		return str(b);
 	}
 }

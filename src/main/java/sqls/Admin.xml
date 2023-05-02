@@ -373,4 +373,16 @@
 		WHERE productId IN
 		<include refid="commonForeach"></include>
 	</delete>
+	
+	<update id="updateorder" parameterType="com.dalrun.dto.OrderDto">
+		UPDATE PRODUCTORDER
+		SET	memId=#{memId}, orderName=#{orderName}, orderAddress=#{orderAddress}, orderPhone=#{orderPhone}, orderRequirment=#{orderRequirment}, 
+			orderQuantity=#{orderQuantity}, orderTotalprice=#{orderTotalprice}, orderState=#{orderState}, deliveryState=#{deliveryState}
+		WHERE orderSeq = #{orderSeq}
+	</update>
+	<delete id="delorder" parameterType="List">
+		DELETE FROM PRODUCTORDER
+		WHERE orderSeq IN
+		<include refid="commonForeach"></include>
+	</delete>
 </mapper>
