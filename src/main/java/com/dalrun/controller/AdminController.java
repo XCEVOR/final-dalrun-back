@@ -1,10 +1,12 @@
 package com.dalrun.controller;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,9 @@ import com.dalrun.dto.SearchParam;
 import com.dalrun.dto.ShoeDto;
 import com.dalrun.service.AdminService;
 import com.dalrun.service.ProductService;
+import com.dalrun.util.FileNameListUtil;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class AdminController {
@@ -213,8 +218,24 @@ public class AdminController {
 	}
 	
 	@PostMapping(value = "admin_updateproduct")
-	public String updateproduct(ProductDto productdto) {
+	public String updateproduct(ProductDto productdto, 
+								@RequestParam("updateImg") List<String> updatedFiles,
+								HttpServletRequest req) {
 		System.out.println("AdminController updateproduct " + new Date());
+		System.out.println("update file =" + updatedFiles);
+		
+		// 파일 수정
+		String fileuploaded_path = req.getServletContext().getRealPath("/dalrun-hc/store/products/" + productdto.getProductCode());
+		String[] filenamesList = FileNameListUtil.getFileNameList(fileuploaded_path);
+		
+		for(String filename : filenamesList) {
+			if(!updatedFiles.contains(filename)) {	// 서버에 저장된 파일명과 수정된 파일명이 일치하지 않으면
+				System.out.println("delete files : " + filename);
+				
+				File file = new File(fileuploaded_path + "/" + filename);
+				file.delete();	// 해당 파일 삭제
+			}
+		}
 		
 		boolean b = service.updateproduct(productdto);
 		return str(b);
