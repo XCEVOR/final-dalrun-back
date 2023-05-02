@@ -24,6 +24,7 @@
 	<select id="getProductInquiry" resultType="com.dalrun.dto.ProductInquiryDto">
         SELECT *
         FROM productinquiry
+        ORDER BY inqRef ASC
     </select>
 
 
