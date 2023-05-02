@@ -1,6 +1,9 @@
 package com.dalrun.controller;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.CrewDto;
@@ -220,6 +224,7 @@ public class AdminController {
 	@PostMapping(value = "admin_updateproduct")
 	public String updateproduct(ProductDto productdto, 
 								@RequestParam("updateImg") List<String> updatedFiles,
+								@RequestParam("addFiles") List<MultipartFile> addFiles,
 								HttpServletRequest req) {
 		System.out.println("AdminController updateproduct " + new Date());
 		System.out.println("update file =" + updatedFiles);
@@ -237,8 +242,37 @@ public class AdminController {
 			}
 		}
 		
+		int size = addFiles.size();
+		String[] addFilepath = new String[size];	// 추가 파일경로를 저장할 배열
+		
+		for(int i = 0; i < size; i++) {
+			MultipartFile file = addFiles.get(i);
+		    String addFileName = file.getOriginalFilename();	// 추가 파일 원본 파일명
+		    
+		    addFilepath[i] = fileuploaded_path + "/" + addFileName;    
+		}
+		
 		boolean b = service.updateproduct(productdto);
-		return str(b);
+		if(b) {
+			// 파일 업로드
+			for(int i = 0; i < size; i++) {
+				File addFile = new File(addFilepath[i]);
+				
+				if(!addFile.exists()) {	// 해당 파일이 존재하지 않으면 파일 업로드
+					try {
+						BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(addFile));
+						bos.write(addFiles.get(i).getBytes());
+						bos.close();
+					} catch (Exception e) {
+						System.out.println(i + " : file upload fail");
+					} 
+					System.out.println(i + " : file upload success");
+				}
+				System.out.println("exist file : " + addFiles.get(i).getOriginalFilename());
+			}
+			return "YES";			
+		}
+		return "NO";
 	}
 	
 	@PostMapping(value = "admin_delproduct")
