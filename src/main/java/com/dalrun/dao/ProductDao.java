@@ -18,6 +18,15 @@ public interface ProductDao {
     
     List<ProductDto> getSelectedProductInfo (ProductDto pdto);
     
+    int updateProductView (ProductDto pdto);
+    
+    int updateProductLike (ProductDto pdto);
+    
+    int updateProductRecomm (ProductDto pdto);
+    
+    
+    
+    
     List<ProductInquiryDto> getProductInquiry ();
     
     int writeProductInquiry (ProductInquiryDto pidto);
@@ -28,7 +37,7 @@ public interface ProductDao {
     
     int writeProductInquiryRefDepthSub (ProductInquiryDto pidto);
     
-    
+
     
     
     

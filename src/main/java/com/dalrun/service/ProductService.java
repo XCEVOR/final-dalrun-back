@@ -29,6 +29,24 @@ public class ProductService {
         return dao.getSelectedProductInfo(pdto);
     }
     
+    public boolean updateProductView (ProductDto pdto) {
+        int isSucc = dao.updateProductView(pdto);
+        return isSucc > 0 ? true : false;
+    }
+    
+    public boolean updateProductLike (ProductDto pdto) {
+        int isSucc = dao.updateProductLike(pdto);
+        return isSucc > 0 ? true : false;
+    }
+    
+    public boolean updateProductRecomm (ProductDto pdto) {
+        int isSucc = dao.updateProductRecomm(pdto);
+        return isSucc > 0 ? true : false;
+    }
+    
+    
+    
+    
     public List<ProductInquiryDto> getProductInquiry () {
         return dao.getProductInquiry();
     }
@@ -52,6 +70,8 @@ public class ProductService {
         int isSucc = dao.writeProductInquiryRefDepthSub(pidto);
         return isSucc > 0 ? true : false;
     }
+    
+
     
     
     

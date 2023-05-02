@@ -52,6 +52,42 @@ public class ProductController {
         return service.getSelectedProductInfo(pdto);
     }
     
+    @PostMapping(value = "updateProductView")
+    public String updateProductView (ProductDto pdto) {
+        System.out.println("  @ ProductController updateProductView (ProductInquiryDto pidto) { " + new Date());
+        System.out.println(pdto);
+        boolean isSucc = service.updateProductView(pdto);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";  
+    }
+    
+    @PostMapping(value = "updateProductLike")
+    public String updateProductLike (ProductDto pdto) {
+        System.out.println("  @ ProductController updateProductLike (ProductInquiryDto pidto) { " + new Date());
+        System.out.println(pdto);
+        boolean isSucc = service.updateProductLike(pdto);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";  
+    }
+    
+    @PostMapping(value = "updateProductRecomm")
+    public String updateProductRecomm (ProductDto pdto) {
+        System.out.println("  @ ProductController updateProductRecomm (ProductInquiryDto pidto) { " + new Date());
+        System.out.println(pdto);
+        boolean isSucc = service.updateProductRecomm(pdto);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";  
+    }
+    
+    
+    
+    
     @PostMapping(value = "getProductInquiry")
     public List<ProductInquiryDto> getProductInquiry (String productCode) {
         System.out.println("ProductController ProductDto getProductData (String productCode) { " + new Date());
@@ -103,6 +139,7 @@ public class ProductController {
         return "SUCCESS";  
     }
     
+
     
     
     @GetMapping(value = "getpath")
@@ -129,6 +166,8 @@ public class ProductController {
         
         return filenamesList;
     }
+    
+    
     
     
     // ====================================================================================================    
