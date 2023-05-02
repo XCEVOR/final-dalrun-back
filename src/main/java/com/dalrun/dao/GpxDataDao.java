@@ -11,6 +11,10 @@ import com.dalrun.dto.GpxDataDto;
 @Repository
 public interface GpxDataDao {
 
+	// 데이터 전체 조회
 	List<GpxDataDto> gpxDataList();
+	
+	// 데이터 삽입
+	int insertGpxData(GpxDataDto point);
 
 }

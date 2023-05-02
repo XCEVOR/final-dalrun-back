@@ -15,6 +15,7 @@ public interface GpxFilesDao {
 	List<GpxFilesDto> gpxFilesList();
 	
 	// gpx 파일 정보 삽입
-	int insertGpxFile(GpxFilesDto gpx);
+	int insertGpxFile(GpxFilesDto gpx);	// fileSeq 넘어옴.
+	
 	
 }
