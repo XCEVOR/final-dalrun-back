@@ -38,10 +38,11 @@ public class ProductController {
         return service.allProductListService();
     }
 
-    @GetMapping(value = "allProductListDistinct")
-    public List<ProductDto> allProductListDistinct () {
-        System.out.println("  @ ProductController List<ProductDto> allProductListDistinct () { " + new Date());
-        return service.allProductListDistinct();
+    @GetMapping(value = "allProductListDeduplication")
+    public List<ProductDto> allProductListDeduplication () {
+        System.out.println("  @ ProductController List<ProductDto> allProductListDeduplication () { " + new Date());
+        System.out.println("  @ service.allProductListDeduplication() { " + service.allProductListDeduplication());
+        return service.allProductListDeduplication();
     }
     
     @PostMapping(value = "getProductData")

@@ -9,9 +9,10 @@
         FROM PRODUCT
     </select>
     
-    <select id="allProductListDistinct" resultType="com.dalrun.dto.ProductDto">
-        SELECT DISTINCT productCode
+    <select id="allProductListDeduplication" resultType="com.dalrun.dto.ProductDto">
+        SELECT MIN(productId), productCode, productCategory, productBrand, productName, productPrice
         FROM product
+        GROUP BY productCode, productCategory, productBrand, productName, productPrice;
     </select>
     
     <select id="getProductData" parameterType="String" resultType="com.dalrun.dto.ProductDto">

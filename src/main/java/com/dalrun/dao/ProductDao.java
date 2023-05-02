@@ -14,7 +14,7 @@ public interface ProductDao {
 
     List<ProductDto> allProductList ();
     
-    List<ProductDto> allProductListDistinct ();
+    List<ProductDto> allProductListDeduplication ();
     
     List<ProductDto> getProductData (String productCode);
     
