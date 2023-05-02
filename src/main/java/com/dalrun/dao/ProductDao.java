@@ -22,11 +22,19 @@ public interface ProductDao {
     
     int writeProductInquiry (ProductInquiryDto pidto);
     
+    int writeProductInquirySub (ProductInquiryDto pidto);
+    
+    int writeProductInquiryRefDepth (ProductInquiryDto pidto);
+    
+    int writeProductInquiryRefDepthSub (ProductInquiryDto pidto);
+    
     
     
     
     
     
     ProductDto getCartProductInfo (String productId);
+    
+    int insertProduct(ProductDto pdto);
     
 }

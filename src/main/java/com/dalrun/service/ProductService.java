@@ -38,7 +38,20 @@ public class ProductService {
         return isSucc > 0 ? true : false;
     }
     
+    public boolean writeProductInquirySub (ProductInquiryDto pidto) {
+        int isSucc = dao.writeProductInquirySub(pidto);
+        return isSucc > 0 ? true : false;
+    }
     
+    public boolean writeProductInquiryRefDepth (ProductInquiryDto pidto) {
+        int isSucc = dao.writeProductInquiryRefDepth(pidto);
+        return isSucc > 0 ? true : false;
+    }
+    
+    public boolean writeProductInquiryRefDepthSub (ProductInquiryDto pidto) {
+        int isSucc = dao.writeProductInquiryRefDepthSub(pidto);
+        return isSucc > 0 ? true : false;
+    }
     
     
     
@@ -46,6 +59,11 @@ public class ProductService {
     public ProductDto getCartProductInfo (String productId) {
         return dao.getCartProductInfo(productId);
     }
+    
+    public boolean insertProduct(ProductDto pdto) {
+		int n = dao.insertProduct(pdto);
+		return n>0?true:false;
+	}
     
 
 }

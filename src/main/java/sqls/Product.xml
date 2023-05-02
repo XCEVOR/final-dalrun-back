@@ -24,13 +24,31 @@
 	<select id="getProductInquiry" resultType="com.dalrun.dto.ProductInquiryDto">
         SELECT *
         FROM productinquiry
+        ORDER BY inqRef ASC
     </select>
 
 
     <insert id="writeProductInquiry" parameterType="com.dalrun.dto.ProductInquiryDto"> 
-        INSERT INTO productinquiry (inqWriter, inqContent, inqDate, productId, memId) 
-        VALUES (#{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
+        INSERT INTO productinquiry (inqSubseq, inqWriter, inqContent, inqDate, productId, memId) 
+        VALUES ((SELECT inqSeq FROM productinquiry a ORDER BY inqSeq DESC LIMIT 1)+1, #{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
     </insert>
+    
+    <insert id="writeProductInquirySub" parameterType="com.dalrun.dto.ProductInquiryDto"> 
+        INSERT INTO productinquiry (inqSubseq, inqWriter, inqContent, inqDate, productId, memId) 
+        VALUES (#{inqSubseq}, #{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
+    </insert>
+    
+    <insert id="writeProductInquiryRefDepth" parameterType="com.dalrun.dto.ProductInquiryDto"> 
+        INSERT INTO productinquiry (inqSubseq, inqRef, inqDepth, inqWriter, inqContent, inqDate, productId, memId) 
+        VALUES (#{inqSubseq}, (select ifnull(max(inqSeq), 0) + 1 from productinquiry b), #{inqDepth}, #{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
+    </insert>
+    
+    <insert id="writeProductInquiryRefDepthSub" parameterType="com.dalrun.dto.ProductInquiryDto"> 
+        INSERT INTO productinquiry (inqSubseq, inqRef, inqDepth, inqWriter, inqContent, inqDate, productId, memId) 
+        VALUES (#{inqSubseq}, #{inqRef}, 1, #{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
+    </insert>
+    
+    
     
     
     
@@ -42,5 +60,13 @@
         FROM product
         WHERE productId=#{productId}
     </select>
+    
+    <!-- 상품 등록 -->
+    <insert id="insertProduct" parameterType="com.dalrun.dto.ProductDto">
+		INSERT INTO PRODUCT(productId, productCode, productCategory, productBrand, productName, productPrice, productColor, productSize, productDescription, productOrigFile, productNewFile, productStock, productSale, productRegiDate)
+		SELECT concat('pid', LPAD(MAX(SUBSTR(productId, 4)+1),3,0)), #{productCode}, #{productCategory}, #{productBrand}, #{productName},
+		        #{productPrice}, #{productColor}, #{productSize}, #{productDescription}, #{productOrigFile}, #{productNewFile}, #{productStock}, #{productSale}, DATE_FORMAT(now(), "%Y-%m-%d")
+		FROM PRODUCT;
+    </insert>
 
 </mapper>

@@ -34,10 +34,10 @@
 	<sql id="searchCrew">
 		<if test="choice != null and choice != '' and search != null and search != ''">
 			<if test="choice == 'memId'">
-				WHERE memId LIKE CONCAT('%', #{search}, '%')
+				WHERE c.memId LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'crewName'">
-				WHERE crewName LIKE CONCAT('%', #{search}, '%')
+				WHERE c.crewName LIKE CONCAT('%', #{search}, '%')
 			</if>
 		</if>
 	</sql>
@@ -96,15 +96,10 @@
 				WHERE memId LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'title'">
-				WHERE diaryTitle LIKE CONCAT('%',#{search},'%')
+				WHERE title LIKE CONCAT('%',#{search},'%')
 			</if>
 			<if test="choice == 'content'">
 				WHERE content LIKE CONCAT('%',#{search},'%')
-			</if>
-			<if test="choice == 'crew'">
-				WHERE crewSeq = (SELECT crewSeq 
-					   			 FROM CREW
-					   			 WHERE #{search} = crewName) as C 
 			</if>
 		</if>
 	</sql>
@@ -197,16 +192,19 @@
 	<select id="crewlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.CrewDto">
 		SELECT *
 		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY crewCreateDate DESC) AS RNUM, crewSeq, memId, crewSetUp,
-				crewUpdate, maxMem, crewDel, crewLevel, crewImg, crewName, crewScore, crewcolor, crewCreateDate
-			FROM CREW
+			(SELECT ROW_NUMBER()OVER(ORDER BY c.crewCreateDate DESC) AS RNUM, c.crewSeq, c.memId, c.crewSetUp, c.crewUpdate, c.maxMem, c.crewDel, c.crewLevel, 
+				c.crewImg, c.crewName, c.crewScore, c.crewcolor, c.crewCreateDate, 
+				IFNULL(count(CASE WHEN m.crewMemDel IS NULL OR m.crewMemDel = 0 THEN m.memId END),0) AS crewMemberCnt
+			FROM CREW c 
+			LEFT JOIN CREWMEMBER m ON c.crewSeq = m.crewSeq
 			<include refid="searchCrew"></include>
-			ORDER BY crewCreateDate DESC) A
+			GROUP BY c.crewSeq
+			ORDER BY c.crewCreateDate DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllCrew" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
-		FROM CREW
+		FROM CREW c
 		<include refid="searchCrew"></include>
 	</select>
 	
@@ -227,12 +225,11 @@
 		<include refid="searchProductinqiry"></include>
 	</select>
 	
-	<!-- 
 	<select id="qnalist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.QnaDto">
 		SELECT *
 		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, qnaSeq, category, shopSeq, 
-				normalSeq, qnaTitle, wdate, readCount, question, answer, auth, del, memId
+			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, qnaSeq, category, qnaTitle, 
+				wdate, readCount, question, answer, auth, del, memId
 			FROM QNA
 			<include refid="searchQna"></include>
 			ORDER BY wdate DESC) A
@@ -242,7 +239,7 @@
 		SELECT IFNULL(COUNT(*), 0)
 		FROM QNA
 		<include refid="searchQna"></include>
-	</select> -->
+	</select>
 	
 	<select id="shoereviewlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ShoeDto">
 		SELECT *
@@ -259,22 +256,21 @@
 		FROM SHOEREVIEWDETAIL
 		<include refid="searchShoereview"></include>
 	</select>
-	<!--
+	
 	<select id="diarylist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.DiaryDto">
 		SELECT *
 		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY date DESC) AS RNUM, diarySeq, diaryTitle, 
-				content, gpx, record, time, dReplySeq, crewSeq, date
+			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, diarySeq, memId, crewSeq, title, content, wdate
 			FROM DIARY
 			<include refid="searchDiary"></include>
-			ORDER BY shoereviewRegdate DESC) A
+			ORDER BY wdate DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllDiary" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM DIARY
 		<include refid="searchDiary"></include>
-	</select> -->
+	</select>
 	
 	<select id="competitionlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.CompetitionDto">
 		SELECT *
@@ -313,7 +309,7 @@
 		SELECT *
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY orderDate DESC) AS RNUM, orderSeq, memId, orderName, orderAddress, 
-				orderPhone, orderRequirment, orderTotalprice, orderDate, orderQauntity, orderState, deliveryState
+				orderPhone, orderRequirment, orderTotalprice, orderDate, orderQuantity, orderState, deliveryState
 			FROM PRODUCTORDER
 			<include refid="searchOrder"></include>
 			ORDER BY orderDate DESC) A
@@ -341,7 +337,22 @@
 		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
 			#{item}
 		</foreach>
+	</update>
+	
+	<update id="updatecrew" parameterType="com.dalrun.dto.CrewDto">
+		UPDATE CREW
+		SET crewName=#{crewName}, memId=#{memId}, crewSetUp=#{crewSetUp}, crewUpdate=DATE_FORMAT(now(), "%Y-%m-%d"), maxMem=#{maxMem}, crewLevel=#{crewLevel}, crewScore=#{crewScore}, crewcolor=#{crewcolor}
+		WHERE crewSeq = #{crewSeq}
 	</update>	
+	
+	<update id="delcrew" parameterType="List">
+		UPDATE CREW
+		SET crewDel=1
+		WHERE crewSeq IN 
+		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
 	
 	<!-- 쇼핑몰 관리 -->
 	<select id="getProductOrder" parameterType="String" resultType="int">

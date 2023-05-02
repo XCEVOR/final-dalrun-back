@@ -7,7 +7,7 @@ import java.sql.Date;
 public class CrewMemberDto implements Serializable{
 	private int cMemberSeq;
 	private int crewSeq;
-	private int memId;
+	private String memId;
 	private int crewConfirm;
 	private Date crewRegDate;
 	private Date crewMemUpdate;
@@ -17,7 +17,7 @@ public class CrewMemberDto implements Serializable{
 	public CrewMemberDto() {
 	}
 	
-	public CrewMemberDto(int crewSeq, int memId, int crewConfirm, Date crewRegDate, int crewMemDel, int crewAuth) {
+	public CrewMemberDto(int crewSeq, String memId, int crewConfirm, Date crewRegDate, int crewMemDel, int crewAuth) {
 		super();
 		this.crewSeq = crewSeq;
 		this.memId = memId;
@@ -28,7 +28,7 @@ public class CrewMemberDto implements Serializable{
 	}
 
 
-	public CrewMemberDto(int cMemberSeq, int crewSeq, int memId, int crewConfirm, Date crewRegDate, Date crewMemUpdate,
+	public CrewMemberDto(int cMemberSeq, int crewSeq, String memId, int crewConfirm, Date crewRegDate, Date crewMemUpdate,
 			int crewMemDel, int crewAuth) {
 		super();
 		this.cMemberSeq = cMemberSeq;
@@ -57,11 +57,11 @@ public class CrewMemberDto implements Serializable{
 		this.crewSeq = crewSeq;
 	}
 
-	public int getMemId() {
+	public String getMemId() {
 		return memId;
 	}
 
-	public void setMemId(int memId) {
+	public void setMemId(String memId) {
 		this.memId = memId;
 	}
 

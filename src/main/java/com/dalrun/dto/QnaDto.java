@@ -7,7 +7,7 @@ public class QnaDto implements Serializable{
 
 	private int qnaSeq;			// QnA 번호
 	private int category;		// 질문 카테고리
-	private String title;		// 질문 제목
+	private String qnaTitle;		// 질문 제목
 	private Date wdate;			// 작성 일
 	private int readcount;		// 조회 수
 	private String question;	// 질문 글 내용
@@ -18,12 +18,12 @@ public class QnaDto implements Serializable{
 	public QnaDto() {
 	}
 
-	public QnaDto(int qnaSeq, int category, String title, Date wdate, int readcount, String question, String answer,
+	public QnaDto(int qnaSeq, int category, String qnaTitle, Date wdate, int readcount, String question, String answer,
 			int auth, int del) {
 		super();
 		this.qnaSeq = qnaSeq;
 		this.category = category;
-		this.title = title;
+		this.qnaTitle = qnaTitle;
 		this.wdate = wdate;
 		this.readcount = readcount;
 		this.question = question;
@@ -48,12 +48,12 @@ public class QnaDto implements Serializable{
 		this.category = category;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getQnaTitle() {
+		return qnaTitle;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setTitle(String qnaTitle) {
+		this.qnaTitle = qnaTitle;
 	}
 
 	public Date getWdate() {
