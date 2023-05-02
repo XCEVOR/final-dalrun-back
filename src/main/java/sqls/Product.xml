@@ -44,7 +44,7 @@
     
     <insert id="writeProductInquiryRefDepthSub" parameterType="com.dalrun.dto.ProductInquiryDto"> 
         INSERT INTO productinquiry (inqSubseq, inqRef, inqDepth, inqWriter, inqContent, inqDate, productId, memId) 
-        VALUES (#{inqSubseq}, (select inqRef from productinquiry a where inqRef=#{inqRef}), 1, #{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
+        VALUES (#{inqSubseq}, #{inqRef}, 1, #{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
     </insert>
     
     
