@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.dalrun.dto.CartDto;
+import com.dalrun.dto.OrderDetailDto;
 import com.dalrun.dto.OrderDto;
 
 @Mapper
@@ -17,5 +18,7 @@ public interface OrderDao {
     int writeOrderData (OrderDto oDto);
     
     OrderDto getOrder(int orderSeq);
+    
+    List<OrderDetailDto> getOrderDetail(long orderNumber);
     
 }

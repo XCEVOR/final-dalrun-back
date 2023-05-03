@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dalrun.dto.CartDto;
+import com.dalrun.dto.OrderDetailDto;
 import com.dalrun.dto.OrderDto;
 import com.dalrun.service.OrderService;
 
@@ -44,6 +45,15 @@ public class OrderController {
     	OrderDto order = service.getOrder(orderSeq);
     	
     	return order;
+    }
+    
+    @PostMapping(value = "getOrderDetail")
+    public List<OrderDetailDto> getOrderDetail(long orderNumber) {
+    	System.out.println("  @ OrderController getOrderDetail " + new Date());
+    	
+    	List<OrderDetailDto> orderdetail = service.getOrderDetail(orderNumber);
+    	
+    	return orderdetail;
     }
 }
 

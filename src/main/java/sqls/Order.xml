@@ -41,4 +41,13 @@
     	FROM PRODUCTORDER
     	WHERE orderNumber = #{orderNumber}
     </select>
+    
+    <!-- 주문상세 조회 -->
+    <select id="getOrderDetail" parameterType="long" resultType="com.dalrun.dto.OrderDetailDto">
+    	SELECT od.*, p.productColor AS option1, p.productSize AS option2
+		FROM PRODUCTORDERDETAIL od
+		JOIN PRODUCT p ON od.productId = p.productId
+		WHERE od.orderNumber = #{orderNumber}
+
+    </select>
 </mapper>
