@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class OrderDto implements Serializable{
 	
-    private int orderNumber;
+    private long orderNumber;
     private String memId;
     private String orderName;
     private String orderAddress;
@@ -40,11 +40,11 @@ public class OrderDto implements Serializable{
         this.productId = productId;
     }
 
-    public int getOrderNumber() {
+    public long getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(int orderNumber) {
+    public void setOrderNumber(long orderNumber) {
         this.orderNumber = orderNumber;
     }
 
