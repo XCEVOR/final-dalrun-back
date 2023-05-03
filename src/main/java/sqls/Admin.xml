@@ -296,7 +296,7 @@
 				productColor, productSize, productDescription, productOrigFile, productNewFile, productStock, productSale, productRegiDate
 			FROM PRODUCT
 			<include refid="searchProduct"></include>
-			ORDER BY productRegiDate DESC) A
+			ORDER BY productRegiDate DESC, productId DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllProduct" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
@@ -312,7 +312,7 @@
 				orderPhone, orderRequirment, orderTotalprice, orderDate, orderQuantity, orderState, deliveryState
 			FROM PRODUCTORDER
 			<include refid="searchOrder"></include>
-			ORDER BY orderDate DESC) A
+			ORDER BY orderDate DESC, orderNumber DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllOrder" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
