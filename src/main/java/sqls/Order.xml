@@ -43,9 +43,12 @@
     </insert>
     
     <!-- 주문상세정보 입력 -->
-    <insert id="writeOrderDetail" parameterType="com.dalrun.dto.OrderDetailDto">
+    <insert id="writeOrderDetail" parameterType="List">
     	INSERT INTO PRODUCTORDERDETAIL(orderNumber, productId, productName, productPrice, productQuantity)
-    	VALUES(#{orderNumber}, #{productId}, #{productName}, #{productPrice}, #{productQuantity})
+    	VALUES
+    	<foreach collection="list" item="orderDetail" separator=",">
+    		(#{orderDetail.orderNumber}, #{orderDetail.productId}, #{orderDetail.productName}, #{orderDetail.productPrice}, #{orderDetail.productQuantity})
+ 		</foreach>
     </insert>
     
     <!-- 주문 조회 -->
