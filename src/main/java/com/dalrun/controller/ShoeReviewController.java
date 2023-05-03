@@ -23,6 +23,13 @@ public class ShoeReviewController {
         return service.getAllShoeReviewList();
     }
     
+    @PostMapping(value = "getSingleShoeReview")
+    public ShoeDto getSingleShoeReview (int shoereviewdetailSeq) {
+        System.out.println("  @ ShoeReviewController ShoeDto getSingleShoeReview (int shoereviewdetailSeq) { " + new Date());
+        System.out.println("  @ shoereviewdetailSeq: " + shoereviewdetailSeq);
+        return service.getSingleShoeReview(shoereviewdetailSeq);
+    }
+    
 
 
 }

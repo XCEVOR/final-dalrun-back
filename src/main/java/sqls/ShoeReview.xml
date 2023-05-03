@@ -9,6 +9,12 @@
         FROM shoereviewdetail
     </select>
     
+    <select id="getSingleShoeReview" parameterType="Integer" resultType="com.dalrun.dto.ShoeDto">
+        SELECT *
+        FROM shoereviewdetail
+        WHERE shoereviewdetailSeq=#{shoereviewdetailSeq}
+    </select>
+    
     
 
     

@@ -21,4 +21,8 @@ public class ShoeReviewService {
         return dao.getAllShoeReviewList();
     }
     
+    public ShoeDto getSingleShoeReview (int shoereviewdetailSeq) {
+        return dao.getSingleShoeReview(shoereviewdetailSeq);
+    }
+    
 }

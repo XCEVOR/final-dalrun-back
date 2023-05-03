@@ -14,4 +14,6 @@ public interface ShoeReviewDao {
 
     List<ShoeDto> getAllShoeReviewList ();
     
+    ShoeDto getSingleShoeReview (int shoereviewdetailSeq);
+    
 }
