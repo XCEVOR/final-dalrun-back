@@ -22,9 +22,10 @@
                                   orderName, 
                                   orderAddress, 
                                   orderPhone, 
-                                  orderRequirment,          
+                                  orderRequirment,  
                                   orderTotalprice,          
-                                  orderQuantity)
+                                  orderQuantity,
+                                  orderDate)   
         VALUES                   (ROUND(UNIX_TIMESTAMP(CURTIME(4)) * 1000),
                                   #{memId}, 
                                   #{orderName}, 
@@ -32,11 +33,12 @@
                                   #{orderPhone}, 
                                   #{orderRequirment},          
                                   #{orderTotalprice},          
-                                  #{orderQuantity})
+                                  #{orderQuantity}, 
+                                  now())
     </insert>
     
     <!-- 주문 조회 -->
-    <select id="getOrder" parameterType="int" resultType="com.dalrun.dto.OrderDto">
+    <select id="getOrder" parameterType="long" resultType="com.dalrun.dto.OrderDto">
     	SELECT *
     	FROM PRODUCTORDER
     	WHERE orderNumber = #{orderNumber}

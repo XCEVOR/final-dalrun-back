@@ -27,7 +27,7 @@ public class OrderService {
         return num > 0 ? true : false;
     }
     
-    public OrderDto getOrder(int orderSeq) {
+    public OrderDto getOrder(long orderSeq) {
 		return dao.getOrder(orderSeq);
 	}
     
