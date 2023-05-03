@@ -22,6 +22,8 @@ import com.dalrun.service.DiaryService;
 import com.dalrun.service.GpxDataService;
 import com.dalrun.service.GpxFilesService;
 import com.dalrun.util.GpxParserUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -118,8 +120,21 @@ public class GpxController {
 					    }
 					}
 					
+					// 저장한 데이터들 내보내기
+					List<GpxDataDto> data = gdService.getGPXData(gpx.getFileSeq());
+					// List를 JSON 형식으로 변환
+					ObjectMapper objectMapper = new ObjectMapper();
+					String json;
+					try {
+				        json = objectMapper.writeValueAsString(data);
+				    } catch (Exception e) {
+				        e.printStackTrace();
+				        return "데이터 JSON 변환 실패!";
+				    }
+					
+					
 					System.out.println("모든 업로드 성공!");
-	                return "Upload Success";
+	                return json;
 
 	            } catch (Exception e) {	// 파일 저장 실패 시
 	            	System.out.println("gpxFile 저장 실패!");

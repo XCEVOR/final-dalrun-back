@@ -53,16 +53,16 @@ import java.util.ArrayList;
 	                double ele = 0.0;
 	                Node eleNode = trkpt.getFirstChild();	// eleNode = <ele>
 	                if (eleNode != null && eleNode.getNodeName().equals("ele")) {
-	                    ele = Double.parseDouble(eleNode.getTextContent())*0.3048;	// 단위 변환
+	                    ele = Double.parseDouble(eleNode.getTextContent());
 	                }
 
 	                // 측정 시간
-	                LocalTime time = null;
+	                String time = null;
 	                Node timeNode = trkpt.getLastChild();	// timeNode = <time>
 	                if (timeNode != null && timeNode.getNodeName().equals("time")) {
 	                    String timeStr = timeNode.getTextContent();
-	                    LocalDateTime dateT = LocalDateTime.parse(timeStr, DateTimeFormatter.ISO_DATE_TIME);
-	                    time = dateT.toLocalTime();
+	                   // LocalDateTime dateT = LocalDateTime.parse(timeStr, DateTimeFormatter.ISO_DATE_TIME);
+	                    time = timeStr.substring(timeStr.indexOf("T") + 1, timeStr.indexOf("Z"));
 	                }
 
 

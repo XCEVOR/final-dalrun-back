@@ -17,4 +17,11 @@
     	VALUES (#{fileSeq}, #{diarySeq}, #{memId}, #{latitude}, #{longitude}, #{altitude}, #{mTime})
     </insert>
     
+    <!-- insert한 기록 데이터 전달 -->
+    <select id="getGPXData" resultType="com.dalrun.dto.GpxDataDto">
+    	SELECT *
+    	FROM gpxdata
+    	WHERE fileSeq = #{fileSeq}
+    </select>
+    
 </mapper>
