@@ -63,10 +63,10 @@ public class OrderController {
     }
     
     @PostMapping(value = "getorder")
-    public OrderDto getOrder(@RequestParam("target") long orderSeq) {
+    public OrderDto getOrder(@RequestParam("target") long orderNumber) {
     	System.out.println("  @ OrderController getOrder " + new Date());
     	
-    	OrderDto order = service.getOrder(orderSeq);
+    	OrderDto order = service.getOrder(orderNumber);
     	
     	return order;
     }
