@@ -359,13 +359,13 @@
 	<!-- 쇼핑몰 관리 -->
 	<select id="getProductOrder" parameterType="String" resultType="int">
 		SELECT IFNULL(COUNT(*), 0) 
-		FROM PRODUCTORDER
+		FROM PRODUCTORDERDETAIL
 		WHERE productId = #{productId}
 	</select>
 	<update id="updateproduct" parameterType="com.dalrun.dto.ProductDto">
 		UPDATE PRODUCT
-		SET productCode=#{productCode}, productCategory=#{productCategory}, productName=#{productName}, productDescription=#{productDescription},
-			productPrice=#{productPrice}, productStock=#{productStock}, productSale=#{productSale}, productRegiDate=#{productRegiDate}
+		SET productCode=#{productCode}, productCategory=#{productCategory}, productName=#{productName}, productDescription=#{productDescription}, productColor=#{productColor}, 
+			productSize=#{productSize}, productPrice=#{productPrice}, productStock=#{productStock}, productSale=#{productSale}, productRegiDate=#{productRegiDate}
 		WHERE productId=#{productId}
 	</update>
 	<delete id="delproduct" parameterType="String">
@@ -382,7 +382,7 @@
 	</update>
 	<delete id="delorder" parameterType="List">
 		DELETE FROM PRODUCTORDER
-		WHERE orderSeq IN
+		WHERE orderNumber IN
 		<include refid="commonForeach"></include>
 	</delete>
 </mapper>
