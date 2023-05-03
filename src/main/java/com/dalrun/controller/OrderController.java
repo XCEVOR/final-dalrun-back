@@ -1,7 +1,9 @@
 package com.dalrun.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dalrun.dao.OrderDao;
 import com.dalrun.dto.CartDto;
 import com.dalrun.dto.OrderDetailDto;
 import com.dalrun.dto.OrderDto;
@@ -28,14 +31,35 @@ public class OrderController {
     
 
     @PostMapping(value = "writeOrderData")
-    public String writeOrderData (OrderDto oDto) {
+    public Map<String, Object> writeOrderData (OrderDto oDto) {
         System.out.println("  @ OrderController String writeOrderData (CartDto cdto) { " + new Date());
         System.out.println(oDto);
         boolean isSucc = service.writeOrderData(oDto);
+        
+        long orderNumber = oDto.getOrderNumber();	// insert후 생성된 orderNumber
+        System.out.println("orderNumber = " + orderNumber);
+        
+        Map<String, Object> resultMap = new HashMap<>();	// insert결과와 orderNumber저장할 map
+        String isS = "SUCCESS";
+        
+        resultMap.put("orderNumber", orderNumber);
+        
         if (isSucc == false) {
-            return "FAIL";
+        	isS = "FAIL";
         }
-        return "SUCCESS";
+        
+        resultMap.put("result", isS);
+        return resultMap;
+    }
+    
+    @PostMapping(value = "writeOrderDetail")
+    public String writeOrderDetail(long orderNumber) {
+    	System.out.println("  @ OrderController writeOrderDetail " + new Date());
+    	
+    	boolean isSucc = service.writeOrderDetail(orderNumber);
+    	
+    	if(!isSucc) return "FAIL";
+    	return "SUCCESS";
     }
     
     @PostMapping(value = "getorder")

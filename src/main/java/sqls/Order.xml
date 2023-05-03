@@ -16,7 +16,7 @@
     </insert>
     
     
-    <insert id="writeOrderData" parameterType="com.dalrun.dto.OrderDto">
+    <insert id="writeOrderData" parameterType="com.dalrun.dto.OrderDto">  
         INSERT INTO productorder (orderNumber,
                                   memId, 
                                   orderName, 
@@ -35,6 +35,17 @@
                                   #{orderTotalprice},          
                                   #{orderQuantity}, 
                                   now())
+                                  
+    	<!-- insert후 주문번호를 받기 -->
+		<selectKey resultType="long" keyProperty="orderNumber" order="AFTER">
+			SELECT MAX(orderNumber) FROM PRODUCTORDER
+      	</selectKey>                                 
+    </insert>
+    
+    <!-- 주문상세정보 입력 -->
+    <insert id="writeOrderDetail">
+    	INSERT INTO PRODUCTORDERDETAIL(orderNumber, productId, productName, productPrice, productQuantity)
+    	VALUES(#{orderNumber}, #{productId}, #{productName}, #{productPrice}, #{productQuantity})
     </insert>
     
     <!-- 주문 조회 -->

@@ -27,8 +27,13 @@ public class OrderService {
         return num > 0 ? true : false;
     }
     
-    public OrderDto getOrder(long orderSeq) {
-		return dao.getOrder(orderSeq);
+    public boolean writeOrderDetail(long orderNumber) {
+		int n = dao.writeOrderDetail(orderNumber);
+		return n>0?true:false;
+	}
+    
+    public OrderDto getOrder(long orderNumber) {
+		return dao.getOrder(orderNumber);
 	}
     
     public List<OrderDetailDto> getOrderDetail(long orderNumber) {
