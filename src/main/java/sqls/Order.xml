@@ -11,13 +11,13 @@
     
     
     <insert id="addToCart" parameterType="com.dalrun.dto.CartDto">
-        INSERT INTO cart (cartId, cartProdQuantity, productId, memId, orderSeq)
-        VALUES (#{cartId}, #{cartProdQuantity}, #{productId}, #{memId}, #{orderSeq})
+        INSERT INTO cart (cartId, cartProdQuantity, productId, memId, orderNumber)
+        VALUES (#{cartId}, #{cartProdQuantity}, #{productId}, #{memId}, #{orderNumber})
     </insert>
     
     
     <insert id="writeOrderData" parameterType="com.dalrun.dto.OrderDto">
-        INSERT INTO productorder (orderNunber,
+        INSERT INTO productorder (orderNumber,
                                   memId, 
                                   orderName, 
                                   orderAddress, 
@@ -39,6 +39,6 @@
     <select id="getOrder" parameterType="int" resultType="com.dalrun.dto.OrderDto">
     	SELECT *
     	FROM PRODUCTORDER
-    	WHERE orderSeq = #{orderSeq}
+    	WHERE orderNumber = #{orderNumber}
     </select>
 </mapper>

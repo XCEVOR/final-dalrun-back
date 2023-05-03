@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class OrderDto implements Serializable{
 	
-    private int orderSeq;
     private int orderNumber;
     private String memId;
     private String orderName;
@@ -23,11 +22,10 @@ public class OrderDto implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-    public OrderDto(int orderSeq, int orderNumber, String memId, String orderName, String orderAddress,
+    public OrderDto(int orderNumber, String memId, String orderName, String orderAddress,
             String orderPhone, String orderRequirment, String orderTotalprice, String orderDate, int orderQuantity,
             int orderState, int deliveryState, String productId) {
         super();
-        this.orderSeq = orderSeq;
         this.orderNumber = orderNumber;
         this.memId = memId;
         this.orderName = orderName;
@@ -40,14 +38,6 @@ public class OrderDto implements Serializable{
         this.orderState = orderState;
         this.deliveryState = deliveryState;
         this.productId = productId;
-    }
-
-	public int getOrderSeq() {
-        return orderSeq;
-    }
-
-    public void setOrderSeq(int orderSeq) {
-        this.orderSeq = orderSeq;
     }
 
     public int getOrderNumber() {
@@ -149,7 +139,7 @@ public class OrderDto implements Serializable{
 
     @Override
     public String toString() {
-        return "OrderDto [orderSeq=" + orderSeq + ", orderNumber=" + orderNumber + ", memId=" + memId + ", orderName="
+        return "OrderDto [orderNumber=" + orderNumber + ", memId=" + memId + ", orderName="
                 + orderName + ", orderAddress=" + orderAddress + ", orderPhone=" + orderPhone + ", orderRequirment="
                 + orderRequirment + ", orderTotalprice=" + orderTotalprice + ", orderDate=" + orderDate
                 + ", orderQuantity=" + orderQuantity + ", orderState=" + orderState + ", deliveryState=" + deliveryState

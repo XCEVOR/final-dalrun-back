@@ -156,7 +156,7 @@
 			</if>
 			<choose>
 				<when test="choice == 'orderSeq'">
-					orderSeq = #{search}
+					orderNumber = #{search}
 				</when>
 				<when test="choice == 'memId'">
 					memId LIKE CONCAT('%',#{search},'%')
@@ -308,7 +308,7 @@
 	<select id="orderlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.OrderDto">
 		SELECT *
 		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY orderDate DESC) AS RNUM, orderSeq, memId, orderName, orderAddress, 
+			(SELECT ROW_NUMBER()OVER(ORDER BY orderDate DESC) AS RNUM, orderNumber, memId, orderName, orderAddress, 
 				orderPhone, orderRequirment, orderTotalprice, orderDate, orderQuantity, orderState, deliveryState
 			FROM PRODUCTORDER
 			<include refid="searchOrder"></include>
@@ -378,7 +378,7 @@
 		UPDATE PRODUCTORDER
 		SET	memId=#{memId}, orderName=#{orderName}, orderAddress=#{orderAddress}, orderPhone=#{orderPhone}, orderRequirment=#{orderRequirment}, 
 			orderQuantity=#{orderQuantity}, orderTotalprice=#{orderTotalprice}, orderState=#{orderState}, deliveryState=#{deliveryState}
-		WHERE orderSeq = #{orderSeq}
+		WHERE orderNumber = #{orderNumber}
 	</update>
 	<delete id="delorder" parameterType="List">
 		DELETE FROM PRODUCTORDER
