@@ -27,8 +27,8 @@ public class OrderService {
         return num > 0 ? true : false;
     }
     
-    public boolean writeOrderDetail(long orderNumber) {
-		int n = dao.writeOrderDetail(orderNumber);
+    public boolean writeOrderDetail(List<OrderDetailDto> orderlist) {
+		int n = dao.writeOrderDetail(orderlist);
 		return n>0?true:false;
 	}
     

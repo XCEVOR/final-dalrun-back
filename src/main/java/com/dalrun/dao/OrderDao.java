@@ -17,7 +17,7 @@ public interface OrderDao {
     
     int writeOrderData (OrderDto oDto);
     
-    int writeOrderDetail(long orderNumber);
+    int writeOrderDetail(List<OrderDetailDto> orderlist);
     
     OrderDto getOrder(long orderNumber);
     

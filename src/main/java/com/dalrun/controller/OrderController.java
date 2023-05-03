@@ -53,10 +53,10 @@ public class OrderController {
     }
     
     @PostMapping(value = "writeOrderDetail")
-    public String writeOrderDetail(long orderNumber) {
+    public String writeOrderDetail(List<OrderDetailDto> orderlist) {
     	System.out.println("  @ OrderController writeOrderDetail " + new Date());
     	
-    	boolean isSucc = service.writeOrderDetail(orderNumber);
+    	boolean isSucc = service.writeOrderDetail(orderlist);
     	
     	if(!isSucc) return "FAIL";
     	return "SUCCESS";
