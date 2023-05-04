@@ -73,6 +73,10 @@ public interface AdminDao {
 	// 게시물 관리
 	int delproductinquiry(int[] checkedList);
 	
+	int delshoereview(int[] checkedList);
+	
+	int deldiary(int[] checkedList);
+	
 	// 쇼핑몰 관리
 	int getProductOrder(String productId);
 	

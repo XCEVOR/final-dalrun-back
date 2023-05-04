@@ -363,6 +363,18 @@
 		<include refid="commonForeach"></include>
 	</delete>
 	
+	<delete id="delshoereview" parameterType="List">
+		DELETE FROM SHOEREVIEW
+		WHERE shoereviewSeq IN
+		<include refid="commonForeach"></include>
+	</delete>
+	
+	<delete id="deldiary" parameterType="List">
+		DELETE FROM DIARY
+		WHERE diarySeq IN
+		<include refid="commonForeach"></include>
+	</delete>
+	
 	<!-- 쇼핑몰 관리 -->
 	<select id="getProductOrder" parameterType="String" resultType="int">
 		SELECT IFNULL(COUNT(*), 0) 

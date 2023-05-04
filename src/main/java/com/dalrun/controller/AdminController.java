@@ -217,6 +217,22 @@ public class AdminController {
 		return str(b);
 	}
 	
+	@PostMapping(value = "admin_delshoereview")
+	public String delshoereview(@RequestParam("checkedList") int[] checkedList) {
+		System.out.println("AdminController delshoereview " + new Date());
+		
+		boolean b = service.delshoereview(checkedList);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_deldiary")
+	public String deldiary(@RequestParam("checkedList") int[] checkedList) {
+		System.out.println("AdminController deldiary " + new Date());
+		
+		boolean b = service.deldiary(checkedList);
+		return str(b);
+	}
+	
 	// 쇼핑몰 관리
 	@PostMapping(value = "getproduct")
 	public Map<String, Object> getProduct(@RequestParam("target") String productId) {
