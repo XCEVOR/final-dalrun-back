@@ -21,6 +21,10 @@ public class ProductService {
         return dao.allProductList();
     }
     
+    public List<ProductDto> allProductListDeduplication () {
+        return dao.allProductListDeduplication();
+    }
+    
     public List<ProductDto> getProductData (String productCode) {
         return dao.getProductData(productCode);
     }
@@ -28,6 +32,24 @@ public class ProductService {
     public List<ProductDto> getSelectedProductInfo (ProductDto pdto) {
         return dao.getSelectedProductInfo(pdto);
     }
+    
+    public boolean updateProductView (ProductDto pdto) {
+        int isSucc = dao.updateProductView(pdto);
+        return isSucc > 0 ? true : false;
+    }
+    
+    public boolean updateProductLike (ProductDto pdto) {
+        int isSucc = dao.updateProductLike(pdto);
+        return isSucc > 0 ? true : false;
+    }
+    
+    public boolean updateProductRecomm (ProductDto pdto) {
+        int isSucc = dao.updateProductRecomm(pdto);
+        return isSucc > 0 ? true : false;
+    }
+    
+    
+    
     
     public List<ProductInquiryDto> getProductInquiry () {
         return dao.getProductInquiry();
@@ -38,7 +60,22 @@ public class ProductService {
         return isSucc > 0 ? true : false;
     }
     
+    public boolean writeProductInquirySub (ProductInquiryDto pidto) {
+        int isSucc = dao.writeProductInquirySub(pidto);
+        return isSucc > 0 ? true : false;
+    }
     
+    public boolean writeProductInquiryRefDepth (ProductInquiryDto pidto) {
+        int isSucc = dao.writeProductInquiryRefDepth(pidto);
+        return isSucc > 0 ? true : false;
+    }
+    
+    public boolean writeProductInquiryRefDepthSub (ProductInquiryDto pidto) {
+        int isSucc = dao.writeProductInquiryRefDepthSub(pidto);
+        return isSucc > 0 ? true : false;
+    }
+    
+
     
     
     
@@ -46,6 +83,11 @@ public class ProductService {
     public ProductDto getCartProductInfo (String productId) {
         return dao.getCartProductInfo(productId);
     }
+    
+    public boolean insertProduct(ProductDto pdto) {
+		int n = dao.insertProduct(pdto);
+		return n>0?true:false;
+	}
     
 
 }

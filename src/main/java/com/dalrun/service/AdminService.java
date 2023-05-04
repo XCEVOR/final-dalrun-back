@@ -16,7 +16,7 @@ import com.dalrun.dto.ProductDto;
 import com.dalrun.dto.ProductInquiryDto;
 import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
-import com.dalrun.dto.ShoeDto;
+import com.dalrun.dto.ShoeReviewDto;
 
 @Service
 @Transactional
@@ -51,7 +51,6 @@ public class AdminService {
 		return dao.getAllProductinquiry(params);
 	}
 	
-	/*
 	public List<QnaDto> qnalist(SearchParam params) {
 		return dao.qnalist(params);
 	}
@@ -59,15 +58,15 @@ public class AdminService {
 	public int getAllQna(SearchParam params) {
 		return dao.getAllQna(params);
 	}
-	*/
-	public List<ShoeDto> shoereviewlist(SearchParam params) {
+	
+	public List<ShoeReviewDto> shoereviewlist(SearchParam params) {
 		return dao.shoereviewlist(params);
 	}
 	
 	public int getAllShoereview(SearchParam params) {
 		return dao.getAllShoereview(params);
 	}
-	/*
+	
 	public List<DiaryDto> diarylist(SearchParam params) {
 		return dao.diarylist(params);
 	}
@@ -75,7 +74,7 @@ public class AdminService {
 	public int getAllDiary(SearchParam params) {
 		return dao.getAllDiary(params);
 	}
-	*/
+	
 	public List<CompetitionDto> competitionlist(SearchParam params) {
 		return dao.competitionlist(params);
 	}
@@ -113,6 +112,16 @@ public class AdminService {
 		return n>0?true:false;
 	}
 	
+	public boolean updatcrew(CrewDto crewdto) {
+		int n = dao.updatecrew(crewdto); 
+		return n>0?true:false;
+	}
+	
+	public boolean delcrew(String[] checkedList) {
+		int n = dao.delcrew(checkedList);
+		return n>0?true:false;
+	}
+	
 	// 쇼핑몰 관리
 	public int getProductOrder(String productId) {
 		return dao.getProductOrder(productId);
@@ -125,6 +134,16 @@ public class AdminService {
 	
 	public boolean delproduct(String[] checkedList) {
 		int n = dao.delproduct(checkedList);
+		return n>0?true:false;
+	}
+	
+	public boolean updateorder(OrderDto orderdto) {
+		int n = dao.updateorder(orderdto);
+		return n>0?true:false;
+	}
+	
+	public boolean delorder(String[] checkedList) {
+		int n = dao.delorder(checkedList);
 		return n>0?true:false;
 	}
 }

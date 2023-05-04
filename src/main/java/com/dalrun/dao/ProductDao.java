@@ -14,19 +14,38 @@ public interface ProductDao {
 
     List<ProductDto> allProductList ();
     
+    List<ProductDto> allProductListDeduplication ();
+    
     List<ProductDto> getProductData (String productCode);
     
     List<ProductDto> getSelectedProductInfo (ProductDto pdto);
+    
+    int updateProductView (ProductDto pdto);
+    
+    int updateProductLike (ProductDto pdto);
+    
+    int updateProductRecomm (ProductDto pdto);
+    
+    
+    
     
     List<ProductInquiryDto> getProductInquiry ();
     
     int writeProductInquiry (ProductInquiryDto pidto);
     
+    int writeProductInquirySub (ProductInquiryDto pidto);
     
+    int writeProductInquiryRefDepth (ProductInquiryDto pidto);
+    
+    int writeProductInquiryRefDepthSub (ProductInquiryDto pidto);
+    
+
     
     
     
     
     ProductDto getCartProductInfo (String productId);
+    
+    int insertProduct(ProductDto pdto);
     
 }

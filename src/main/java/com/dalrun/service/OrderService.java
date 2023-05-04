@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dalrun.dao.OrderDao;
 import com.dalrun.dto.CartDto;
+import com.dalrun.dto.OrderDetailDto;
 import com.dalrun.dto.OrderDto;
 
 @Service
@@ -26,5 +27,17 @@ public class OrderService {
         return num > 0 ? true : false;
     }
     
+    public boolean writeOrderDetail(List<OrderDetailDto> orderlist) {
+		int n = dao.writeOrderDetail(orderlist);
+		return n>0?true:false;
+	}
+    
+    public OrderDto getOrder(long orderNumber) {
+		return dao.getOrder(orderNumber);
+	}
+    
+    public List<OrderDetailDto> getOrderDetail(long orderNumber) {
+		return dao.getOrderDetail(orderNumber);
+	}
   
 }
