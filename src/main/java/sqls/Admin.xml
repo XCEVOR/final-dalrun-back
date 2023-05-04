@@ -377,7 +377,7 @@
 	</update>
 	<delete id="delproductinquiry" parameterType="List">
 		DELETE FROM PRODUCTINQUIRY
-		WHERE inqSeq IN
+		WHERE inqRef IN
 		<include refid="commonForeach"></include>
 	</delete>
 	
