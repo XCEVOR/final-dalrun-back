@@ -23,4 +23,9 @@ public interface MemberDao{
 	MemberDto getmember(String target);
 	
 	int MinusPoint(MemberDto dto);
+	
+	MemberDto getmemberbyemail(String email);
+	
+	//user memId 가져옴
+	String getMemId(String memId);
 }

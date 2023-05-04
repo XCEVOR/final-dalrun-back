@@ -2,18 +2,110 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
+<!--	CREATE TABLE `crewRecruitBbs` (
+	`cBbsSeq`	int auto_increment	primary key,
+	`memId`	varchar(60)	NOT NULL,
+	`title`	varchar(200)	NULL,
+	`content`	varchar(4000)	NULL,
+	`type`	varchar(50)	NULL,
+	`wdate`	date	NOT NULL,
+	`readCount`	int	NULL,
+	`likeCount`	int	NULL,
+	`del`	decimal(1)	NULL,
+	`img`	longblob	NULL
+);-->
 <mapper namespace="com.dalrun.dao.CrewBbsDao">
 	
-	<select id="getCrewBbs" parameterType="Integer" resultType="com.dalrun.dto.CrewBbsDto">
-		select cBbSeq, memId, title, content, type, wdate, readcount, likecount, del, img
+	<select id="getCrewBbs" parameterType="java.lang.Integer" resultType="com.dalrun.dto.CrewBbsDto">
+		<!--select cBbsSeq, memId, title, content, type, wdate, readcount, likecount, del, img, crewName-->
+		select *
 		from crewRecruitBbs
 		where cBbsSeq=#{cBbsSeq}
 	</select>
 	
 	<insert id="writeCrewBbs" parameterType="com.dalrun.dto.CrewBbsDto">
-		insert into crewRecruitBbs(memId, title, content, type, wdate, readcount, likecount, del, img)
-		values(#{memId}, #{title}, #{content}, #{type}, now(), 0, 0 , 0 , 1, #{img})
+		insert into crewRecruitBbs(memId, title, content, type, wdate, readcount, likecount, del, crewName, img)
+		values(#{memId}, #{title}, #{content}, #{type}, now(), 0, 0 , 0, #{crewName}, #{img})
 	</insert>
+	
+	<!--모든 게시글 리스트 보이기(최신순)-->
+	<select id="crewBbsList" parameterType="com.dalrun.dto.CrewBbsParam" resultType="com.dalrun.dto.CrewBbsDto">
+		select cBbsSeq, memId, title, content, type, wdate, readcount, likecount, del, img, crewName
+		from (
+				select row_number() over(order by cBbsSeq desc) as rnum, 
+					cBbsSeq, memId, title, content, type, wdate, readcount, likecount, del, img, crewName
+				from crewRecruitBbs
+				where 1=1
+				<if test="choice != null and choice != '' and search != null and search != ''">
+					<if test="choice == 'memId'">
+						and memId like concat('%', #{search}, '%')
+					</if>
+					<if test="choice == 'title'">
+						and title like concat('%', #{search}, '%')
+					</if>
+					<if test="choice == 'content'">
+						and content like concat('%', #{search}, '%')
+					</if>
+				</if>
+		 ) a where rnum between #{start} and #{end}
+	</select>
+	
+	<!--글의 총수-->
+	<select id="getAllCrewBbs" parameterType="com.dalrun.dto.CrewBbsParam" resultType="java.lang.Integer">
+		select ifnull(count(*),0)
+		from crewRecruitBbs
+	</select>
+	
+	<!--모집중, 모집완료 게시글만 보이기-->
+	<select id="selectBbsType" parameterType="String" resultType="com.dalrun.dto.CrewBbsDto">
+		select *
+		from crewRecruitBbs
+		where type=#{type}
+		order by cBbsSeq desc
+	</select>
+	
+	<!--memId, title, content 검색-->
+	<!--<sql id = "searchCrewBbs">
+		<if test="choice != null and choice != '' and search != null and search != ''">
+			<if test="choice == 'memId'">
+				and memId like concat('%', #{search}, '%')
+			</if>
+			<if test="choice == 'title'">
+				and title like concat('%', #{search}, '%')
+			</if>
+			<if test="choice == 'content'">
+				and content like concat('%', #{search}, '%')
+			</if>
+		</if>
+	</sql>-->
+	
+	<!--조회수 증가(중복고려x)-->
+	<update id="increaseReadCount" parameterType="int">
+		update crewRecruitBbs 
+		set readCount = readCount + 1 
+		where cBbsSeq = #{cBbsSeq}
+	</update>
+	
+	<!--수정-->
+	<update id="updateCrewBbs" parameterType="com.dalrun.dto.CrewBbsDto">
+		update crewRecruitBbs 
+		set title=#{title}, content=#{content}, wdate=now(), type=#{type}, crewName=#{crewName}
+		where cBbsSeq=#{cBbsSeq}
+	</update>
+	
+	<!--삭제-->
+	<update id="deleteCrewBbs" parameterType="Integer">
+		update crewRecruitBbs
+		set del = 1
+		where cBbsSeq=#{cBbsSeq}
+	</update>
+	
+	<!--이미지 가져옴-->
+	<select id="getImgByCbbsseq" parameterType="Integer" resultType="String">
+      select img
+      from crewRecruitBbs
+      where cBbsSeq=#{cBbsSeq}
+   </select>
 
 </mapper>
 

@@ -8,11 +8,11 @@ public class CrewBbsDto implements Serializable{
 	private int cBbsSeq;
 	private String memId;
 	private String crewName; //크루명
-	private String tilte;
+	private String title;
 	private String content;
 	private String category; //table에는 없는데 나중에 쓸 수도 있을 것 같아서 남겨뒀습니다.
 	private String img;
-	private int del;
+	private int del; //0 : 삭제되지 않은 글, 1 : 삭제된 글
 	private String type; //모집중, 모집완료 
 	private String wdate;
 	private int likecount; // 좋아요 수
@@ -24,10 +24,10 @@ public class CrewBbsDto implements Serializable{
 	}
 
 
-	public CrewBbsDto(String memId, String tilte, String content, String category, String img, int del, int readcount) {
+	public CrewBbsDto(String memId, String title, String content, String category, String img, int del, int readcount) {
 		super();
 		this.memId = memId;
-		this.tilte = tilte;
+		this.title = title;
 		this.content = content;
 		this.category = category;
 		this.img = img;
@@ -38,9 +38,8 @@ public class CrewBbsDto implements Serializable{
 
 	public CrewBbsDto(String memId,String tilte, String content, String category, String img, int del, String type, String wdate,
 			int likecount, int readcount) {
-		super();
 		this.memId = memId;
-		this.tilte = tilte;
+		this.title = title;
 		this.content = content;
 		this.category = category;
 		this.img = img;
@@ -51,6 +50,43 @@ public class CrewBbsDto implements Serializable{
 		this.readcount = readcount;
 	}
 	
+	
+	public CrewBbsDto(int cBbsSeq, String memId, String crewName, String title, String content, String category,
+			String img, int del, String type, String wdate, int likecount, int readcount) {
+		this.cBbsSeq = cBbsSeq;
+		this.memId = memId;
+		this.crewName = crewName;
+		this.title = title;
+		this.content = content;
+		this.category = category;
+		this.img = img;
+		this.del = del;
+		this.type = type;
+		this.wdate = wdate;
+		this.likecount = likecount;
+		this.readcount = readcount;
+	}
+	
+	
+	public int getcBbsSeq() {
+		return cBbsSeq;
+	}
+
+
+	public void setcBbsSeq(int cBbsSeq) {
+		this.cBbsSeq = cBbsSeq;
+	}
+
+
+	public String getCrewName() {
+		return crewName;
+	}
+
+
+	public void setCrewName(String crewName) {
+		this.crewName = crewName;
+	}
+
 
 	public String getMemId() {
 		return memId;
@@ -62,13 +98,13 @@ public class CrewBbsDto implements Serializable{
 	}
 
 
-	public String getTilte() {
-		return tilte;
+	public String getTitle() {
+		return title;
 	}
 
 
-	public void setTilte(String tilte) {
-		this.tilte = tilte;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 
@@ -154,14 +190,11 @@ public class CrewBbsDto implements Serializable{
 
 	@Override
 	public String toString() {
-		return "CrewBbsDto [tilte=" + tilte + ", content=" + content + ", category=" + category + ", img=" + img
-				+ ", del=" + del + ", type=" + type + ", wdate=" + wdate + ", likecount=" + likecount + ", readcount="
-				+ readcount + "]";
+		return "CrewBbsDto [cBbsSeq=" + cBbsSeq + ", memId=" + memId + ", crewName=" + crewName + ", title=" + title
+				+ ", content=" + content + ", category=" + category + ", img=" + img + ", del=" + del + ", type=" + type
+				+ ", wdate=" + wdate + ", likecount=" + likecount + ", readcount=" + readcount + "]";
 	}
 
-
-	
-	
 
 }
 
