@@ -56,23 +56,23 @@
 
 
     <insert id="writeProductInquiry" parameterType="com.dalrun.dto.ProductInquiryDto"> 
-        INSERT INTO productinquiry (inqSubseq, inqWriter, inqContent, inqDate, productId, memId) 
-        VALUES ((SELECT inqSeq FROM productinquiry a ORDER BY inqSeq DESC LIMIT 1)+1, #{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
+        INSERT INTO productinquiry (inqSubseq, inqWriter, inqTitle, inqContent, inqDate, productId, memId) 
+        VALUES ((SELECT inqSeq FROM productinquiry a ORDER BY inqSeq DESC LIMIT 1)+1, #{inqWriter}, #{inqTitle}, #{inqContent}, now(), #{productId}, #{memId}) 
     </insert>
     
     <insert id="writeProductInquirySub" parameterType="com.dalrun.dto.ProductInquiryDto"> 
-        INSERT INTO productinquiry (inqSubseq, inqWriter, inqContent, inqDate, productId, memId) 
-        VALUES (#{inqSubseq}, #{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
+        INSERT INTO productinquiry (inqSubseq, inqWriter, inqTitle, inqContent, inqDate, productId, memId) 
+        VALUES (#{inqSubseq}, #{inqWriter}, #{inqTitle}, #{inqContent}, now(), #{productId}, #{memId}) 
     </insert>
     
     <insert id="writeProductInquiryRefDepth" parameterType="com.dalrun.dto.ProductInquiryDto"> 
-        INSERT INTO productinquiry (inqSubseq, inqRef, inqDepth, inqWriter, inqContent, inqDate, productId, memId) 
-        VALUES (#{inqSubseq}, (select ifnull(max(inqSeq), 0) + 1 from productinquiry b), #{inqDepth}, #{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
+        INSERT INTO productinquiry (inqSubseq, inqRef, inqDepth, inqWriter,inqTitle, inqContent, inqDate, productId, memId) 
+        VALUES (#{inqSubseq}, (select ifnull(max(inqSeq), 0) + 1 from productinquiry b), #{inqDepth}, #{inqWriter}, #{inqTitle}, #{inqContent}, now(), #{productId}, #{memId}) 
     </insert>
     
     <insert id="writeProductInquiryRefDepthSub" parameterType="com.dalrun.dto.ProductInquiryDto"> 
-        INSERT INTO productinquiry (inqSubseq, inqRef, inqDepth, inqWriter, inqContent, inqDate, productId, memId) 
-        VALUES (#{inqSubseq}, #{inqRef}, 1, #{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
+        INSERT INTO productinquiry (inqSubseq, inqRef, inqDepth, inqWriter, inqTitle, inqContent, inqDate, productId, memId) 
+        VALUES (#{inqSubseq}, #{inqRef}, 1, #{inqWriter}, #{inqTitle}, #{inqContent}, now(), #{productId}, #{memId}) 
     </insert>
     
 
