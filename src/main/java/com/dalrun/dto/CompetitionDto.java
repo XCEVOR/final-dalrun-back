@@ -21,6 +21,7 @@ public class CompetitionDto implements Serializable{
 	private String compSponsor; // 스폰서 이름 
 	private int readcount; // 조회수
 	private int commentcount; // 댓글 개수
+	private String comRegdate;	// 대회 일정 작성일
 	
 	public CompetitionDto() {
 		// TODO Auto-generated constructor stub
@@ -30,7 +31,7 @@ public class CompetitionDto implements Serializable{
 
 	public CompetitionDto(int compSeq, String compTitle, String compContent, String compLocation, String compDateStart,
 			String compDateEnd, String compLocal, float locationLat, float locationLng, String receiptStart,
-			String receiptEnd, String compimage, String compLink, String compSponsor,int readcount,int commentcount) {
+			String receiptEnd, String compimage, String compLink, String compSponsor,int readcount,int commentcount, String comRegdate) {
 		super();
 		this.compSeq = compSeq;
 		this.compTitle = compTitle;
@@ -48,6 +49,7 @@ public class CompetitionDto implements Serializable{
 		this.compSponsor = compSponsor;
 		this.readcount = readcount;
 		this.commentcount = commentcount;
+		this.comRegdate = comRegdate;
 	}
 
 
@@ -242,6 +244,16 @@ public class CompetitionDto implements Serializable{
 		this.compSponsor = compSponsor;
 	}
 
-	
+
+
+	public String getComRegdate() {
+		return comRegdate;
+	}
+
+
+
+	public void setComRegdate(String comRegdate) {
+		this.comRegdate = comRegdate;
+	}
 	
 }
