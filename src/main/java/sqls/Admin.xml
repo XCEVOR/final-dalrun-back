@@ -156,7 +156,7 @@
 			</if>
 			<choose>
 				<when test="choice == 'orderSeq'">
-					orderSeq = #{search}
+					orderNumber = #{search}
 				</when>
 				<when test="choice == 'memId'">
 					memId LIKE CONCAT('%',#{search},'%')
@@ -307,7 +307,7 @@
 				productColor, productSize, productDescription, productOrigFile, productNewFile, productStock, productSale, productRegiDate
 			FROM PRODUCT
 			<include refid="searchProduct"></include>
-			ORDER BY productRegiDate DESC) A
+			ORDER BY productRegiDate DESC, productId DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllProduct" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
@@ -319,11 +319,11 @@
 	<select id="orderlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.OrderDto">
 		SELECT *
 		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY orderDate DESC) AS RNUM, orderSeq, memId, orderName, orderAddress, 
+			(SELECT ROW_NUMBER()OVER(ORDER BY orderDate DESC) AS RNUM, orderNumber, memId, orderName, orderAddress, 
 				orderPhone, orderRequirment, orderTotalprice, orderDate, orderQuantity, orderState, deliveryState
 			FROM PRODUCTORDER
 			<include refid="searchOrder"></include>
-			ORDER BY orderDate DESC) A
+			ORDER BY orderDate DESC, orderNumber DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllOrder" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
@@ -333,6 +333,12 @@
 	</select>
 	
 	<!-- 수정/삭제 -->
+	<sql id="commonForeach">
+		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</sql>
+	
 	<!-- 회원 관리 -->
 	<update id="updatemember" parameterType="com.dalrun.dto.MemberDto">
 		UPDATE MEMBER
@@ -345,9 +351,7 @@
 		UPDATE MEMBER
 		SET del=1
 		WHERE memId IN 
-		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
-			#{item}
-		</foreach>
+		<include refid="commonForeach"></include>
 	</update>
 	
 	<update id="updatecrew" parameterType="com.dalrun.dto.CrewDto">
@@ -360,28 +364,36 @@
 		UPDATE CREW
 		SET crewDel=1
 		WHERE crewSeq IN 
-		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
-			#{item}
-		</foreach>
+		<include refid="commonForeach"></include>
 	</update>
 	
 	<!-- 쇼핑몰 관리 -->
 	<select id="getProductOrder" parameterType="String" resultType="int">
 		SELECT IFNULL(COUNT(*), 0) 
-		FROM PRODUCTORDER
+		FROM PRODUCTORDERDETAIL
 		WHERE productId = #{productId}
 	</select>
 	<update id="updateproduct" parameterType="com.dalrun.dto.ProductDto">
 		UPDATE PRODUCT
-		SET productCode=#{productCode}, productCategory=#{productCategory}, productName=#{productName}, productDescription=#{productDescription},
-			productPrice=#{productPrice}, productStock=#{productStock}, productSale=#{productSale}, productRegiDate=#{productRegiDate}
+		SET productCode=#{productCode}, productCategory=#{productCategory}, productName=#{productName}, productDescription=#{productDescription}, productColor=#{productColor}, 
+			productSize=#{productSize}, productPrice=#{productPrice}, productStock=#{productStock}, productSale=#{productSale}, productRegiDate=#{productRegiDate}
 		WHERE productId=#{productId}
 	</update>
 	<delete id="delproduct" parameterType="String">
 		DELETE FROM PRODUCT
 		WHERE productId IN
-		<foreach item="item" collection="checkedList" open="(" separator="," close=")">
-			#{item}
-		</foreach>
+		<include refid="commonForeach"></include>
+	</delete>
+	
+	<update id="updateorder" parameterType="com.dalrun.dto.OrderDto">
+		UPDATE PRODUCTORDER
+		SET	memId=#{memId}, orderName=#{orderName}, orderAddress=#{orderAddress}, orderPhone=#{orderPhone}, orderRequirment=#{orderRequirment}, 
+			orderQuantity=#{orderQuantity}, orderTotalprice=#{orderTotalprice}, orderState=#{orderState}, deliveryState=#{deliveryState}
+		WHERE orderNumber = #{orderNumber}
+	</update>
+	<delete id="delorder" parameterType="List">
+		DELETE FROM PRODUCTORDER
+		WHERE orderNumber IN
+		<include refid="commonForeach"></include>
 	</delete>
 </mapper>

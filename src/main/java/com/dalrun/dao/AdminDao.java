@@ -76,4 +76,8 @@ public interface AdminDao {
 	int updateproduct(ProductDto productdto);
 	
 	int delproduct(String[] checkedList);
+	
+	int updateorder(OrderDto orderdto);
+	
+	int delorder(String[] checkedList);
 }

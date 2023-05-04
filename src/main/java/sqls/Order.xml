@@ -11,20 +11,21 @@
     
     
     <insert id="addToCart" parameterType="com.dalrun.dto.CartDto">
-        INSERT INTO cart (cartId, cartProdQuantity, productId, memId, orderSeq)
-        VALUES (#{cartId}, #{cartProdQuantity}, #{productId}, #{memId}, #{orderSeq})
+        INSERT INTO cart (cartId, cartProdQuantity, productId, memId, orderNumber)
+        VALUES (#{cartId}, #{cartProdQuantity}, #{productId}, #{memId}, #{orderNumber})
     </insert>
     
     
     <insert id="writeOrderData" parameterType="com.dalrun.dto.OrderDto">
-        INSERT INTO productorder (orderNunber,
+        INSERT INTO productorder (orderNumber,
                                   memId, 
                                   orderName, 
                                   orderAddress, 
                                   orderPhone, 
-                                  orderRequirment,          
+                                  orderRequirment,  
                                   orderTotalprice,          
-                                  orderQuantity)
+                                  orderQuantity,
+                                  orderDate)   
         VALUES                   (ROUND(UNIX_TIMESTAMP(CURTIME(4)) * 1000),
                                   #{memId}, 
                                   #{orderName}, 
@@ -32,7 +33,37 @@
                                   #{orderPhone}, 
                                   #{orderRequirment},          
                                   #{orderTotalprice},          
-                                  #{orderQuantity})
+                                  #{orderQuantity}, 
+                                  now())
+                                  
+    	<!-- insert후 주문번호를 받기 -->
+		<selectKey resultType="long" keyProperty="orderNumber" order="AFTER">
+			SELECT MAX(orderNumber) FROM PRODUCTORDER
+      	</selectKey>                                 
     </insert>
     
+    <!-- 주문상세정보 입력 -->
+    <insert id="writeOrderDetail" parameterType="List">
+    	INSERT INTO PRODUCTORDERDETAIL(orderNumber, productId, productName, productPrice, productQuantity)
+    	VALUES
+    	<foreach collection="list" item="orderDetail" separator=",">
+    		(#{orderDetail.orderNumber}, #{orderDetail.productId}, #{orderDetail.productName}, #{orderDetail.productPrice}, #{orderDetail.productQuantity})
+ 		</foreach>
+    </insert>
+    
+    <!-- 주문 조회 -->
+    <select id="getOrder" parameterType="long" resultType="com.dalrun.dto.OrderDto">
+    	SELECT *
+    	FROM PRODUCTORDER
+    	WHERE orderNumber = #{orderNumber}
+    </select>
+    
+    <!-- 주문상세 조회 -->
+    <select id="getOrderDetail" parameterType="long" resultType="com.dalrun.dto.OrderDetailDto">
+    	SELECT od.*, p.productColor AS option1, p.productSize AS option2
+		FROM PRODUCTORDERDETAIL od
+		JOIN PRODUCT p ON od.productId = p.productId
+		WHERE od.orderNumber = #{orderNumber}
+
+    </select>
 </mapper>
