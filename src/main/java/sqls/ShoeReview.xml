@@ -1,21 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
 <mapper namespace="com.dalrun.dao.ShoeReviewDao">
 
-    <select id="getAllShoeReviewList" resultType="com.dalrun.dto.ShoeDto">
-        SELECT *
-        FROM shoereviewdetail
+    <select id="getAllShoeList"  parameterType="com.dalrun.dto.SearchParam"  resultType="com.dalrun.dto.ShoeReviewDto">
+        select *
+		from
+		(select row_number()over(order by srwdate desc) as rnum,
+		srSeq,srTitle,srCotent,srBrand,srimage,srLink
+		,readcount,srDel,srwdate
+		,(select count(*) from shoereviewComment where srSeq=s.srSeq)as commentcount 
+		from shoereview s
+		where 1=1
+		<if test="choice != null and choice!='' and search != null and search!= ''">
+			<if test="choice == 'title'">
+				and srTitle like concat('%',#{search},'%')
+			</if>
+			<if test="choice == 'content'">
+				and srCotent like concat('%',#{search},'%')
+			</if>
+			
+		</if>
+		order by srwdate desc) a
+		where rnum between ${start} and ${end}
     </select>
     
-    <select id="getSingleShoeReview" parameterType="Integer" resultType="com.dalrun.dto.ShoeDto">
-        SELECT *
-        FROM shoereviewdetail
-        WHERE shoereviewdetailSeq=#{shoereviewdetailSeq}
+      <select id="getAllShoeListCount" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
+      select ifnull(count(*),0)
+		from shoereview
+		<if
+			test="choice != null and choice!='' and search != null and search!= ''">
+			<if test="choice == 'title'">
+				where srTitle like concat('%',#{search},'%')
+			</if>
+			<if test="choice == 'content'">
+				where srCotent like concat('%',#{search},'%')
+			</if>
+			
+		</if>
     </select>
     
+    
+     <select id="getReviewBbs" parameterType="java.lang.Integer" resultType="com.dalrun.dto.ShoeReviewDto">
+        SELECT *
+        FROM shoereview where srSeq=#{srSeq}
+    </select>
+    
+     <select id="getReviewdetailBbs" parameterType="java.lang.Integer" resultType="com.dalrun.dto.ShoeReviewDto">
+        SELECT *
+        FROM shoereviewdetail where srSeq=#{srSeq}
+    </select>
+    
+    
+    
+    
+    
+     <select id="getReviewCommentList" parameterType="java.lang.Integer" resultType="com.dalrun.dto.ShoereivewCommentDto">
+        SELECT *
+        FROM shoereviewComment where srSeq=#{srSeq} order by scSeq desc
+    </select>
     
 
+    <select id="getAllShoeListThisMonth" resultType="com.dalrun.dto.ShoeReviewDto">
+     SELECT * FROM shoereview
+		WHERE YEAR(srwdate) = YEAR(CURRENT_TIMESTAMP)
+		AND MONTH(srwdate) = MONTH(CURRENT_TIMESTAMP)
+    </select>
+   
+    
+     <select id="getPopularShoeList" resultType="com.dalrun.dto.ShoeReviewDto">
+       SELECT * FROM shoereview order by readcount desc limit 5
+
+    </select>
+    
+    
+    <update id="ShoeReviewReadcount" parameterType="java.lang.Integer">
+    update shoereview set readcount=readcount+1 where srSeq=#{srSeq}
+    </update>
+    
+    <insert id="ReviewsendComment" parameterType="com.dalrun.dto.ShoereivewCommentDto">
+    
+  	INSERT INTO shoereviewComment (scmemId, sccontent, scdel, srSeq,scwdate) 
+    values(#{scmemId},#{sccontent},0,#{srSeq},now())
+    
+    </insert>
+    
+    <select id="getAllShoedetailList" parameterType="Integer"  resultType="com.dalrun.dto.ShoeReviewDto">
+    select * from shoereviewdetail where srSeq=#{srSeq}
+    </select>
+    
+    
+    
     
 </mapper>

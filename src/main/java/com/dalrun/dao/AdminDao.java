@@ -14,7 +14,7 @@ import com.dalrun.dto.ProductDto;
 import com.dalrun.dto.ProductInquiryDto;
 import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
-import com.dalrun.dto.ShoeDto;
+import com.dalrun.dto.ShoeReviewDto;
 
 @Repository
 @Mapper
@@ -39,7 +39,7 @@ public interface AdminDao {
 	
 	int getAllQna(SearchParam params);
 	
-	List<ShoeDto> shoereviewlist(SearchParam params);
+	List<ShoeReviewDto> shoereviewlist(SearchParam params);
 	
 	int getAllShoereview(SearchParam params);
 	

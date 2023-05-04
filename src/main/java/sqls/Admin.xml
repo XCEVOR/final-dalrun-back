@@ -241,16 +241,27 @@
 		<include refid="searchQna"></include>
 	</select>
 	
-	<select id="shoereviewlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ShoeDto">
-		SELECT *
-		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY shoereviewdetailRegdate DESC) AS RNUM, shoereviewdetailSeq, shoereviewSeq, shoereviewdetailTitle, 
-				shoereviewdetailContent, shoereviewdetailOrigFilename, shoereviewdetailNewFilename, memId, shoereviewdetailRegdate
-			FROM SHOEREVIEWDETAIL
-			<include refid="searchShoereview"></include>
-			ORDER BY shoereviewdetailRegdate DESC) A
-		WHERE RNUM BETWEEN ${start} AND ${end}
+	<select id="shoereviewlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ShoeReviewDto">
+	  select *
+		from
+		(select row_number()over(order by srwdate desc) as rnum,
+		srSeq,srTitle,srCotent,srBrand,srimage,srLink
+		,readcount,srDel,srwdate
+		,(select count(*) from shoereviewComment where srSeq=s.srSeq)as commentcount 
+		from shoereview s
+		<if test="choice != null and choice!='' and search != null and search!= ''">
+			<if test="choice == 'title'">
+				and srTitle like concat('%',#{search},'%')
+			</if>
+			<if test="choice == 'content'">
+				and srCotent like concat('%',#{search},'%')
+			</if>
+			
+		</if>
+			order by srwdate desc) a
+		where rnum between ${start} and ${end}
 	</select>
+	
 	<select id="getAllShoereview" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM SHOEREVIEWDETAIL
