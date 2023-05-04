@@ -217,6 +217,14 @@ public class AdminController {
 		return str(b);
 	}
 	
+	@PostMapping(value = "admin_delqna")
+	public String delqna(@RequestParam("checkedList") int[] checkedList) {
+		System.out.println("AdminController delqna " + new Date());
+		
+		boolean b = service.delqna(checkedList);
+		return str(b);
+	}
+	
 	@PostMapping(value = "admin_delshoereview")
 	public String delshoereview(@RequestParam("checkedList") int[] checkedList) {
 		System.out.println("AdminController delshoereview " + new Date());

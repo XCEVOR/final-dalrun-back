@@ -128,6 +128,11 @@ public class AdminService {
 		return n>0?true:false;
 	}
 	
+	public boolean delqna(int[] checkedList) {
+		int n = dao.delqna(checkedList);
+		return n>0?true:false;
+	}
+	
 	public boolean delshoereview(int[] checkedList) {
 		int n = dao.delshoereview(checkedList);
 		return n>0?true:false;

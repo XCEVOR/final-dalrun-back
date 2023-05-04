@@ -271,23 +271,23 @@
 		FROM DIARY
 		<include refid="searchDiary"></include>
 	</select>
-	
+	<!-- 
 	<select id="competitionlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.CompetitionDto">
 		SELECT *
 		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY compdetailDate DESC) AS RNUM, compSeq, compdetailSeq, compdetailTitle, conpdetailContent, 
-				compdetailLocation, compdetailDate, compdetailOrigFilename, compdetailNewFilename, compdetailPrice, compdetailLink
-			FROM COMPETITIONDETAIL
+			(SELECT ROW_NUMBER()OVER(ORDER BY compdetailDate DESC) AS RNUM, compSeq, compTitle, compContent, compLocation, compDateStart, 
+				compDateEnd, compLocal, locationLat, locationLng, receiptStart, receiptEnd, compimage, compLink, compSponsor, readcount
+			FROM COMPETITION
 			<include refid="searchCompetition"></include>
 			ORDER BY compdetailDate DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllCompetition" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
-		FROM COMPETITIONDETAIL
+		FROM COMPETITION
 		<include refid="searchCompetition"></include>
 	</select> 
-	
+	 -->
 	<!-- 쇼핑몰 관리 -->
 	<select id="productlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductDto">
 		SELECT *
@@ -362,6 +362,13 @@
 		WHERE inqSeq IN
 		<include refid="commonForeach"></include>
 	</delete>
+	
+	<update id="delqna" parameterType="List">
+		UPDATE QNA
+		SET del=1
+		WHERE qnaSeq IN 
+		<include refid="commonForeach"></include>
+	</update>
 	
 	<delete id="delshoereview" parameterType="List">
 		DELETE FROM SHOEREVIEW
