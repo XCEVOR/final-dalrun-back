@@ -73,6 +73,8 @@ public interface AdminDao {
 	// 게시물 관리
 	int updatereply(ProductInquiryDto inqdto);
 	
+	int delreply(int inqSeq);
+	
 	int delproductinquiry(int[] checkedList);
 	
 	int delqna(int[] checkedList);

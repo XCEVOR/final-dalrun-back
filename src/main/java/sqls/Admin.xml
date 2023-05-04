@@ -370,11 +370,15 @@
 	</update>
 	
 	<!-- 게시물 관리 -->
-	<update id="updatereply">
+	<update id="updatereply" parameterType="com.dalrun.dto.ProductInquiryDto">
 		UPDATE PRODUCTINQUIRY
 		SET inqContent=#{inqContent}	
 		WHERE inqSeq = #{inqSeq}
 	</update>
+	<delete id="delreply" parameterType="int">
+		DELETE FROM PRODUCTINQUIRY
+		WHERE inqSeq = #{inqSeq}
+	</delete>
 	<delete id="delproductinquiry" parameterType="List">
 		DELETE FROM PRODUCTINQUIRY
 		WHERE inqRef IN

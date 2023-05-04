@@ -211,11 +211,19 @@ public class AdminController {
 	}
 	
 	// 게시물 관리
-	@PostMapping(value = "updatereply")
+	@PostMapping(value = "admin_updatereply")
 	public String updatereply(ProductInquiryDto inqdto) {
 		System.out.println("AdminController updatereply " + new Date());
 		
 		boolean b = service.updatereply(inqdto);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_delreply")
+	public String delreply(int inqSeq) {
+		System.out.println("AdminController delreply " + new Date());
+		
+		boolean b = service.delreply(inqSeq);
 		return str(b);
 	}
 	

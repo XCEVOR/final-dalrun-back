@@ -102,11 +102,6 @@ public class AdminService {
 	
 	// 수정/삭제
 	// 회원 관리
-	public boolean updatereply(ProductInquiryDto inqdto) {
-		int n = dao.updatereply(inqdto);
-		return n>0?true:false;
-	}
-	
 	public boolean updatemember(MemberDto memDto) {
 		int n = dao.updatemember(memDto); 
 		return n>0?true:false;
@@ -128,6 +123,16 @@ public class AdminService {
 	}
 	
 	// 게시물 관리
+	public boolean updatereply(ProductInquiryDto inqdto) {
+		int n = dao.updatereply(inqdto);
+		return n>0?true:false;
+	}
+	
+	public boolean delreply(int inqSeq) {
+		int n = dao.delreply(inqSeq);
+		return n>0?true:false;
+	}
+	
 	public boolean delproductinquiry(int[] checkedList) {
 		int n = dao.delproductinquiry(checkedList);
 		return n>0?true:false;
