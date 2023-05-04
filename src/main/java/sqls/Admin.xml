@@ -358,6 +358,11 @@
 	</update>
 	
 	<!-- 게시물 관리 -->
+	<update id="updatereply">
+		UPDATE PRODUCTINQUIRY
+		SET inqContent=#{inqContent}	
+		WHERE inqSeq = #{inqSeq}
+	</update>
 	<delete id="delproductinquiry" parameterType="List">
 		DELETE FROM PRODUCTINQUIRY
 		WHERE inqSeq IN

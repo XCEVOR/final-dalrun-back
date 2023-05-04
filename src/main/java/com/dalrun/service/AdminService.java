@@ -102,6 +102,11 @@ public class AdminService {
 	
 	// 수정/삭제
 	// 회원 관리
+	public boolean updatereply(ProductInquiryDto inqdto) {
+		int n = dao.updatereply(inqdto);
+		return n>0?true:false;
+	}
+	
 	public boolean updatemember(MemberDto memDto) {
 		int n = dao.updatemember(memDto); 
 		return n>0?true:false;

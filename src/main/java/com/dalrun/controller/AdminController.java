@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -142,7 +144,7 @@ public class AdminController {
 	    return getList(competitionlist, len);
 	}
 	
-	// 상품 관리
+	// 상품 관리	
 	@GetMapping(value = "admin_productlist")
 	public Map<String, Object> productlist(SearchParam params) {
 	    System.out.println("AdminController productlist " + new Date());
@@ -209,6 +211,14 @@ public class AdminController {
 	}
 	
 	// 게시물 관리
+	@PostMapping(value = "updatereply")
+	public String updatereply(ProductInquiryDto inqdto) {
+		System.out.println("AdminController updatereply " + new Date());
+		
+		boolean b = service.updatereply(inqdto);
+		return str(b);
+	}
+	
 	@PostMapping(value = "admin_delproductinquiry")
 	public String delproductinquiry(@RequestParam("checkedList") int[] checkedList) {
 		System.out.println("AdminController delproductinquiry " + new Date());
