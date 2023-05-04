@@ -103,8 +103,11 @@ public class GpxFilesDto {
 		this.uploadDate = uploadDate;
 	}
 
-
-
-
+	@Override
+	public String toString() {
+		return "GpxFilesDto [fileSeq=" + fileSeq + ", diarySeq=" + diarySeq + ", courseSeq=" + courseSeq + ", fileName="
+				+ fileName + ", filePath=" + filePath + ", memId=" + memId + ", distance=" + distance + ", maxAltitude="
+				+ maxAltitude + ", uploadDate=" + uploadDate + "]";
+	}
 
 }

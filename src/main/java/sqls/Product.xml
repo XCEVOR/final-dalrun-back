@@ -9,6 +9,12 @@
         FROM PRODUCT
     </select>
     
+    <select id="allProductListDeduplication" resultType="com.dalrun.dto.ProductDto">
+        SELECT MIN(productId), productCode, productCategory, productBrand, productName, productPrice
+        FROM product
+        GROUP BY productCode, productCategory, productBrand, productName, productPrice;
+    </select>
+    
     <select id="getProductData" parameterType="String" resultType="com.dalrun.dto.ProductDto">
 	    SELECT *
 	    FROM PRODUCT
@@ -20,6 +26,27 @@
         FROM product
         WHERE productCode=#{productCode} AND productColor=#{productColor} AND productSize=#{productSize}
     </select>
+    
+    <update id="updateProductView" parameterType="com.dalrun.dto.ProductDto">
+        UPDATE product
+        SET productView=productView+1
+        WHERE productCode=#{productCode}
+    </update>
+    
+    <update id="updateProductLike" parameterType="com.dalrun.dto.ProductDto">
+        UPDATE product
+        SET productLike=productLike+1
+        WHERE productCode=#{productCode}
+    </update>
+    
+    <update id="updateProductRecomm" parameterType="com.dalrun.dto.ProductDto">
+        UPDATE product
+        SET productRecomm=#{productRecomm}
+        WHERE productCode=#{productCode}
+    </update>
+    
+    
+    
     	
 	<select id="getProductInquiry" resultType="com.dalrun.dto.ProductInquiryDto">
         SELECT *
@@ -48,7 +75,7 @@
         VALUES (#{inqSubseq}, #{inqRef}, 1, #{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
     </insert>
     
-    
+
     
     
     

@@ -1,5 +1,7 @@
 package com.dalrun.dto;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class GpxDataDto {
 
@@ -11,13 +13,13 @@ public class GpxDataDto {
 	private double latitude;// 초 당 위도
 	private double longitude;// 초 당 경도
 	private double altitude;// 초 당 고도
-	private String mTime;	// 초 당 시간
+	private LocalTime mTime;	// 초 당 시간
 
 	public GpxDataDto() {
 	}
 
 	public GpxDataDto(int dataSeq, int fileSeq, int diarySeq, int courseSeq, String memId, double latitude,
-			double longitude, double altitude, String mTime) {
+			double longitude, double altitude, LocalTime mTime) {
 		super();
 		this.dataSeq = dataSeq;
 		this.fileSeq = fileSeq;
@@ -94,12 +96,12 @@ public class GpxDataDto {
 		this.altitude = altitude;
 	}
 
-	public String getmTime() {
+	public LocalTime getmTime() {
 		return mTime;
 	}
 
-	public void setmTime(String mTime) {
-		this.mTime = mTime;
+	public void setmTime(LocalTime time) {
+		this.mTime = time;
 	}
 
 }
