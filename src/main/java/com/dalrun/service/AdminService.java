@@ -138,6 +138,11 @@ public class AdminService {
 		return n>0?true:false;
 	}
 	
+	public boolean delcompetition(int[] checkedList) {
+		int n = dao.delcompetition(checkedList);
+		return n>0?true:false;
+	}
+	
 	// 쇼핑몰 관리
 	public int getProductOrder(String productId) {
 		return dao.getProductOrder(productId);

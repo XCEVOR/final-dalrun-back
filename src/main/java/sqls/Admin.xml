@@ -375,6 +375,12 @@
 		<include refid="commonForeach"></include>
 	</delete>
 	
+	<delete id="delcompetition" parameterType="List">
+		DELETE FROM COMPETITION
+		WHERE compSeq IN
+		<include refid="commonForeach"></include>
+	</delete>
+	
 	<!-- 쇼핑몰 관리 -->
 	<select id="getProductOrder" parameterType="String" resultType="int">
 		SELECT IFNULL(COUNT(*), 0) 

@@ -77,6 +77,8 @@ public interface AdminDao {
 	
 	int deldiary(int[] checkedList);
 	
+	int delcompetition(int[] checkedList);
+	
 	// 쇼핑몰 관리
 	int getProductOrder(String productId);
 	

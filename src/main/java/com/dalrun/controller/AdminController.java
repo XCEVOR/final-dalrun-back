@@ -233,6 +233,14 @@ public class AdminController {
 		return str(b);
 	}
 	
+	@PostMapping(value = "admin_delcompetition")
+	public String delcompetition(@RequestParam("checkedList") int[] checkedList) {
+		System.out.println("AdminController delcompetition " + new Date());
+		
+		boolean b = service.delcompetition(checkedList);
+		return str(b);
+	}
+	
 	// 쇼핑몰 관리
 	@PostMapping(value = "getproduct")
 	public Map<String, Object> getProduct(@RequestParam("target") String productId) {
