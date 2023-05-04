@@ -30,7 +30,7 @@ import com.dalrun.dto.ProductDto;
 import com.dalrun.dto.ProductInquiryDto;
 import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
-import com.dalrun.dto.ShoeDto;
+import com.dalrun.dto.ShoeReviewDto;
 import com.dalrun.service.AdminService;
 import com.dalrun.service.ProductService;
 import com.dalrun.util.EditorUtil;
@@ -116,7 +116,7 @@ public class AdminController {
 	    System.out.println("AdminController shoereviewlist " + new Date());
 	    
 	    pageNumber(params);
-	    List<ShoeDto> shoereviewlist = service.shoereviewlist(params);
+	    List<ShoeReviewDto> shoereviewlist = service.shoereviewlist(params);
 	    int len = service.getAllShoereview(params);
 	    
 	    return getList(shoereviewlist, len);

@@ -16,7 +16,7 @@
     </insert>
     
     
-    <insert id="writeOrderData" parameterType="com.dalrun.dto.OrderDto">  
+    <insert id="writeOrderData" parameterType="com.dalrun.dto.OrderDto">
         INSERT INTO productorder (orderNumber,
                                   memId, 
                                   orderName, 

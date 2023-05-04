@@ -16,7 +16,7 @@ import com.dalrun.dto.ProductDto;
 import com.dalrun.dto.ProductInquiryDto;
 import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
-import com.dalrun.dto.ShoeDto;
+import com.dalrun.dto.ShoeReviewDto;
 
 @Service
 @Transactional
@@ -59,7 +59,7 @@ public class AdminService {
 		return dao.getAllQna(params);
 	}
 	
-	public List<ShoeDto> shoereviewlist(SearchParam params) {
+	public List<ShoeReviewDto> shoereviewlist(SearchParam params) {
 		return dao.shoereviewlist(params);
 	}
 	
