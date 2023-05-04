@@ -223,6 +223,7 @@
 	<select id="getAllProductinquiry" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM PRODUCTINQUIRY
+		WHERE inqDepth = 0
 		<include refid="searchProductinqiry"></include>
 	</select>
 	
