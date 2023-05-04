@@ -210,11 +210,12 @@
 	
 	<!-- 게시물 관리 -->
 	<select id="productinquirylist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductInquiryDto">
-		SELECT *
+		SELECT *, (SELECT COUNT(*) FROM PRODUCTINQUIRY WHERE inqRef = A.inqSeq) AS replyCnt
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY inqDate DESC) AS RNUM, inqSeq, inqSubseq, inqWriter, inqTitle,
-				inqContent, inqDate, productId, memId
+				inqContent, inqDate, productId, memId, inqRef, inqDepth
 			FROM PRODUCTINQUIRY
+			WHERE inqDepth = 0
 			<include refid="searchProductinqiry"></include>
 			ORDER BY inqDate DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
