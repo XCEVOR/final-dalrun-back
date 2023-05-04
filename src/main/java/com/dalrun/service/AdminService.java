@@ -122,6 +122,12 @@ public class AdminService {
 		return n>0?true:false;
 	}
 	
+	// 게시물 관리
+	public boolean delproductinquiry(int[] checkedList) {
+		int n = dao.delproductinquiry(checkedList);
+		return n>0?true:false;
+	}
+	
 	// 쇼핑몰 관리
 	public int getProductOrder(String productId) {
 		return dao.getProductOrder(productId);

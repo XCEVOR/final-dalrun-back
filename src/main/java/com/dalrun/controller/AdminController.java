@@ -208,6 +208,15 @@ public class AdminController {
 		return str(b);
 	}
 	
+	// 게시물 관리
+	@PostMapping(value = "admin_delproductinquiry")
+	public String delproductinquiry(@RequestParam("checkedList") int[] checkedList) {
+		System.out.println("AdminController delproductinquiry " + new Date());
+		
+		boolean b = service.delproductinquiry(checkedList);
+		return str(b);
+	}
+	
 	// 쇼핑몰 관리
 	@PostMapping(value = "getproduct")
 	public Map<String, Object> getProduct(@RequestParam("target") String productId) {
@@ -239,7 +248,11 @@ public class AdminController {
 		String[] filenamesList = FileNameListUtil.getFileNameList(fileuploaded_path);
 		
 		for(String filename : filenamesList) {
-			if(!updatedFiles.contains(filename)) {	// 서버에 저장된 파일명과 수정된 파일명이 일치하지 않으면
+			if(CollectionUtils.isEmpty(updatedFiles)) {	// 수정된 파일 목록이 없을 경우
+				File file = new File(fileuploaded_path + "/" + filename);
+				file.delete(); // 저장된 모든 파일 삭제
+			}
+			else if(!updatedFiles.contains(filename)) {	// 서버에 저장된 파일명과 수정된 파일명이 일치하지 않으면
 				System.out.println("delete files : " + filename);
 				
 				File file = new File(fileuploaded_path + "/" + filename);

@@ -356,6 +356,13 @@
 		<include refid="commonForeach"></include>
 	</update>
 	
+	<!-- 게시물 관리 -->
+	<delete id="delproductinquiry" parameterType="List">
+		DELETE FROM PRODUCTINQUIRY
+		WHERE inqSeq IN
+		<include refid="commonForeach"></include>
+	</delete>
+	
 	<!-- 쇼핑몰 관리 -->
 	<select id="getProductOrder" parameterType="String" resultType="int">
 		SELECT IFNULL(COUNT(*), 0) 
@@ -368,7 +375,7 @@
 			productSize=#{productSize}, productPrice=#{productPrice}, productStock=#{productStock}, productSale=#{productSale}, productRegiDate=#{productRegiDate}
 		WHERE productId=#{productId}
 	</update>
-	<delete id="delproduct" parameterType="String">
+	<delete id="delproduct" parameterType="List">
 		DELETE FROM PRODUCT
 		WHERE productId IN
 		<include refid="commonForeach"></include>

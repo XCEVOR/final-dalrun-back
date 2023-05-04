@@ -70,6 +70,9 @@ public interface AdminDao {
 	
 	int delcrew(String[] checkedList);
 	
+	// 게시물 관리
+	int delproductinquiry(int[] checkedList);
+	
 	// 쇼핑몰 관리
 	int getProductOrder(String productId);
 	
