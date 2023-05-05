@@ -32,6 +32,7 @@ import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
 import com.dalrun.dto.ShoeReviewDto;
 import com.dalrun.service.AdminService;
+import com.dalrun.service.CompetitionService;
 import com.dalrun.service.ProductService;
 import com.dalrun.util.EditorUtil;
 import com.dalrun.util.FileNameListUtil;
@@ -45,6 +46,8 @@ public class AdminController {
 	AdminService service;
 	@Autowired
 	ProductService productService;
+	@Autowired
+	CompetitionService compService;
 	 
 	private void pageNumber(SearchParam params) {
 	    // 글의 시작과 끝
@@ -257,6 +260,14 @@ public class AdminController {
 		
 		boolean b = service.deldiary(checkedList);
 		return str(b);
+	}
+	
+	@PostMapping(value = "getcompetition") 
+	public CompetitionDto getCompetition(@RequestParam("target") int compSeq) {
+		System.out.println("AdminController getCompetition " + new Date());
+		
+		CompetitionDto comp = compService.getCompBbs(compSeq);
+		return comp;
 	}
 	
 	@PostMapping(value = "admin_delcompetition")
