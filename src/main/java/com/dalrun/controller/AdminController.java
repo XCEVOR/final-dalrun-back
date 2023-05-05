@@ -327,14 +327,15 @@ public class AdminController {
 	    }
 		System.out.println(response);
 		
-		Double latitude = 0.0;
-		Double longitude = 0.0;
-		
-		Map<String,Double> getmetricData = new HashMap<>();
-		getmetricData.put("latitude", latitude);
-		getmetricData.put("longitude", longitude);
-		
 	    return response.toString();
+	}
+	
+	@PostMapping(value = "competitionRegi")
+	public String competitionRegi(CompetitionDto compdto) {
+		System.out.println("AdminController competitionRegi " + new Date());
+		
+		boolean b = compService.insertcompetition(compdto);
+		return str(b);
 	}
 	
 	@PostMapping(value = "admin_delcompetition")
