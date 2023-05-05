@@ -1,8 +1,13 @@
 package com.dalrun.controller;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -268,6 +273,68 @@ public class AdminController {
 		
 		CompetitionDto comp = compService.getCompBbs(compSeq);
 		return comp;
+	}
+	
+	@GetMapping(value = "getGeometricData")
+	public String getGeometricData(String address) {
+		String clientId = "13ylgllhb9";
+		String clientSecret = "TkHolKJ7ljNNqOVJZtXoCwE9HCOgYgjMgajzh4VQ";
+		
+		StringBuffer response = null;
+		
+		// 장치에 요청할 URI
+		try {
+			
+			String encodedQuery = URLEncoder.encode(address, "UTF-8"); // 입력받은 주소를 인코딩
+			String queryParam = "?query=" + encodedQuery;
+			
+			URL url = new URL("https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode" + queryParam);
+	        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+	        
+	        // 요청 헤더
+	        con.setRequestProperty("Content-Type", "application/json");
+	        con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
+	        con.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
+	
+	        // Method 타입을 정의하고 API를 전송
+	        con.setRequestMethod("GET");
+	
+	        BufferedReader br = null;
+	        
+	        int responseCode = con.getResponseCode();
+	        if(responseCode == 200) { // 정상 호출
+	            br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	        } else {  // 오류 발생
+	            System.out.println("error!!!!!!! responseCode= " + responseCode);
+	            br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	        }
+	        String inputLine;
+	
+	        if(br != null) {
+	            response = new StringBuffer();
+	            while ((inputLine = br.readLine()) != null) {
+	                response.append(inputLine);
+	            }
+	            br.close();
+	            
+	            // 결과 출력
+	            System.out.println(response.toString());
+	        } else {
+	            System.out.println("error !!!");
+	        }
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    }
+		System.out.println(response);
+		
+		Double latitude = 0.0;
+		Double longitude = 0.0;
+		
+		Map<String,Double> getmetricData = new HashMap<>();
+		getmetricData.put("latitude", latitude);
+		getmetricData.put("longitude", longitude);
+		
+	    return response.toString();
 	}
 	
 	@PostMapping(value = "admin_delcompetition")
