@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -331,11 +332,39 @@ public class AdminController {
 	}
 	
 	@PostMapping(value = "competitionRegi")
-	public String competitionRegi(CompetitionDto compdto) {
+	public String competitionRegi(CompetitionDto compdto,
+								  @RequestParam(value="uploadImg", required=false) MultipartFile img,
+								  HttpServletRequest req) {
 		System.out.println("AdminController competitionRegi " + new Date());
 		
+		// 이미지 upload 경로
+		String path = req.getServletContext().getRealPath("/dalrun-hc/competition");
+		
+		// 파일명 취득후 저장
+		String orignalFileName = img.getOriginalFilename();	// 원본 파일명
+		String newFileName = EditorUtil.getNewFileName(orignalFileName);  // 새로운 파일명
+		System.out.println("oriname=" + orignalFileName + " newname=" + newFileName);
+		
+		compdto.setCompimage(newFileName);
+		compdto.setOriCompimage(orignalFileName);
+		
+		String filepath = path + "/" + newFileName;
+		
 		boolean b = compService.insertcompetition(compdto);
-		return str(b);
+		if(b) {
+			// 파일 업로드
+			File file = new File(filepath);
+			
+			try {
+				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+				bos.write(img.getBytes());
+				bos.close();
+			} catch (Exception e) {
+				return "file upload fail";
+			} 
+			return "YES";			
+		}
+		return "NO";
 	}
 	
 	@PostMapping(value = "admin_delcompetition")
