@@ -289,7 +289,7 @@
 		SELECT A.*, (SELECT IFNULL(COUNT(*), 0) FROM COMPCOMMENT WHERE compSeq = A.compSeq) AS commentcount
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY comRegdate DESC) AS RNUM, compSeq, compTitle, compContent, compLocation, compDateStart, 
-				compDateEnd, compLocal, locationLat, locationLng, receiptStart, receiptEnd, compimage, compLink, compSponsor, readcount
+				compDateEnd, compLocal, locationLat, locationLng, receiptStart, receiptEnd, compimage, compLink, compSponsor, readcount, comRegdate
 			FROM COMPETITION
 			<include refid="searchCompetition"></include>
 			ORDER BY comRegdate DESC) A 
