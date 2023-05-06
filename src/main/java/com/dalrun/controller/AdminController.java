@@ -335,6 +335,12 @@ public class AdminController {
 	public String competitionRegi(CompetitionDto compdto,
 								  @RequestParam(value="uploadImg", required=false) MultipartFile img,
 								  HttpServletRequest req) {
+		
+		if (img.getSize() > 2 * 1024 * 1024) {
+		    // 파일 크기가 2MB를 초과하는 경우 업로드 거부
+		    return "file size is too large";
+		}
+		
 		System.out.println("AdminController competitionRegi " + new Date());
 		
 		// 이미지 upload 경로
