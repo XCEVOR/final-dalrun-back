@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.DashboardData;
 import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
 import com.dalrun.dto.OrderDto;
@@ -97,4 +98,7 @@ public interface AdminDao {
 	int updateorder(OrderDto orderdto);
 	
 	int delorder(String[] checkedList);
+	
+	// 대시보드
+	DashboardData getDashboardData();
 }

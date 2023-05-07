@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.DashboardData;
 import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
 import com.dalrun.dto.OrderDto;
@@ -518,5 +519,13 @@ public class AdminController {
 		
 		boolean b = service.delorder(checkedList);
 		return str(b);
+	}
+	
+	// 대시보드
+	@GetMapping(value = "getDashboardData")
+	public DashboardData getDashboardData() {
+		System.out.println("AdminController getDashboardData " + new Date());
+		
+		return service.getDashboardData();
 	}
 }

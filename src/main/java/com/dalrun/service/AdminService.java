@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dalrun.dao.AdminDao;
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.DashboardData;
 import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
 import com.dalrun.dto.OrderDto;
@@ -186,5 +187,10 @@ public class AdminService {
 	public boolean delorder(String[] checkedList) {
 		int n = dao.delorder(checkedList);
 		return n>0?true:false;
+	}
+	
+	// 대시보드
+	public DashboardData getDashboardData() {
+		return dao.getDashboardData();
 	}
 }
