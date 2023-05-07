@@ -75,7 +75,9 @@ public class ProductService {
         return isSucc > 0 ? true : false;
     }
     
-
+    public List<ProductInquiryDto> getProductinquiryAndReply(int inqSeq) {
+		return dao.getProductinquiryAndReply(inqSeq);
+	}
     
     
     

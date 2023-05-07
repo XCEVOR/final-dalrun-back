@@ -16,11 +16,13 @@ public class CompetitionDto implements Serializable{
 	private float locationLng; //위치 y 좌표
 	private String receiptStart; //대회 시작일
 	private String receiptEnd; // 대회 마감일
-	private String compimage; // 대회 사진 이름
+	private String compimage; // 대회 사진 이름(서버)
+	private String oriCompimage; // 대회 사진 이름(원본)
 	private String compLink; // 대회 링크
 	private String compSponsor; // 스폰서 이름 
 	private int readcount; // 조회수
 	private int commentcount; // 댓글 개수
+	private String comRegdate;	// 대회 일정 작성일
 	
 	public CompetitionDto() {
 		// TODO Auto-generated constructor stub
@@ -30,7 +32,8 @@ public class CompetitionDto implements Serializable{
 
 	public CompetitionDto(int compSeq, String compTitle, String compContent, String compLocation, String compDateStart,
 			String compDateEnd, String compLocal, float locationLat, float locationLng, String receiptStart,
-			String receiptEnd, String compimage, String compLink, String compSponsor,int readcount,int commentcount) {
+			String receiptEnd, String compimage, String oriCompimage, String compLink, String compSponsor,
+			int readcount, int commentcount, String comRegdate) {
 		super();
 		this.compSeq = compSeq;
 		this.compTitle = compTitle;
@@ -44,12 +47,13 @@ public class CompetitionDto implements Serializable{
 		this.receiptStart = receiptStart;
 		this.receiptEnd = receiptEnd;
 		this.compimage = compimage;
+		this.oriCompimage = oriCompimage;
 		this.compLink = compLink;
 		this.compSponsor = compSponsor;
 		this.readcount = readcount;
 		this.commentcount = commentcount;
+		this.comRegdate = comRegdate;
 	}
-
 
 
 	public int getCommentcount() {
@@ -220,6 +224,18 @@ public class CompetitionDto implements Serializable{
 
 
 
+	public String getOriCompimage() {
+		return oriCompimage;
+	}
+
+
+
+	public void setOriCompimage(String oriCompimage) {
+		this.oriCompimage = oriCompimage;
+	}
+
+
+
 	public String getCompLink() {
 		return compLink;
 	}
@@ -242,6 +258,28 @@ public class CompetitionDto implements Serializable{
 		this.compSponsor = compSponsor;
 	}
 
-	
+
+
+	public String getComRegdate() {
+		return comRegdate;
+	}
+
+
+
+	public void setComRegdate(String comRegdate) {
+		this.comRegdate = comRegdate;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "CompetitionDto [compSeq=" + compSeq + ", compTitle=" + compTitle + ", compContent=" + compContent
+				+ ", compLocation=" + compLocation + ", compDateStart=" + compDateStart + ", compDateEnd=" + compDateEnd
+				+ ", compLocal=" + compLocal + ", locationLat=" + locationLat + ", locationLng=" + locationLng
+				+ ", receiptStart=" + receiptStart + ", receiptEnd=" + receiptEnd + ", compimage=" + compimage
+				+ ", oriCompimage=" + oriCompimage + ", compLink=" + compLink + ", compSponsor=" + compSponsor
+				+ ", readcount=" + readcount + ", commentcount=" + commentcount + ", comRegdate=" + comRegdate + "]";
+	}
 	
 }
