@@ -336,11 +336,6 @@ public class AdminController {
 								  @RequestParam(value="uploadImg", required=false) MultipartFile img,
 								  HttpServletRequest req) {
 		
-		if (img.getSize() > 2 * 1024 * 1024) {
-		    // 파일 크기가 2MB를 초과하는 경우 업로드 거부
-		    return "file size is too large";
-		}
-		
 		System.out.println("AdminController competitionRegi " + new Date());
 		
 		// 이미지 upload 경로
@@ -371,6 +366,53 @@ public class AdminController {
 			return "YES";			
 		}
 		return "NO";
+	}
+	
+	@PostMapping(value = "admin_updatecomperition")
+	public String updatecomperition(CompetitionDto compdto,
+									@RequestParam(value = "uploadImg", required=false) MultipartFile img,
+									HttpServletRequest req) {
+		
+		System.out.println("AdminController updatecomperition " + new Date());
+		System.out.println(compdto.toString());
+		
+		String path = req.getServletContext().getRealPath("/dalrun-hc/competition");
+		String filename = compdto.getCompimage();
+		
+		File file = new File(path + "/" + filename);	// 기존의 파일
+		
+		if(img != null) {	// 파일 수정
+			// 기존의 파일과 중복되지 않으면 기존의 파일 삭제 후 저장
+			String orignalFileName = img.getOriginalFilename();	// 원본 파일명
+			
+			if(!compdto.getOriCompimage().equals(orignalFileName)) {
+				System.out.println("update file");
+				
+				// 기존의 파일을 삭제하고 새로 저장(이름은 그대로 유지)
+				file.delete();
+				compdto.setOriCompimage(orignalFileName);
+
+				try {
+					BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+					bos.write(img.getBytes());
+					bos.close();
+				} catch (Exception e) {
+					return "file upload fail";
+				} 
+			} else { // 파일 중복
+				System.out.println("exist file");
+				compdto.setCompimage("");
+				compdto.setOriCompimage("");
+			}
+		}
+		else {	// 기존의 파일 유지
+			System.out.println("keep file");
+			compdto.setCompimage("");
+			compdto.setOriCompimage("");
+		}
+		
+		boolean b = service.updatecomperition(compdto);
+		return str(b);
 	}
 	
 	@PostMapping(value = "admin_delcompetition")

@@ -269,5 +269,17 @@ public class CompetitionDto implements Serializable{
 	public void setComRegdate(String comRegdate) {
 		this.comRegdate = comRegdate;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "CompetitionDto [compSeq=" + compSeq + ", compTitle=" + compTitle + ", compContent=" + compContent
+				+ ", compLocation=" + compLocation + ", compDateStart=" + compDateStart + ", compDateEnd=" + compDateEnd
+				+ ", compLocal=" + compLocal + ", locationLat=" + locationLat + ", locationLng=" + locationLng
+				+ ", receiptStart=" + receiptStart + ", receiptEnd=" + receiptEnd + ", compimage=" + compimage
+				+ ", oriCompimage=" + oriCompimage + ", compLink=" + compLink + ", compSponsor=" + compSponsor
+				+ ", readcount=" + readcount + ", commentcount=" + commentcount + ", comRegdate=" + comRegdate + "]";
+	}
 	
 }

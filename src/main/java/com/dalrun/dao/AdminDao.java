@@ -83,6 +83,8 @@ public interface AdminDao {
 	
 	int deldiary(int[] checkedList);
 	
+	int updatecomperition(CompetitionDto compdto);
+	
 	int delcompetition(int[] checkedList);
 	
 	// 쇼핑몰 관리

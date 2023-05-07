@@ -153,6 +153,11 @@ public class AdminService {
 		return n>0?true:false;
 	}
 	
+	public boolean updatecomperition(CompetitionDto compdto) {
+		int n = dao.updatecomperition(compdto);
+		return n>0?true:false;
+	}
+	
 	public boolean delcompetition(int[] checkedList) {
 		int n = dao.delcompetition(checkedList);
 		return n>0?true:false;

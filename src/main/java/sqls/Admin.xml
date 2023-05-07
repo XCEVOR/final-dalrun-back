@@ -370,6 +370,7 @@
 	</update>
 	
 	<!-- 게시물 관리 -->
+	<!-- 문의 -->
 	<update id="updatereply" parameterType="com.dalrun.dto.ProductInquiryDto">
 		UPDATE PRODUCTINQUIRY
 		SET inqContent=#{inqContent}	
@@ -392,18 +393,30 @@
 		<include refid="commonForeach"></include>
 	</update>
 	
+	<!-- 리뷰 -->
 	<delete id="delshoereview" parameterType="List">
 		DELETE FROM SHOEREVIEW
 		WHERE shoereviewSeq IN
 		<include refid="commonForeach"></include>
 	</delete>
 	
+	<!-- 다이어리 -->
 	<delete id="deldiary" parameterType="List">
 		DELETE FROM DIARY
 		WHERE diarySeq IN
 		<include refid="commonForeach"></include>
 	</delete>
 	
+	<!-- 대회일정 -->
+	<update id="updatecomperition" parameterType="com.dalrun.dto.CompetitionDto">
+		UPDATE COMPETITION
+		SET compTitle=#{compTitle}, compContent=#{compContent}, compDateEnd=#{compDateEnd}, compDateStart=#{compDateStart}, compLink=#{compLink}, compLocal=#{compLocal}, compLocation=#{compLocation}, 
+			locationLat=#{locationLat}, locationLng=#{locationLng}, compSponsor=#{compSponsor}, receiptStart=#{receiptStart}, receiptEnd=#{receiptEnd}
+			<if test="compimage != null and compimage != '' and oriCompimage != null and oriCompimage != ''"> 
+				, compimage=#{compimage}, oriCompimage=#{oriCompimage}
+			</if>
+		WHERE compSeq = #{compSeq}
+	</update>
 	<delete id="delcompetition" parameterType="List">
 		DELETE FROM COMPETITION
 		WHERE compSeq IN
