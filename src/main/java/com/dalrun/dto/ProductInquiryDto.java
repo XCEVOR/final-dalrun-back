@@ -13,13 +13,14 @@ public class ProductInquiryDto {
     private String productId;
     private String memId;
     private String productCode;
+    private int replyCnt;
     
     public ProductInquiryDto() {
 
     }
 
     public ProductInquiryDto(int inqSeq, int inqSubseq, int inqRef, int inqDepth, String inqWriter, String inqTitle,
-            String inqContent, String inqDate, String productId, String memId, String productCode) {
+            String inqContent, String inqDate, String productId, String memId, String productCode, int replyCnt) {
         super();
         this.inqSeq = inqSeq;
         this.inqSubseq = inqSubseq;
@@ -32,6 +33,7 @@ public class ProductInquiryDto {
         this.productId = productId;
         this.memId = memId;
         this.productCode = productCode;
+        this.replyCnt = replyCnt;
     }
 
     public int getInqSeq() {
@@ -122,12 +124,20 @@ public class ProductInquiryDto {
         this.productCode = productCode;
     }
 
+    public int getReplyCnt() {
+        return replyCnt;
+    }
+
+    public void setReplyCnt(int replyCnt) {
+        this.replyCnt = replyCnt;
+    }
+
     @Override
     public String toString() {
         return "ProductInquiryDto [inqSeq=" + inqSeq + ", inqSubseq=" + inqSubseq + ", inqRef=" + inqRef + ", inqDepth="
                 + inqDepth + ", inqWriter=" + inqWriter + ", inqTitle=" + inqTitle + ", inqContent=" + inqContent
                 + ", inqDate=" + inqDate + ", productId=" + productId + ", memId=" + memId + ", productCode="
-                + productCode + "]";
+                + productCode + ", replyCnt=" + replyCnt + "]";
     }
 
     
