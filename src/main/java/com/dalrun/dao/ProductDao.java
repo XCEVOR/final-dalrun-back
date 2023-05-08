@@ -14,9 +14,20 @@ public interface ProductDao {
 
     List<ProductDto> allProductList ();
     
+    List<ProductDto> allProductListDeduplication ();
+    
     List<ProductDto> getProductData (String productCode);
     
     List<ProductDto> getSelectedProductInfo (ProductDto pdto);
+    
+    int updateProductView (ProductDto pdto);
+    
+    int updateProductLike (ProductDto pdto);
+    
+    int updateProductRecomm (ProductDto pdto);
+    
+    
+    
     
     List<ProductInquiryDto> getProductInquiry ();
     
@@ -28,7 +39,7 @@ public interface ProductDao {
     
     int writeProductInquiryRefDepthSub (ProductInquiryDto pidto);
     
-    
+    List<ProductInquiryDto> getProductinquiryAndReply(int inqSeq);
     
     
     
