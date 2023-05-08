@@ -11,11 +11,15 @@ public class DiaryDto implements Serializable {
 	private String title;	// 다이어리 글 제목
 	private String content; // 다이어리 글 내용
 	private Date wdate;	// 다이어리 작성일
+	private double totalDist;	// 총 이동 거리
+	private double totalTime;	// 총 이동 시간
+	private double kcal; // 총 소요 칼로리
 
 	public DiaryDto() {
 	}
 
-	public DiaryDto(int diarySeq, String memId, int crewSeq, String title, String content, Date wdate) {
+	public DiaryDto(int diarySeq, String memId, int crewSeq, String title, String content, Date wdate, double totalDist,
+			double totalTime, double kcal) {
 		super();
 		this.diarySeq = diarySeq;
 		this.memId = memId;
@@ -23,6 +27,9 @@ public class DiaryDto implements Serializable {
 		this.title = title;
 		this.content = content;
 		this.wdate = wdate;
+		this.totalDist = totalDist;
+		this.totalTime = totalTime;
+		this.kcal = kcal;
 	}
 
 	public int getDiarySeq() {
@@ -73,12 +80,35 @@ public class DiaryDto implements Serializable {
 		this.wdate = wdate;
 	}
 
+	public double getTotalDist() {
+		return totalDist;
+	}
+
+	public void setTotalDist(double totalDist) {
+		this.totalDist = totalDist;
+	}
+
+	public double getTotalTime() {
+		return totalTime;
+	}
+
+	public void setTotalTime(double totalTime) {
+		this.totalTime = totalTime;
+	}
+
+	public double getKcal() {
+		return kcal;
+	}
+
+	public void setKcal(double kcal) {
+		this.kcal = kcal;
+	}
+
 	@Override
 	public String toString() {
 		return "DiaryDto [diarySeq=" + diarySeq + ", memId=" + memId + ", crewSeq=" + crewSeq + ", title=" + title
-				+ ", content=" + content + ", wdate=" + wdate + "]";
+				+ ", content=" + content + ", wdate=" + wdate + ", totalDist=" + totalDist + ", totalTime=" + totalTime
+				+ ", kcal=" + kcal + "]";
 	}
-	
-	
 
 }
