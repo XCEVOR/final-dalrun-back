@@ -146,6 +146,14 @@ public class ProductController {
         return "SUCCESS";  
     }
     
+    @PostMapping(value = "getproductinquiry")
+    public List<ProductInquiryDto> getProductinquiryAndReply(@RequestParam("target") int inqSeq) {
+    	System.out.println("  @ ProductController getProductinquiryAndReply " + new Date());
+    	
+    	List<ProductInquiryDto> inqAndReply = service.getProductinquiryAndReply(inqSeq);
+    	return inqAndReply;
+    }
+    
 
     
     

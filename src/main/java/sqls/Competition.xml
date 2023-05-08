@@ -84,7 +84,13 @@
     
     </insert>
     
-    
+    <!-- 대회 등록 -->
+    <insert id="insertcompetition" parameterType="com.dalrun.dto.CompetitionDto">
+    	INSERT INTO COMPETITION(compTitle, compContent, compDateEnd, compDateStart, compLink, compLocal, compLocation, locationLat, locationLng, 
+    		compSponsor, receiptStart, receiptEnd, compimage, oriCompimage, readcount, comRegdate)
+    	VALUES(#{compTitle}, #{compContent}, #{compDateEnd}, #{compDateStart}, #{compLink}, #{compLocal}, #{compLocation}, #{locationLat}, #{locationLng}, 
+    		#{compSponsor}, #{receiptStart}, #{receiptEnd}, #{compimage}, #{oriCompimage}, 0, now())
+    </insert>
   
     
     

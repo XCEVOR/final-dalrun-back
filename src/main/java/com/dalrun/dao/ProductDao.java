@@ -39,7 +39,7 @@ public interface ProductDao {
     
     int writeProductInquiryRefDepthSub (ProductInquiryDto pidto);
     
-
+    List<ProductInquiryDto> getProductinquiryAndReply(int inqSeq);
     
     
     
