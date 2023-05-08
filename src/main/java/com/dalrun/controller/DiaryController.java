@@ -23,9 +23,9 @@ public class DiaryController {
 
 	// 다이어리 리스트
 	@GetMapping("getAllDiary")
-	public List<DiaryDto> getAllDiary(){
+	public List<DiaryDto> DiaryList(){
 		System.out.println("DiaryController getAllDiary" + new Date());
-		return dService.getAllDiary();
+		return dService.DiaryList();
 	}
 
 	// 다이어리 댓글 리스트
