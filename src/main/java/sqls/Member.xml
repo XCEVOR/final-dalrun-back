@@ -13,8 +13,8 @@
 
 <!-- 회원가입 -->
 <insert id="addmember" parameterType="com.dalrun.dto.MemberDto" >
-	insert into member(memId, password, memberName, email, phone, birth, foot, regdate, auth, del, crewSeq)
-	values(#{memId}, #{password}, #{memberName}, #{email}, #{phone}, #{birth}, #{foot}, now(), 1, 1, 0)
+	insert into member(memId, password, memberName, email, phone, birth, foot, regdate, auth, del, crewSeq,point)
+	values(#{memId}, #{password}, #{memberName}, #{email}, #{phone}, #{birth}, #{foot}, now(), 1, 1, 0,0)
 </insert>
 
 <!-- 로그인 확인 -->
@@ -23,6 +23,18 @@
 	from member
 	where memId=#{memId} and password=#{password}
 </select>
+
+<!-- 회원 조회 -->
+<select id="getmember" parameterType="String" resultType="com.dalrun.dto.MemberDto">
+	select *
+	from member
+	where memId=#{target}
+</select>
+
+<update id="MinusPoint" parameterType="com.dalrun.dto.MemberDto">
+update member  SET point=point-#{point} where memId=#{memId}
+</update>
+
 
 </mapper>
 

@@ -19,4 +19,8 @@ public interface MemberDao{
 	//로그인
 	MemberDto login(MemberDto dto);
 
+	//회원조회
+	MemberDto getmember(String target);
+	
+	int MinusPoint(MemberDto dto);
 }

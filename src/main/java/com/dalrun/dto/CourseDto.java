@@ -3,52 +3,60 @@ package com.dalrun.dto;
 import java.io.Serializable;
 
 public class CourseDto implements Serializable{
-	
-	private String area; // 지역 번호
-	private int level; // 난이도
-	private String title; // 코스 이름
-	private String thumbnail; // 코스 썸네일
-	private String route; // 코스
-	private String content; 
-	private int star; // 평점
-	
+
+	private int courseSeq; 		// 코스 번호
+	private int areaCode; 		// 지역 번호
+	private String level; 		// 난이도
+	private String courseTitle; // 코스 이름
+	private String thumbnail; 	// 코스 썸네일
+	private String content;		// 코스 소개 내용
+	private int star; 			// 평점
+
 	public CourseDto() {
-		// TODO Auto-generated constructor stub
 	}
 
-	public CourseDto(String area, int level, String title, String thumbnail, String route, String content, int star) {
+	public CourseDto(int courseSeq, int areaCode, String level, String courseTitle, String thumbnail,
+			String content, int star) {
 		super();
-		this.area = area;
+		this.courseSeq = courseSeq;
+		this.areaCode = areaCode;
 		this.level = level;
-		this.title = title;
+		this.courseTitle = courseTitle;
 		this.thumbnail = thumbnail;
-		this.route = route;
 		this.content = content;
 		this.star = star;
 	}
 
-	public String getArea() {
-		return area;
+	public int getCourseSeq() {
+		return courseSeq;
 	}
 
-	public void setArea(String area) {
-		this.area = area;
+	public void setCourseSeq(int courseSeq) {
+		this.courseSeq = courseSeq;
 	}
 
-	public int getLevel() {
+	public int getAreaCode() {
+		return areaCode;
+	}
+
+	public void setAreaCode(int areaCode) {
+		this.areaCode = areaCode;
+	}
+
+	public String getLevel() {
 		return level;
 	}
 
-	public void setLevel(int level) {
+	public void setLevel(String level) {
 		this.level = level;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getCourseTitle() {
+		return courseTitle;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setCourseTitle(String courseTitle) {
+		this.courseTitle = courseTitle;
 	}
 
 	public String getThumbnail() {
@@ -57,14 +65,6 @@ public class CourseDto implements Serializable{
 
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
-	}
-
-	public String getRoute() {
-		return route;
-	}
-
-	public void setRoute(String route) {
-		this.route = route;
 	}
 
 	public String getContent() {
@@ -82,12 +82,5 @@ public class CourseDto implements Serializable{
 	public void setStar(int star) {
 		this.star = star;
 	}
-
-	@Override
-	public String toString() {
-		return "CourseDto [area=" + area + ", level=" + level + ", title=" + title + ", thumbnail=" + thumbnail
-				+ ", route=" + route + ", content=" + content + ", star=" + star + "]";
-	}
-	
 
 }
