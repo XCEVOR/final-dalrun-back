@@ -4,24 +4,43 @@
 	
 
 <mapper namespace="com.dalrun.dao.DiaryDao">
+	
+	<sql id="searchDiaryList">
+		<if test="choice != null and choice != '' and search != null and search != ''">
+			AND memId LIKE CONCAT('%', #{search}, '%')
+		</if>
+	</sql>
 
 	<!-- 다이어리 전체 조회 -->
-	<select id="getAllDiary" resultType="com.dalrun.dto.DiaryDto">
+	<select id="DiaryList" resultType="com.dalrun.dto.DiaryDto">
 		select *
 		from diary
 	</select>
+	
+	<!-- 다이어리 총 수 -->
+	<select id="getAllDiary" parameterType="com.dalrun.dto.GpxParam" resultType="Integer">
+		SELECT IFNULL(COUNT(*), 0)
+		FROM diary
+		<include refid="searchDiaryList"></include>
+	</select>
 
 	<!-- 다이어리 작성 -->
-<insert id="insertDiary" parameterType="com.dalrun.dto.DiaryDto">
-    INSERT INTO diary
-    (memId, title, content, wdate)
-    VALUES
-    (#{memId}, #{title}, #{content}, #{wdate})
-    <selectKey keyProperty="diarySeq" resultType="int" order="AFTER">
-    	SELECT LAST_INSERT_ID()
-    </selectKey>
-</insert>
-
+	<insert id="insertDiary" parameterType="com.dalrun.dto.DiaryDto">
+	    INSERT INTO diary
+	    (memId, title, content, wdate)
+	    VALUES
+	    (#{memId}, #{title}, #{content}, #{wdate})
+	    <selectKey keyProperty="diarySeq" resultType="int" order="AFTER">
+	    	SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	
+	<!-- 총 이동거리, 이동시간, 칼로리 추가 -->
+	<update id="updateRecord" parameterType="com.dalrun.dto.DiaryDto">
+		UPDATE 	diary
+		SET totalDist=#{totalDist}, totalTime=#{totalTime}, kcal=#{kcal}
+		WHERE diarySeq = #{diarySeq}
+	</update>
 
 
 </mapper>

@@ -6,9 +6,12 @@ import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.GpxDataDto;
 import com.dalrun.dto.GpxFilesDto;
+import com.dalrun.dto.GpxParam;
 import com.dalrun.service.DiaryService;
 import com.dalrun.service.GpxDataService;
 import com.dalrun.service.GpxFilesService;
@@ -39,25 +43,53 @@ public class GpxController {
 	@Autowired
 	DiaryService dService;
 	
+	// 공통 pageNumber
+	private void pageNumber(GpxParam param) {
+		
+		// 글의 시작과 끝
+		int pn = param.getPageNumber();  // 0 1 2 3 4
+		int start = 1 + (pn * 10);	// 1  11 21
+		int end = (pn + 1) * 10;	// 10 20 30
+		
+		param.setStart(start);
+		param.setEnd(end);
+	}
+	
+	// 공통 리스트
+	private Map<String, Object> getList(List<?> list, int cnt) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("list", list);
+		map.put("cnt", cnt); // wrapper 형태로 들어 감
+		
+		return map;
+	}
+	
+	// gpx 데이터 로드
+	@GetMapping(value="gpxList")
+	public Map<String, Object> gpxList(GpxParam param){
+		
+		System.out.println("GpxController gpxList " + new Date());
+		
+		List<GpxDataDto> list = gdService.gpxDataList(param);
+		int len = dService.getAllDiary(param);
+		
+		return getList(list, len);
+	}
+	
+	
+	
 	// gpx 파일 업로드
 	@PostMapping(value="/gpxUpload")
 	public String gpxUpload (@ModelAttribute DiaryDto diary,
 							 @RequestParam(value = "gpxFile")MultipartFile gpxFile,
 							 HttpServletRequest req) {
 		
-		System.out.println("GpxController gpxUpload" + new Date());
+		System.out.println("GpxController gpxUpload " + new Date());
 		System.out.println(diary.toString());
 		
 		// 파일 저장 경로 설정 server 단
 		String path = req.getServletContext().getRealPath("/gpx");
-		
-		// 파일 확장자 명
-//		String ogFilename = gpxFile.getOriginalFilename(); // 기존 파일 명
-//		String fileExtension = ogFilename.substring(ogFilename.indexOf('.'));	// 확장자 명 .gpx
-//		
-//		if(!fileExtension.equals(".gpx")) { // 프론트엔드에서 막지만 보안 상 한번 더 막음
-//			return "gpx 파일만 업로드 가능합니다.";
-//		}
 		
 		// new 파일 명 : 업로드 시간(초 단위까지) + 멤버ID 
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyMMddHHmmss");
@@ -69,7 +101,7 @@ public class GpxController {
 		String filePath = path + "/" + fileName;
 		System.out.println(" gpxFile path:" + filePath); // 경로 확인
 		
-		// diary DTO 객체에 값 저장
+		// diary 작성일 DTo에 저장
 		diary.setWdate(new Date());
 		
 		// diary Service => insert 성공 여부
@@ -90,7 +122,7 @@ public class GpxController {
 			boolean fileResult = gfService.insertGpxFile(gpx);
 			System.out.println("gpxfile insert result: " + fileResult);
 		
-			if (fileResult) {	// 0이 아니면 값 들어갔을거라 판단
+			if (fileResult) {
 				// 파일 저장
 				File file = new File(filePath);
 				try {
@@ -101,7 +133,10 @@ public class GpxController {
 					
 					// Gpx Data 파싱하여 DB에 저장
 					List<GpxDataDto> points = GpxParserUtil.parseGPXFile(file);
-
+					double totalD = 0;	// 총 거리 초기화
+					double totalT = 0;	// 총 시간 초기화
+					
+					
 					for (GpxDataDto point : points) {
 					    GpxDataDto gpxData = new GpxDataDto();
 					    gpxData.setFileSeq(gpx.getFileSeq());
@@ -110,8 +145,12 @@ public class GpxController {
 					    gpxData.setLatitude(point.getLatitude());
 					    gpxData.setLongitude(point.getLongitude());
 					    gpxData.setAltitude(point.getAltitude());
+					    gpxData.setDistance(point.getDistance());
 					    gpxData.setmTime(point.getmTime());
+					    gpxData.setTimeDiff(point.getTimeDiff());
 					    
+					    totalD += point.getDistance();
+					    totalT += point.getTimeDiff();
 					    boolean result = gdService.insertGpxData(gpxData);
 
 					    if (!result) { // insert 실패 시
@@ -119,6 +158,19 @@ public class GpxController {
 					        return "gpxData insert Fail";
 					    }
 					}
+					
+					// 칼로리 계산
+					double kcal = ((3.5/60)*7*60*totalT/1000)*5;
+					// ((산소3.5ml/60s) * met(s) * 몸무게(kg) * 운동시간(s)) * 산소 1L 당 5kcal
+					
+					// 총 이동거리,시간,칼로리 Dto에 저장
+					diary.setTotalDist(totalD);
+					diary.setTotalTime(totalT);
+					diary.setKcal(kcal);
+					// DB에 저장
+					boolean recordResult = dService.updateRecord(diary);
+					System.out.println("다이어리 추가 정보 : " + recordResult);
+					
 					
 					// 저장한 데이터들 내보내기
 					List<GpxDataDto> data = gdService.getGPXData(gpx.getFileSeq());

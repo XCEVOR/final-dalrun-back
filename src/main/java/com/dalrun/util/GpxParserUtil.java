@@ -1,28 +1,61 @@
   package com.dalrun.util;
 
   import java.io.File;
-  import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-  import java.util.Date;
-  import java.util.List;
+import java.util.Date;
+import java.util.List;
 
-  import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilderFactory;
 
-  import org.springframework.stereotype.Component;
-  import org.w3c.dom.Document;
-  import org.w3c.dom.Node;
-  import org.w3c.dom.NodeList;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-  import com.dalrun.dto.GpxDataDto;
+import com.dalrun.dto.GpxDataDto;
 
   public class GpxParserUtil {
+	  
+	  // 이동 거리 구하기
+	  private static double calDistance(double lat1, double lon1, double lat2, double lon2) {
+		   
+		  	// 지구 반지름 (km)
+		    final int R = 6371;
+		    
+		    // 위도, 경도 차이 구하기 
+		    double latDistance = Math.toRadians(lat2 - lat1);
+		    double lonDistance = Math.toRadians(lon2 - lon1);
+		    
+		    // 본격적인 이동 거리 구하기
+		    double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+		            + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+		            * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+		    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		    return R * c * 1000; // m단위로 변환
+		}
+	  
+	  // 이동 시간 구하기
+	  private static int calTimeDifference(String time1, String time2) {
+		    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		    try {
+		        Date date1 = sdf.parse(time1);
+		        Date date2 = sdf.parse(time2);
+		        long diff = date2.getTime() - date1.getTime();	// ms 단위
+		        int timeDifference = (int) (diff / 1000); // 초 단위로 변환
+		        return timeDifference;
+		    } catch (ParseException e) {
+		        e.printStackTrace();
+		        return 0;
+		    }
+		}
 
 	  public static List<GpxDataDto> parseGPXFile(File file) throws Exception {
 		  
 		    List<GpxDataDto> points = new ArrayList<>(); // 넘길 데이터
+		    
+		    // 초 당 이동 거리, 이동 시간 구하기용
+		    GpxDataDto previousPoint = null;
 
 		    // xml 파싱 빌드
 		    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -39,8 +72,8 @@ import java.util.ArrayList;
 		    System.out.println("측정 데이터 수 : " + trkpts.getLength());
 		    
 		    // 데이터 추출
-	        for (int j = 0; j < trkpts.getLength(); j++) {
-	            Node trkpt = trkpts.item(j);
+	        for (int i = 0; i < trkpts.getLength(); i++) {
+	            Node trkpt = trkpts.item(i);
 
 	            if (trkpt.getNodeType() == Node.ELEMENT_NODE) {
 	                // 위도
@@ -51,27 +84,49 @@ import java.util.ArrayList;
 
 	                // 고도
 	                double ele = 0.0;
-	                Node eleNode = trkpt.getFirstChild();	// eleNode = <ele>
-	                if (eleNode != null && eleNode.getNodeName().equals("ele")) {
-	                    ele = Double.parseDouble(eleNode.getTextContent());
-	                }
 
 	                // 측정 시간
 	                String time = null;
-	                Node timeNode = trkpt.getLastChild();	// timeNode = <time>
-	                if (timeNode != null && timeNode.getNodeName().equals("time")) {
-	                    String timeStr = timeNode.getTextContent();
-	                   // LocalDateTime dateT = LocalDateTime.parse(timeStr, DateTimeFormatter.ISO_DATE_TIME);
-	                    time = timeStr.substring(timeStr.indexOf("T") + 1, timeStr.indexOf("Z"));
+
+	                // 순회하며 <ele>와 <time> 노드를 찾기
+	                NodeList childNodes = trkpt.getChildNodes();
+	                for (int k = 0; k < childNodes.getLength(); k++) {
+	                    Node childNode = childNodes.item(k);
+
+	                    if (childNode.getNodeType() == Node.ELEMENT_NODE) {
+	                        if (childNode.getNodeName().equals("ele")) {
+	                            ele = Double.parseDouble(childNode.getTextContent());	// 고도
+	                        } else if (childNode.getNodeName().equals("time")) {
+	                            String timeStr = childNode.getTextContent();
+	                            time = timeStr.substring(timeStr.indexOf("T") + 1, timeStr.indexOf("Z")); // 시간
+	                        }
+	                    }
 	                }
 
-
+	                // 데이터 Dto에 삽입
 	                GpxDataDto gpxData = new GpxDataDto();
 	                gpxData.setLatitude(lat);
 	                gpxData.setLongitude(lon);
 	                gpxData.setAltitude(ele);
 	                gpxData.setmTime(time);
+	                
+	                // 초 당 이동 거리 및 시간 계산
+	                if (previousPoint != null) {
+	                    double distance = calDistance(previousPoint.getLatitude(), previousPoint.getLongitude(), lat, lon);
+	                    int timeDifference = calTimeDifference(previousPoint.getmTime(), time);
+	                    
+	                    // 데이터 Dto에 삽입
+	                    gpxData.setDistance(distance);
+	                    gpxData.setTimeDiff(timeDifference);
+	                } else {
+	                	// 첫 번쨰 row
+	                    gpxData.setDistance(0);
+	                    gpxData.setTimeDiff(0);
+	                }
+	                
+	                // 리스트에 담기
 	                points.add(gpxData);
+	                previousPoint = gpxData;
 	            }
 		    }
 		    return points;

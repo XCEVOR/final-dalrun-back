@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dalrun.dao.GpxDataDao;
 import com.dalrun.dto.GpxDataDto;
 import com.dalrun.dto.GpxFilesDto;
+import com.dalrun.dto.GpxParam;
 
 @Service
 @Transactional
@@ -18,8 +19,8 @@ public class GpxDataService {
 	GpxDataDao dao;
 
 	// 데이터 전체 조회
-	public List<GpxDataDto> gpxDataList() {
-		return dao.gpxDataList();
+	public List<GpxDataDto> gpxDataList(GpxParam param) {
+		return dao.gpxDataList(param);
 	}
 	
 	// 데이터 삽입

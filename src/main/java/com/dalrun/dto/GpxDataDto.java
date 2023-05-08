@@ -13,13 +13,17 @@ public class GpxDataDto {
 	private double latitude;// 초 당 위도
 	private double longitude;// 초 당 경도
 	private double altitude;// 초 당 고도
-	private String mTime;	// 초 당 시간
-
+	private double distance;// 초 당 이동 거리
+	private String mTime;	// 측정 시간(파싱을 위해)
+	private int timeDiff; // 초당 시간(초 단위)
+	
+	
 	public GpxDataDto() {
 	}
 
+
 	public GpxDataDto(int dataSeq, int fileSeq, int diarySeq, int courseSeq, String memId, double latitude,
-			double longitude, double altitude, String mTime) {
+			double longitude, double altitude, double distance, String mTime, int timeDiff) {
 		super();
 		this.dataSeq = dataSeq;
 		this.fileSeq = fileSeq;
@@ -29,79 +33,127 @@ public class GpxDataDto {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.altitude = altitude;
+		this.distance = distance;
 		this.mTime = mTime;
+		this.timeDiff = timeDiff;
 	}
+
 
 	public int getDataSeq() {
 		return dataSeq;
 	}
 
+
 	public void setDataSeq(int dataSeq) {
 		this.dataSeq = dataSeq;
 	}
+
 
 	public int getFileSeq() {
 		return fileSeq;
 	}
 
+
 	public void setFileSeq(int fileSeq) {
 		this.fileSeq = fileSeq;
 	}
+
 
 	public int getDiarySeq() {
 		return diarySeq;
 	}
 
+
 	public void setDiarySeq(int diarySeq) {
 		this.diarySeq = diarySeq;
 	}
+
 
 	public int getCourseSeq() {
 		return courseSeq;
 	}
 
+
 	public void setCourseSeq(int courseSeq) {
 		this.courseSeq = courseSeq;
 	}
+
 
 	public String getMemId() {
 		return memId;
 	}
 
+
 	public void setMemId(String memId) {
 		this.memId = memId;
 	}
+
 
 	public double getLatitude() {
 		return latitude;
 	}
 
+
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
+
 
 	public double getLongitude() {
 		return longitude;
 	}
 
+
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
+
 
 	public double getAltitude() {
 		return altitude;
 	}
 
+
 	public void setAltitude(double altitude) {
 		this.altitude = altitude;
 	}
+
+
+	public double getDistance() {
+		return distance;
+	}
+
+
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+
 
 	public String getmTime() {
 		return mTime;
 	}
 
-	public void setmTime(String time) {
-		this.mTime = time;
+
+	public void setmTime(String mTime) {
+		this.mTime = mTime;
 	}
 
+
+	public int getTimeDiff() {
+		return timeDiff;
+	}
+
+
+	public void setTimeDiff(int timeDiff) {
+		this.timeDiff = timeDiff;
+	}
+
+
+	@Override
+	public String toString() {
+		return "GpxDataDto [dataSeq=" + dataSeq + ", fileSeq=" + fileSeq + ", diarySeq=" + diarySeq + ", courseSeq="
+				+ courseSeq + ", memId=" + memId + ", latitude=" + latitude + ", longitude=" + longitude + ", altitude="
+				+ altitude + ", distance=" + distance + ", mTime=" + mTime + ", timeDiff=" + timeDiff + "]";
+	}
+	
 }
