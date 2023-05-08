@@ -528,4 +528,11 @@ public class AdminController {
 		
 		return service.getDashboardData();
 	}
+	
+	@GetMapping(value = "getWeekSummaryData")
+	public List<DashboardData> getWeekSummaryData() {
+		System.out.println("AdminController getWeekSummaryData " + new Date());
+		
+		return service.getWeekSummaryData();
+	}
 }

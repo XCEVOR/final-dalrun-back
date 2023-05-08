@@ -466,4 +466,24 @@
 			GROUP BY inqRef
 			HAVING replyCnt = 0) T) inquiryWaitingCnt;
 	</select>
+	
+	<select id="getWeekSummaryData" resultType="com.dalrun.dto.DashboardData">
+	    SELECT DATE(NOW() - INTERVAL (6 - t.n) DAY) weekDate, 
+			IFNULL(COUNT(srwdate), 0) reviewCnt,
+		    IFNULL(COUNT(orderDate),0) orderCnt,
+		    IFNULL(SUM(orderTotalprice), 0) orderTotalprice,
+		    IFNULL(COUNT(regdate),0) accountCnt,
+		    IFNULL(COUNT(inqDate),0) inquiryWaitingCnt
+		FROM 
+			(SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6) t
+			LEFT JOIN SHOEREVIEW ON DATE(srwdate) = DATE(NOW() - INTERVAL (6 - t.n) DAY)
+			LEFT JOIN (SELECT * FROM PRODUCTORDER WHERE orderState=0 AND deliveryState=0) A ON DATE(A.orderDate) = DATE(NOW() - INTERVAL (6 - t.n) DAY)
+			LEFT JOIN MEMBER ON DATE(regdate) = DATE(NOW() - INTERVAL (6 - t.n) DAY)
+		    LEFT JOIN 
+				(SELECT *
+				FROM PRODUCTINQUIRY
+				WHERE inqRef IN (SELECT inqSeq FROM PRODUCTINQUIRY WHERE inqDepth = 0)) C ON DATE(C.inqDate) = DATE(NOW() - INTERVAL (6 - t.n) DAY)
+		GROUP BY DATE(NOW() - INTERVAL (6 - t.n) DAY)
+	</select>
+
 </mapper>

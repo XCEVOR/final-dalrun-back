@@ -193,4 +193,8 @@ public class AdminService {
 	public DashboardData getDashboardData() {
 		return dao.getDashboardData();
 	}
+	
+	public List<DashboardData> getWeekSummaryData() {
+		return dao.getWeekSummaryData();
+	}
 }

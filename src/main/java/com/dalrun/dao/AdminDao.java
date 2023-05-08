@@ -101,4 +101,6 @@ public interface AdminDao {
 	
 	// 대시보드
 	DashboardData getDashboardData();
+	
+	List<DashboardData> getWeekSummaryData();
 }
