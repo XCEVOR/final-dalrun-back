@@ -102,7 +102,7 @@ public class GpxController {
 		System.out.println(" gpxFile path:" + filePath); // 경로 확인
 		
 		// diary 작성일 DTo에 저장
-		diary.setWdate(new Date());
+		diary.setWdate(LocalDateTime.now().withNano(0)); 
 		
 		// diary Service => insert 성공 여부
 		boolean diaryResult = dService.insertDiary(diary);
