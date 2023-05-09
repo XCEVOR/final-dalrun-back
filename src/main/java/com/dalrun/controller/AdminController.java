@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,12 +38,15 @@ import com.dalrun.dto.ProductDto;
 import com.dalrun.dto.ProductInquiryDto;
 import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
+import com.dalrun.dto.ShoeReviewDetailDto;
 import com.dalrun.dto.ShoeReviewDto;
 import com.dalrun.service.AdminService;
 import com.dalrun.service.CompetitionService;
 import com.dalrun.service.ProductService;
+import com.dalrun.service.ShoeReviewService;
 import com.dalrun.util.EditorUtil;
 import com.dalrun.util.FileNameListUtil;
+import com.dalrun.util.MultiFileUtil;
 import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -55,6 +59,8 @@ public class AdminController {
 	ProductService productService;
 	@Autowired
 	CompetitionService compService;
+	@Autowired
+	ShoeReviewService srService;
 	 
 	private void pageNumber(SearchParam params) {
 	    // 글의 시작과 끝
@@ -221,6 +227,7 @@ public class AdminController {
 	}
 	
 	// 게시물 관리
+	// 문의
 	@PostMapping(value = "admin_updatereply")
 	public String updatereply(ProductInquiryDto inqdto) {
 		System.out.println("AdminController updatereply " + new Date());
@@ -253,6 +260,63 @@ public class AdminController {
 		return str(b);
 	}
 	
+	// 리뷰
+	@PostMapping(value = "shoereviewRegi") 
+	public String shoereviewRegi(ShoeReviewDto srdto, @RequestParam(value="sections", required=false) String[] sections,
+								  @RequestParam(value="fileList", required=false) List<MultipartFile> files,
+								  HttpServletRequest req) throws UnsupportedEncodingException {
+		
+		System.out.println("AdminController shoereviewRegi " + new Date());
+		
+		// 파일명 취득
+		int size = files.size();
+		String[] oriFilenames = new String[size];	// 원본 파일명을 저장할 배열
+		String[] newFilenames = new String[size];	// 파일명을 저장할 배열
+		List<ShoeReviewDetailDto> srdList = new ArrayList<>();
+		
+		for(int i = 0; i < size; i++) {
+			MultipartFile file = files.get(i);
+			String filename = file.getOriginalFilename();	// 원본 파일명
+			
+			oriFilenames[i] = filename;
+//			newFilenames[i] = EditorUtil.getNewFileName(filename);	// 새로운 파일명
+			newFilenames[i] = URLEncoder.encode(filename, "UTF-8");	// 새로운 파일명
+			System.out.println("oriFilename=" + oriFilenames[i]);
+			System.out.println("newFilename=" + newFilenames[i]);
+		}
+		
+		// DB에 파일명 저장
+		srdto.setOriSrImage(oriFilenames[0]);
+		srdto.setSrimage(newFilenames[0]);
+		
+		// 신발리뷰 등록
+		boolean b = srService.shoereviewRegi(srdto);
+		if(b) {	
+			int seq = srdto.getSrSeq();
+			
+			// 파일 upload 경로			
+			String path = req.getServletContext().getRealPath("/dalrun-hc/review/" + seq);
+			System.out.println("fileupload path = " + path);
+			
+			// 리뷰상세정보
+			for(int i = 0; i < sections.length; i++) {
+				srdList.add(new ShoeReviewDetailDto(seq, sections[i], newFilenames[i+1], oriFilenames[i+1]));
+			}
+			
+			// 서버에 파일 저장
+			boolean isS = MultiFileUtil.multiFileUpload(files, size, path, newFilenames);
+			System.out.println("file upload" + isS);
+			
+			if(isS) {
+				// 리뷰상세정보 저장
+				boolean srb = srService.shoereviewDetailRegi(srdList);
+				if(srb) return "YES";
+			};
+		}
+		return "NO";
+		
+	}
+	
 	@PostMapping(value = "admin_delshoereview")
 	public String delshoereview(@RequestParam("checkedList") int[] checkedList) {
 		System.out.println("AdminController delshoereview " + new Date());
@@ -261,6 +325,7 @@ public class AdminController {
 		return str(b);
 	}
 	
+	// 다이어리
 	@PostMapping(value = "admin_deldiary")
 	public String deldiary(@RequestParam("checkedList") int[] checkedList) {
 		System.out.println("AdminController deldiary " + new Date());
@@ -269,6 +334,7 @@ public class AdminController {
 		return str(b);
 	}
 	
+	// 대회 일정
 	@PostMapping(value = "getcompetition") 
 	public CompetitionDto getCompetition(@RequestParam("target") int compSeq) {
 		System.out.println("AdminController getCompetition " + new Date());

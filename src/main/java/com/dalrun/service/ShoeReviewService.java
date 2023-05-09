@@ -10,6 +10,7 @@ import com.dalrun.dao.ShoeReviewDao;
 import com.dalrun.dto.CompCommentDto;
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.SearchParam;
+import com.dalrun.dto.ShoeReviewDetailDto;
 import com.dalrun.dto.ShoeReviewDto;
 import com.dalrun.dto.ShoereivewCommentDto;
 
@@ -61,5 +62,14 @@ public class ShoeReviewService {
 		return dao.getAllShoedetailList(srSeq);
 	}
 	
+	public boolean shoereviewRegi(ShoeReviewDto srdto) {
+		int n = dao.shoereviewRegi(srdto);
+		return n>0?true:false;
+	}
+	
+	public boolean shoereviewDetailRegi(List<ShoeReviewDetailDto> srdList) {
+		int n = dao.shoereviewDetailRegi(srdList);
+		return n>0?true:false;
+	}
 	
 }

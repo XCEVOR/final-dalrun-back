@@ -90,7 +90,26 @@
     select * from shoereviewdetail where srSeq=#{srSeq}
     </select>
     
+    <!-- 리뷰 등록 -->
+    <insert id="shoereviewRegi" parameterType="com.dalrun.dto.ShoeReviewDto">
+    	INSERT INTO SHOEREVIEW(srTitle, srCotent, srBrand, srimage, oriSrImage, srLink, srPrice, srwdate, readcount, srDel)
+    	VALUES(#{srTitle}, #{srCotent}, #{srBrand}, #{srimage}, #{oriSrImage}, #{srLink}, #{srPrice}, now(), 0, 0)
+    	
+    	<!-- insert후 리뷰번호 받기 -->
+    	<selectKey resultType="int" keyProperty="srSeq" order="AFTER">
+    		SELECT LAST_INSERT_ID() 
+    	</selectKey>
+    </insert>
     
-    
+    <!-- 리뷰상세정보 입력 -->
+    <insert id="shoereviewDetailRegi" parameterType="com.dalrun.dto.ShoeReviewDetailDto">
+    	<if test="srdList.size() != 0">
+    		INSERT INTO SHOEREVIEWDETAIL(srSeq, srimage, oriSrImage, srcomment)
+    		VALUES
+    		<foreach collection="srdList" item="item" separator=",">
+    			(#{item.srSeq}, #{item.srimage}, #{item.oriSrImage}, #{item.srcomment})    	
+    		</foreach>
+    	</if>
+    </insert>
     
 </mapper>
