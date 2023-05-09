@@ -21,11 +21,11 @@
 	<select id="diaryList" resultType="com.dalrun.dto.DiaryDto">
 		SELECT *
 		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY wdate ASC) AS RNUM, diarySeq, memId,
+			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, diarySeq, memId,
 				title, content, wdate, totalDist, totalTime, kcal, diaryDel
 			FROM DIARY
 			<include refid="searchDiaryList"></include>
-			ORDER BY wdate ASC) A
+			ORDER BY wdate DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	
