@@ -6,19 +6,31 @@
 <mapper namespace="com.dalrun.dao.DiaryDao">
 	
 	<sql id="searchDiaryList">
-		<if test="choice != null and choice != '' and search != null and search != ''">
-			AND memId LIKE CONCAT('%', #{search}, '%')
-		</if>
+		<where>
+			<if test="search != null and search != ''">
+				AND (
+					memId LIKE CONCAT('%', #{search}, '%')
+					OR title LIKE CONCAT('%', #{search}, '%')
+					OR wdate LIKE CONCAT('%', #{search}, '%')
+				)
+			</if>
+		</where>
 	</sql>
 
 	<!-- 다이어리 전체 조회 -->
-	<select id="DiaryList" resultType="com.dalrun.dto.DiaryDto">
-		select *
-		from diary
+	<select id="diaryList" resultType="com.dalrun.dto.DiaryDto">
+		SELECT *
+		FROM 
+			(SELECT ROW_NUMBER()OVER(ORDER BY wdate ASC) AS RNUM, diarySeq, memId,
+				title, content, wdate, totalDist, totalTime, kcal, diaryDel
+			FROM DIARY
+			<include refid="searchDiaryList"></include>
+			ORDER BY wdate ASC) A
+		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	
 	<!-- 다이어리 총 수 -->
-	<select id="getAllDiary" parameterType="com.dalrun.dto.GpxParam" resultType="Integer">
+	<select id="getAllDiary" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM diary
 		<include refid="searchDiaryList"></include>

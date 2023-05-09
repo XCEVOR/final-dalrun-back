@@ -65,17 +65,17 @@ public class GpxController {
 		return map;
 	}
 	
-	// gpx 데이터 로드
-	@GetMapping(value="gpxList")
-	public Map<String, Object> gpxList(GpxParam param){
-		
-		System.out.println("GpxController gpxList " + new Date());
-		
-		List<GpxDataDto> list = gdService.gpxDataList(param);
-		int len = dService.getAllDiary(param);
-		
-		return getList(list, len);
-	}
+//	// gpx 데이터 로드
+//	@GetMapping(value="gpxList")
+//	public Map<String, Object> gpxList(GpxParam param){
+//		
+//		System.out.println("GpxController gpxList " + new Date());
+//		
+//		List<GpxDataDto> list = gdService.gpxDataList(param);
+//		int len = dService.getAllDiary(param);
+//		
+//		return getList(list, len);
+//	}
 	
 	
 	
