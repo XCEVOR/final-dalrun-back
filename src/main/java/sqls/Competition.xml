@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+
+<mapper namespace="com.dalrun.dao.CompetitionDao">
+
+    <select id="getAllList" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.CompetitionDto">
+      select *
+		from
+		(select row_number()over(order by compDateStart) as rnum,
+		compSeq,compTitle,compContent,compLocation,compDateStart,compDateEnd
+		,compLocal,locationLat,locationLng,receiptStart,receiptEnd,compimage,compLink,compSponsor,readcount
+		,(select count(*) from compComment where compSeq=c.compSeq)as commentcount 
+		from competition c
+		where 1=1
+		<if test="choice != null and choice!='' and search != null and search!= ''">
+			<if test="choice == 'title'">
+				and compTitle like concat('%',#{search},'%')
+			</if>
+			<if test="choice == 'content'">
+				and compContent like concat('%',#{search},'%')
+			</if>
+			<if test="choice == 'compLocal'">
+				and compLocal=#{search}
+			</if>
+		</if>
+		order by compDateStart asc) a
+		where rnum between ${start} and ${end}
+      
+    </select>
+    
+    
+     <select id="getAllListCount" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
+      select ifnull(count(*),0)
+		from competition
+		<if
+			test="choice != null and choice!='' and search != null and search!= ''">
+			<if test="choice == 'title'">
+				where compTitle like concat('%',#{search},'%')
+			</if>
+			<if test="choice == 'content'">
+				where compContent like concat('%',#{search},'%')
+			</if>
+			<if test="choice == 'compLocal'">
+				where compLocal=#{search}
+			</if>
+		</if>
+    </select>
+    
+    
+     <select id="getCompBbs" parameterType="java.lang.Integer" resultType="com.dalrun.dto.CompetitionDto">
+        SELECT *
+        FROM competition where compSeq=#{compSeq}
+    </select>
+    
+     <select id="getCompCommentList" parameterType="java.lang.Integer" resultType="com.dalrun.dto.CompCommentDto">
+        SELECT *
+        FROM compComment where compSeq=#{compSeq} order by CCseq desc
+    </select>
+    
+
+    <select id="getAllListThisMonth" resultType="com.dalrun.dto.CompetitionDto">
+     SELECT * FROM competition
+		WHERE YEAR(compDateStart) = YEAR(CURRENT_TIMESTAMP)
+		AND MONTH(compDateStart) = MONTH(CURRENT_TIMESTAMP);
+
+    </select>
+   
+    
+     <select id="getPopularList" resultType="com.dalrun.dto.CompetitionDto">
+       SELECT * FROM competition order by readcount desc limit 5;
+
+    </select>
+    
+    <update id="compReadcount" parameterType="java.lang.Integer">
+    update competition set readcount=readcount+1 where compSeq=#{compSeq}
+    </update>
+    
+    <insert id="sendComment" parameterType="com.dalrun.dto.CompCommentDto">
+    
+  	INSERT INTO compComment (CCmemId, CCcontent, CCdel, compSeq,CCwdate) 
+    values(#{CCmemId},#{CCcontent},0,#{compSeq},now())
+    
+    </insert>
+    
+    <!-- 대회 등록 -->
+    <insert id="insertcompetition" parameterType="com.dalrun.dto.CompetitionDto">
+    	INSERT INTO COMPETITION(compTitle, compContent, compDateEnd, compDateStart, compLink, compLocal, compLocation, locationLat, locationLng, 
+    		compSponsor, receiptStart, receiptEnd, compimage, oriCompimage, readcount, comRegdate)
+    	VALUES(#{compTitle}, #{compContent}, #{compDateEnd}, #{compDateStart}, #{compLink}, #{compLocal}, #{compLocation}, #{locationLat}, #{locationLng}, 
+    		#{compSponsor}, #{receiptStart}, #{receiptEnd}, #{compimage}, #{oriCompimage}, 0, now())
+    </insert>
+  
+    
+    
+    
+    
+</mapper>

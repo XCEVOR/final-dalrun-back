@@ -1,8 +1,14 @@
 package com.dalrun.controller;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -15,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,11 +36,13 @@ import com.dalrun.dto.ProductDto;
 import com.dalrun.dto.ProductInquiryDto;
 import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
-import com.dalrun.dto.ShoeDto;
+import com.dalrun.dto.ShoeReviewDto;
 import com.dalrun.service.AdminService;
+import com.dalrun.service.CompetitionService;
 import com.dalrun.service.ProductService;
 import com.dalrun.util.EditorUtil;
 import com.dalrun.util.FileNameListUtil;
+import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -42,6 +52,8 @@ public class AdminController {
 	AdminService service;
 	@Autowired
 	ProductService productService;
+	@Autowired
+	CompetitionService compService;
 	 
 	private void pageNumber(SearchParam params) {
 	    // 글의 시작과 끝
@@ -113,7 +125,7 @@ public class AdminController {
 	    System.out.println("AdminController shoereviewlist " + new Date());
 	    
 	    pageNumber(params);
-	    List<ShoeDto> shoereviewlist = service.shoereviewlist(params);
+	    List<ShoeReviewDto> shoereviewlist = service.shoereviewlist(params);
 	    int len = service.getAllShoereview(params);
 	    
 	    return getList(shoereviewlist, len);
@@ -141,7 +153,7 @@ public class AdminController {
 	    return getList(competitionlist, len);
 	}
 	
-	// 상품 관리
+	// 상품 관리	
 	@GetMapping(value = "admin_productlist")
 	public Map<String, Object> productlist(SearchParam params) {
 	    System.out.println("AdminController productlist " + new Date());
@@ -207,6 +219,210 @@ public class AdminController {
 		return str(b);
 	}
 	
+	// 게시물 관리
+	@PostMapping(value = "admin_updatereply")
+	public String updatereply(ProductInquiryDto inqdto) {
+		System.out.println("AdminController updatereply " + new Date());
+		
+		boolean b = service.updatereply(inqdto);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_delreply")
+	public String delreply(int inqSeq) {
+		System.out.println("AdminController delreply " + new Date());
+		
+		boolean b = service.delreply(inqSeq);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_delproductinquiry")
+	public String delproductinquiry(@RequestParam("checkedList") int[] checkedList) {
+		System.out.println("AdminController delproductinquiry " + new Date());
+		
+		boolean b = service.delproductinquiry(checkedList);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_delqna")
+	public String delqna(@RequestParam("checkedList") int[] checkedList) {
+		System.out.println("AdminController delqna " + new Date());
+		
+		boolean b = service.delqna(checkedList);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_delshoereview")
+	public String delshoereview(@RequestParam("checkedList") int[] checkedList) {
+		System.out.println("AdminController delshoereview " + new Date());
+		
+		boolean b = service.delshoereview(checkedList);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_deldiary")
+	public String deldiary(@RequestParam("checkedList") int[] checkedList) {
+		System.out.println("AdminController deldiary " + new Date());
+		
+		boolean b = service.deldiary(checkedList);
+		return str(b);
+	}
+	
+	@PostMapping(value = "getcompetition") 
+	public CompetitionDto getCompetition(@RequestParam("target") int compSeq) {
+		System.out.println("AdminController getCompetition " + new Date());
+		
+		CompetitionDto comp = compService.getCompBbs(compSeq);
+		return comp;
+	}
+	
+	@GetMapping(value = "getGeometricData")
+	public String getGeometricData(String address) {
+		String clientId = "13ylgllhb9";
+		String clientSecret = "TkHolKJ7ljNNqOVJZtXoCwE9HCOgYgjMgajzh4VQ";
+		
+		StringBuffer response = null;
+		
+		// 장치에 요청할 URI
+		try {
+			
+			String encodedQuery = URLEncoder.encode(address, "UTF-8"); // 입력받은 주소를 인코딩
+			String queryParam = "?query=" + encodedQuery;
+			
+			URL url = new URL("https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode" + queryParam);
+	        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+	        
+	        // 요청 헤더
+	        con.setRequestProperty("Content-Type", "application/json");
+	        con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
+	        con.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
+	
+	        // Method 타입을 정의하고 API를 전송
+	        con.setRequestMethod("GET");
+	
+	        BufferedReader br = null;
+	        
+	        int responseCode = con.getResponseCode();
+	        if(responseCode == 200) { // 정상 호출
+	            br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	        } else {  // 오류 발생
+	            System.out.println("error!!!!!!! responseCode= " + responseCode);
+	            br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	        }
+	        String inputLine;
+	
+	        if(br != null) {
+	            response = new StringBuffer();
+	            while ((inputLine = br.readLine()) != null) {
+	                response.append(inputLine);
+	            }
+	            br.close();
+	            
+	            // 결과 출력
+	            System.out.println(response.toString());
+	        } else {
+	            System.out.println("error !!!");
+	        }
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    }
+		System.out.println(response);
+		
+	    return response.toString();
+	}
+	
+	@PostMapping(value = "competitionRegi")
+	public String competitionRegi(CompetitionDto compdto,
+								  @RequestParam(value="uploadImg", required=false) MultipartFile img,
+								  HttpServletRequest req) {
+		
+		System.out.println("AdminController competitionRegi " + new Date());
+		
+		// 이미지 upload 경로
+		String path = req.getServletContext().getRealPath("/dalrun-hc/competition");
+		
+		// 파일명 취득후 저장
+		String orignalFileName = img.getOriginalFilename();	// 원본 파일명
+		String newFileName = EditorUtil.getNewFileName(orignalFileName);  // 새로운 파일명
+		System.out.println("oriname=" + orignalFileName + " newname=" + newFileName);
+		
+		compdto.setCompimage(newFileName);
+		compdto.setOriCompimage(orignalFileName);
+		
+		String filepath = path + "/" + newFileName;
+		
+		boolean b = compService.insertcompetition(compdto);
+		if(b) {
+			// 파일 업로드
+			File file = new File(filepath);
+			
+			try {
+				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+				bos.write(img.getBytes());
+				bos.close();
+			} catch (Exception e) {
+				return "file upload fail";
+			} 
+			return "YES";			
+		}
+		return "NO";
+	}
+	
+	@PostMapping(value = "admin_updatecomperition")
+	public String updatecomperition(CompetitionDto compdto,
+									@RequestParam(value = "uploadImg", required=false) MultipartFile img,
+									HttpServletRequest req) {
+		
+		System.out.println("AdminController updatecomperition " + new Date());
+		System.out.println(compdto.toString());
+		
+		String path = req.getServletContext().getRealPath("/dalrun-hc/competition");
+		String filename = compdto.getCompimage();
+		
+		File file = new File(path + "/" + filename);	// 기존의 파일
+		
+		if(img != null) {	// 파일 수정
+			// 기존의 파일과 중복되지 않으면 기존의 파일 삭제 후 저장
+			String orignalFileName = img.getOriginalFilename();	// 원본 파일명
+			
+			if(!compdto.getOriCompimage().equals(orignalFileName)) {
+				System.out.println("update file");
+				
+				// 기존의 파일을 삭제하고 새로 저장(이름은 그대로 유지)
+				file.delete();
+				compdto.setOriCompimage(orignalFileName);
+
+				try {
+					BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+					bos.write(img.getBytes());
+					bos.close();
+				} catch (Exception e) {
+					return "file upload fail";
+				} 
+			} else { // 파일 중복
+				System.out.println("exist file");
+				compdto.setCompimage("");
+				compdto.setOriCompimage("");
+			}
+		}
+		else {	// 기존의 파일 유지
+			System.out.println("keep file");
+			compdto.setCompimage("");
+			compdto.setOriCompimage("");
+		}
+		
+		boolean b = service.updatecomperition(compdto);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_delcompetition")
+	public String delcompetition(@RequestParam("checkedList") int[] checkedList) {
+		System.out.println("AdminController delcompetition " + new Date());
+		
+		boolean b = service.delcompetition(checkedList);
+		return str(b);
+	}
+	
 	// 쇼핑몰 관리
 	@PostMapping(value = "getproduct")
 	public Map<String, Object> getProduct(@RequestParam("target") String productId) {
@@ -238,7 +454,11 @@ public class AdminController {
 		String[] filenamesList = FileNameListUtil.getFileNameList(fileuploaded_path);
 		
 		for(String filename : filenamesList) {
-			if(!updatedFiles.contains(filename)) {	// 서버에 저장된 파일명과 수정된 파일명이 일치하지 않으면
+			if(CollectionUtils.isEmpty(updatedFiles)) {	// 수정된 파일 목록이 없을 경우
+				File file = new File(fileuploaded_path + "/" + filename);
+				file.delete(); // 저장된 모든 파일 삭제
+			}
+			else if(!updatedFiles.contains(filename)) {	// 서버에 저장된 파일명과 수정된 파일명이 일치하지 않으면
 				System.out.println("delete files : " + filename);
 				
 				File file = new File(fileuploaded_path + "/" + filename);
@@ -272,7 +492,6 @@ public class AdminController {
 				System.out.println("exist file : " + addFileName);
 			}
 		}
-		System.out.println(productdto.toString());
 		boolean b = service.updateproduct(productdto);
 		return str(b);
 	}
@@ -282,6 +501,22 @@ public class AdminController {
 		System.out.println("AdminController delproduct " + new Date());
 		
 		boolean b = service.delproduct(checkedList);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_updateorder")
+	public String updateorder(OrderDto orderdto) {
+		System.out.println("AdminController updateorder " + new Date());
+		
+		boolean b = service.updateorder(orderdto);
+		return str(b);
+	}
+	
+	@PostMapping(value = "admin_delorder")
+	public String delorder(@RequestParam("checkedList") String[] checkedList) {
+		System.out.println("AdminController delorder " + new Date());
+		
+		boolean b = service.delorder(checkedList);
 		return str(b);
 	}
 }

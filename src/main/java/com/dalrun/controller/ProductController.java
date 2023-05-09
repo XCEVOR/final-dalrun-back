@@ -37,6 +37,13 @@ public class ProductController {
         System.out.println("  @ ProductController List<ProductDto> productlist () { " + new Date());
         return service.allProductListService();
     }
+
+    @GetMapping(value = "allProductListDeduplication")
+    public List<ProductDto> allProductListDeduplication () {
+        System.out.println("  @ ProductController List<ProductDto> allProductListDeduplication () { " + new Date());
+        System.out.println("  @ service.allProductListDeduplication() { " + service.allProductListDeduplication());
+        return service.allProductListDeduplication();
+    }
     
     @PostMapping(value = "getProductData")
     public List<ProductDto> getProductData (String productCode) {
@@ -51,6 +58,42 @@ public class ProductController {
         ProductDto pdto = new ProductDto(productCode, productColor, productSize);
         return service.getSelectedProductInfo(pdto);
     }
+    
+    @PostMapping(value = "updateProductView")
+    public String updateProductView (ProductDto pdto) {
+        System.out.println("  @ ProductController updateProductView (ProductInquiryDto pidto) { " + new Date());
+        System.out.println(pdto);
+        boolean isSucc = service.updateProductView(pdto);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";  
+    }
+    
+    @PostMapping(value = "updateProductLike")
+    public String updateProductLike (ProductDto pdto) {
+        System.out.println("  @ ProductController updateProductLike (ProductInquiryDto pidto) { " + new Date());
+        System.out.println(pdto);
+        boolean isSucc = service.updateProductLike(pdto);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";  
+    }
+    
+    @PostMapping(value = "updateProductRecomm")
+    public String updateProductRecomm (ProductDto pdto) {
+        System.out.println("  @ ProductController updateProductRecomm (ProductInquiryDto pidto) { " + new Date());
+        System.out.println(pdto);
+        boolean isSucc = service.updateProductRecomm(pdto);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";  
+    }
+    
+    
+    
     
     @PostMapping(value = "getProductInquiry")
     public List<ProductInquiryDto> getProductInquiry (String productCode) {
@@ -103,6 +146,15 @@ public class ProductController {
         return "SUCCESS";  
     }
     
+    @PostMapping(value = "getproductinquiry")
+    public List<ProductInquiryDto> getProductinquiryAndReply(@RequestParam("target") int inqSeq) {
+    	System.out.println("  @ ProductController getProductinquiryAndReply " + new Date());
+    	
+    	List<ProductInquiryDto> inqAndReply = service.getProductinquiryAndReply(inqSeq);
+    	return inqAndReply;
+    }
+    
+
     
     
     @GetMapping(value = "getpath")
@@ -129,6 +181,8 @@ public class ProductController {
         
         return filenamesList;
     }
+    
+    
     
     
     // ====================================================================================================    

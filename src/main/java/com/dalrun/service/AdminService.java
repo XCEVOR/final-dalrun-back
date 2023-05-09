@@ -16,7 +16,7 @@ import com.dalrun.dto.ProductDto;
 import com.dalrun.dto.ProductInquiryDto;
 import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
-import com.dalrun.dto.ShoeDto;
+import com.dalrun.dto.ShoeReviewDto;
 
 @Service
 @Transactional
@@ -59,7 +59,7 @@ public class AdminService {
 		return dao.getAllQna(params);
 	}
 	
-	public List<ShoeDto> shoereviewlist(SearchParam params) {
+	public List<ShoeReviewDto> shoereviewlist(SearchParam params) {
 		return dao.shoereviewlist(params);
 	}
 	
@@ -122,6 +122,47 @@ public class AdminService {
 		return n>0?true:false;
 	}
 	
+	// 게시물 관리
+	public boolean updatereply(ProductInquiryDto inqdto) {
+		int n = dao.updatereply(inqdto);
+		return n>0?true:false;
+	}
+	
+	public boolean delreply(int inqSeq) {
+		int n = dao.delreply(inqSeq);
+		return n>0?true:false;
+	}
+	
+	public boolean delproductinquiry(int[] checkedList) {
+		int n = dao.delproductinquiry(checkedList);
+		return n>0?true:false;
+	}
+	
+	public boolean delqna(int[] checkedList) {
+		int n = dao.delqna(checkedList);
+		return n>0?true:false;
+	}
+	
+	public boolean delshoereview(int[] checkedList) {
+		int n = dao.delshoereview(checkedList);
+		return n>0?true:false;
+	}
+	
+	public boolean deldiary(int[] checkedList) {
+		int n = dao.deldiary(checkedList);
+		return n>0?true:false;
+	}
+	
+	public boolean updatecomperition(CompetitionDto compdto) {
+		int n = dao.updatecomperition(compdto);
+		return n>0?true:false;
+	}
+	
+	public boolean delcompetition(int[] checkedList) {
+		int n = dao.delcompetition(checkedList);
+		return n>0?true:false;
+	}
+	
 	// 쇼핑몰 관리
 	public int getProductOrder(String productId) {
 		return dao.getProductOrder(productId);
@@ -134,6 +175,16 @@ public class AdminService {
 	
 	public boolean delproduct(String[] checkedList) {
 		int n = dao.delproduct(checkedList);
+		return n>0?true:false;
+	}
+	
+	public boolean updateorder(OrderDto orderdto) {
+		int n = dao.updateorder(orderdto);
+		return n>0?true:false;
+	}
+	
+	public boolean delorder(String[] checkedList) {
+		int n = dao.delorder(checkedList);
 		return n>0?true:false;
 	}
 }
