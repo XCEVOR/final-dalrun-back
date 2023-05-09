@@ -396,7 +396,7 @@
 	<!-- 리뷰 -->
 	<delete id="delshoereview" parameterType="List">
 		DELETE FROM SHOEREVIEW
-		WHERE shoereviewSeq IN
+		WHERE srSeq IN
 		<include refid="commonForeach"></include>
 	</delete>
 	
