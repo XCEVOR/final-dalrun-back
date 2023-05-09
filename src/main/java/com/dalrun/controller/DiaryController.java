@@ -39,12 +39,7 @@ public class DiaryController {
 		param.setEnd(end);
 		
 		List<DiaryDto> list = dService.diaryList(param);
-		int len = dService.getAllDiary(param);
-		
-		int cnt = len / 10;
-		if((len % 10) > 0) {	// 총 글 수가 페이지 한도를 넘을 시 페이지 추가
-			cnt = cnt + 1;
-		}
+		int cnt = dService.getAllDiary(param);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", list);
