@@ -17,6 +17,10 @@ public class CrewBbsDto implements Serializable{
 	private String wdate;
 	private int likecount; // 좋아요 수
 	private int readcount; // 조회수 수
+	private String crewSetUp; //크루 소개글
+	
+	private String cbMemId; //댓글 작성자
+	private String cbContent; //댓글 내용
 	
 	
 	public CrewBbsDto() {
@@ -66,8 +70,27 @@ public class CrewBbsDto implements Serializable{
 		this.likecount = likecount;
 		this.readcount = readcount;
 	}
-	
-	
+
+	public CrewBbsDto(int cBbsSeq, String memId, String crewName, String title, String content, String category,
+			String img, int del, String type, String wdate, int likecount, int readcount, String crewSetUp,
+			String cbMemId, String cbContent) {
+		this.cBbsSeq = cBbsSeq;
+		this.memId = memId;
+		this.crewName = crewName;
+		this.title = title;
+		this.content = content;
+		this.category = category;
+		this.img = img;
+		this.del = del;
+		this.type = type;
+		this.wdate = wdate;
+		this.likecount = likecount;
+		this.readcount = readcount;
+		this.crewSetUp = crewSetUp;
+		this.cbMemId = cbMemId;
+		this.cbContent = cbContent;
+	}
+
 	public int getcBbsSeq() {
 		return cBbsSeq;
 	}
@@ -185,6 +208,36 @@ public class CrewBbsDto implements Serializable{
 
 	public void setReadcount(int readcount) {
 		this.readcount = readcount;
+	}
+	
+	
+	public String getCbMemId() {
+		return cbMemId;
+	}
+
+
+	public void setCbMemId(String cbMemId) {
+		this.cbMemId = cbMemId;
+	}
+	
+
+	public String getCbContent() {
+		return cbContent;
+	}
+	
+	
+	public String getCrewSetUp() {
+		return crewSetUp;
+	}
+
+
+	public void setCrewSetUp(String crewSetUp) {
+		this.crewSetUp = crewSetUp;
+	}
+
+
+	public void setCbContent(String cbContent) {
+		this.cbContent = cbContent;
 	}
 
 

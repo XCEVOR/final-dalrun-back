@@ -16,11 +16,14 @@ import java.util.stream.Collectors;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +32,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.dalrun.dto.CrewBbsDto;
 import com.dalrun.dto.CrewBbsParam;
+import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.SearchParam;
 import com.dalrun.service.CrewBbsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -40,36 +45,37 @@ public class CrewBbsController {
 	
 	//게시글 상세보기
 	@GetMapping(value="crewBbsBlogDetail")
-	public CrewBbsDto getCrewBbs(int cBbsSeq) {
+	public CrewDto getCrewBbs(int crewSeq) {
 		System.out.println("CrewBbsController CrewBbsDto " + new Date());
 		
-		service.increaseReadCount(cBbsSeq);
-		return service.getCrewBbs(cBbsSeq);
+		service.increaseReadCount(crewSeq);
+		return service.getCrewBbs(crewSeq);
 	}
 	
 	@PostMapping(value="increaseReadCount")
-	public CrewBbsDto increaseReadCount(int cBbsSeq) {
+	public CrewDto increaseReadCount(int crewSeq) {
 		System.out.println("CrewBbsController increaseReadCount " + new Date());
 		
-		service.increaseReadCount(cBbsSeq);
-		return service.getCrewBbs(cBbsSeq);
+		service.increaseReadCount(crewSeq);
+		return service.getCrewBbs(crewSeq);
 	}
 	
-		@PostMapping(value="crewBbsWrite")
-	   public String crewBbsWrite(@RequestPart(value="dto") String dtostr, @RequestPart(value="img", required = false) List<MultipartFile> files) {
+	@PostMapping(value="crewBbsWrite")
+	   public String crewBbsWrite(@RequestPart(value="dto") String dtostr, @RequestPart(value="crewImg", required = false) List<MultipartFile> files) {
 	      System.out.println("CrewBbsController crewBbsWrite" + new Date());
 	      
 	      ObjectMapper mapper = new ObjectMapper();
-	      CrewBbsDto dto;
+	      CrewDto dto;
 	      try {
-	         dto = mapper.readValue(dtostr, CrewBbsDto.class);
+	         dto = mapper.readValue(dtostr, CrewDto.class);
 	      }catch (Exception e) {
 	         e.printStackTrace();
 	         return "NO";
 	      }
 
 	      List<String> filestr = new ArrayList<String>();
-	         String path = "C:/crewBbsImage/";
+	      //C:\Users\ParkYerin\git\final-dalrun-front\public\assets\img\dalrun-pyr
+	         String path = "C:\\Users\\ParkYerin\\git\\final-dalrun-front\\public\\assets\\img\\dalrun-pyr/";
 	         File Folder = new File(path);
 
 	         if(!Folder.exists()) {
@@ -93,8 +99,8 @@ public class CrewBbsController {
 	         }
 
 	         String finalstr = filestr.stream().map(String::valueOf).collect(Collectors.joining("/"));
-	         dto.setImg(finalstr);
-	      
+	         dto.setCrewImg(finalstr);
+	         
 	      System.out.println(dto);
 	      boolean b = service.writeCrewBbs(dto);
 	      if(!b) {
@@ -106,54 +112,57 @@ public class CrewBbsController {
 	//이미지 반환	
 	 @GetMapping(value="/getimg", produces= MediaType.IMAGE_PNG_VALUE)
 	 public @ResponseBody byte[] getimg(@RequestParam(value="imgid") String imgid) throws IOException{
-	      InputStream in = new FileInputStream("C:/crewBbsImage/"+imgid);
+	      InputStream in = new FileInputStream("C:\\Users\\ParkYerin\\git\\final-dalrun-front\\public\\assets\\img\\dalrun-pyr/"+imgid);
 	      return in.readAllBytes();
 	   }
 
 	//img를 String으로 반환해주는 엔드포인트
-//	@GetMapping(value = "/getimgstr")
-//	public String getImgStr(@RequestParam(value="cBbsSeq") String cBbsSeq){
-//	      return service.getImgByCbbsseq(cBbsSeq);
-//	   }
 	 @GetMapping(value = "/getimgstr")
-		public String getImgStr(@RequestParam(value="cBbsSeq") int cBbsSeq){
-		      return service.getImgByCbbsseq(cBbsSeq);
-		   }
+	public String getImgStr(@RequestParam(value="crewSeq") int crewSeq){
+		 System.out.println("CrewBbsController getImgStr " + new Date());
+	      return service.getImgByCbbsseq(crewSeq);
+	   }
 	
-	private void crewBbsPageNumber(CrewBbsParam param) {
+	private void crewBbsPageNumber(SearchParam param) {
 		//글의 시작과 끝
 		int pn = param.getPageNumber();
-		int start = 1 + (pn * 10);
-		int end = (pn + 1) * 10;
+		int start = 1 + (pn * 15);
+		int end = (pn + 1) * 15;
 		
 		param.setStart(start);
 		param.setEnd(end);
 	}
 	
-	//크루모집 전체 게시글, 글의 총 수 불러오기
-	@GetMapping(value="crewBbsMain")
-	public Map<String, Object> crewBbsList(CrewBbsParam param){
-		System.out.println("CrewBbsController crewBbsList " + new Date());
-		
-		crewBbsPageNumber(param);
-		List<CrewBbsDto> list = service.crewBbsList(param);
-		int len = service.getAllCrewBbs(param);
-		
-		//paging
-		int pageCrewBbs = len / 10;
-		if((len%10)>0 ) {
-			pageCrewBbs = pageCrewBbs + 1;
-		}
-		
+	public Map<String, Object> getList(List<?> list, int cnt){
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", list);
-		map.put("pageCrewBbs", pageCrewBbs);
+		map.put("cnt", cnt);
 		
 		return map;
 	}
 	
+	//크루모집 전체 게시글, 글의 총 수 불러오기
+	@GetMapping(value="crewBbsMain")
+	public Map<String, Object> crewBbsList(SearchParam param){
+		System.out.println("CrewBbsController crewBbsList " + new Date());
+		
+		crewBbsPageNumber(param);
+		List<CrewDto> list = service.crewBbsList(param);
+		int len = service.getAllCrewBbs(param);
+		System.out.println(list.size() +"개 게시글이 넘어간다아아아~~");
+
+		for(int i=0; i< list.size(); i++) {
+			String imgDump = list.get(i).getCrewImg().split("/")[0];
+			list.get(i).setCrewImg("assets\\img\\dalrun-pyr/" + imgDump);
+			System.out.println("imgDump " + imgDump);
+			//System.out.println(list.get(i).getImg());//확인작업
+		}
+		
+		return getList(list,len);
+	}
+	
 	@PostMapping(value="crewBbsUpdate")
-	public String crewBbsUpdate(CrewBbsDto crewBbs) {
+	public String crewBbsUpdate(CrewDto crewBbs) {
 		System.out.println("CrewBbsController crewBbsUpdate " + new Date());
 		
 		boolean b = service.updateCrewBbs(crewBbs);
@@ -163,22 +172,99 @@ public class CrewBbsController {
 		return "YES";
 	}
 	
+	
 	@PostMapping(value="crewBbsDelete")
-	public String crewBbsDelete(CrewBbsDto crewBbs) {
+	public String crewBbsDelete(int crewSeq) {
 		System.out.println("CrewBbsController crewBbsDelete " + new Date());
 		
-		boolean b = service.deleteCrewBbs(crewBbs);
+		System.out.println("delete Bbs Number :" + crewSeq );
+		
+		boolean b = service.deleteCrewBbs(crewSeq);
 		if(b == false) {
 			return "NO";
 		}
 		return "YES";
 	}
 	
-//	@GetMapping(value="crewBbsMain/{type}")
-//	public String selectBbsType(@PathVariable String type) {
-//		List<CrewBbsDto> list = service.selectBbsType(type);
-//		
-//		return "list";
-//	}
+	//전체, 모집중, 모집완료로 보이기
+	@GetMapping(value="/crewBbsMain/{type}")
+	public List<CrewDto> selectBbs(@PathVariable("type") String type) {
+		System.out.println("CrewBbsController selectBbs " + new Date());
+		List<CrewDto> bbsList = null;
+		
+		try {
+			System.out.println("aa");
+		    if (type.equals("all")) {
+		        bbsList = service.selectBbsAll();
+		    } else {
+		        bbsList = service.selectBbsType(type);
+		    }
+		} catch (Exception e) {
+			System.out.println("bb");
+		    e.printStackTrace();
+		}
+		return bbsList;
+	}
+
+	
+	@GetMapping(value="writeCrewBbsComment")
+	public String writeCrewBbsComment(CrewDto crewBbs) {
+		System.out.println("CrewBbsController writeCrewBbsComment " + new Date());
+		
+		boolean b = service.writeCrewBbsComment(crewBbs);
+		if(b == false) {
+			return "NO";
+		}
+		return "YES";
+	}
+	
+	@GetMapping(value="getCrewBbsCommentList")
+	public List<CrewDto> getCrewBbsCommentList(int crewSeq){
+		System.out.println("CrewBbsController getCrewBbsCommentList " + new Date());
+		
+		return service.getCrewBbsCommentList(crewSeq);
+	}
+	
+	
+	@GetMapping(value="/readcount")
+	public Map<String, Object> getBbsListByReadCount(SearchParam param){
+		System.out.println("CrewBbsController getBbsListByReadCount : " + new Date());
+		
+		crewBbsPageNumber(param);
+		List<CrewDto> list = service.getBbsListByReadCount(param);
+		int len = service.getAllCrewBbs(param);
+		System.out.println(list.size() +"개 게시글이 넘어간다아아아~~");
+		
+		for(int i=0; i< list.size(); i++) {
+			String imgDump = list.get(i).getCrewImg().split("/")[0];
+			list.get(i).setCrewImg("assets\\img\\dalrun-pyr/" +imgDump);
+			
+			System.out.println("imgDump " + imgDump);
+			//System.out.println(list.get(i).getImg());//확인작업
+		}
+		
+		return getList(list,len);
+	}
+	
+	
+	@GetMapping(value="likecount")
+	public Map<String, Object> getBbsListByLikeCount(SearchParam param){
+		System.out.println("CrewBbsController getBbsListByLikeCount : " + new Date());
+		
+		crewBbsPageNumber(param);
+		List<CrewDto> list = service.getBbsListByLikeCount(param);
+		int len = service.getAllCrewBbs(param);
+		System.out.println(list.size() +"개 게시글이 넘어간다아아아~~");
+		
+		for(int i=0; i< list.size(); i++) {
+			String imgDump = list.get(i).getCrewImg().split("/")[0];
+			list.get(i).setCrewImg("assets\\img\\dalrun-pyr/" +imgDump);
+			
+			System.out.println("imgDump " + imgDump);
+			//System.out.println(list.get(i).getImg());//확인작업
+		}
+		
+		return getList(list,len);
+	}
 	
 }

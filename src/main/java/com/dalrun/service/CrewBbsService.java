@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.dalrun.dao.CrewBbsDao;
 import com.dalrun.dto.CrewBbsDto;
 import com.dalrun.dto.CrewBbsParam;
+import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.SearchParam;
 
 import jakarta.transaction.Transactional;
 
@@ -17,48 +19,66 @@ public class CrewBbsService {
 	@Autowired
 	CrewBbsDao dao;
 	
-	public CrewBbsDto getCrewBbs(int cBbsSeq) {
+	public CrewDto getCrewBbs(int crewSeq) {
 //		dao.increaseReadCount(cBbsSeq); //조회수 증가
-		return dao.getCrewBbs(cBbsSeq); //게시글 정보 반환
+		return dao.getCrewBbs(crewSeq); //게시글 정보 반환
 	}
 	
-	public int increaseReadCount(int cBbsSeq) {
-		return dao.increaseReadCount(cBbsSeq);
+	public int increaseReadCount(int crewSeq) {
+		return dao.increaseReadCount(crewSeq);
 	}
 	
-	public boolean writeCrewBbs(CrewBbsDto crewBbs) {
+	public boolean writeCrewBbs(CrewDto crewBbs) {
 		int n=dao.writeCrewBbs(crewBbs);
 		return n>0?true:false;
 	}
 	
-	public List<CrewBbsDto> crewBbsList(CrewBbsParam param){
+	public List<CrewDto> crewBbsList(SearchParam param){
 		return dao.crewBbsList(param);
 	}
 	
-	public int getAllCrewBbs(CrewBbsParam param) {
+	public int getAllCrewBbs(SearchParam param) {
 		return dao.getAllCrewBbs(param);
 	}
 	
 	//수정
-	public boolean updateCrewBbs(CrewBbsDto crewBbs) {
+	public boolean updateCrewBbs(CrewDto crewBbs) {
 		int n = dao.updateCrewBbs(crewBbs);
 		return n>0?true:false;
 	}
 	
 	//삭제
-	public boolean deleteCrewBbs(CrewBbsDto crewBbs) {
-		int n = dao.deleteCrewBbs(crewBbs);
+	public boolean deleteCrewBbs(int crewSeq) {
+		int n = dao.deleteCrewBbs(crewSeq);
 		return n>0?true:false;
 	}
 	
-//	 public String getImgByCbbsseq(String cBbsSeq){ 
-//		 return dao.getImgByCbbsseq(cBbsSeq);
-//		 }
-	public String getImgByCbbsseq(int cBbsSeq){ 
-		 return dao.getImgByCbbsseq(cBbsSeq);
+	public String getImgByCbbsseq(int crewSeq){ 
+		 return dao.getImgByCbbsseq(crewSeq);
 		 }
 	
-	public List<CrewBbsDto> selectBbsType(String type){
+	public List<CrewDto> selectBbsAll(){
+		return dao.selectBbsAll();
+	}
+	
+	public List<CrewDto> selectBbsType(String type){
 		return dao.selectBbsType(type);
+	}
+	
+	public boolean writeCrewBbsComment(CrewDto crewBbs) {
+		int n= dao.writeCrewBbsComment(crewBbs);
+		return n>0?true:false;
+	}
+	
+	public List<CrewDto> getCrewBbsCommentList(int crewSeq){
+		return dao.getCrewBbsCommentList(crewSeq);
+	}
+	
+	public List<CrewDto> getBbsListByReadCount(SearchParam param){
+		return dao.selectByReadCount(param);
+	}
+	
+	public List<CrewDto> getBbsListByLikeCount(SearchParam param){
+		return dao.selectByLikeCount(param);
 	}
 }

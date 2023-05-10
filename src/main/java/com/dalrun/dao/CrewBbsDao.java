@@ -7,31 +7,42 @@ import org.springframework.stereotype.Repository;
 
 import com.dalrun.dto.CrewBbsDto;
 import com.dalrun.dto.CrewBbsParam;
+import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.SearchParam;
 
 @Mapper
 @Repository
 public interface CrewBbsDao {
 	
 	//게시글 조회
-	CrewBbsDto getCrewBbs(int cBbsSeq);
+	CrewDto getCrewBbs(int crewSeq);
 	
-	int writeCrewBbs(CrewBbsDto crewBbs);
+	int writeCrewBbs(CrewDto crewSeq);
 	
-	List<CrewBbsDto> crewBbsList(CrewBbsParam param);
+	List<CrewDto> crewBbsList(SearchParam param);
 	
-	int getAllCrewBbs(CrewBbsParam param);
+	int getAllCrewBbs(SearchParam param);
 
 	//게시글 조회수 증가
-	int increaseReadCount(int cBbsSeq);
+	int increaseReadCount(int crewSeq);
 	
 	//수정
-	int updateCrewBbs(CrewBbsDto crewBbs);
+	int updateCrewBbs(CrewDto crewBbs);
 	
 	//삭제
-	int deleteCrewBbs(CrewBbsDto crewBbs);
+	int deleteCrewBbs(int crewSeq);
 	
 //	String getImgByCbbsseq(String cBbsSeq);
-	String getImgByCbbsseq(int cBbsSeq);
+	String getImgByCbbsseq(int crewSeq);
 	
-	List<CrewBbsDto> selectBbsType(String type);
+	//전체, 모집중, 모집완료 분류
+	List<CrewDto> selectBbsAll();
+	List<CrewDto> selectBbsType(String type);
+	
+	int writeCrewBbsComment(CrewDto crewBbs);
+	List<CrewDto> getCrewBbsCommentList(int crewSeq);
+    
+    List<CrewDto> selectByReadCount(SearchParam param);
+    List<CrewDto> selectByLikeCount(SearchParam param);
+	
 }

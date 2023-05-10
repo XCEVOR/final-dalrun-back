@@ -13,8 +13,8 @@
 
 <!-- 회원가입 -->
 <insert id="addmember" parameterType="com.dalrun.dto.MemberDto" >
-	insert into member(memId, password, memberName, email, phone, birth, foot, regdate, auth, del, crewSeq,point, profile, grade)
-	values(#{memId}, #{password}, #{memberName}, #{email}, #{phone}, #{birth}, #{foot}, now(), 0, 0, 0, 0, #{profile} , '걸음마')
+	insert into member(memId, password, memberName, email, phone, birth, foot, regdate, auth, del, profile, grade, point, totalPoint)
+	values(#{memId}, #{password}, #{memberName}, #{email}, #{phone}, #{birth}, #{foot}, now(), 0, 0, #{profile} , '걸음마', 100, 100)
 </insert>
 
 <!--이미지 memId로 가져옴-->
@@ -23,13 +23,6 @@
 	from member
 	where memId=#{memId}
 </select>
-
-<!-- 회원가입 -->
-<!--처음 회원가입 시 grade - 걸음마로 set-->
-<!--<insert id="addmember" parameterType="com.dalrun.dto.MemberDto" >
-	insert into member(memId, password, memberName, email, phone, birth, foot, regdate, auth, del, profile, grade, crewSeq,point)
-	values(#{memId}, #{password}, #{memberName}, #{email}, #{phone}, #{birth}, #{foot}, now(), 1, 1, #{profile}, "걸음마",0,0)
-</insert>-->
 
 <!-- 로그인 확인 -->
 <select id="login" parameterType="com.dalrun.dto.MemberDto" resultType="com.dalrun.dto.MemberDto">
