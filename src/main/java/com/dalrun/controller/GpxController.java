@@ -65,17 +65,17 @@ public class GpxController {
 		return map;
 	}
 	
-	// gpx 데이터 로드
-	@GetMapping(value="gpxList")
-	public Map<String, Object> gpxList(GpxParam param){
-		
-		System.out.println("GpxController gpxList " + new Date());
-		
-		List<GpxDataDto> list = gdService.gpxDataList(param);
-		int len = dService.getAllDiary(param);
-		
-		return getList(list, len);
-	}
+//	// gpx 데이터 로드
+//	@GetMapping(value="gpxList")
+//	public Map<String, Object> gpxList(GpxParam param){
+//		
+//		System.out.println("GpxController gpxList " + new Date());
+//		
+//		List<GpxDataDto> list = gdService.gpxDataList(param);
+//		int len = dService.getAllDiary(param);
+//		
+//		return getList(list, len);
+//	}
 	
 	
 	
@@ -102,7 +102,7 @@ public class GpxController {
 		System.out.println(" gpxFile path:" + filePath); // 경로 확인
 		
 		// diary 작성일 DTo에 저장
-		diary.setWdate(new Date());
+		diary.setWdate(LocalDateTime.now().withNano(0)); 
 		
 		// diary Service => insert 성공 여부
 		boolean diaryResult = dService.insertDiary(diary);

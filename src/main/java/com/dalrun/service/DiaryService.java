@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dalrun.dao.DiaryDao;
 import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.GpxParam;
+import com.dalrun.dto.SearchParam;
 
 @Service
 @Transactional
@@ -18,12 +19,12 @@ public class DiaryService {
 	DiaryDao dao;
 
 	// 다이어리 리스트 조회
-	public List<DiaryDto> DiaryList() {
-		return dao.DiaryList();
+	public List<DiaryDto> diaryList(SearchParam param) {
+		return dao.diaryList(param);
 	}
 	
 	// 다이어리 총 수
-	public int getAllDiary(GpxParam param) {
+	public int getAllDiary(SearchParam param) {
 		return dao.getAllDiary(param);
 	}
 	

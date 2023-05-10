@@ -1,6 +1,7 @@
 package com.dalrun.dto;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class DiaryDto implements Serializable {
@@ -10,7 +11,7 @@ public class DiaryDto implements Serializable {
 	private int crewSeq;	// 크루 번호 FK
 	private String title;	// 다이어리 글 제목
 	private String content; // 다이어리 글 내용
-	private Date wdate;	// 다이어리 작성일
+	private LocalDateTime wdate;	// 다이어리 작성일
 	private double totalDist;	// 총 이동 거리
 	private double totalTime;	// 총 이동 시간
 	private double kcal; // 총 소요 칼로리
@@ -18,7 +19,7 @@ public class DiaryDto implements Serializable {
 	public DiaryDto() {
 	}
 
-	public DiaryDto(int diarySeq, String memId, int crewSeq, String title, String content, Date wdate, double totalDist,
+	public DiaryDto(int diarySeq, String memId, int crewSeq, String title, String content, LocalDateTime wdate, double totalDist,
 			double totalTime, double kcal) {
 		super();
 		this.diarySeq = diarySeq;
@@ -72,11 +73,11 @@ public class DiaryDto implements Serializable {
 		this.content = content;
 	}
 
-	public Date getWdate() {
+	public LocalDateTime getWdate() {
 		return wdate;
 	}
 
-	public void setWdate(Date wdate) {
+	public void setWdate(LocalDateTime wdate) {
 		this.wdate = wdate;
 	}
 
