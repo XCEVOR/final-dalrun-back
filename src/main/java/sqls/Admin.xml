@@ -77,15 +77,12 @@
 	</sql>
 	
 	<sql id="searchShoereview">
-		<if test="choice != null and choice != '' and search != null and search != ''">
-			<if test="choice == 'memId'">
-				WHERE memId LIKE CONCAT('%', #{search}, '%')
-			</if>
+		<if test="choice != null and choice!='' and search != null and search!= ''">
 			<if test="choice == 'title'">
-				WHERE shoereviewdetailTitle LIKE CONCAT('%',#{search},'%')
+				and srTitle like concat('%',#{search},'%')
 			</if>
 			<if test="choice == 'content'">
-				WHERE shoereviewdetailContent LIKE CONCAT('%',#{search},'%')
+				and srCotent like concat('%',#{search},'%')
 			</if>
 		</if>
 	</sql>
@@ -251,21 +248,14 @@
 		,readcount,srDel,srwdate
 		,(select count(*) from shoereviewComment where srSeq=s.srSeq)as commentcount 
 		from shoereview s
-		<if test="choice != null and choice!='' and search != null and search!= ''">
-			<if test="choice == 'title'">
-				and srTitle like concat('%',#{search},'%')
-			</if>
-			<if test="choice == 'content'">
-				and srCotent like concat('%',#{search},'%')
-			</if>
-		</if>
+		<include refid="searchShoereview"></include>
 			order by srwdate desc, srSeq desc) a
 		where rnum between ${start} and ${end}
 	</select>
 	
 	<select id="getAllShoereview" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
-		FROM SHOEREVIEWDETAIL
+		FROM SHOEREVIEW
 		<include refid="searchShoereview"></include>
 	</select>
 	
