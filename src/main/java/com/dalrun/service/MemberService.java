@@ -36,7 +36,18 @@ public class MemberService {
 	//회원가입
 	public boolean addmember(MemberDto dto) {
 		int n = dao.addmember(dto);
+		
+//		// 멤버 등록이 완료되면 DB에서 생성된 memId 값을 가져옴
+//		String memId = dao.getMemberId(dto.getMemId());
+//		//// 가져온 memId 값을 dto 객체에 설정
+//		dto.setMemId(memId);
+		
 		return n>0?true:false;
+	}
+	
+	//memId로 이미지 가져옴
+	public String getMemId(String memId) {
+		return dao.getMemId(memId);
 	}
 	
 	//로그인
@@ -51,7 +62,7 @@ public class MemberService {
 	    String access_Token = "";
 	    String refresh_Token = "";
 	    //reqURL: String 타입의 카카오 로그인 인증서버의 URL
-	    String reqURL = "https://kauth.kakao.com/oauth/kakao/callback";
+	    String reqURL = "https://kauth.kakao.com/oauth/token";
 	    
 	    try {
 	    	//URL 객체 생성
@@ -70,7 +81,7 @@ public class MemberService {
 			sb.append("grant_type=authorization_code");
 
 			sb.append("&client_id=33861296b5dfb84484e1df231821dd86"); // REST_API키 본인이 발급받은 key 넣어주기
-			sb.append("&redirect_uri=http://localhost:3000/oauth/kakao/callback"); // REDIRECT_URI 본인이 설정한 주소 넣어주기
+			sb.append("&redirect_uri=http://localhost:9200/kakaocallback"); // REDIRECT_URI 본인이 설정한 주소 넣어주기
 
 			sb.append("&code=" + authorize_code);
 			bw.write(sb.toString());
@@ -176,6 +187,27 @@ public class MemberService {
 		return userInfo;
 	}
 	
+//	 public boolean kakaoLoginValidCheck(String email){
+//	      MemberDto dto = dao.getmemberbyemail(email);
+//	      if (dto.getMemId()==null || dto.getMemId()==""){
+//	         return false;
+//	      }
+//	      return true;
+//	 }
+	
+	//db에서 이메일 체크
+	public boolean kakaoLoginValidCheck(String email){
+	      MemberDto dto = getmemberbyemail(email);
+	      if (dto==null){
+	         return false;
+	      }
+	      return true;
+	   }
+	
+	public MemberDto getmemberbyemail(String email){
+		return dao.getmemberbyemail(email);
+	}
+	
 	// 회원 조회
 	public MemberDto getmember(String target) {
 		return dao.getmember(target);
@@ -185,6 +217,5 @@ public class MemberService {
 		return dao.MinusPoint(dto)>0;
 	}
 	
-
 }
 
