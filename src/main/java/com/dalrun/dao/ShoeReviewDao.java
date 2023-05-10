@@ -32,4 +32,6 @@ public interface ShoeReviewDao {
 	int shoereviewRegi(ShoeReviewDto srdto);
 	int shoereviewDetailRegi(List<ShoeReviewDetailDto> srdList);
 	
+	ShoeReviewDto getShoereview(int srSeq);
+	List<ShoeReviewDetailDto> getShoereviewDetail(int srSeq);
 }

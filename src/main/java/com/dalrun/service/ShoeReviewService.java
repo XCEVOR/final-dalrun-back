@@ -72,4 +72,11 @@ public class ShoeReviewService {
 		return n>0?true:false;
 	}
 	
+	public ShoeReviewDto getShoereview(int srSeq) {
+		return dao.getShoereview(srSeq);
+	}
+	
+	public List<ShoeReviewDetailDto> getShoereviewDetail(int srSeq) {
+		return dao.getShoereviewDetail(srSeq);
+	}
 }

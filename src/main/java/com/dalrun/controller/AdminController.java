@@ -263,6 +263,21 @@ public class AdminController {
 	}
 	
 	// 리뷰
+	@PostMapping(value = "getshoereview")
+	public Map<String, Object> getshoereview(@RequestParam("target") int srSeq) {
+		System.out.println("AdminController getshoereview " + new Date());
+		
+		Map<String, Object> srmap = new HashMap<>();
+		
+		ShoeReviewDto sr = srService.getShoereview(srSeq);
+		List<ShoeReviewDetailDto> srd = srService.getShoereviewDetail(srSeq);
+		
+		srmap.put("sr", sr);
+		srmap.put("srd", srd);
+		
+		return srmap;
+	}
+	
 	@PostMapping(value = "shoereviewRegi") 
 	public String shoereviewRegi(ShoeReviewDto srdto, @RequestParam(value="sections", required=false) String[] sections,
 								  @RequestParam(value="fileList", required=false) List<MultipartFile> files,
