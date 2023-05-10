@@ -101,8 +101,8 @@ public class GpxController {
 		String filePath = path + "/" + fileName;
 		System.out.println(" gpxFile path:" + filePath); // 경로 확인
 		
-		// diary 작성일 DTo에 저장
-		diary.setWdate(LocalDateTime.now().withNano(0)); 
+		// diary 작성일 Dto에 저장
+		diary.setWdate(LocalDateTime.now().withNano(0)); // 초 단위까지 저장
 		
 		// diary Service => insert 성공 여부
 		boolean diaryResult = dService.insertDiary(diary);
