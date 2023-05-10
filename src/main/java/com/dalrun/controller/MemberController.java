@@ -1,20 +1,33 @@
 package com.dalrun.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
+
 import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dalrun.dto.DotMapDto;
 import com.dalrun.dto.MemberDto;
+import com.dalrun.service.DotMapService;
 import com.dalrun.service.MemberService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -23,6 +36,8 @@ public class MemberController {
 	
 	@Autowired
 	MemberService service;
+	
+	DotMapService dservice;
 	
 	//아이디 중복체크
 	@PostMapping(value="/idcheck")
@@ -38,14 +53,80 @@ public class MemberController {
 	
 	//회원가입
 	@PostMapping(value = "/addmember")
-	public String addmember(MemberDto dto) {
-		System.out.println("MemberController addmember " + new Date());
-		boolean b = service.addmember(dto);
-		if(b == false) {
-			return "NO";
-		}
-		return "YES";
-	}
+    public String addmember(@RequestPart(value = "dto") String dtostr, @RequestPart(value = "profileImg", required = false) List<MultipartFile> files) {
+       System.out.println("MemberController addmember " + new Date());
+       ObjectMapper mapper = new ObjectMapper();
+      MemberDto dto;
+      try{
+          dto = mapper.readValue(dtostr, MemberDto.class);
+       }catch (Exception e){
+          e.printStackTrace();
+          return "NO";
+       }
+       //파라미터에 업로드한 파일이 존재하면
+       if (files.get(0) != null){
+          //첫 번째 파일만 가져와서
+          MultipartFile file = files.get(0);
+          //UUID와 파일 확장자를 조합하여 새로운 파일명을 만들고, 해당 파일 생성
+          String fn = UUID.randomUUID() + "."+file.getOriginalFilename().split("\\.")[1];
+
+         String path = "C:/images/"; //폴더 경로
+         File Folder = new File(path);
+
+         // 해당 디렉토리가 없다면 디렉토리를 생성.
+         if (!Folder.exists()) {
+            try {
+               Folder.mkdir(); //폴더 생성
+            } catch (Exception e) {
+               e.getStackTrace();
+            }
+         }
+
+          //파일 객체 생성
+          File newFile = new File(path, fn);
+          
+          try{
+             //위 파일 객체를 이용하여 업로드한 파일을 생성한 파일로 이동
+             file.transferTo(newFile);
+             //dto객체의 profile 필드에 새로 생성한 파일명 저장
+             dto.setProfile(fn);
+          }catch(Exception e){
+           e.printStackTrace();
+             return "NO";
+          }
+       }
+       
+       System.out.println(dto);
+       //디비 저장
+       boolean b = service.addmember(dto);
+       if(!b) {
+          return "NO";
+       }
+       return "YES";
+    }
+	
+	//이미지 불러오기 위함
+//	@GetMapping(value="/getimage", produces = MediaType.IMAGE_PNG_VALUE)
+//	   public @ResponseBody byte[] getimage(@RequestParam(value="id") String id) throws IOException{
+//		//이미지 로드 파일 경로 : C:/image , 이미지 파일 이름 : id 
+//	      System.out.println("C:/image/"+id);
+//	      //절대경로
+//	      InputStream in = new FileInputStream("C:/images/"+id);
+//	      return in.readAllBytes();
+////	url 확인 -       http://localhost:3000/getimage?id=
+//	   }
+//	
+	@GetMapping(value="/getimage", produces = MediaType.IMAGE_PNG_VALUE)
+	   public @ResponseBody byte[] getimage(@RequestParam(value="id") String id) throws IOException{
+		//이미지 로드 파일 경로 : C:/image , 이미지 파일 이름 : id 
+	      System.out.println("C:/image/"+id);
+	      
+	      String profileImg = service.getMemId(id);
+	      //절대경로
+	      InputStream in = new FileInputStream("C:/images/"+ profileImg);
+	      return in.readAllBytes();
+//	url 확인 -       http://localhost:3000/getimage?id=
+	   }
 	
 	//로그인
 	@PostMapping(value = "/login")
@@ -58,44 +139,37 @@ public class MemberController {
 	
 	//home페이지로 이동
 	@GetMapping("/home")
-	public String home(HttpSession session, Model model) {
+	public String home() {
 		return "home";
 	}
-	
-	@GetMapping("/logout")
-	public String Logout() {
-		
-		return "logout";
-	}
-	
-//	@GetMapping(value="/oauth/kakao/callback")
-//	public @ResponseBody String kakaoCallback() {
-//		return "kakao login success";
-//	}
 	
 	// 1번 카카오톡에 사용자 코드 받기(jsp의 a태그 href에 경로 있음)
 	// 2번 받은 code를 iKakaoS.getAccessToken로 보냄 ###access_Token###로 찍어서 잘 나오면은 다음단계진행
 	// 3번 받은 access_Token를 iKakaoS.getUserInfo로 보냄 userInfo받아옴, userInfo에 nickname, email정보가 담겨있음
 	@GetMapping(value="/oauth/kakao/callback")
-	public ModelAndView kakaoLogin(@RequestParam(value="code", required = false) String code)
+	public MemberDto kakaoLogin(@RequestParam(value="code", required = false) String code)
 		throws Throwable{
 		System.out.println("MemberController kakaoLogin() " + new Date());
 		// 1번
-		System.out.println("code:" + code);
+		System.out.println("1번 - code:" + code);
 		
 		// 2번
 		String access_Token = service.getKakaoAccessToken(code);
-		System.out.println("###access_Token#### : " + access_Token);
+		System.out.println("2번 - ###access_Token#### : " + access_Token);
 		// 위의 access_Token 받는 걸 확인한 후에 밑에 진행
 		
 		// 3번
 		HashMap<String, Object> userInfo = service.getUserInfo(access_Token);
-		System.out.println("###nickname#### : " + userInfo.get("nickname"));
-		System.out.println("###email#### : " + userInfo.get("email"));
+		System.out.println("3번 - ###nickname#### : " + userInfo.get("nickname"));
+		System.out.println("3번 - ###email#### : " + userInfo.get("email"));
 		
-		
-		return null;	
-		// return에 페이지를 해도 되고, 여기서는 코드가 넘어오는지만 확인할거기 때문에 따로 return 값을 두지는 않았음
+		if (service.kakaoLoginValidCheck(userInfo.get("email").toString())){
+	         return service.getmemberbyemail(userInfo.get("email").toString());
+	         //로그인 성공
+	      }else {
+	         return null;
+	         //로그인 실패
+	      }
 	}
 	
 	// 회원 조회
@@ -107,4 +181,21 @@ public class MemberController {
 		
 		return mem;
 	}
+	
+	@GetMapping(value = "mycrewMemberList")
+	public List<MemberDto> mycrewMemberList(int crewSeq){
+		
+		return service.mycrewMemberList(crewSeq);
+	}
+	@GetMapping(value = "crewLeave")
+	public boolean crewLeave(String memId,int crewSeq){
+		
+		DotMapDto ddto=new DotMapDto();
+		ddto.setMemId(memId);
+		ddto.setCrewSeq(crewSeq);
+		
+		dservice.crewOutChangeDotmap(ddto);
+		return service.crewLeave(memId);
+	}
+  
 }

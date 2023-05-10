@@ -15,7 +15,10 @@ import com.dalrun.dto.DotMapDto;
 public interface DotMapDao {
 
 	 List<DotMapDto> getAllDotMap();
-	 int buydotMap(DotMapDto dto);
+	 int crew_buydotMap(DotMapDto dto);
+	 int my_buydotMap(DotMapDto dto);
+	 int crewOutChangeDotmap(DotMapDto dto);
+	 int crewInChangeDotmap(DotMapDto dto);
 	
 	
 }

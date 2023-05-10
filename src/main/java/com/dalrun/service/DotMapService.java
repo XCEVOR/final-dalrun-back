@@ -32,9 +32,21 @@ public class DotMapService {
       List<DotMapDto> dolist=dao.getAllDotMap();
       return dolist;
    }
-   public boolean buydotMap(DotMapDto dto){
-	   return dao.buydotMap(dto)>0;
+   public boolean crew_buydotMap(DotMapDto dto){
+	   return dao.crew_buydotMap(dto)>0;
 	
-}
+   }
+   public boolean my_buydotMap(DotMapDto dto){
+	   return dao.my_buydotMap(dto)>0;
+	
+   }
+   public boolean crewOutChangeDotmap(DotMapDto dto){
+	   return dao.crewOutChangeDotmap(dto)>0;
+	
+   }
+   public boolean crewInChangeDotmap(DotMapDto dto){
+	   return dao.crewInChangeDotmap(dto)>0;
+	
+   }
 
 }
