@@ -52,7 +52,10 @@ public class CompetitionService {
 		return dao.sendComment(dto)>0;
 	}
 	
-	
+	public boolean insertcompetition(CompetitionDto compdto) {
+		int n = dao.insertcompetition(compdto);
+		return n>0?true:false;
+	}
 	
 	
 

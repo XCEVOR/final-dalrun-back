@@ -8,5 +8,31 @@
         SELECT *
         FROM PRODUCTORDER
     </select>
-
+    
+    
+    <insert id="addToCart" parameterType="com.dalrun.dto.CartDto">
+        INSERT INTO cart (cartId, cartProdQuantity, productId, memId, orderSeq)
+        VALUES (#{cartId}, #{cartProdQuantity}, #{productId}, #{memId}, #{orderSeq})
+    </insert>
+    
+    
+    <insert id="writeOrderData" parameterType="com.dalrun.dto.OrderDto">
+        INSERT INTO productorder (orderNunber,
+                                  memId, 
+                                  orderName, 
+                                  orderAddress, 
+                                  orderPhone, 
+                                  orderRequirment,          
+                                  orderTotalprice,          
+                                  orderQuantity)
+        VALUES                   (ROUND(UNIX_TIMESTAMP(CURTIME(4)) * 1000),
+                                  #{memId}, 
+                                  #{orderName}, 
+                                  #{orderAddress}, 
+                                  #{orderPhone}, 
+                                  #{orderRequirment},          
+                                  #{orderTotalprice},          
+                                  #{orderQuantity})
+    </insert>
+    
 </mapper>

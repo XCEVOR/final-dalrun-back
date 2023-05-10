@@ -210,11 +210,12 @@
 	
 	<!-- 게시물 관리 -->
 	<select id="productinquirylist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductInquiryDto">
-		SELECT *
+		SELECT *, (SELECT COUNT(*) FROM PRODUCTINQUIRY WHERE inqRef = A.inqSeq) AS replyCnt
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY inqDate DESC) AS RNUM, inqSeq, inqSubseq, inqWriter, inqTitle,
-				inqContent, inqDate, productId, memId
+				inqContent, inqDate, productId, memId, inqRef, inqDepth
 			FROM PRODUCTINQUIRY
+			WHERE inqDepth = 0
 			<include refid="searchProductinqiry"></include>
 			ORDER BY inqDate DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
@@ -222,6 +223,7 @@
 	<select id="getAllProductinquiry" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM PRODUCTINQUIRY
+		WHERE inqDepth = 0
 		<include refid="searchProductinqiry"></include>
 	</select>
 	
@@ -282,23 +284,23 @@
 		FROM DIARY
 		<include refid="searchDiary"></include>
 	</select>
-	
+
 	<select id="competitionlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.CompetitionDto">
-		SELECT *
+		SELECT A.*, (SELECT IFNULL(COUNT(*), 0) FROM COMPCOMMENT WHERE compSeq = A.compSeq) AS commentcount
 		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY compdetailDate DESC) AS RNUM, compSeq, compdetailSeq, compdetailTitle, conpdetailContent, 
-				compdetailLocation, compdetailDate, compdetailOrigFilename, compdetailNewFilename, compdetailPrice, compdetailLink
-			FROM COMPETITIONDETAIL
+			(SELECT ROW_NUMBER()OVER(ORDER BY comRegdate DESC) AS RNUM, compSeq, compTitle, compContent, compLocation, compDateStart, 
+				compDateEnd, compLocal, locationLat, locationLng, receiptStart, receiptEnd, compimage, compLink, compSponsor, readcount, comRegdate
+			FROM COMPETITION
 			<include refid="searchCompetition"></include>
-			ORDER BY compdetailDate DESC) A
+			ORDER BY comRegdate DESC) A 
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllCompetition" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
-		FROM COMPETITIONDETAIL
+		FROM COMPETITION
 		<include refid="searchCompetition"></include>
 	</select> 
-	
+
 	<!-- 쇼핑몰 관리 -->
 	<select id="productlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductDto">
 		SELECT *
@@ -367,6 +369,60 @@
 		<include refid="commonForeach"></include>
 	</update>
 	
+	<!-- 게시물 관리 -->
+	<!-- 문의 -->
+	<update id="updatereply" parameterType="com.dalrun.dto.ProductInquiryDto">
+		UPDATE PRODUCTINQUIRY
+		SET inqContent=#{inqContent}	
+		WHERE inqSeq = #{inqSeq}
+	</update>
+	<delete id="delreply" parameterType="int">
+		DELETE FROM PRODUCTINQUIRY
+		WHERE inqSeq = #{inqSeq}
+	</delete>
+	<delete id="delproductinquiry" parameterType="List">
+		DELETE FROM PRODUCTINQUIRY
+		WHERE inqRef IN
+		<include refid="commonForeach"></include>
+	</delete>
+	
+	<update id="delqna" parameterType="List">
+		UPDATE QNA
+		SET del=1
+		WHERE qnaSeq IN 
+		<include refid="commonForeach"></include>
+	</update>
+	
+	<!-- 리뷰 -->
+	<delete id="delshoereview" parameterType="List">
+		DELETE FROM SHOEREVIEW
+		WHERE shoereviewSeq IN
+		<include refid="commonForeach"></include>
+	</delete>
+	
+	<!-- 다이어리 -->
+	<delete id="deldiary" parameterType="List">
+		DELETE FROM DIARY
+		WHERE diarySeq IN
+		<include refid="commonForeach"></include>
+	</delete>
+	
+	<!-- 대회일정 -->
+	<update id="updatecomperition" parameterType="com.dalrun.dto.CompetitionDto">
+		UPDATE COMPETITION
+		SET compTitle=#{compTitle}, compContent=#{compContent}, compDateEnd=#{compDateEnd}, compDateStart=#{compDateStart}, compLink=#{compLink}, compLocal=#{compLocal}, compLocation=#{compLocation}, 
+			locationLat=#{locationLat}, locationLng=#{locationLng}, compSponsor=#{compSponsor}, receiptStart=#{receiptStart}, receiptEnd=#{receiptEnd}
+			<if test="compimage != null and compimage != '' and oriCompimage != null and oriCompimage != ''"> 
+				, compimage=#{compimage}, oriCompimage=#{oriCompimage}
+			</if>
+		WHERE compSeq = #{compSeq}
+	</update>
+	<delete id="delcompetition" parameterType="List">
+		DELETE FROM COMPETITION
+		WHERE compSeq IN
+		<include refid="commonForeach"></include>
+	</delete>
+	
 	<!-- 쇼핑몰 관리 -->
 	<select id="getProductOrder" parameterType="String" resultType="int">
 		SELECT IFNULL(COUNT(*), 0) 
@@ -379,7 +435,7 @@
 			productSize=#{productSize}, productPrice=#{productPrice}, productStock=#{productStock}, productSale=#{productSale}, productRegiDate=#{productRegiDate}
 		WHERE productId=#{productId}
 	</update>
-	<delete id="delproduct" parameterType="String">
+	<delete id="delproduct" parameterType="List">
 		DELETE FROM PRODUCT
 		WHERE productId IN
 		<include refid="commonForeach"></include>

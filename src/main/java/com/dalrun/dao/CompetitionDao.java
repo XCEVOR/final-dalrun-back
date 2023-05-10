@@ -21,4 +21,6 @@ public interface CompetitionDao {
 	CompetitionDto getCompBbs(int comeSeq);
 	List<CompCommentDto> getCompCommentList(int comeSeq);
 	int sendComment(CompCommentDto dto);
+	
+	int insertcompetition(CompetitionDto compdto);
 }
