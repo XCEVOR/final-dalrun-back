@@ -1,5 +1,7 @@
 package com.dalrun.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import org.springframework.stereotype.Repository;
@@ -22,5 +24,9 @@ public interface MemberDao{
 	//회원조회
 	MemberDto getmember(String target);
 	
-	int MinusPoint(MemberDto dto);
+	int MemberMinusPoint(MemberDto dto);
+	
+	List<MemberDto>mycrewMemberList(int crewSeq);
+	
+	int crewLeave(String memId);
 }

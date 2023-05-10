@@ -31,10 +31,17 @@
 	where memId=#{target}
 </select>
 
-<update id="MinusPoint" parameterType="com.dalrun.dto.MemberDto">
+<update id="MemberMinusPoint" parameterType="com.dalrun.dto.MemberDto">
 update member  SET point=point-#{point} where memId=#{memId}
 </update>
+<select id="mycrewMemberList" parameterType="Integer" resultType="com.dalrun.dto.MemberDto">
+select * from member where crewSeq=#{crewSeq}
+</select>
 
+<update id="crewLeave" parameterType="String">
+update member set crewSeq=0 where memId=#{memId}
+
+</update>
 
 </mapper>
 

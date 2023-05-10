@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -181,8 +182,14 @@ public class MemberService {
 		return dao.getmember(target);
 	}
 	
-	public boolean MinusPoint(MemberDto dto) {
-		return dao.MinusPoint(dto)>0;
+	public boolean MemberMinusPoint(MemberDto dto) {
+		return dao.MemberMinusPoint(dto)>0;
+	}
+	public List<MemberDto> mycrewMemberList(int crewSeq) {
+		return dao.mycrewMemberList(crewSeq);
+	}
+	public boolean crewLeave(String memId) {
+		return dao.crewLeave(memId)>0;
 	}
 	
 

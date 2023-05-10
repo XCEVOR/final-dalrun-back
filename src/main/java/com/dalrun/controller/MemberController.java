@@ -2,6 +2,7 @@ package com.dalrun.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dalrun.dto.DotMapDto;
 import com.dalrun.dto.MemberDto;
+import com.dalrun.service.DotMapService;
 import com.dalrun.service.MemberService;
 
 import jakarta.servlet.http.HttpSession;
@@ -23,6 +26,8 @@ public class MemberController {
 	
 	@Autowired
 	MemberService service;
+	
+	DotMapService dservice;
 	
 	//아이디 중복체크
 	@PostMapping(value="/idcheck")
@@ -106,5 +111,21 @@ public class MemberController {
 		MemberDto mem = service.getmember(target);
 		
 		return mem;
+	}
+	
+	@GetMapping(value = "mycrewMemberList")
+	public List<MemberDto> mycrewMemberList(int crewSeq){
+		
+		return service.mycrewMemberList(crewSeq);
+	}
+	@GetMapping(value = "crewLeave")
+	public boolean crewLeave(String memId,int crewSeq){
+		
+		DotMapDto ddto=new DotMapDto();
+		ddto.setMemId(memId);
+		ddto.setCrewSeq(crewSeq);
+		
+		dservice.crewOutChangeDotmap(ddto);
+		return service.crewLeave(memId);
 	}
 }
