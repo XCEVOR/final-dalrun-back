@@ -258,9 +258,8 @@
 			<if test="choice == 'content'">
 				and srCotent like concat('%',#{search},'%')
 			</if>
-			
 		</if>
-			order by srwdate desc) a
+			order by srwdate desc, srSeq desc) a
 		where rnum between ${start} and ${end}
 	</select>
 	
