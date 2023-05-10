@@ -13,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -279,8 +281,8 @@ public class AdminController {
 			String filename = file.getOriginalFilename();	// 원본 파일명
 			
 			oriFilenames[i] = filename;
-//			newFilenames[i] = EditorUtil.getNewFileName(filename);	// 새로운 파일명
-			newFilenames[i] = URLEncoder.encode(filename, "UTF-8");	// 새로운 파일명
+			newFilenames[i] = MultiFileUtil.getMultiFileName(filename, i);	// 새로운 파일명
+			
 			System.out.println("oriFilename=" + oriFilenames[i]);
 			System.out.println("newFilename=" + newFilenames[i]);
 		}
