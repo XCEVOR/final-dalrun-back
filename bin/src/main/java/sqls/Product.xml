@@ -4,9 +4,43 @@
     
 <mapper namespace="com.dalrun.dao.ProductDao">
 
-    <select id="productlist" resultType="com.dalrun.dto.ProductDto">
+    <select id="allProductList" resultType="com.dalrun.dto.ProductDto">
         SELECT *
         FROM PRODUCT
+    </select>
+    
+    <select id="getProductData" parameterType="String" resultType="com.dalrun.dto.ProductDto">
+	    SELECT *
+	    FROM PRODUCT
+	    WHERE productCode=#{productCode}
+	</select>
+    
+    <select id="getSelectedProductInfo" parameterType="com.dalrun.dto.ProductDto" resultType="com.dalrun.dto.ProductDto">
+        SELECT *
+        FROM product
+        WHERE productCode=#{productCode} AND productColor=#{productColor} AND productSize=#{productSize}
+    </select>
+    	
+	<select id="getProductInquiry" resultType="com.dalrun.dto.ProductInquiryDto">
+        SELECT *
+        FROM productinquiry
+    </select>
+
+
+    <insert id="writeProductInquiry" parameterType="com.dalrun.dto.ProductInquiryDto"> 
+        INSERT INTO productinquiry (inqWriter, inqContent, inqDate, productId, memId) 
+        VALUES (#{inqWriter}, #{inqContent}, now(), #{productId}, #{memId}) 
+    </insert>
+    
+    
+    
+    
+    
+    
+    <select id="getCartProductInfo" parameterType="String" resultType="com.dalrun.dto.ProductDto">
+        SELECT *
+        FROM product
+        WHERE productId=#{productId}
     </select>
 
 </mapper>
