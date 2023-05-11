@@ -52,6 +52,13 @@
 		LIMIT 3;
     </select>
     
+    <select id="getAllProductListSortView" resultType="com.dalrun.dto.ProductDto">
+        SELECT MIN(productId), productCode, productCategory, productBrand, productName, productPrice, productView
+        FROM product
+        GROUP BY productCode, productCategory, productBrand, productName, productPrice, productView
+        ORDER BY productView DESC;
+    </select>
+    
     
     
     	

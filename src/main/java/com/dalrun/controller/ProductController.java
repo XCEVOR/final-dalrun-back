@@ -99,6 +99,12 @@ public class ProductController {
         return service.getProductRecomm();
     }
     
+    @PostMapping(value = "getAllProductListSortView")
+    public List<ProductDto> getAllProductListSortLike () {
+        System.out.println("  @ ProductController getAllProductListSortLike { " + new Date());
+        return service.getAllProductListSortView();
+    }
+    
     
     
     @PostMapping(value = "getProductInquiry")

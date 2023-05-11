@@ -28,6 +28,8 @@ public interface ProductDao {
     
     List<ProductDto> getProductRecomm ();
     
+    List<ProductDto> getAllProductListSortView ();
+    
     
     
     
