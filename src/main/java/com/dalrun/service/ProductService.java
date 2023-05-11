@@ -48,6 +48,10 @@ public class ProductService {
         return isSucc > 0 ? true : false;
     }
     
+    public List<ProductDto> getProductRecomm () {
+        return dao.getProductRecomm();
+    }
+    
     
     
     

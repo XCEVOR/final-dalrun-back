@@ -93,6 +93,11 @@ public class ProductController {
         return "SUCCESS";  
     }
     
+    @PostMapping(value = "getProductRecomm")
+    public List<ProductDto> getProductRecomm () {
+        System.out.println("  @ ProductController getProductRecomm { " + new Date());
+        return service.getProductRecomm();
+    }
     
     
     

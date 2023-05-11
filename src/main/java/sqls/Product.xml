@@ -45,6 +45,13 @@
         WHERE productCode=#{productCode}
     </update>
     
+    <select id="getProductRecomm" resultType="com.dalrun.dto.ProductDto">
+        SELECT DISTINCT productCode, productRecomm
+		FROM product
+		ORDER BY productRecomm DESC
+		LIMIT 3;
+    </select>
+    
     
     
     	

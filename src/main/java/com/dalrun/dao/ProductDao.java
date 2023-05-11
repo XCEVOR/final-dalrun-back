@@ -26,6 +26,8 @@ public interface ProductDao {
     
     int updateProductRecomm (ProductDto pdto);
     
+    List<ProductDto> getProductRecomm ();
+    
     
     
     
