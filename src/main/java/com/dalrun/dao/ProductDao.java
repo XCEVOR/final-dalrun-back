@@ -26,6 +26,12 @@ public interface ProductDao {
     
     int updateProductRecomm (ProductDto pdto);
     
+    List<ProductDto> getProductRecomm ();
+    
+    List<ProductDto> getAllProductListSortView ();
+    
+    List<ProductDto> getAllProductListSortLike ();
+    
     
     
     
