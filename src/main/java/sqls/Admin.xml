@@ -77,15 +77,12 @@
 	</sql>
 	
 	<sql id="searchShoereview">
-		<if test="choice != null and choice != '' and search != null and search != ''">
-			<if test="choice == 'memId'">
-				WHERE memId LIKE CONCAT('%', #{search}, '%')
-			</if>
+		<if test="choice != null and choice!='' and search != null and search!= ''">
 			<if test="choice == 'title'">
-				WHERE shoereviewdetailTitle LIKE CONCAT('%',#{search},'%')
+				and srTitle like concat('%',#{search},'%')
 			</if>
 			<if test="choice == 'content'">
-				WHERE shoereviewdetailContent LIKE CONCAT('%',#{search},'%')
+				and srCotent like concat('%',#{search},'%')
 			</if>
 		</if>
 	</sql>
@@ -251,22 +248,14 @@
 		,readcount,srDel,srwdate
 		,(select count(*) from shoereviewComment where srSeq=s.srSeq)as commentcount 
 		from shoereview s
-		<if test="choice != null and choice!='' and search != null and search!= ''">
-			<if test="choice == 'title'">
-				and srTitle like concat('%',#{search},'%')
-			</if>
-			<if test="choice == 'content'">
-				and srCotent like concat('%',#{search},'%')
-			</if>
-			
-		</if>
-			order by srwdate desc) a
+		<include refid="searchShoereview"></include>
+		order by srwdate desc, srSeq desc) a
 		where rnum between ${start} and ${end}
 	</select>
 	
 	<select id="getAllShoereview" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
-		FROM SHOEREVIEWDETAIL
+		FROM SHOEREVIEW
 		<include refid="searchShoereview"></include>
 	</select>
 	
@@ -394,10 +383,41 @@
 	</update>
 	
 	<!-- 리뷰 -->
+	<select id="getSrdSeq" parameterType="int" resultType="int">
+		SELECT srdSeq
+		FROM SHOEREVIEWDETAIL
+		WHERE srSeq = #{srSeq}
+	</select>
+	<update id="updateshoereview" parameterType="com.dalrun.dto.ShoeReviewDto">
+		UPDATE SHOEREVIEW
+		SET srTitle=#{srTitle}, srCotent=#{srCotent}, srBrand=#{srBrand}, srLink=#{srLink}, srPrice=#{srPrice}
+		<if test="srimage != null and srimage != '' and oriSrImage != null and oriSrImage !=''">
+			, srimage=#{srimage}, oriSrImage=#{oriSrImage}
+		</if>
+		WHERE srSeq = #{srSeq}
+	</update>
+	<update id="updateshoereviewdetail" parameterType="com.dalrun.dto.ShoeReviewDetailDto">
+		<if test="srdList != null and srdList.size() > 0">
+    		<foreach collection="srdList" item="item" open="" separator=";" close="">
+	    		UPDATE SHOEREVIEWDETAIL
+	    		<set>
+	    			<if test="item.srcomment != null and item.srcomment = ''">srcomment=#{item.srcomment},</if>
+	    			<if test="item.srimage != null and item.srimage != '' and item.oriSrImage != null and item.oriSrImage !=''">
+						srimage=#{item.srimage}, oriSrImage=#{item.oriSrImage}
+					</if>
+				</set>
+	    		WHERE srSeq = #{item.srSeq}
+    		</foreach>
+    	</if>
+	</update>
 	<delete id="delshoereview" parameterType="List">
 		DELETE FROM SHOEREVIEW
-		WHERE shoereviewSeq IN
+		WHERE srSeq IN
 		<include refid="commonForeach"></include>
+	</delete>
+	<delete id="delshoereviewdetail" parameterType="int">
+		DELETE FROM SHOEREVIEWDETAIL
+		WHERE srdSeq = #{srdSeq}
 	</delete>
 	
 	<!-- 다이어리 -->
@@ -452,4 +472,38 @@
 		WHERE orderNumber IN
 		<include refid="commonForeach"></include>
 	</delete>
+	
+	<!-- 대시보드 -->
+	<select id="getDashboardData" resultType="com.dalrun.dto.DashboardData">
+		SELECT
+		  (SELECT IFNULL(COUNT(*),0) FROM PRODUCTORDER WHERE orderState=0 AND deliveryState=0) orderCnt,
+		  (SELECT IFNULL(COUNT(*),0) FROM PRODUCTORDER WHERE orderState BETWEEN 1 AND 3) orderSummaryCnt,
+		  (SELECT IFNULL(COUNT(*),0) FROM PRODUCT WHERE productStock=0) stockoutCnt,
+		  (SELECT IFNULL(COUNT(*),0) as cnt FROM (
+			SELECT COUNT(*)-1 AS replyCnt
+			FROM PRODUCTINQUIRY
+			WHERE inqRef IN (SELECT inqSeq FROM PRODUCTINQUIRY WHERE inqDepth = 0)
+			GROUP BY inqRef
+			HAVING replyCnt = 0) T) inquiryWaitingCnt;
+	</select>
+	
+	<select id="getWeekSummaryData" resultType="com.dalrun.dto.DashboardData">
+	    SELECT DATE(NOW() - INTERVAL (6 - t.n) DAY) weekDate, 
+			IFNULL(COUNT(srwdate), 0) reviewCnt,
+		    IFNULL(COUNT(orderDate),0) orderCnt,
+		    IFNULL(SUM(orderTotalprice), 0) orderTotalprice,
+		    IFNULL(COUNT(regdate),0) accountCnt,
+		    IFNULL(COUNT(inqDate),0) inquiryWaitingCnt
+		FROM 
+			(SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6) t
+			LEFT JOIN SHOEREVIEW ON DATE(srwdate) = DATE(NOW() - INTERVAL (6 - t.n) DAY)
+			LEFT JOIN (SELECT * FROM PRODUCTORDER WHERE orderState=0 AND deliveryState=0) A ON DATE(A.orderDate) = DATE(NOW() - INTERVAL (6 - t.n) DAY)
+			LEFT JOIN MEMBER ON DATE(regdate) = DATE(NOW() - INTERVAL (6 - t.n) DAY)
+		    LEFT JOIN 
+				(SELECT *
+				FROM PRODUCTINQUIRY
+				WHERE inqRef IN (SELECT inqSeq FROM PRODUCTINQUIRY WHERE inqDepth = 0)) C ON DATE(C.inqDate) = DATE(NOW() - INTERVAL (6 - t.n) DAY)
+		GROUP BY DATE(NOW() - INTERVAL (6 - t.n) DAY)
+	</select>
+
 </mapper>

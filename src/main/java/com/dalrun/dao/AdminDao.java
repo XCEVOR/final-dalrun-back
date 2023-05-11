@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.DashboardData;
 import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
 import com.dalrun.dto.OrderDto;
@@ -14,6 +15,7 @@ import com.dalrun.dto.ProductDto;
 import com.dalrun.dto.ProductInquiryDto;
 import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
+import com.dalrun.dto.ShoeReviewDetailDto;
 import com.dalrun.dto.ShoeReviewDto;
 
 @Repository
@@ -79,7 +81,15 @@ public interface AdminDao {
 	
 	int delqna(int[] checkedList);
 	
+	List<Integer> getSrdSeq(int srSeq);
+	
+	int updateshoereview(ShoeReviewDto srdto);
+	
+	int updateshoereviewdetail(List<ShoeReviewDetailDto> srdList);
+	
 	int delshoereview(int[] checkedList);
+	
+	int delshoereviewdetail(int srdSeq);
 	
 	int deldiary(int[] checkedList);
 	
@@ -97,4 +107,9 @@ public interface AdminDao {
 	int updateorder(OrderDto orderdto);
 	
 	int delorder(String[] checkedList);
+	
+	// 대시보드
+	DashboardData getDashboardData();
+	
+	List<DashboardData> getWeekSummaryData();
 }

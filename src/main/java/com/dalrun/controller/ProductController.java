@@ -20,6 +20,7 @@ import com.dalrun.dto.ProductInquiryDto;
 import com.dalrun.service.ProductService;
 import com.dalrun.util.EditorUtil;
 import com.dalrun.util.FileNameListUtil;
+import com.dalrun.util.MultiFileUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -239,6 +240,7 @@ public class ProductController {
     }
     
     // 상품 등록
+    /*
     @PostMapping(value = "productRegi")
 	public String productRegi(ProductDto pdto,
 							  @RequestParam(value="fileList", required=false) List<MultipartFile> files,
@@ -305,7 +307,43 @@ public class ProductController {
 		}
 		return "NO";
 	}
+	*/
     
-    
+    // 상품 등록
+    @PostMapping(value = "productRegi")
+	public String productRegi(ProductDto pdto,
+							  @RequestParam(value="fileList", required=false) List<MultipartFile> files,
+							  HttpServletRequest request) {
+		
+		System.out.println("AdminController productRegi " + new Date());
+		
+		// 파일 upload 경로
+		String path = request.getServletContext().getRealPath("/dalrun-hc/store/products/" + pdto.getProductCode());
+		System.out.println(" fileUpload path = " + path);
+			
+		// 파일명 취득후 저장
+		int size = files.size();
+		String[] newFilenames = new String[size];	// 파일명을 저장할 배열
+	
+		for(int i = 0; i < size; i++) {
+		    MultipartFile file = files.get(i);
+		    String fileName = file.getOriginalFilename();	// 원본 파일명
+		    
+		    newFilenames[i] = EditorUtil.getNewProductCodeFileName(fileName, pdto.getProductCode(), i);  // ProductCode == newFolder == newFileName+(num)
+		}
+		
+		boolean isS = MultiFileUtil.multiFileUpload(files, size, path, newFilenames);
+		
+		System.out.println(pdto.toString());
+		
+		if(isS) {			
+			// 상품 등록
+			boolean b = service.insertProduct(pdto);
+			if(b) {
+				return "YES";			
+			}
+		}
+		return "NO";
+	}
     
 }
