@@ -286,18 +286,30 @@ public class AdminController {
 		
 		System.out.println("AdminController shoereviewRegi " + new Date());
 		
+		int size = 0;
+		
+		if(files == null) size = 1;	// 대표 이미지만 등록할 경우
+		else {
+			size = files.size();
+			files.add(0, mainImg);	// 저장할 파일들에 대표 이미지 파일 추가
+		}		
+		
 		// 파일명 취득
-		int size = files.size() + 1;
 		String[] oriFilenames = new String[size];	// 원본 파일명을 저장할 배열
 		String[] newFilenames = new String[size];	// 파일명을 저장할 배열
 		List<ShoeReviewDetailDto> srdList = new ArrayList<>();
 		
-		files.add(0, mainImg);	// 저장할 파일들에 대표 이미지 파일 추가
 		
 		System.out.println("size= " + size);
 		for(int i = 0; i < size; i++) {
-			MultipartFile file = files.get(i);
-			String filename = file.getOriginalFilename();	// 원본 파일명
+			String filename = "";
+			
+			if(files == null) {	// 대표 이미지만 등록할 경우
+				filename = mainImg.getOriginalFilename(); 
+			} else {
+				MultipartFile file = files.get(i);
+				filename = file.getOriginalFilename();	// 원본 파일명				
+			}
 			
 			oriFilenames[i] = filename;
 			newFilenames[i] = MultiFileUtil.getMultiFileName(filename, i);	// 새로운 파일명
@@ -321,21 +333,32 @@ public class AdminController {
 			
 			
 			// 리뷰상세정보
-			for(int i = 0; i < descList.length; i++) {
-				srdList.add(new ShoeReviewDetailDto(seq, descList[i], newFilenames[i+1], oriFilenames[i+1]));
+			if(descList != null) {
+				for(int i = 0; i < descList.length; i++) {
+					srdList.add(new ShoeReviewDetailDto(seq, descList[i], newFilenames[i+1], oriFilenames[i+1]));
+				}
 			}
 			
+			List<MultipartFile> newfiles = new ArrayList<>();
+			newfiles.add(mainImg);
+			
 			// 서버에 파일 저장
-			boolean isS = MultiFileUtil.multiFileUpload(files, size, path, newFilenames);
+			boolean isS = false;
+			
+			if(files == null) isS = MultiFileUtil.multiFileUpload(newfiles, size, path, newFilenames);
+			else isS = MultiFileUtil.multiFileUpload(files, size, path, newFilenames);
 			System.out.println("file upload " + isS);
 			
 			if(isS) {
 				// 리뷰상세정보 저장
-				boolean srb = srService.shoereviewDetailRegi(srdList);
-				if(srb) return "YES";
+				if(descList != null) {
+					boolean srb = srService.shoereviewDetailRegi(srdList);
+					if(srb) return "YES";
+				}
 			};
 		}
-		return "NO";
+		
+		return "YES";
 		
 	}
 
