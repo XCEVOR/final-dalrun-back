@@ -113,6 +113,16 @@ public class CartController {
         return "SUCCESS";
     }
     
+    @PostMapping(value = "updateCartItem")
+    public String updateCartItem (CartDto cdto) {
+        System.out.println("  @ CartController String updateCartItem (CartDto cdto) { " + new Date());
+        System.out.println("System.out.println(cdto); " + cdto);
+        boolean isSucc = service.updateCartItem(cdto);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";
+    }
     
     
 }

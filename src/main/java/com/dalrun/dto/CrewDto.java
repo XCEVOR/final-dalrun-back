@@ -20,6 +20,16 @@ public class CrewDto implements Serializable {
 	private String crewcolor; // 크루 색상
 	private int crewMemberCnt;	// 크루 멤버 수
 	
+	private String title;
+	private String content;
+	private String type;
+	private int readCount;
+	private int likeCount;
+	
+//	private String cbMemId; //댓글 작성자
+//	private String cbContent;
+//	private String cbWdate; //작성일
+	
 	public CrewDto() {
 		// TODO Auto-generated constructor stub
 	}
@@ -42,6 +52,51 @@ public class CrewDto implements Serializable {
 		this.myrank = myrank;
 		this.crewcolor = crewcolor;
 		this.crewMemberCnt = crewMemberCnt;
+	}
+	
+	public CrewDto(int crewSeq, String memId, String crewSetUp, String crewCreateDate, String crewUpdate, int maxMem,
+			int crewDel, int crewLevel, String crewImg, String crewName, int crewMemberCnt, String title,
+			String content, String type, int readCount, int likeCount) {
+		this.crewSeq = crewSeq;
+		this.memId = memId;
+		this.crewSetUp = crewSetUp;
+		this.crewCreateDate = crewCreateDate;
+		this.crewUpdate = crewUpdate;
+		this.maxMem = maxMem;
+		this.crewDel = crewDel;
+		this.crewLevel = crewLevel;
+		this.crewImg = crewImg;
+		this.crewName = crewName;
+		this.crewMemberCnt = crewMemberCnt;
+		this.title = title;
+		this.content = content;
+		this.type = type;
+		this.readCount = readCount;
+		this.likeCount = likeCount;
+	}
+
+	public CrewDto(int crewSeq, String memId, String crewSetUp, String crewCreateDate, String crewUpdate, int maxMem,
+			int crewDel, int crewLevel, String crewImg, String crewName, int crewScore, String myrank, String crewcolor,
+			int crewMemberCnt, String title, String content, String type, int readCount, int likeCount) {
+		this.crewSeq = crewSeq;
+		this.memId = memId;
+		this.crewSetUp = crewSetUp;
+		this.crewCreateDate = crewCreateDate;
+		this.crewUpdate = crewUpdate;
+		this.maxMem = maxMem;
+		this.crewDel = crewDel;
+		this.crewLevel = crewLevel;
+		this.crewImg = crewImg;
+		this.crewName = crewName;
+		this.crewScore = crewScore;
+		this.myrank = myrank;
+		this.crewcolor = crewcolor;
+		this.crewMemberCnt = crewMemberCnt;
+		this.title = title;
+		this.content = content;
+		this.type = type;
+		this.readCount = readCount;
+		this.likeCount = likeCount;
 	}
 
 	public int getCrewSeq() {
@@ -156,12 +211,54 @@ public class CrewDto implements Serializable {
 		this.crewMemberCnt = crewMemberCnt;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public int getReadCount() {
+		return readCount;
+	}
+
+	public void setReadCount(int readCount) {
+		this.readCount = readCount;
+	}
+
+	public int getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+
 	@Override
 	public String toString() {
 		return "CrewDto [crewSeq=" + crewSeq + ", memId=" + memId + ", crewSetUp=" + crewSetUp + ", crewCreateDate="
 				+ crewCreateDate + ", crewUpdate=" + crewUpdate + ", maxMem=" + maxMem + ", crewDel=" + crewDel
 				+ ", crewLevel=" + crewLevel + ", crewImg=" + crewImg + ", crewName=" + crewName + ", crewScore="
-				+ crewScore + ", myrank=" + myrank + ", crewcolor=" + crewcolor + "crewMemberCnt=" + crewMemberCnt + "]";
+				+ crewScore + ", myrank=" + myrank + ", crewcolor=" + crewcolor + ", crewMemberCnt=" + crewMemberCnt
+				+ ", title=" + title + ", content=" + content + ", type=" + type + ", readCount=" + readCount
+				+ ", likeCount=" + likeCount + "]";
 	}
-	
+		
 }

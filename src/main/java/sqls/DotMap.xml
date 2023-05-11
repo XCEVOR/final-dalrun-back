@@ -7,13 +7,13 @@
 <select id="getAllDotMap" resultType="com.dalrun.dto.DotMapDto">
 
 select location,(select crewName from crew  where crewSeq = ground.crewseq) as crewname,
-(select memid from crew  where crewSeq = ground.crewseq) as id,price,groundcolor,dotNewFile,sale,regdate,message
+memId,price,groundcolor,dotNewFile,sale,regdate,message
 from ground order by location asc
 
 </select>
 
 
-<insert id="buydotMap" parameterType="com.dalrun.dto.DotMapDto">
+<insert id="crew_buydotMap" parameterType="com.dalrun.dto.DotMapDto">
 
 insert into ground(location,crewSeq,groundColor,message,dotNewFile,dotOrigFile,sale,regdate,price)
 values(#{location},
@@ -23,6 +23,23 @@ values(#{location},
 
 </insert>
 
+
+<insert id="my_buydotMap" parameterType="com.dalrun.dto.DotMapDto">
+
+insert into ground(location,memId,groundColor,message,dotNewFile,dotOrigFile,sale,regdate,price)
+values(#{location},#{memId},'white',#{message},#{dotNewFile},#{dotOrigFile},2,now(),#{price});
+
+
+</insert>
+
+
+<update id="crewOutChangeDotmap" parameterType="com.dalrun.dto.DotMapDto">
+update ground set crewSeq=null , sale=2 ,groundColor='white' where crewSeq=#{crewSeq} and memId=#{memId};
+</update>
+
+<update id="crewInChangeDotmap" parameterType="com.dalrun.dto.DotMapDto">
+update ground set crewSeq=#{crewSeq} , sale=1, groundColor=#{groundColor} where crewSeq=#{crewSeq} and memId=#{memId};
+</update>
 
 
 

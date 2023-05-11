@@ -5,8 +5,8 @@
 <mapper namespace="com.dalrun.dao.CartDao">
 
     <insert id="addToCart" parameterType="com.dalrun.dto.CartDto">
-        INSERT INTO cart (cartId, cartProdQuantity, productId, memId, orderSeq)
-        VALUES (#{cartId}, #{cartProdQuantity}, #{productId}, #{memId}, #{orderSeq})
+        INSERT INTO cart (cartId, cartProdName, cartProdPrice, cartProdQuantity, productId, memId, orderSeq)
+        VALUES (#{cartId}, #{cartProdName}, #{cartProdPrice}, #{cartProdQuantity}, #{productId}, #{memId}, #{orderSeq})
     </insert>
     
     <select id="getCartList" resultType="com.dalrun.dto.CartDto">
@@ -23,6 +23,16 @@
     <delete id="deleteCartItem" parameterType="String">
         DELETE FROM cart WHERE productId=#{productId}
     </delete>
+    
+    <update id="updateCartItem">
+        UPDATE cart
+        SET cartProdName=#{cartProdName}, cartProdPrice=#{cartProdPrice}, cartProdQuantity=#{cartProdQuantity}, productId=#{productId}
+        WHERE cartId=#{cartId}
+    </update>
+    
+    
+    
+
     
     
 </mapper>

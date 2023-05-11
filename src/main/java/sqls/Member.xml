@@ -13,9 +13,16 @@
 
 <!-- 회원가입 -->
 <insert id="addmember" parameterType="com.dalrun.dto.MemberDto" >
-	insert into member(memId, password, memberName, email, phone, birth, foot, regdate, auth, del, crewSeq,point)
-	values(#{memId}, #{password}, #{memberName}, #{email}, #{phone}, #{birth}, #{foot}, now(), 1, 1, 0,0)
+	insert into member(memId, password, memberName, email, phone, birth, foot, regdate, auth, del, profile, grade, point, totalPoint)
+	values(#{memId}, #{password}, #{memberName}, #{email}, #{phone}, #{birth}, #{foot}, now(), 0, 0, #{profile} , '걸음마', 100, 100)
 </insert>
+
+<!--이미지 memId로 가져옴-->
+<select id="getMemId" resultType="String" parameterType="String">
+	select profile
+	from member
+	where memId=#{memId}
+</select>
 
 <!-- 로그인 확인 -->
 <select id="login" parameterType="com.dalrun.dto.MemberDto" resultType="com.dalrun.dto.MemberDto">
@@ -24,6 +31,13 @@
 	where memId=#{memId} and password=#{password}
 </select>
 
+<!--카카오 로그인 이메일 -->
+<select id="getmemberbyemail" parameterType="String" resultType="com.dalrun.dto.MemberDto">
+      select *
+      from member
+      where email=#{email}
+   </select>
+
 <!-- 회원 조회 -->
 <select id="getmember" parameterType="String" resultType="com.dalrun.dto.MemberDto">
 	select *
@@ -31,10 +45,17 @@
 	where memId=#{target}
 </select>
 
-<update id="MinusPoint" parameterType="com.dalrun.dto.MemberDto">
+<update id="MemberMinusPoint" parameterType="com.dalrun.dto.MemberDto">
 update member  SET point=point-#{point} where memId=#{memId}
 </update>
+<select id="mycrewMemberList" parameterType="Integer" resultType="com.dalrun.dto.MemberDto">
+select * from member where crewSeq=#{crewSeq}
+</select>
 
+<update id="crewLeave" parameterType="String">
+update member set crewSeq=0 where memId=#{memId}
+
+</update>
 
 </mapper>
 
