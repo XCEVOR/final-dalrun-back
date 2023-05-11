@@ -22,7 +22,8 @@
 		SELECT *
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, diarySeq, memId,
-				title, content, wdate, totalDist, totalTime, kcal, diaryDel
+				title, content, wdate, totalDist, totalTime, meanPace, maxSlope, kcal, 
+				score, diaryDel
 			FROM DIARY
 			<include refid="searchDiaryList"></include>
 			ORDER BY wdate DESC) A
@@ -39,18 +40,19 @@
 	<!-- 다이어리 작성 -->
 	<insert id="insertDiary" parameterType="com.dalrun.dto.DiaryDto">
 	    INSERT INTO diary
-	    (memId, title, content, wdate)
+	    (memId, title, content, wdate, postId)
 	    VALUES
-	    (#{memId}, #{title}, #{content}, #{wdate})
+	    (#{memId}, #{title}, #{content}, #{wdate}, #{postId})
 	    <selectKey keyProperty="diarySeq" resultType="int" order="AFTER">
 	    	SELECT LAST_INSERT_ID()
 	    </selectKey>
 	</insert>
 	
-	<!-- 총 이동거리, 이동시간, 칼로리 추가 -->
+	<!-- 몇몇 기록들 추가 -->
 	<update id="updateRecord" parameterType="com.dalrun.dto.DiaryDto">
 		UPDATE 	diary
-		SET totalDist=#{totalDist}, totalTime=#{totalTime}, kcal=#{kcal}
+		SET totalDist=#{totalDist}, totalTime=#{totalTime}, kcal=#{kcal}, meanPace=#{meanPace},
+			maxSlope=#{maxSlope}, score=#{score}
 		WHERE diarySeq = #{diarySeq}
 	</update>
 

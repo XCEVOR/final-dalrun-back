@@ -14,6 +14,7 @@ public class GpxDataDto {
 	private double longitude;// 초 당 경도
 	private double altitude;// 초 당 고도
 	private double distance;// 초 당 이동 거리
+	private double slope;	// 초 당 경사도(소수) * 100 = 경사도(%)
 	private String mTime;	// 측정 시간(파싱을 위해)
 	private int timeDiff; // 초당 시간(초 단위)
 	
@@ -23,7 +24,7 @@ public class GpxDataDto {
 
 
 	public GpxDataDto(int dataSeq, int fileSeq, int diarySeq, int courseSeq, String memId, double latitude,
-			double longitude, double altitude, double distance, String mTime, int timeDiff) {
+			double longitude, double altitude, double distance, double slope, String mTime, int timeDiff) {
 		super();
 		this.dataSeq = dataSeq;
 		this.fileSeq = fileSeq;
@@ -34,6 +35,7 @@ public class GpxDataDto {
 		this.longitude = longitude;
 		this.altitude = altitude;
 		this.distance = distance;
+		this.slope = slope;
 		this.mTime = mTime;
 		this.timeDiff = timeDiff;
 	}
@@ -129,6 +131,16 @@ public class GpxDataDto {
 	}
 
 
+	public double getSlope() {
+		return slope;
+	}
+
+
+	public void setSlope(double slope) {
+		this.slope = slope;
+	}
+
+
 	public String getmTime() {
 		return mTime;
 	}
@@ -153,7 +165,8 @@ public class GpxDataDto {
 	public String toString() {
 		return "GpxDataDto [dataSeq=" + dataSeq + ", fileSeq=" + fileSeq + ", diarySeq=" + diarySeq + ", courseSeq="
 				+ courseSeq + ", memId=" + memId + ", latitude=" + latitude + ", longitude=" + longitude + ", altitude="
-				+ altitude + ", distance=" + distance + ", mTime=" + mTime + ", timeDiff=" + timeDiff + "]";
+				+ altitude + ", distance=" + distance + ", slope=" + slope + ", mTime=" + mTime + ", timeDiff="
+				+ timeDiff + "]";
 	}
-	
+
 }

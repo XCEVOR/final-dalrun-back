@@ -49,7 +49,22 @@ import com.dalrun.dto.GpxDataDto;
 		        return 0;
 		    }
 		}
+	  
+	  // 고도 차이 구하기
+	  private static double calAltitudeDifference(double ele1, double ele2) {
+	      return Math.abs(ele1 - ele2);
+	  }
+	  
+	  // 경사도 계산하기
+	  private static double calSlope(double altitudeDifference, double distance) {
+	      if (distance == 0) {
+	          return 0;
+	      }
+	      return (altitudeDifference / distance) * 100;
+	  }
 
+
+	  // gpx 파일 parser
 	  public static List<GpxDataDto> parseGPXFile(File file) throws Exception {
 		  
 		    List<GpxDataDto> points = new ArrayList<>(); // 넘길 데이터
@@ -114,14 +129,18 @@ import com.dalrun.dto.GpxDataDto;
 	                if (previousPoint != null) {
 	                    double distance = calDistance(previousPoint.getLatitude(), previousPoint.getLongitude(), lat, lon);
 	                    int timeDifference = calTimeDifference(previousPoint.getmTime(), time);
+	                    double altitudeDifference = calAltitudeDifference(previousPoint.getAltitude(), ele);
+	                    double slope = calSlope(altitudeDifference, distance); // 경사도 계산
 	                    
 	                    // 데이터 Dto에 삽입
-	                    gpxData.setDistance(distance);
-	                    gpxData.setTimeDiff(timeDifference);
+	                    gpxData.setDistance(distance);	// 이동 거리 삽입
+	                    gpxData.setTimeDiff(timeDifference); // 이동 시간 삽입
+	                    gpxData.setSlope(slope); // 경사도 삽입
 	                } else {
 	                	// 첫 번쨰 row
 	                    gpxData.setDistance(0);
 	                    gpxData.setTimeDiff(0);
+	                    gpxData.setSlope(0); // 첫번째 row의 경사도는 0
 	                }
 	                
 	                // 리스트에 담기
