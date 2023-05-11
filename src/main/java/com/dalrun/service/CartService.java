@@ -34,4 +34,9 @@ public class CartService {
         return isSucc > 0 ? true : false;
     }
     
+    public boolean updateCartItem (CartDto cdto) {
+        int isSucc = dao.updateCartItem(cdto);
+        return isSucc > 0 ? true : false;
+    }
+    
 }
