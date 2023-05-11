@@ -125,5 +125,12 @@ public class DotMapDto implements Serializable {
 		this.crewSeq = crewSeq;
 	}
 
+	@Override
+	public String toString() {
+		return "DotMapDto [location=" + location + ", crewName=" + crewName + ", memId=" + memId + ", regdate="
+				+ regdate + ", message=" + message + ", groundColor=" + groundColor + ", dotOrigFile=" + dotOrigFile
+				+ ", dotNewFile=" + dotNewFile + ", sale=" + sale + ", price=" + price + ", crewSeq=" + crewSeq + "]";
+	}
+
        
 }

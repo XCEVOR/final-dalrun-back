@@ -10,11 +10,11 @@ select * from crew order by crewscore desc limit 3;
 
 </select>
 
-<select id="getMyCrewinfo" resultType="com.dalrun.dto.CrewDto"  parameterType="String">
+<select id="getMyCrewinfo" resultType="com.dalrun.dto.CrewDto"  parameterType="Integer">
 
 SELECT *, 
   (SELECT COUNT(*) FROM crew c2 WHERE c2.crewscore > c1.crewscore) + 1 AS myrank,
-  (select count(*) from member  where crewSeq= #{crewseq}) as crewMemberCnt 
+  (select count(*) from member  where crewSeq= #{crewSeq}) as crewMemberCnt 
    
 FROM crew c1
 WHERE crewSeq =  #{crewSeq}
@@ -36,18 +36,18 @@ update crew  SET crewScore=crewScore-#{score} where crewSeq=#{crewSeq}
 </update>
 
 <!-- 크루 멤버수를 포함한 크루 정보 -->
-<select id="getCrew" parameterType="int" resultType="com.dalrun.dto.CrewDto">
+<!-- <select id="getCrew" parameterType="int" resultType="com.dalrun.dto.CrewDto">
 	SELECT *, (SELECT COUNT(*) FROM CREWMEMBER WHERE crewSeq = #{crewSeq}) crewMemberCnt
 	FROM CREW
 	WHERE crewSeq = #{crewSeq};
-</select>
+</select> -->
 
 <!-- 크루 멤버 정보 -->
-<select id="getCrewMember" parameterType="int" resultType="com.dalrun.dto.CrewMemberDto">
+<!-- <select id="getCrewMember" parameterType="int" resultType="com.dalrun.dto.CrewMemberDto">
 	SELECT *
 	FROM CREWMEMBER
 	WHERE crewSeq = #{crewSeq};
-</select>
+</select> -->
 
 <select id="getcrewPoint" parameterType="Integer" resultType="Integer">
 

@@ -33,8 +33,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.dalrun.dto.CrewBbsDto;
 import com.dalrun.dto.CrewBbsParam;
 import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.DotMapDto;
 import com.dalrun.dto.SearchParam;
 import com.dalrun.service.CrewBbsService;
+import com.dalrun.service.DotMapService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
@@ -43,6 +45,8 @@ public class CrewBbsController {
 	@Autowired
 	CrewBbsService service;
 	
+	@Autowired
+	DotMapService dservice;
 	//게시글 상세보기
 	@GetMapping(value="crewBbsBlogDetail")
 	public CrewDto getCrewBbs(int crewSeq) {
@@ -102,6 +106,12 @@ public class CrewBbsController {
 	         dto.setCrewImg(finalstr);
 	         
 	      System.out.println(dto);
+	      DotMapDto ddto =new DotMapDto();
+	      ddto.setCrewSeq(dto.getCrewSeq());
+	      ddto.setMemId(dto.getMemId());
+	      ddto.setGroundColor(dto.getCrewcolor());
+	      dservice.crewInChangeDotmap(ddto);
+	      
 	      boolean b = service.writeCrewBbs(dto);
 	      if(!b) {
 	         return "NO";

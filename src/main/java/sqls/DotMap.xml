@@ -34,11 +34,11 @@ values(#{location},#{memId},'white',#{message},#{dotNewFile},#{dotOrigFile},2,no
 
 
 <update id="crewOutChangeDotmap" parameterType="com.dalrun.dto.DotMapDto">
-update ground set crewSeq=0 , sale=2 where crewSeq=#{crewSeq} and memId=#{memId};
+update ground set crewSeq=null , sale=2 ,groundColor='white' where crewSeq=#{crewSeq} and memId=#{memId};
 </update>
 
 <update id="crewInChangeDotmap" parameterType="com.dalrun.dto.DotMapDto">
-update ground set crewSeq=#{crewSeq} , sale=1 where crewSeq=#{crewSeq} and memId=#{memId};
+update ground set crewSeq=#{crewSeq} , sale=1, groundColor=#{groundColor} where crewSeq=#{crewSeq} and memId=#{memId};
 </update>
 
 

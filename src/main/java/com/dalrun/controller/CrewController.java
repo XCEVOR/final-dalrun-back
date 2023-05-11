@@ -50,17 +50,17 @@ public class CrewController {
 
 	}
 	
-	@PostMapping(value = "getcrew")
-	public CrewDto getCrew(@RequestParam("target") int crewSeq) {
-		System.out.println("CrewController getCrew " + new Date());
-		return service.getCrew(crewSeq);
-	}
-	
-	@PostMapping(value = "getCrewMember")
-	public List<CrewMemberDto> getCrewMember(int crewSeq) {
-		System.out.println("CrewController getCrewMember " + new Date());
-		return service.getCrewMember(crewSeq);
-	}
+	/*
+	 * @PostMapping(value = "getcrew") public CrewDto
+	 * getCrew(@RequestParam("target") int crewSeq) {
+	 * System.out.println("CrewController getCrew " + new Date()); return
+	 * service.getCrew(crewSeq); }
+	 * 
+	 * @PostMapping(value = "getCrewMember") public List<CrewMemberDto>
+	 * getCrewMember(int crewSeq) {
+	 * System.out.println("CrewController getCrewMember " + new Date()); return
+	 * service.getCrewMember(crewSeq); }
+	 */
 	
 	@GetMapping(value = "getcrewPoint")
 	public int getcrewPoint(int crewSeq) {

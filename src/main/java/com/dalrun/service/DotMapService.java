@@ -41,6 +41,7 @@ public class DotMapService {
 	
    }
    public boolean crewOutChangeDotmap(DotMapDto dto){
+	  
 	   return dao.crewOutChangeDotmap(dto)>0;
 	
    }

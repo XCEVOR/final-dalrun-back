@@ -37,6 +37,7 @@ public class MemberController {
 	@Autowired
 	MemberService service;
 	
+	@Autowired
 	DotMapService dservice;
 	
 	//아이디 중복체크

@@ -25,6 +25,7 @@ public class CrewService {
 	}
 	
 	public CrewDto getMyCrewinfo(int crewSeq) {
+		
 		return dao.getMyCrewinfo(crewSeq);
 	}
 	
@@ -37,12 +38,12 @@ public class CrewService {
 	public boolean PlusPoint(CrewPointDto dto) {
 		return dao.PlusPoint(dto)>0;
 	}
-	public CrewDto getCrew(int crewSeq) {
-		return dao.getCrew(crewSeq);
-	}
-	public List<CrewMemberDto> getCrewMember(int crewSeq) {
-		return dao.getCrewMember(crewSeq);
-	}
+
+	/*
+	 * public CrewDto getCrew(int crewSeq) { return dao.getCrew(crewSeq); } public
+	 * List<CrewMemberDto> getCrewMember(int crewSeq) { return
+	 * dao.getCrewMember(crewSeq); }
+	 */
 	public int getcrewPoint(int crewSeq) {
 		return dao.getcrewPoint(crewSeq);
 		
