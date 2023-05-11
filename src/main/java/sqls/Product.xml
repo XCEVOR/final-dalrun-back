@@ -59,6 +59,13 @@
         ORDER BY productView DESC;
     </select>
     
+    <select id="getAllProductListSortLike" resultType="com.dalrun.dto.ProductDto">
+        SELECT MIN(productId), productCode, productCategory, productBrand, productName, productPrice, productLike
+        FROM product
+        GROUP BY productCode, productCategory, productBrand, productName, productPrice, productLike
+        ORDER BY productLike DESC;
+    </select>
+    
     
     
     	

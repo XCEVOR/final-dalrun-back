@@ -56,6 +56,10 @@ public class ProductService {
         return dao.getAllProductListSortView();
     }
     
+    public List<ProductDto> getAllProductListSortLike () {
+        return dao.getAllProductListSortLike();
+    }
+    
     
     
     

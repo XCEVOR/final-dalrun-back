@@ -100,9 +100,15 @@ public class ProductController {
     }
     
     @PostMapping(value = "getAllProductListSortView")
+    public List<ProductDto> getAllProductListSortView () {
+        System.out.println("  @ ProductController getAllProductListSortView { " + new Date());
+        return service.getAllProductListSortView();
+    }
+    
+    @PostMapping(value = "getAllProductListSortLike")
     public List<ProductDto> getAllProductListSortLike () {
         System.out.println("  @ ProductController getAllProductListSortLike { " + new Date());
-        return service.getAllProductListSortView();
+        return service.getAllProductListSortLike();
     }
     
     

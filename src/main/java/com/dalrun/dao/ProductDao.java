@@ -30,6 +30,8 @@ public interface ProductDao {
     
     List<ProductDto> getAllProductListSortView ();
     
+    List<ProductDto> getAllProductListSortLike ();
+    
     
     
     
