@@ -12,6 +12,12 @@ public class ShoeReviewDetailDto {
 		// TODO Auto-generated constructor stub
 	}
 
+	public ShoeReviewDetailDto(int srSeq, String srcomment) {
+		super();
+		this.srdSeq = srdSeq;
+		this.srcomment = srcomment;
+	}
+
 	public ShoeReviewDetailDto(int srSeq, String srcomment, String srimage, String oriSrImage) {
 		super();
 		this.srSeq = srSeq;
@@ -59,6 +65,10 @@ public class ShoeReviewDetailDto {
 	public void setOrSrImage(String oriSrImage) {
 		this.oriSrImage = oriSrImage;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "ShoeReviewDetailDto [srdSeq=" + srdSeq + ", srSeq=" + srSeq + ", srcomment=" + srcomment + ", srimage="
+				+ srimage + ", oriSrImage=" + oriSrImage + "]";
+	}
 }

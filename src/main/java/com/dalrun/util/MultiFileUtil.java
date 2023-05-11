@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class MultiFileUtil {

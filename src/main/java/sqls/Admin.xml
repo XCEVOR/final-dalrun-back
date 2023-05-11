@@ -249,7 +249,7 @@
 		,(select count(*) from shoereviewComment where srSeq=s.srSeq)as commentcount 
 		from shoereview s
 		<include refid="searchShoereview"></include>
-			order by srwdate desc, srSeq desc) a
+		order by srwdate desc, srSeq desc) a
 		where rnum between ${start} and ${end}
 	</select>
 	
@@ -383,10 +383,41 @@
 	</update>
 	
 	<!-- 리뷰 -->
+	<select id="getSrdSeq" parameterType="int" resultType="int">
+		SELECT srdSeq
+		FROM SHOEREVIEWDETAIL
+		WHERE srSeq = #{srSeq}
+	</select>
+	<update id="updateshoereview" parameterType="com.dalrun.dto.ShoeReviewDto">
+		UPDATE SHOEREVIEW
+		SET srTitle=#{srTitle}, srCotent=#{srCotent}, srBrand=#{srBrand}, srLink=#{srLink}, srPrice=#{srPrice}
+		<if test="srimage != null and srimage != '' and oriSrImage != null and oriSrImage !=''">
+			, srimage=#{srimage}, oriSrImage=#{oriSrImage}
+		</if>
+		WHERE srSeq = #{srSeq}
+	</update>
+	<update id="updateshoereviewdetail" parameterType="com.dalrun.dto.ShoeReviewDetailDto">
+		<if test="srdList != null and srdList.size() > 0">
+    		<foreach collection="srdList" item="item" open="" separator=";" close="">
+	    		UPDATE SHOEREVIEWDETAIL
+	    		<set>
+					<if test="item.srcomment != null and item.srcomment = ''">srcomment=#{item.srcomment},<if/>	
+	    			<if test="item.srimage != null and item.srimage != '' and item.oriSrImage != null and item.oriSrImage !=''">
+						srimage=#{item.srimage}, oriSrImage=#{item.oriSrImage}
+					</if>
+				</set>
+	    		WHERE srSeq = #{item.srSeq}
+    		</foreach>
+    	</if>
+	</update>
 	<delete id="delshoereview" parameterType="List">
 		DELETE FROM SHOEREVIEW
 		WHERE srSeq IN
 		<include refid="commonForeach"></include>
+	</delete>
+	<delete id="delshoereviewdetail" parameterType="int">
+		DELETE FROM SHOEREVIEWDETAIL
+		WHERE srdSeq = #{srdSeq}
 	</delete>
 	
 	<!-- 다이어리 -->

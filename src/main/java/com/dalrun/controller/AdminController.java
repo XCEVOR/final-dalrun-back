@@ -279,18 +279,22 @@ public class AdminController {
 	}
 	
 	@PostMapping(value = "shoereviewRegi") 
-	public String shoereviewRegi(ShoeReviewDto srdto, @RequestParam(value="sections", required=false) String[] sections,
+	public String shoereviewRegi(ShoeReviewDto srdto, @RequestParam(value="descList", required=false) String[] descList,
 								  @RequestParam(value="fileList", required=false) List<MultipartFile> files,
+								  @RequestParam(value="mainImg", required=false) MultipartFile mainImg,
 								  HttpServletRequest req) throws UnsupportedEncodingException {
 		
 		System.out.println("AdminController shoereviewRegi " + new Date());
 		
 		// 파일명 취득
-		int size = files.size();
+		int size = files.size() + 1;
 		String[] oriFilenames = new String[size];	// 원본 파일명을 저장할 배열
 		String[] newFilenames = new String[size];	// 파일명을 저장할 배열
 		List<ShoeReviewDetailDto> srdList = new ArrayList<>();
 		
+		files.add(0, mainImg);	// 저장할 파일들에 대표 이미지 파일 추가
+		
+		System.out.println("size= " + size);
 		for(int i = 0; i < size; i++) {
 			MultipartFile file = files.get(i);
 			String filename = file.getOriginalFilename();	// 원본 파일명
@@ -315,14 +319,15 @@ public class AdminController {
 			String path = req.getServletContext().getRealPath("/dalrun-hc/review/" + seq);
 			System.out.println("fileupload path = " + path);
 			
+			
 			// 리뷰상세정보
-			for(int i = 0; i < sections.length; i++) {
-				srdList.add(new ShoeReviewDetailDto(seq, sections[i], newFilenames[i+1], oriFilenames[i+1]));
+			for(int i = 0; i < descList.length; i++) {
+				srdList.add(new ShoeReviewDetailDto(seq, descList[i], newFilenames[i+1], oriFilenames[i+1]));
 			}
 			
 			// 서버에 파일 저장
 			boolean isS = MultiFileUtil.multiFileUpload(files, size, path, newFilenames);
-			System.out.println("file upload" + isS);
+			System.out.println("file upload " + isS);
 			
 			if(isS) {
 				// 리뷰상세정보 저장
@@ -332,6 +337,147 @@ public class AdminController {
 		}
 		return "NO";
 		
+	}
+
+	@PostMapping(value = "admin_updateshoereview")
+	public String updateshoereview(ShoeReviewDto srdto, @RequestParam(value = "srdSeq", required=false) List<Integer> srdSeq,
+										@RequestParam(value = "updateImg", required=false) List<String> updatedFiles,
+										@RequestParam(value="addFiles", required=false) List<MultipartFile> addFiles,
+										@RequestParam(value="descList", required=false) String[] descList,
+										@RequestParam(value="mainImg", required=false) MultipartFile mainImg,
+										HttpServletRequest req) {
+		
+		System.out.println("AdminController updateshoereview " + new Date());
+		
+		int seq = srdto.getSrSeq();
+		
+		String fileuploaded_path = req.getServletContext().getRealPath("/dalrun-hc/review/" + seq);
+		
+		String[] filenamesList = FileNameListUtil.getFileNameList(fileuploaded_path);
+		
+		boolean delMainFile = false;
+		
+		List<Integer> srdSeqList = service.getSrdSeq(seq);
+		
+		if(srdSeq != null) {	// 삭제할 detail DB가 있을 경우
+			for(int srdseq : srdSeqList) {
+				System.out.println();
+				if(!srdSeq.contains(srdseq)) {
+					boolean b = service.delshoereviewdetail(srdseq);	// 해당 DB삭제
+					if(b) System.out.println("detail data delete success : " + srdseq);
+					else System.out.println("detail data delete fail : " + srdseq);
+				}				
+			}
+			
+			System.out.println(updatedFiles);
+			for(String filename : filenamesList) {
+				if(!updatedFiles.contains(filename)) {
+					System.out.println("delete files : " + filename);
+					
+					File file = new File(fileuploaded_path + "/" + filename);
+					file.delete();	// 해당 파일 삭제
+				}
+			}
+			
+		} else {
+			for(int srdseq : srdSeqList) {
+				boolean b = service.delshoereviewdetail(srdseq);	// 모든 detail DB삭제
+				if(b) System.out.println("detail data delete success : " + srdseq);
+				else System.out.println("detail data delete fail : " + srdseq);
+			}
+		}
+		
+		List<ShoeReviewDetailDto> srdList = new ArrayList<>();
+		
+		if(!CollectionUtils.isEmpty(addFiles)) {	// 추가 파일이 있을 경우
+			int size = addFiles.size();
+			
+			String addFileNames[] = new String[size];	
+			String newAddFilenames[] = new String[size];	
+			
+			if(mainImg == null) {	// 추가파일O + 대표이미지 변경X
+				size = addFiles.size();
+				
+				for(int i = 0; i < size-1; i++) {				
+					MultipartFile file = addFiles.get(i);
+					
+					addFileNames[i] = file.getOriginalFilename();	// 추가 파일 원본 파일명
+					newAddFilenames[i] = MultiFileUtil.getMultiFileName(addFileNames[i], i);	// 추가 파일 새 파일명
+					
+					// 추가 파일 DB에 저장
+					srdList.add(new ShoeReviewDetailDto(seq, descList[i], newAddFilenames[i], addFileNames[i]));
+				} 
+			}
+			else {	// 추가파일O + 대표이미지 변경O
+				size = addFiles.size() + 1;
+				
+				for(int i = 0; i < size; i++) {	
+				// 대표 이미지 추가
+				addFiles.add(0, mainImg);
+				MultipartFile file = addFiles.get(i);
+				
+				// 대표 이미지 파일명
+				addFileNames[i] = file.getOriginalFilename();	// 추가 파일 원본 파일명
+				newAddFilenames[i] = MultiFileUtil.getMultiFileName(addFileNames[i], i);	// 추가 파일 새 파일명
+				
+				// 추가 파일 DB에 저장
+				srdList.add(new ShoeReviewDetailDto(seq, descList[i], newAddFilenames[i], addFileNames[i]));
+				}
+			}
+		
+			
+			// 대표이미지 DB에 파일명 저장
+			srdto.setOriSrImage(addFileNames[0]);
+			srdto.setSrimage(newAddFilenames[0]);
+			
+			// 추가 파일 업로드
+			boolean upload = MultiFileUtil.multiFileUpload(addFiles, size, fileuploaded_path, newAddFilenames);
+			if(upload) {
+				System.out.println("addfiles upload success");
+				
+				boolean b = srService.shoereviewDetailRegi(srdList);	// detail DB에 저장
+				if(b) System.out.println("detail data insert success");
+			}
+		} 
+		
+		if(mainImg != null) {	// 대표 이미지가 변경되면
+			String mainFilename = mainImg.getOriginalFilename();
+			String newMainFilename = MultiFileUtil.getMultiFileName(mainFilename, 0);
+			
+			// 대표이미지 DB에 파일명 저장
+			srdto.setOriSrImage(mainFilename);
+			srdto.setSrimage(newMainFilename);
+			
+			File mainfile = new File(fileuploaded_path + "/" + filenamesList[0]);
+			mainfile.delete();	// 해당 파일 삭제
+			
+			File newMainFile = new File(fileuploaded_path + "/" + newMainFilename);
+			
+			if(!newMainFile.exists()) {	// 새로운 대표 이미지 저장
+				try {
+					BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(newMainFile));
+					bos.write(mainImg.getBytes());
+					bos.close();
+				} catch (Exception e) {
+					System.out.println(e);
+					return "NO";
+				} 
+			}
+		}
+		
+		// 값만 변경
+		if(CollectionUtils.isEmpty(addFiles) && descList != null) {
+			for(String desc : descList) {
+				srdList.add(new ShoeReviewDetailDto(seq, desc));
+			}
+			boolean b = service.updateshoereviewdetail(srdList);
+			if(b) System.out.println("update detail sccess");
+		}
+		
+		
+		// review DB 수정
+		boolean b = service.updateshoereview(srdto);
+		return str(b);
 	}
 	
 	@PostMapping(value = "admin_delshoereview")
@@ -530,6 +676,7 @@ public class AdminController {
 								HttpServletRequest req) {
 		System.out.println("AdminController updateproduct " + new Date());
 		System.out.println("update file =" + updatedFiles);
+		System.out.println("add file =" + addFiles);
 		
 		// 파일 수정 : 파일 삭제 + 파일 추가
 		String code = productdto.getProductCode();	// 상품 코드
