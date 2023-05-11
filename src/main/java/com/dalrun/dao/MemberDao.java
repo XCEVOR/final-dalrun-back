@@ -24,7 +24,7 @@ public interface MemberDao{
 	//회원조회
 	MemberDto getmember(String target);
 	  
-	int MinusPoint(MemberDto dto);
+
 	
 	MemberDto getmemberbyemail(String email);
 	
@@ -33,7 +33,7 @@ public interface MemberDao{
   
   
   
-  int MemberMinusPoint(MemberDto dto);
+    int MemberMinusPoint(MemberDto dto);
 	
 	List<MemberDto>mycrewMemberList(int crewSeq);
 	
