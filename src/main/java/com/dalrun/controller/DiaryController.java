@@ -27,7 +27,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class DiaryController {
-
+	
 	@Autowired
 	DiaryService dService;
 	
@@ -69,6 +69,7 @@ public class DiaryController {
 	// 다이어리 이미지 업로드
 	@PostMapping("uploadDiaryImg")
 	public Map<String, String> uploadDiaryImg(
+							  DiaryDto diary,
 							  MultipartFile imageFile,
 							  HttpServletRequest req) {
 		System.out.println("DiaryController uploadDiaryImg: " + new Date());
@@ -81,10 +82,10 @@ public class DiaryController {
 		String fileExtension = ogFilename.substring(ogFilename.indexOf('.'));	// 확장자 명
 		
 		
-		// 멤버ID + new 파일 명 : 업로드 시간(초 단위까지)
+		// new 파일 명 : ID + 고유 식별 + 숫자(초 단위까지)
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyMMddHHmmss");
 		String now = dtf.format(LocalDateTime.now());
-		String fileName = now + "_" + fileExtension ;
+		String fileName = diary.getPostId() + "_" + diary.getMemId() + "_" + now + fileExtension ;
 		
 		// 파일 업로드 경로
 		String filePath = path + "/" + fileName;
