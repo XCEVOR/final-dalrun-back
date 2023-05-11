@@ -44,6 +44,7 @@ import com.dalrun.dto.ShoeReviewDetailDto;
 import com.dalrun.dto.ShoeReviewDto;
 import com.dalrun.service.AdminService;
 import com.dalrun.service.CompetitionService;
+import com.dalrun.service.CrewService;
 import com.dalrun.service.ProductService;
 import com.dalrun.service.ShoeReviewService;
 import com.dalrun.util.EditorUtil;
@@ -57,6 +58,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public class AdminController {
 	@Autowired
 	AdminService service;
+	@Autowired
+	CrewService crewService;
 	@Autowired
 	ProductService productService;
 	@Autowired
@@ -208,6 +211,12 @@ public class AdminController {
 		
 		boolean b = service.delmember(checkedList);
 		return str(b);
+	}
+	
+	@PostMapping(value = "getcrew") 
+	public CrewDto getCrew(@RequestParam("target") int crewSeq) {
+		System.out.println("CrewController getCrew " + new Date()); return
+		crewService.getMyCrewinfo(crewSeq); 
 	}
 	
 	@PostMapping(value = "admin_updatecrew")
