@@ -401,7 +401,7 @@
     		<foreach collection="srdList" item="item" open="" separator=";" close="">
 	    		UPDATE SHOEREVIEWDETAIL
 	    		<set>
-					<if test="item.srcomment != null and item.srcomment = ''">srcomment=#{item.srcomment},<if/>	
+	    			<if test="item.srcomment != null and item.srcomment = ''">srcomment=#{item.srcomment},</if>
 	    			<if test="item.srimage != null and item.srimage != '' and item.oriSrImage != null and item.oriSrImage !=''">
 						srimage=#{item.srimage}, oriSrImage=#{item.oriSrImage}
 					</if>
