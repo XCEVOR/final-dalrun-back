@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.CrewMemberDto;
 import com.dalrun.dto.DashboardData;
 import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
@@ -44,6 +45,7 @@ import com.dalrun.dto.ShoeReviewDetailDto;
 import com.dalrun.dto.ShoeReviewDto;
 import com.dalrun.service.AdminService;
 import com.dalrun.service.CompetitionService;
+import com.dalrun.service.CrewService;
 import com.dalrun.service.ProductService;
 import com.dalrun.service.ShoeReviewService;
 import com.dalrun.util.EditorUtil;
@@ -57,6 +59,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public class AdminController {
 	@Autowired
 	AdminService service;
+	@Autowired
+	CrewService crewService;
 	@Autowired
 	ProductService productService;
 	@Autowired
@@ -154,7 +158,7 @@ public class AdminController {
 	@GetMapping(value = "admin_competitionlist")
 	public Map<String, Object> competitionlist(SearchParam params) {
 	    System.out.println("AdminController competitionlist " + new Date());
-	    
+	    System.out.println(params.toString());
 	    pageNumber(params);	    
 	    List<CompetitionDto> competitionlist = service.competitionlist(params);
 		int len = service.getAllCompetition(params);
@@ -210,6 +214,18 @@ public class AdminController {
 		return str(b);
 	}
 	
+	@PostMapping(value = "getcrew") 
+	public CrewDto getCrew(@RequestParam("target") int crewSeq) {
+		System.out.println("AdminController getCrew " + new Date()); 
+		return crewService.getMyCrewinfo(crewSeq); 
+	}
+	/*
+	@PostMapping(value = "getCrewMember") 
+	public List<CrewMemberDto> getCrewMember(int crewSeq) {
+		System.out.println("AdminController getCrewMember " + new Date()); 
+		return crewService.(crewSeq); 
+	}
+	*/
 	@PostMapping(value = "admin_updatecrew")
 	public String updatecrew(CrewDto crewdto) {
 		System.out.println("AdminController updatecrew " + new Date());

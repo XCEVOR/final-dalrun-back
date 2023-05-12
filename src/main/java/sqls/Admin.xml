@@ -45,21 +45,24 @@
 	<sql id="searchProductinqiry">
 		<if test="choice != null and choice != '' and search != null and search != ''">
 			<if test="choice == 'memId'">
-				WHERE memId LIKE CONCAT('%', #{search}, '%')
+				AND memId LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'productId'">
-				WHERE productId LIKE CONCAT('%', #{search}, '%')
+				AND productId LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'title'">
-				WHERE inqTitle LIKE CONCAT('%',#{search},'%')
+				AND inqTitle LIKE CONCAT('%',#{search},'%')
 			</if>
 			<if test="choice == 'content'">
-				WHERE inqContent LIKE CONCAT('%',#{search},'%')
+				AND inqContent LIKE CONCAT('%',#{search},'%')
+			</if>
+			<if test="choice == 'inqWriter'">
+				AND inqWriter LIKE CONCAT('%',#{search},'%')
 			</if>
 		</if>
 	</sql>
 	
-	<sql id="searchQna">
+	<sql id="searchQna">	
 		<if test="choice != null and choice != '' and search != null and search != ''">
 			<if test="choice == 'memId'">
 				WHERE memId LIKE CONCAT('%', #{search}, '%')
@@ -79,10 +82,10 @@
 	<sql id="searchShoereview">
 		<if test="choice != null and choice!='' and search != null and search!= ''">
 			<if test="choice == 'title'">
-				and srTitle like concat('%',#{search},'%')
+				WHERE srTitle like concat('%',#{search},'%')
 			</if>
 			<if test="choice == 'content'">
-				and srCotent like concat('%',#{search},'%')
+				WHERE srCotent like concat('%',#{search},'%')
 			</if>
 		</if>
 	</sql>
@@ -103,69 +106,63 @@
 	
 	<sql id="searchCompetition">
 		<if test="choice != null and choice != '' and search != null and search != ''">
-			<if test="choice == 'seq'">
-				WHERE compdetailSeq = #{search}
-			</if>
-			<if test="choice == 'title'">
-				WHERE compdetailTitle LIKE CONCAT('%',#{search},'%')
+			<if test="choice == 'name'">
+				AND compTitle LIKE CONCAT('%',#{search},'%')
 			</if>
 			<if test="choice == 'content'">
-				WHERE conpdetailContent LIKE CONCAT('%',#{search},'%')
+				AND compContent LIKE CONCAT('%',#{search},'%')
 			</if>
-			<if test="choice == 'location'">
-				WHERE compdetailLocation LIKE CONCAT('%',#{search},'%') 
-			</if>
+		</if>
+		<if test="local != null and local != ''">
+			AND compLocal = #{local}
 		</if>
 	</sql>
 	
 	<sql id="searchProduct">
-		<where>
-			<if test="sale != null and sale !=''">
-				productSale= #{sale} AND
+		<if test="sale != null and sale !=''">
+			AND productSale= #{sale}
+		</if>
+		<if test="stock != null and stock !=''">
+			<if test="stock == 1">
+				AND productStock >= #{stock} 
 			</if>
-			<if test="stock != null and stock !=''">
-				productStock = #{stock} AND
+			<if test="stock == 0">
+				AND productStock = #{stock}
 			</if>
-			<choose>
-				<when test="choice == 'category'">
-					productCategory = #{search}
-				</when>
-				<when test="choice == 'productId'">
-					productId LIKE CONCAT('%',#{search},'%')
-				</when>
-				<when test="choice == 'name'">
-					productName LIKE CONCAT('%',#{search},'%')
-				</when>
-				<otherwise>
-					1=1
-				</otherwise>
-			</choose>
-		</where>
+		</if>
+		<choose>
+			<when test="choice == 'productCode'">
+				AND productCode LIKE CONCAT('%',#{search},'%')
+			</when>
+			<when test="choice == 'productId'">
+				AND productId LIKE CONCAT('%',#{search},'%')
+			</when>
+			<when test="choice == 'productName'">
+				AND productName LIKE CONCAT('%',#{search},'%')
+			</when>
+		</choose>
 	</sql>
 	
 	<sql id="searchOrder">
-		<where>
-			<if test="order != null and order !=''">
-				orderState = #{order} AND
+		<if test="order != null and order !=''">
+			<if test="order lt 4">
+				AND orderState = #{order}			
 			</if>
-			<if test="delivery != null and delivery !=''">
-				deliveryState = #{delivery} AND
+			<if test="order == 4">
+				AND orderState BETWEEN 1 AND 3
 			</if>
-			<choose>
-				<when test="choice == 'orderSeq'">
-					orderNumber = #{search}
-				</when>
-				<when test="choice == 'memId'">
-					memId LIKE CONCAT('%',#{search},'%')
-				</when>
-				<when test="choice == 'productId'">
-					productId LIKE CONCAT('%',#{search},'%')
-				</when>
-				<otherwise>
-					1=1
-				</otherwise>
-			</choose>
-		</where>
+		</if>
+		<if test="delivery != null and delivery !=''">
+			AND deliveryState = #{delivery} 
+		</if>
+		<if test="choice != null and choice != '' and search != null and search != ''">
+			<if test="choice == 'orderNumber'">
+				AND orderNumber = #{search}
+			</if>
+			<if test="choice == 'memId'">
+				AND memId LIKE CONCAT('%',#{search},'%')
+			</if>
+		</if>
 	</sql>
 
 	
@@ -190,7 +187,7 @@
 		SELECT *
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY c.crewCreateDate DESC) AS RNUM, c.crewSeq, c.memId, c.crewSetUp, c.crewUpdate, c.maxMem, c.crewDel, c.crewLevel, 
-				c.crewImg, c.crewName, c.crewScore, c.crewcolor, c.crewCreateDate, 
+				c.crewImg, c.crewName, c.crewScore, c.crewcolor, c.crewCreateDate, c.title, c.content, c.type, c.readCount, c.likeCount,
 				IFNULL(count(CASE WHEN m.crewMemDel IS NULL OR m.crewMemDel = 0 THEN m.memId END),0) AS crewMemberCnt
 			FROM CREW c 
 			LEFT JOIN CREWMEMBER m ON c.crewSeq = m.crewSeq
@@ -207,15 +204,24 @@
 	
 	<!-- 게시물 관리 -->
 	<select id="productinquirylist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductInquiryDto">
-		SELECT *, (SELECT COUNT(*) FROM PRODUCTINQUIRY WHERE inqRef = A.inqSeq) AS replyCnt
+		SELECT A.*, (SELECT COUNT(*) FROM PRODUCTINQUIRY WHERE inqRef = A.inqSeq) AS replyCnt
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY inqDate DESC) AS RNUM, inqSeq, inqSubseq, inqWriter, inqTitle,
 				inqContent, inqDate, productId, memId, inqRef, inqDepth
 			FROM PRODUCTINQUIRY
 			WHERE inqDepth = 0
 			<include refid="searchProductinqiry"></include>
-			ORDER BY inqDate DESC) A
-		WHERE RNUM BETWEEN ${start} AND ${end}
+			ORDER BY inqDate DESC, inqSeq DESC) A
+			WHERE RNUM BETWEEN ${start} AND ${end}
+		HAVING 1=1
+		<if test="inqState != null and inqState !=''">
+			<if test="inqState == 0">
+				AND replyCnt-1 = #{inqState} 
+			</if>
+			<if test="inqState == 1">
+				AND replyCnt > #{inqState} 
+			</if>
+		</if>
 	</select>
 	<select id="getAllProductinquiry" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
@@ -241,16 +247,14 @@
 	</select>
 	
 	<select id="shoereviewlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ShoeReviewDto">
-	  select *
-		from
-		(select row_number()over(order by srwdate desc) as rnum,
-		srSeq,srTitle,srCotent,srBrand,srimage,srLink
-		,readcount,srDel,srwdate
-		,(select count(*) from shoereviewComment where srSeq=s.srSeq)as commentcount 
-		from shoereview s
-		<include refid="searchShoereview"></include>
-		order by srwdate desc, srSeq desc) a
-		where rnum between ${start} and ${end}
+		SELECT *
+		FROM
+			(select row_number()over(order by srwdate desc) as rnum, srSeq,srTitle,srCotent,srBrand,srimage,
+				srLink ,readcount,srDel,srwdate ,(select count(*) from shoereviewComment where srSeq=s.srSeq)as commentcount 
+			FROM SHOEREVIEW s
+			<include refid="searchShoereview"></include>
+			ORDER BY srwdate DESC, srSeq DESC) a
+		WHERE rnum between ${start} and ${end}
 	</select>
 	
 	<select id="getAllShoereview" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
@@ -262,10 +266,11 @@
 	<select id="diarylist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.DiaryDto">
 		SELECT *
 		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, diarySeq, memId, crewSeq, title, content, wdate
+			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, diarySeq, memId,
+				title, content, wdate, totalDist, totalTime, kcal, diaryDel
 			FROM DIARY
 			<include refid="searchDiary"></include>
-			ORDER BY wdate DESC) A
+			ORDER BY wdate DESC, diarySeq DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllDiary" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
@@ -280,23 +285,26 @@
 			(SELECT ROW_NUMBER()OVER(ORDER BY comRegdate DESC) AS RNUM, compSeq, compTitle, compContent, compLocation, compDateStart, 
 				compDateEnd, compLocal, locationLat, locationLng, receiptStart, receiptEnd, compimage, compLink, compSponsor, readcount, comRegdate
 			FROM COMPETITION
+			WHERE 1=1
 			<include refid="searchCompetition"></include>
-			ORDER BY comRegdate DESC) A 
+			ORDER BY comRegdate DESC, compSeq DESC) A 
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllCompetition" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM COMPETITION
+		WHERE 1=1
 		<include refid="searchCompetition"></include>
 	</select> 
 
 	<!-- 쇼핑몰 관리 -->
 	<select id="productlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductDto">
-		SELECT *
+		SELECT A.*, (SELECT IFNULL(COUNT(*), 0) FROM PRODUCTORDERDETAIL WHERE productId = A.productId) orderCnt
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY productRegiDate DESC) AS RNUM, productId, productCode, productCategory, productBrand, productName, productPrice, 
 				productColor, productSize, productDescription, productOrigFile, productNewFile, productStock, productSale, productRegiDate
 			FROM PRODUCT
+			WHERE 1=1
 			<include refid="searchProduct"></include>
 			ORDER BY productRegiDate DESC, productId DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
@@ -304,6 +312,7 @@
 	<select id="getAllProduct" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM PRODUCT
+		WHERE 1=1
 		<include refid="searchProduct"></include>
 	</select>
 	
@@ -313,6 +322,7 @@
 			(SELECT ROW_NUMBER()OVER(ORDER BY orderDate DESC) AS RNUM, orderNumber, memId, orderName, orderAddress, 
 				orderPhone, orderRequirment, orderTotalprice, orderDate, orderQuantity, orderState, deliveryState
 			FROM PRODUCTORDER
+			WHERE 1=1
 			<include refid="searchOrder"></include>
 			ORDER BY orderDate DESC, orderNumber DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
@@ -320,6 +330,7 @@
 	<select id="getAllOrder" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM PRODUCTORDER
+		WHERE 1=1
 		<include refid="searchOrder"></include>
 	</select>
 	
@@ -492,7 +503,7 @@
 			IFNULL(COUNT(srwdate), 0) reviewCnt,
 		    IFNULL(COUNT(orderDate),0) orderCnt,
 		    IFNULL(SUM(orderTotalprice), 0) orderTotalprice,
-		    IFNULL(COUNT(regdate),0) accountCnt,
+		    IFNULL(COUNT(DISTINCT regdate),0) accountCnt,
 		    IFNULL(COUNT(inqDate),0) inquiryWaitingCnt
 		FROM 
 			(SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6) t

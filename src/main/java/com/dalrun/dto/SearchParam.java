@@ -5,11 +5,13 @@ public class SearchParam {
 	private String Search;
 	private int pageNumber;
 	private String grade;
-	private int sale;
-	private int stock;
-	private int order;
-	private int delivery;
+	private String sale;
+	private String stock;
+	private String order;
+	private String delivery;
 	private String memId;	
+	private String inqState;	// 답변상태
+	private String local;	// 대회지역
 
 
 	private int start;
@@ -18,9 +20,8 @@ public class SearchParam {
 	public SearchParam() {
 	}
 
-	
-	public SearchParam(String choice, String search, int pageNumber, String grade, int sale, int stock, int order,
-			int delivery, String memId, int start, int end) {
+	public SearchParam(String choice, String search, int pageNumber, String grade, String sale, String stock, String order,
+			String delivery, String memId, String inqState, String local, int start, int end) {
 		super();
 		this.choice = choice;
 		Search = search;
@@ -31,10 +32,11 @@ public class SearchParam {
 		this.order = order;
 		this.delivery = delivery;
 		this.memId = memId;
+		this.inqState = inqState;
+		this.local = local;
 		this.start = start;
 		this.end = end;
 	}
-
 
 	public String getMemId() {
 		return memId;
@@ -76,36 +78,52 @@ public class SearchParam {
 		this.grade = grade;
 	}
 
-	public int getSale() {
+	public String getSale() {
 		return sale;
 	}
 
-	public void setSale(int sale) {
+	public void setSale(String sale) {
 		this.sale = sale;
 	}
 
-	public int getStock() {
+	public String getStock() {
 		return stock;
 	}
 
-	public void setStock(int stock) {
+	public void setStock(String stock) {
 		this.stock = stock;
 	}
 
-	public int getOrder() {
+	public String getOrder() {
 		return order;
 	}
 
-	public void setOrder(int order) {
+	public void setOrder(String order) {
 		this.order = order;
 	}
 
-	public int getDelivery() {
+	public String getDelivery() {
 		return delivery;
 	}
 
-	public void setDelivery(int delivery) {
+	public void setDelivery(String delivery) {
 		this.delivery = delivery;
+	}
+
+	public String getInqState() {
+		return inqState;
+	}
+
+	public void setInqState(String inqState) {
+		this.inqState = inqState;
+	}
+
+	public String getLocal() {
+		return local;
+	}
+
+	public void setLocal(String local) {
+		this.local = local;
 	}
 
 	public int getStart() {
@@ -124,13 +142,11 @@ public class SearchParam {
 		this.end = end;
 	}
 
-
 	@Override
 	public String toString() {
 		return "SearchParam [choice=" + choice + ", Search=" + Search + ", pageNumber=" + pageNumber + ", grade="
 				+ grade + ", sale=" + sale + ", stock=" + stock + ", order=" + order + ", delivery=" + delivery
-				+ ", memId=" + memId + ", start=" + start + ", end=" + end + "]";
+				+ ", memId=" + memId + ", inqState=" + inqState + ", local=" + local + ", start=" + start + ", end="
+				+ end + "]";
 	}
-
-
 }
