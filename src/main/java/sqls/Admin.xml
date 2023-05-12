@@ -119,28 +119,28 @@
 	</sql>
 	
 	<sql id="searchProduct">
-		<where>
-			<if test="sale != null and sale !=''">
-				productSale= #{sale} AND
+		<if test="sale != null and sale !=''">
+			AND productSale= #{sale}
+		</if>
+		<if test="stock != null and stock !=''">
+			<if test="stock == 1">
+				AND productStock >= #{stock} 
 			</if>
-			<if test="stock != null and stock !=''">
-				productStock = #{stock} AND
+			<if test="stock == 0">
+				AND productStock = #{stock}
 			</if>
-			<choose>
-				<when test="choice == 'category'">
-					productCategory = #{search}
-				</when>
-				<when test="choice == 'productId'">
-					productId LIKE CONCAT('%',#{search},'%')
-				</when>
-				<when test="choice == 'name'">
-					productName LIKE CONCAT('%',#{search},'%')
-				</when>
-				<otherwise>
-					1=1
-				</otherwise>
-			</choose>
-		</where>
+		</if>
+		<choose>
+			<when test="choice == 'category'">
+				AND productCategory = #{search}
+			</when>
+			<when test="choice == 'productId'">
+				AND productId LIKE CONCAT('%',#{search},'%')
+			</when>
+			<when test="choice == 'name'">
+				AND productName LIKE CONCAT('%',#{search},'%')
+			</when>
+		</choose>
 	</sql>
 	
 	<sql id="searchOrder">
@@ -307,6 +307,7 @@
 			(SELECT ROW_NUMBER()OVER(ORDER BY productRegiDate DESC) AS RNUM, productId, productCode, productCategory, productBrand, productName, productPrice, 
 				productColor, productSize, productDescription, productOrigFile, productNewFile, productStock, productSale, productRegiDate
 			FROM PRODUCT
+			WHERE 1=1
 			<include refid="searchProduct"></include>
 			ORDER BY productRegiDate DESC, productId DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
@@ -314,6 +315,7 @@
 	<select id="getAllProduct" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM PRODUCT
+		WHERE 1=1
 		<include refid="searchProduct"></include>
 	</select>
 	

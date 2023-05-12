@@ -5,8 +5,8 @@ public class SearchParam {
 	private String Search;
 	private int pageNumber;
 	private String grade;
-	private int sale;
-	private int stock;
+	private String sale;
+	private String stock;
 	private int order;
 	private int delivery;
 	private String memId;	
@@ -20,7 +20,7 @@ public class SearchParam {
 	public SearchParam() {
 	}
 
-	public SearchParam(String choice, String search, int pageNumber, String grade, int sale, int stock, int order,
+	public SearchParam(String choice, String search, int pageNumber, String grade, String sale, String stock, int order,
 			int delivery, String memId, String inqState, String local, int start, int end) {
 		super();
 		this.choice = choice;
@@ -78,19 +78,19 @@ public class SearchParam {
 		this.grade = grade;
 	}
 
-	public int getSale() {
+	public String getSale() {
 		return sale;
 	}
 
-	public void setSale(int sale) {
+	public void setSale(String sale) {
 		this.sale = sale;
 	}
 
-	public int getStock() {
+	public String getStock() {
 		return stock;
 	}
 
-	public void setStock(int stock) {
+	public void setStock(String stock) {
 		this.stock = stock;
 	}
 
