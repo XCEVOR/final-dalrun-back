@@ -93,6 +93,23 @@ public class ProductController {
         return "SUCCESS";  
     }
     
+    @PostMapping(value = "getProductRecomm")
+    public List<ProductDto> getProductRecomm () {
+        System.out.println("  @ ProductController getProductRecomm { " + new Date());
+        return service.getProductRecomm();
+    }
+    
+    @PostMapping(value = "getAllProductListSortView")
+    public List<ProductDto> getAllProductListSortView () {
+        System.out.println("  @ ProductController getAllProductListSortView { " + new Date());
+        return service.getAllProductListSortView();
+    }
+    
+    @PostMapping(value = "getAllProductListSortLike")
+    public List<ProductDto> getAllProductListSortLike () {
+        System.out.println("  @ ProductController getAllProductListSortLike { " + new Date());
+        return service.getAllProductListSortLike();
+    }
     
     
     
