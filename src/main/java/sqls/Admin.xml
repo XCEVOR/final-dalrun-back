@@ -82,10 +82,10 @@
 	<sql id="searchShoereview">
 		<if test="choice != null and choice!='' and search != null and search!= ''">
 			<if test="choice == 'title'">
-				and srTitle like concat('%',#{search},'%')
+				WHERE srTitle like concat('%',#{search},'%')
 			</if>
 			<if test="choice == 'content'">
-				and srCotent like concat('%',#{search},'%')
+				WHERE srCotent like concat('%',#{search},'%')
 			</if>
 		</if>
 	</sql>
@@ -106,18 +106,15 @@
 	
 	<sql id="searchCompetition">
 		<if test="choice != null and choice != '' and search != null and search != ''">
-			<if test="choice == 'seq'">
-				WHERE compdetailSeq = #{search}
-			</if>
-			<if test="choice == 'title'">
-				WHERE compdetailTitle LIKE CONCAT('%',#{search},'%')
+			<if test="choice == 'name'">
+				AND compTitle LIKE CONCAT('%',#{search},'%')
 			</if>
 			<if test="choice == 'content'">
-				WHERE conpdetailContent LIKE CONCAT('%',#{search},'%')
+				AND compContent LIKE CONCAT('%',#{search},'%')
 			</if>
-			<if test="choice == 'location'">
-				WHERE compdetailLocation LIKE CONCAT('%',#{search},'%') 
-			</if>
+		</if>
+		<if test="local != null and local != ''">
+			AND compLocal = #{local}
 		</if>
 	</sql>
 	
@@ -253,16 +250,14 @@
 	</select>
 	
 	<select id="shoereviewlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ShoeReviewDto">
-	  select *
-		from
-		(select row_number()over(order by srwdate desc) as rnum,
-		srSeq,srTitle,srCotent,srBrand,srimage,srLink
-		,readcount,srDel,srwdate
-		,(select count(*) from shoereviewComment where srSeq=s.srSeq)as commentcount 
-		from shoereview s
-		<include refid="searchShoereview"></include>
-		order by srwdate desc, srSeq desc) a
-		where rnum between ${start} and ${end}
+		SELECT *
+		FROM
+			(select row_number()over(order by srwdate desc) as rnum, srSeq,srTitle,srCotent,srBrand,srimage,
+				srLink ,readcount,srDel,srwdate ,(select count(*) from shoereviewComment where srSeq=s.srSeq)as commentcount 
+			FROM SHOEREVIEW s
+			<include refid="searchShoereview"></include>
+			ORDER BY srwdate DESC, srSeq DESC) a
+		WHERE rnum between ${start} and ${end}
 	</select>
 	
 	<select id="getAllShoereview" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
@@ -293,13 +288,15 @@
 			(SELECT ROW_NUMBER()OVER(ORDER BY comRegdate DESC) AS RNUM, compSeq, compTitle, compContent, compLocation, compDateStart, 
 				compDateEnd, compLocal, locationLat, locationLng, receiptStart, receiptEnd, compimage, compLink, compSponsor, readcount, comRegdate
 			FROM COMPETITION
+			WHERE 1=1
 			<include refid="searchCompetition"></include>
-			ORDER BY comRegdate DESC) A 
+			ORDER BY comRegdate DESC, compSeq DESC) A 
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllCompetition" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM COMPETITION
+		WHERE 1=1
 		<include refid="searchCompetition"></include>
 	</select> 
 
