@@ -6,10 +6,12 @@ import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -235,5 +237,17 @@ public class GpxController {
 	        return "diary Insert Fail";
 		}
 	}	// <GPX Upload/>
+	
+	
+	// 네이버맵에 gpxData 보내주기
+	@GetMapping(value="/gpxDataList")
+	public List<GpxDataDto> gpxDataList(@RequestParam String diarySeqList) {
+	    List<Integer> diarySeqListInt = Arrays.stream(diarySeqList.split(","))
+	      .map(Integer::valueOf)
+	      .collect(Collectors.toList());
+	    System.out.println("GpxController gpxDataList : " + new Date());
+	    return gdService.gpxDataList(diarySeqListInt);
+	}
+
 	
 }	// <Gpx Controller />
