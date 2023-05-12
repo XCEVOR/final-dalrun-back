@@ -10,6 +10,7 @@ public class SearchParam {
 	private int order;
 	private int delivery;
 	private String memId;	
+	private String inqState;	// 답변상태
 
 
 	private int start;
@@ -18,9 +19,9 @@ public class SearchParam {
 	public SearchParam() {
 	}
 
-	
+
 	public SearchParam(String choice, String search, int pageNumber, String grade, int sale, int stock, int order,
-			int delivery, String memId, int start, int end) {
+			int delivery, String memId, String inqState, int start, int end) {
 		super();
 		this.choice = choice;
 		Search = search;
@@ -31,6 +32,7 @@ public class SearchParam {
 		this.order = order;
 		this.delivery = delivery;
 		this.memId = memId;
+		this.inqState = inqState;
 		this.start = start;
 		this.end = end;
 	}
@@ -108,6 +110,14 @@ public class SearchParam {
 		this.delivery = delivery;
 	}
 
+	public String getInqState() {
+		return inqState;
+	}
+
+	public void setInqState(String inqState) {
+		this.inqState = inqState;
+	}
+
 	public int getStart() {
 		return start;
 	}
@@ -124,13 +134,10 @@ public class SearchParam {
 		this.end = end;
 	}
 
-
 	@Override
 	public String toString() {
 		return "SearchParam [choice=" + choice + ", Search=" + Search + ", pageNumber=" + pageNumber + ", grade="
 				+ grade + ", sale=" + sale + ", stock=" + stock + ", order=" + order + ", delivery=" + delivery
-				+ ", memId=" + memId + ", start=" + start + ", end=" + end + "]";
+				+ ", memId=" + memId + ", inqState=" + inqState + ", start=" + start + ", end=" + end + "]";
 	}
-
-
 }

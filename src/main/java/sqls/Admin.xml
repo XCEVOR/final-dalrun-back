@@ -45,21 +45,24 @@
 	<sql id="searchProductinqiry">
 		<if test="choice != null and choice != '' and search != null and search != ''">
 			<if test="choice == 'memId'">
-				WHERE memId LIKE CONCAT('%', #{search}, '%')
+				AND memId LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'productId'">
-				WHERE productId LIKE CONCAT('%', #{search}, '%')
+				AND productId LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'title'">
-				WHERE inqTitle LIKE CONCAT('%',#{search},'%')
+				AND inqTitle LIKE CONCAT('%',#{search},'%')
 			</if>
 			<if test="choice == 'content'">
-				WHERE inqContent LIKE CONCAT('%',#{search},'%')
+				AND inqContent LIKE CONCAT('%',#{search},'%')
+			</if>
+			<if test="choice == 'inqWriter'">
+				AND inqWriter LIKE CONCAT('%',#{search},'%')
 			</if>
 		</if>
 	</sql>
 	
-	<sql id="searchQna">
+	<sql id="searchQna">	
 		<if test="choice != null and choice != '' and search != null and search != ''">
 			<if test="choice == 'memId'">
 				WHERE memId LIKE CONCAT('%', #{search}, '%')
@@ -207,15 +210,24 @@
 	
 	<!-- 게시물 관리 -->
 	<select id="productinquirylist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductInquiryDto">
-		SELECT *, (SELECT COUNT(*) FROM PRODUCTINQUIRY WHERE inqRef = A.inqSeq) AS replyCnt
+		SELECT A.*, (SELECT COUNT(*) FROM PRODUCTINQUIRY WHERE inqRef = A.inqSeq) AS replyCnt
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY inqDate DESC) AS RNUM, inqSeq, inqSubseq, inqWriter, inqTitle,
 				inqContent, inqDate, productId, memId, inqRef, inqDepth
 			FROM PRODUCTINQUIRY
 			WHERE inqDepth = 0
 			<include refid="searchProductinqiry"></include>
-			ORDER BY inqDate DESC) A
-		WHERE RNUM BETWEEN ${start} AND ${end}
+			ORDER BY inqDate DESC, inqSeq DESC) A
+			WHERE RNUM BETWEEN ${start} AND ${end}
+		HAVING 1=1
+		<if test="inqState != null and inqState !=''">
+			<if test="inqState == 0">
+				AND replyCnt-1 = #{inqState} 
+			</if>
+			<if test="inqState == 1">
+				AND replyCnt > #{inqState} 
+			</if>
+		</if>
 	</select>
 	<select id="getAllProductinquiry" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
