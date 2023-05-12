@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dalrun.dao.AdminDao;
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.DashboardData;
 import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
 import com.dalrun.dto.OrderDto;
@@ -16,6 +17,7 @@ import com.dalrun.dto.ProductDto;
 import com.dalrun.dto.ProductInquiryDto;
 import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
+import com.dalrun.dto.ShoeReviewDetailDto;
 import com.dalrun.dto.ShoeReviewDto;
 
 @Service
@@ -143,8 +145,27 @@ public class AdminService {
 		return n>0?true:false;
 	}
 	
+	public List<Integer> getSrdSeq(int srSeq) {
+		return dao.getSrdSeq(srSeq);
+	}
+	
+	public boolean updateshoereview(ShoeReviewDto srdto) {
+		int n = dao.updateshoereview(srdto);
+		return n>0?true:false;
+	}
+	
+	public boolean updateshoereviewdetail(List<ShoeReviewDetailDto> srdList) {
+		int n = dao.updateshoereviewdetail(srdList);
+		return n>0?true:false;
+	}
+	
 	public boolean delshoereview(int[] checkedList) {
 		int n = dao.delshoereview(checkedList);
+		return n>0?true:false;
+	}
+	
+	public boolean delshoereviewdetail(int srdSeq) {
+		int n = dao.delshoereviewdetail(srdSeq);
 		return n>0?true:false;
 	}
 	
@@ -186,5 +207,14 @@ public class AdminService {
 	public boolean delorder(String[] checkedList) {
 		int n = dao.delorder(checkedList);
 		return n>0?true:false;
+	}
+	
+	// 대시보드
+	public DashboardData getDashboardData() {
+		return dao.getDashboardData();
+	}
+	
+	public List<DashboardData> getWeekSummaryData() {
+		return dao.getWeekSummaryData();
 	}
 }

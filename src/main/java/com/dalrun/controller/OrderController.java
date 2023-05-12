@@ -80,5 +80,14 @@ public class OrderController {
     	
     	return orderdetail;
     }
+    
+    @PostMapping(value = "getOrderInfo")
+    public OrderDto getOrderInfo (long orderNumber) {
+        System.out.println("  @ OrderController getOrderInfo " + new Date());
+        
+        OrderDto order = service.getOrder(orderNumber);
+        
+        return order;
+    }
 }
 

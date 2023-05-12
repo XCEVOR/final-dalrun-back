@@ -24,5 +24,15 @@
         DELETE FROM cart WHERE productId=#{productId}
     </delete>
     
+    <update id="updateCartItem">
+        UPDATE cart
+        SET cartProdName=#{cartProdName}, cartProdPrice=#{cartProdPrice}, cartProdQuantity=#{cartProdQuantity}, productId=#{productId}
+        WHERE cartId=#{cartId}
+    </update>
+    
+    
+    
+
+    
     
 </mapper>

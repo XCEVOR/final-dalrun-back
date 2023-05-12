@@ -19,6 +19,8 @@ public interface CartDao {
     
     int deleteCartItem (String productId);
     
+    int updateCartItem (CartDto cdto);
+    
 }
 
 

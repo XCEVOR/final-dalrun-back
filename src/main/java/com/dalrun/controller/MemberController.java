@@ -1,6 +1,7 @@
 package com.dalrun.controller;
 
 import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,8 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import com.dalrun.dto.CrewDto;
+import com.dalrun.dto.DotMapDto;
 import com.dalrun.dto.MemberDto;
+import com.dalrun.service.DotMapService;
 import com.dalrun.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,6 +40,9 @@ public class MemberController {
 	
 	@Autowired
 	MemberService service;
+	
+	@Autowired
+	DotMapService dservice;
 	
 	//아이디 중복체크
 	@PostMapping(value="/idcheck")
@@ -160,4 +167,30 @@ public class MemberController {
 	      }
 	}
 	
+	// 회원 조회
+	@PostMapping(value = "getmember")
+	public MemberDto getMember(String target) {
+		System.out.println("AdminController getMember " + new Date());
+		
+		MemberDto mem = service.getmember(target);
+		
+		return mem;
+	}
+	
+	@GetMapping(value = "mycrewMemberList")
+	public List<MemberDto> mycrewMemberList(int crewSeq){
+		
+		return service.mycrewMemberList(crewSeq);
+	}
+	@GetMapping(value = "crewLeave")
+	public boolean crewLeave(String memId,int crewSeq){
+		
+		DotMapDto ddto=new DotMapDto();
+		ddto.setMemId(memId);
+		ddto.setCrewSeq(crewSeq);
+		
+		dservice.crewOutChangeDotmap(ddto);
+		return service.crewLeave(memId);
+	}
+  
 }

@@ -8,9 +8,10 @@ public class ShoeReviewDto implements Serializable{
 	private int readcount;
 	private int srDel;
 	private String srTitle ;
-	private String  srCotent;
+	private String  srCotent;	// 운동화 설명
 	private String  srBrand;
-	private String  srimage;
+	private String  srimage;	// 서버
+	private String  oriSrImage;	// 원본
 	private String  srLink;
 	private String  srwdate;
 	private int commentcount; // 댓글 개수
@@ -24,7 +25,6 @@ public class ShoeReviewDto implements Serializable{
 	public ShoeReviewDto() {
 		// TODO Auto-generated constructor stub
 	}
-	
 	
 
 	public ShoeReviewDto(String srdSeq, String srcomment) {
@@ -162,6 +162,18 @@ public class ShoeReviewDto implements Serializable{
 	public void setSrimage(String srimage) {
 		this.srimage = srimage;
 	}
+
+	public String getOriSrImage() {
+		return oriSrImage;
+	}
+
+
+
+	public void setOriSrImage(String oriSrImage) {
+		this.oriSrImage = oriSrImage;
+	}
+
+
 
 	public String getSrLink() {
 		return srLink;

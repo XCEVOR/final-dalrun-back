@@ -9,7 +9,7 @@
         FROM PRODUCT
     </select>
     
-    <select id="allProductListDeduplication" resultType="com.dalrun.dto.ProductDto">
+    <select id="allProductListDeduplication" resultType="com.dalrun.dto.ProductDto">  <!-- 검색 -->
         SELECT MIN(productId), productCode, productCategory, productBrand, productName, productPrice
         FROM product
         GROUP BY productCode, productCategory, productBrand, productName, productPrice;
@@ -44,6 +44,27 @@
         SET productRecomm=#{productRecomm}
         WHERE productCode=#{productCode}
     </update>
+    
+    <select id="getProductRecomm" resultType="com.dalrun.dto.ProductDto">
+        SELECT DISTINCT productCode, productRecomm
+		FROM product
+		ORDER BY productRecomm DESC
+		LIMIT 3;
+    </select>
+    
+    <select id="getAllProductListSortView" resultType="com.dalrun.dto.ProductDto">  <!-- 검색 -->
+        SELECT MIN(productId), productCode, productCategory, productBrand, productName, productPrice, productView
+        FROM product
+        GROUP BY productCode, productCategory, productBrand, productName, productPrice, productView
+        ORDER BY productView DESC;
+    </select>
+    
+    <select id="getAllProductListSortLike" resultType="com.dalrun.dto.ProductDto">  <!-- 검색 -->
+        SELECT MIN(productId), productCode, productCategory, productBrand, productName, productPrice, productLike
+        FROM product
+        GROUP BY productCode, productCategory, productBrand, productName, productPrice, productLike
+        ORDER BY productLike DESC;
+    </select>
     
     
     

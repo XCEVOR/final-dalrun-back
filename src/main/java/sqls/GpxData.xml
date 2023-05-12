@@ -17,7 +17,7 @@
         SELECT *
         FROM 
         	(SELECT ROW_NUMBER()OVER(ORDER BY diarySeq ASC) AS RNUM, dataSeq, fileSeq, diarySeq,
-        		courseSeq, memId, latitude, altitude, mTime 
+        		courseSeq, memId, latitude, altitude, distance, slope, mTime, timeDiff 
         	 FROM gpxdata
         	 <include refid="searchGpxList"></include>
         	 ORDER BY diarySeq ASC) A
@@ -27,9 +27,9 @@
     <!-- 업로드 시 하나의 기록 insert -->
     <insert id="insertGpxData" parameterType="com.dalrun.dto.GpxDataDto">
     	INSERT INTO gpxdata
-    	(fileSeq, diarySeq, memId, latitude, longitude, altitude, distance, mTime, timeDiff)
+    	(fileSeq, diarySeq, memId, latitude, longitude, altitude, distance, slope, mTime, timeDiff)
     	VALUES (#{fileSeq}, #{diarySeq}, #{memId}, #{latitude}, #{longitude}, #{altitude}, 
-    			#{distance}, #{mTime}, #{timeDiff})
+    			#{distance}, #{slope}, #{mTime}, #{timeDiff})
     </insert>
     
     <!-- insert한 기록 데이터 전달 -->

@@ -3,6 +3,7 @@ package com.dalrun.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -94,15 +95,15 @@ public class GpxController {
 		// new 파일 명 : 업로드 시간(초 단위까지) + 멤버ID 
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyMMddHHmmss");
 		String now = dtf.format(LocalDateTime.now());
-		String fileName = now + "_" + diary.getMemId() + ".gpx";
+		String fileName = diary.getPostId() + "_" + diary.getMemId() + "_" + now + ".gpx";
 		
 		
 		// 파일 업로드 경로
 		String filePath = path + "/" + fileName;
 		System.out.println(" gpxFile path:" + filePath); // 경로 확인
 		
-		// diary 작성일 DTo에 저장
-		diary.setWdate(LocalDateTime.now().withNano(0)); 
+		// diary 작성일 Dto에 저장
+		diary.setWdate(LocalDateTime.now().withNano(0)); // 초 단위까지 저장
 		
 		// diary Service => insert 성공 여부
 		boolean diaryResult = dService.insertDiary(diary);
@@ -135,6 +136,8 @@ public class GpxController {
 					List<GpxDataDto> points = GpxParserUtil.parseGPXFile(file);
 					double totalD = 0;	// 총 거리 초기화
 					double totalT = 0;	// 총 시간 초기화
+					double maxSlope = 0;	// 총 경사도 초기화
+					int length = 0;
 					
 					
 					for (GpxDataDto point : points) {
@@ -148,9 +151,13 @@ public class GpxController {
 					    gpxData.setDistance(point.getDistance());
 					    gpxData.setmTime(point.getmTime());
 					    gpxData.setTimeDiff(point.getTimeDiff());
+					    gpxData.setSlope(point.getSlope());
 					    
 					    totalD += point.getDistance();
 					    totalT += point.getTimeDiff();
+					    if(maxSlope < point.getSlope()) {
+					    	maxSlope = point.getSlope();
+					    }
 					    boolean result = gdService.insertGpxData(gpxData);
 
 					    if (!result) { // insert 실패 시
@@ -161,11 +168,38 @@ public class GpxController {
 					
 					// 칼로리 계산
 					double kcal = ((3.5/60)*7*60*totalT/1000)*5;
-					// ((산소3.5ml/60s) * met(s) * 몸무게(kg) * 운동시간(s)) * 산소 1L 당 5kcal
+					// ((산소3.5ml/60s) * met(s) * 몸무게(kg) * 운동시간(s)) * 산소 1L 당 5kcal, 조깅 met(s)= 7
+					
+					// 평균 페이스, 경사도 구하기
+					double meanPace = (totalT/60) / (totalD/1000); // 분/km
+					
+					// score 계산
+					int score = 0;
+					if((totalD/1000) <= 5) {
+					    score += 1;
+					} else if ((totalD/1000) <= 20000) {
+					    score += (int)(totalD/1000) - 4;
+					} else {
+					    score += 16;
+					};
+
+					if(meanPace >= 7) {
+					    score += 1;
+					} else if(meanPace >= 6) {
+					    score += 2;
+					} else if(meanPace >= 5) {
+					    score += 3;
+					} else {
+					    score += 5;
+					};
+
 					
 					// 총 이동거리,시간,칼로리 Dto에 저장
 					diary.setTotalDist(totalD);
 					diary.setTotalTime(totalT);
+					diary.setMeanPace(meanPace);
+					diary.setMaxSlope(maxSlope);
+					diary.setScore(score);
 					diary.setKcal(kcal);
 					// DB에 저장
 					boolean recordResult = dService.updateRecord(diary);

@@ -24,8 +24,9 @@ public class CrewService {
 		return dao.getCrewRank();
 	}
 	
-	public CrewDto getMyCrewinfo(String crewseq) {
-		return dao.getMyCrewinfo(crewseq);
+	public CrewDto getMyCrewinfo(int crewSeq) {
+		
+		return dao.getMyCrewinfo(crewSeq);
 	}
 	
 	public boolean sendDonation(CrewPointDto dto) {
@@ -37,10 +38,18 @@ public class CrewService {
 	public boolean PlusPoint(CrewPointDto dto) {
 		return dao.PlusPoint(dto)>0;
 	}
-	public CrewDto getCrew(int crewSeq) {
-		return dao.getCrew(crewSeq);
+
+	/*
+	 * public CrewDto getCrew(int crewSeq) { return dao.getCrew(crewSeq); } public
+	 * List<CrewMemberDto> getCrewMember(int crewSeq) { return
+	 * dao.getCrewMember(crewSeq); }
+	 */
+	public int getcrewPoint(int crewSeq) {
+		return dao.getcrewPoint(crewSeq);
+		
 	}
-	public List<CrewMemberDto> getCrewMember(int crewSeq) {
-		return dao.getCrewMember(crewSeq);
+	public boolean crewUpgrade(int crewSeq) {
+		return dao.crewUpgrade(crewSeq)>0;
+		
 	}
 }
