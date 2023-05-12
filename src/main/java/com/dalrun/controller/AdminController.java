@@ -170,7 +170,7 @@ public class AdminController {
 	@GetMapping(value = "admin_productlist")
 	public Map<String, Object> productlist(SearchParam params) {
 	    System.out.println("AdminController productlist " + new Date());
-	    System.out.println(params.toString());
+	    
 	    pageNumber(params);
 	    List<ProductDto> productlist = service.productlist(params);
 	    int len = service.getAllProduct(params);

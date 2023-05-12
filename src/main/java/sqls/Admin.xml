@@ -131,35 +131,38 @@
 			</if>
 		</if>
 		<choose>
-			<when test="choice == 'category'">
-				AND productCategory = #{search}
+			<when test="choice == 'productCode'">
+				AND productCode LIKE CONCAT('%',#{search},'%')
 			</when>
 			<when test="choice == 'productId'">
 				AND productId LIKE CONCAT('%',#{search},'%')
 			</when>
-			<when test="choice == 'name'">
+			<when test="choice == 'productName'">
 				AND productName LIKE CONCAT('%',#{search},'%')
 			</when>
 		</choose>
 	</sql>
 	
 	<sql id="searchOrder">
-		<where>
-			<if test="order != null and order !=''">
-				orderState = #{order} AND
+		<if test="order != null and order !=''">
+			<if test="order lt 4">
+				AND orderState = #{order}			
 			</if>
-			<if test="delivery != null and delivery !=''">
-				deliveryState = #{delivery} AND
+			<if test="order == 4">
+				AND orderState BETWEEN 1 AND 3
 			</if>
-			<choose>
-				<when test="choice == 'orderNumber'">
-					orderNumber = #{search}
-				</when>
-				<when test="choice == 'memId'">
-					memId LIKE CONCAT('%',#{search},'%')
-				</when>
-			</choose>
-		</where>
+		</if>
+		<if test="delivery != null and delivery !=''">
+			AND deliveryState = #{delivery} 
+		</if>
+		<if test="choice != null and choice != '' and search != null and search != ''">
+			<if test="choice == 'orderNumber'">
+				AND orderNumber = #{search}
+			</if>
+			<if test="choice == 'memId'">
+				AND memId LIKE CONCAT('%',#{search},'%')
+			</if>
+		</if>
 	</sql>
 
 	
@@ -296,7 +299,7 @@
 
 	<!-- 쇼핑몰 관리 -->
 	<select id="productlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductDto">
-		SELECT *
+		SELECT A.*, (SELECT IFNULL(COUNT(*), 0) FROM PRODUCTORDERDETAIL WHERE productId = A.productId) orderCnt
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY productRegiDate DESC) AS RNUM, productId, productCode, productCategory, productBrand, productName, productPrice, 
 				productColor, productSize, productDescription, productOrigFile, productNewFile, productStock, productSale, productRegiDate
@@ -319,6 +322,7 @@
 			(SELECT ROW_NUMBER()OVER(ORDER BY orderDate DESC) AS RNUM, orderNumber, memId, orderName, orderAddress, 
 				orderPhone, orderRequirment, orderTotalprice, orderDate, orderQuantity, orderState, deliveryState
 			FROM PRODUCTORDER
+			WHERE 1=1
 			<include refid="searchOrder"></include>
 			ORDER BY orderDate DESC, orderNumber DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
@@ -326,6 +330,7 @@
 	<select id="getAllOrder" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM PRODUCTORDER
+		WHERE 1=1
 		<include refid="searchOrder"></include>
 	</select>
 	
