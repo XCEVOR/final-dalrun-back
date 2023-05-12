@@ -7,8 +7,8 @@ public class SearchParam {
 	private String grade;
 	private String sale;
 	private String stock;
-	private int order;
-	private int delivery;
+	private String order;
+	private String delivery;
 	private String memId;	
 	private String inqState;	// 답변상태
 	private String local;	// 대회지역
@@ -20,8 +20,8 @@ public class SearchParam {
 	public SearchParam() {
 	}
 
-	public SearchParam(String choice, String search, int pageNumber, String grade, String sale, String stock, int order,
-			int delivery, String memId, String inqState, String local, int start, int end) {
+	public SearchParam(String choice, String search, int pageNumber, String grade, String sale, String stock, String order,
+			String delivery, String memId, String inqState, String local, int start, int end) {
 		super();
 		this.choice = choice;
 		Search = search;
@@ -94,19 +94,19 @@ public class SearchParam {
 		this.stock = stock;
 	}
 
-	public int getOrder() {
+	public String getOrder() {
 		return order;
 	}
 
-	public void setOrder(int order) {
+	public void setOrder(String order) {
 		this.order = order;
 	}
 
-	public int getDelivery() {
+	public String getDelivery() {
 		return delivery;
 	}
 
-	public void setDelivery(int delivery) {
+	public void setDelivery(String delivery) {
 		this.delivery = delivery;
 	}
 

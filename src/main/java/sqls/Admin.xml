@@ -152,18 +152,12 @@
 				deliveryState = #{delivery} AND
 			</if>
 			<choose>
-				<when test="choice == 'orderSeq'">
+				<when test="choice == 'orderNumber'">
 					orderNumber = #{search}
 				</when>
 				<when test="choice == 'memId'">
 					memId LIKE CONCAT('%',#{search},'%')
 				</when>
-				<when test="choice == 'productId'">
-					productId LIKE CONCAT('%',#{search},'%')
-				</when>
-				<otherwise>
-					1=1
-				</otherwise>
 			</choose>
 		</where>
 	</sql>
