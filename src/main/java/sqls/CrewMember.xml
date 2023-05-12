@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.dalrun.dao.CrewMemberDao">
+	
+	<!--가입버튼-->
+	<!--가입버튼 클릭한 user memId, crewName가져옴-->
+	<select id="getUserInfo" parameterType="Integer" resultType="com.dalrun.dto.CrewDto">
+		select memId, crewName
+		from crew
+		where crewSeq=#{crewSeq}
+	</select>
+	
+	<!--가입버튼을 누른 사용자의 memId와 crewName을 사용해서 crewSeq값 가져옴-->
+	<select id="getCrewSeq" parameterType="com.dalrun.dto.CrewMemberDto" resultType="Integer">
+		select crewSeq
+		from crew
+		where memId=#{memId} and crewName=#{crewName}
+	</select>
+	
+	<!--가져온 crewSeq로 crewMember table에 insert-->
+	<insert id="insertCrewMember" parameterType="com.dalrun.dto.CrewMemberDto">
+		insert into crewMember(crewSeq, memId) values (#{crewSeq}, #{memId})
+	</insert>
+	
+</mapper>

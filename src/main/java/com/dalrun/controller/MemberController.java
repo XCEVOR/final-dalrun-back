@@ -1,6 +1,7 @@
 package com.dalrun.controller;
 
 import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,12 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+
+import com.dalrun.dto.CrewDto;
 import com.dalrun.dto.DotMapDto;
 import com.dalrun.dto.MemberDto;
 import com.dalrun.service.DotMapService;
 import com.dalrun.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
@@ -54,7 +58,8 @@ public class MemberController {
 	
 	//회원가입
 	@PostMapping(value = "/addmember")
-    public String addmember(@RequestPart(value = "dto") String dtostr, @RequestPart(value = "profileImg", required = false) List<MultipartFile> files) {
+    public String addmember(@RequestPart(value = "dto") String dtostr, @RequestPart(value = "profileImg", required = false) 
+    						List<MultipartFile> files, HttpServletRequest req) {
        System.out.println("MemberController addmember " + new Date());
        ObjectMapper mapper = new ObjectMapper();
       MemberDto dto;
@@ -71,17 +76,17 @@ public class MemberController {
           //UUID와 파일 확장자를 조합하여 새로운 파일명을 만들고, 해당 파일 생성
           String fn = UUID.randomUUID() + "."+file.getOriginalFilename().split("\\.")[1];
 
-         String path = "C:/images/"; //폴더 경로
+         String path = req.getServletContext().getRealPath("/dalrun-yr/profiles"); //폴더 경로
          File Folder = new File(path);
 
          // 해당 디렉토리가 없다면 디렉토리를 생성.
-         if (!Folder.exists()) {
-            try {
-               Folder.mkdir(); //폴더 생성
-            } catch (Exception e) {
-               e.getStackTrace();
-            }
-         }
+//         if (!Folder.exists()) {
+//            try {
+//               Folder.mkdir(); //폴더 생성
+//            } catch (Exception e) {
+//               e.getStackTrace();
+//            }
+//         }
 
           //파일 객체 생성
           File newFile = new File(path, fn);
@@ -106,27 +111,16 @@ public class MemberController {
        return "YES";
     }
 	
-	//이미지 불러오기 위함
-//	@GetMapping(value="/getimage", produces = MediaType.IMAGE_PNG_VALUE)
-//	   public @ResponseBody byte[] getimage(@RequestParam(value="id") String id) throws IOException{
-//		//이미지 로드 파일 경로 : C:/image , 이미지 파일 이름 : id 
-//	      System.out.println("C:/image/"+id);
-//	      //절대경로
-//	      InputStream in = new FileInputStream("C:/images/"+id);
-//	      return in.readAllBytes();
-////	url 확인 -       http://localhost:3000/getimage?id=
-//	   }
-//	
 	@GetMapping(value="/getimage", produces = MediaType.IMAGE_PNG_VALUE)
-	   public @ResponseBody byte[] getimage(@RequestParam(value="id") String id) throws IOException{
+	   public @ResponseBody byte[] getimage(@RequestParam(value="id") String id, HttpServletRequest req) throws IOException{
 		//이미지 로드 파일 경로 : C:/image , 이미지 파일 이름 : id 
-	      System.out.println("C:/image/"+id);
+	      System.out.println("/dalrun-yr/profiles"+id);
 	      
 	      String profileImg = service.getMemId(id);
 	      //절대경로
-	      InputStream in = new FileInputStream("C:/images/"+ profileImg);
+	      InputStream in = new FileInputStream(req.getServletContext().getRealPath("/dalrun-yr/profiles") + "/" + profileImg);
 	      return in.readAllBytes();
-//	url 확인 -       http://localhost:3000/getimage?id=
+	      //	url 확인 -       http://localhost:3000/getimage?id=(memId) 넣기
 	   }
 	
 	//로그인
