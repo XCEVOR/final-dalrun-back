@@ -3,11 +3,26 @@ package com.dalrun.dto;
 import java.io.Serializable;
 import java.sql.Date;
 
+//CREATE TABLE `crewMember` (
+//		`cMemberSeq`	int auto_increment	primary key,
+//		`crewSeq`	int NULL,
+//	    `crewName` varchar(30) not null,
+//		`memId`	varchar(60)	NOT NULL,
+//	    `grade`			varchar(100)	NULL,
+//		`crewConfirm`	decimal(1)	NULL,
+//		`crewRegDate`	date	NOT NULL,
+//		`crewMemUpdate`	date	NULL,
+//		`crewMemDel`	decimal(1)	NULL,
+//		`crewAuth`	decimal(1)	NULL
+//	);
+
 //크루에 속한 멤버들
 public class CrewMemberDto implements Serializable{
 	private int cMemberSeq;
 	private int crewSeq;
 	private String memId;
+	private String grade;
+	private String crewName;
 	private int crewConfirm;
 	private Date crewRegDate;
 	private Date crewMemUpdate;
@@ -18,7 +33,6 @@ public class CrewMemberDto implements Serializable{
 	}
 	
 	public CrewMemberDto(int crewSeq, String memId, int crewConfirm, Date crewRegDate, int crewMemDel, int crewAuth) {
-		super();
 		this.crewSeq = crewSeq;
 		this.memId = memId;
 		this.crewConfirm = crewConfirm;
@@ -27,10 +41,8 @@ public class CrewMemberDto implements Serializable{
 		this.crewAuth = crewAuth;
 	}
 
-
 	public CrewMemberDto(int cMemberSeq, int crewSeq, String memId, int crewConfirm, Date crewRegDate, Date crewMemUpdate,
 			int crewMemDel, int crewAuth) {
-		super();
 		this.cMemberSeq = cMemberSeq;
 		this.crewSeq = crewSeq;
 		this.memId = memId;

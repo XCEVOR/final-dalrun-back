@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import com.dalrun.dto.CrewBbsCommentDto;
 import com.dalrun.dto.CrewBbsDto;
 import com.dalrun.dto.CrewBbsParam;
 import com.dalrun.dto.CrewDto;
@@ -39,8 +40,8 @@ public interface CrewBbsDao {
 	List<CrewDto> selectBbsAll();
 	List<CrewDto> selectBbsType(String type);
 	
-	int writeCrewBbsComment(CrewDto crewBbs);
-	List<CrewDto> getCrewBbsCommentList(int crewSeq);
+	int writeCrewBbsComment(CrewBbsCommentDto dto);
+	List<CrewBbsCommentDto> getCrewBbsCommentList(int crewSeq);
     
     List<CrewDto> selectByReadCount(SearchParam param);
     List<CrewDto> selectByLikeCount(SearchParam param);
