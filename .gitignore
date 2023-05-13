@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### IAMPORT ###
+!**/src/main/resources/properties/env.properties
