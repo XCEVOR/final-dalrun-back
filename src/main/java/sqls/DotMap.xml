@@ -6,9 +6,10 @@
 
 <select id="getAllDotMap" resultType="com.dalrun.dto.DotMapDto">
 
-select location,(select crewName from crew  where crewSeq = ground.crewseq) as crewname,
-memId,price,groundcolor,dotNewFile,sale,regdate,message
-from ground order by location asc
+select location,(select crewName from crew  where crewSeq = g.crewseq) as crewname,
+if(g.sale=1, (select crewImg from crew where g.crewSeq=crewSeq), (select profile from member where g.memId=memId)) as myFile
+,memId,price,groundcolor,dotNewFile,sale,regdate,message
+from ground g order by location asc
 
 </select>
 
