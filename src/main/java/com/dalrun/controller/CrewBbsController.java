@@ -1,5 +1,6 @@
 package com.dalrun.controller;
 
+import java.awt.print.Pageable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -143,8 +146,8 @@ public class CrewBbsController {
 	private void crewBbsPageNumber(SearchParam param) {
 		//글의 시작과 끝
 		int pn = param.getPageNumber();
-		int start = 1 + (pn * 15);
-		int end = (pn + 1) * 15;
+		int start = 1 + (pn * 10);
+		int end = (pn + 1) * 10;
 		
 		param.setStart(start);
 		param.setEnd(end);
@@ -158,9 +161,9 @@ public class CrewBbsController {
 		return map;
 	}
 	
-	//크루모집 전체 게시글, 글의 총 수 불러오기
+//	크루모집 전체 게시글, 글의 총 수 불러오기
 	@GetMapping(value="crewBbsMain")
-	public Map<String, Object> crewBbsList(SearchParam param, HttpServletRequest req){
+	public Map<String, Object> crewBbsList(SearchParam param){
 		System.out.println("CrewBbsController crewBbsList " + new Date());
 		
 		crewBbsPageNumber(param);
@@ -172,82 +175,74 @@ public class CrewBbsController {
 	         String imgDump = list.get(i).getCrewImg().split("/")[0];
 	         list.get(i).setCrewImg(imgDump); //파일명만 넘김
 	         System.out.println("imgDump " + imgDump);
-	         //System.out.println(list.get(i).getImg());//확인작업
 	      }
-
-//		for(int i=0; i< list.size(); i++) {
-//			String imgDump = list.get(i).getCrewImg().split("/")[0];
-//			list.get(i).setCrewImg(req.getServletContext().getRealPath("/dalrun-yr/crewImg") + imgDump);
-//			System.out.println("imgDump " + imgDump);
-//			//System.out.println(list.get(i).getImg());//확인작업
-//		}
-		
 		return getList(list,len);
 	}
+	 
 	
 	//글, 이미지 수정 
-//	@PostMapping(value="crewBbsUpdate")
-//	public String crewBbsUpdate(CrewDto crewBbs) {
-//		System.out.println("CrewBbsController crewBbsUpdate " + new Date());
-//		
-//		boolean b = service.updateCrewBbs(crewBbs);
-//		if(b == false) {
-//			return "NO";
-//		}
-//		return "YES";
-//	}
-	
 	@PostMapping(value="crewBbsUpdate")
-	public String crewBbsUpdate(@RequestPart(value="dto") String dtostr, 
-	                            @RequestPart(value="crewImg", required = false) List<MultipartFile> files,
-	                            HttpServletRequest req) {
-	    System.out.println("CrewBbsController crewBbsUpdate" + new Date());
-
-	    ObjectMapper mapper = new ObjectMapper();
-	    CrewDto dto;
-	    try {
-	        dto = mapper.readValue(dtostr, CrewDto.class);
-	    }catch (Exception e) {
-	        e.printStackTrace();
-	        return "NO";
-	    }
-
-	    List<String> filestr = new ArrayList<String>();
-	    String path = req.getServletContext().getRealPath("/dalrun-yr/crewImg"); //폴더 경로
-	    File Folder = new File(path);
-
-	    // 기존 이미지 파일 삭제
-	    String[] oldFileNames = dto.getCrewImg().split("/");
-	    for (String fileName : oldFileNames) {
-	        File oldFile = new File(path, fileName);
-	        if (oldFile.exists()) {
-	            oldFile.delete();
-	        }
-	    }
-
-	    // 새로운 이미지 파일 업로드
-	    for (MultipartFile file: files) {
-	        String fn = UUID.randomUUID() + "." + file.getOriginalFilename().split("\\.")[1];
-	        File newFile = new File(path, fn);
-	        filestr.add(fn);
-	        try {
-	            file.transferTo(newFile);
-	        } catch(Exception e) {
-	            e.printStackTrace();
-	            return "NO";
-	        }
-	    }
-
-	    String finalstr = filestr.stream().map(String::valueOf).collect(Collectors.joining("/"));
-	    dto.setCrewImg(finalstr);
-
-	    System.out.println(dto);
-	    boolean b = service.updateCrewBbs(dto);
-	    if(!b) {
-	        return "NO";
-	    }
-	    return "YES";
+	public String crewBbsUpdate(CrewDto crewBbs) {
+		System.out.println("CrewBbsController crewBbsUpdate " + new Date());
+		
+		boolean b = service.updateCrewBbs(crewBbs);
+		if(b == false) {
+			return "NO";
+		}
+		return "YES";
 	}
+	
+//	@PostMapping(value="crewBbsUpdate")
+//	public String crewBbsUpdate(@RequestPart(value="dto") String dtostr, 
+//	                            @RequestPart(value="crewImg", required = false) List<MultipartFile> files,
+//	                            HttpServletRequest req) {
+//	    System.out.println("CrewBbsController crewBbsUpdate" + new Date());
+//
+//	    ObjectMapper mapper = new ObjectMapper();
+//	    CrewDto dto;
+//	    try {
+//	        dto = mapper.readValue(dtostr, CrewDto.class);
+//	    }catch (Exception e) {
+//	        e.printStackTrace();
+//	        return "NO";
+//	    }
+//
+//	    List<String> filestr = new ArrayList<String>();
+//	    String path = req.getServletContext().getRealPath("/dalrun-yr/crewImg"); //폴더 경로
+//	    File Folder = new File(path);
+//
+//	    // 기존 이미지 파일 삭제
+//	    String[] oldFileNames = dto.getCrewImg().split("/");
+//	    for (String fileName : oldFileNames) {
+//	        File oldFile = new File(path, fileName);
+//	        if (oldFile.exists()) {
+//	            oldFile.delete();
+//	        }
+//	    }
+//
+//	    // 새로운 이미지 파일 업로드
+//	    for (MultipartFile file: files) {
+//	        String fn = UUID.randomUUID() + "." + file.getOriginalFilename().split("\\.")[1];
+//	        File newFile = new File(path, fn);
+//	        filestr.add(fn);
+//	        try {
+//	            file.transferTo(newFile);
+//	        } catch(Exception e) {
+//	            e.printStackTrace();
+//	            return "NO";
+//	        }
+//	    }
+//
+//	    String finalstr = filestr.stream().map(String::valueOf).collect(Collectors.joining("/"));
+//	    dto.setCrewImg(finalstr);
+//
+//	    System.out.println(dto);
+//	    boolean b = service.updateCrewBbs(dto);
+//	    if(!b) {
+//	        return "NO";
+//	    }
+//	    return "YES";
+//	}
 	
 	
 	@PostMapping(value="crewBbsDelete")
