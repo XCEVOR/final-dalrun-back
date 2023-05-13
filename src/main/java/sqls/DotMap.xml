@@ -15,8 +15,8 @@ from ground order by location asc
 
 <insert id="crew_buydotMap" parameterType="com.dalrun.dto.DotMapDto">
 
-insert into ground(location,crewSeq,groundColor,message,dotNewFile,dotOrigFile,sale,regdate,price)
-values(#{location},
+insert into ground(location,memId,crewSeq,groundColor,message,dotNewFile,dotOrigFile,sale,regdate,price)
+values(#{location},#{memId},
 (select crewSeq from crew where crewName=#{crewName}),(select crewColor from crew where crewName=#{crewName}),#{message},#{dotNewFile},#{dotOrigFile}
 ,1,now(),#{price});
 
