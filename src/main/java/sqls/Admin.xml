@@ -517,4 +517,27 @@
 		GROUP BY DATE(NOW() - INTERVAL (6 - t.n) DAY)
 	</select>
 
+	<!-- 차트 -->
+	<select id="getCrewScoreRank" resultType="com.dalrun.dto.CrewScoreRankDto">
+		SELECT
+			MONTH(now()) as month,
+		    YEAR(now()) as year,
+		    crewSeq,
+		    crewName,
+		    crewLevel,
+		    SUM(crewScore) as monthlyScore,
+		    RANK()OVER(ORDER BY SUM(crewScore) DESC) as ranking
+		FROM
+		    crew
+		WHERE MONTH(crewCreateDate) &lt;= MONTH(now()) AND YEAR(crewCreateDate) &lt;= YEAR(now()) 
+		GROUP BY
+		    year,
+		    month,
+		    crewSeq
+		ORDER BY
+		    year DESC,
+		    month DESC,
+		    ranking
+	    LIMIT 0,7
+	</select>
 </mapper>

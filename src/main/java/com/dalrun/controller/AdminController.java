@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.CrewDto;
 import com.dalrun.dto.CrewMemberDto;
+import com.dalrun.dto.CrewScoreRankDto;
 import com.dalrun.dto.DashboardData;
 import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
@@ -814,5 +815,13 @@ public class AdminController {
 		System.out.println("AdminController getWeekSummaryData " + new Date());
 		
 		return service.getWeekSummaryData();
+	}
+	
+	// 차트
+	@PostMapping(value = "getCrewScoreRank")
+	public List<CrewScoreRankDto> getCrewScoreRank() {
+		System.out.println("AdminController getCrewScoreRank " + new Date());
+		
+		return service.getCrewScoreRank();
 	}
 }
