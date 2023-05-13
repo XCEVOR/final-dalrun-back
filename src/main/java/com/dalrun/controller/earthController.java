@@ -83,13 +83,11 @@ public class earthController {
         String fileupload_file_path = fileupload_path + "/" + newFilename;
         System.out.println("  @@ fileupload_file_path: " + fileupload_file_path);
         
-        
-        // 감소 pointdto 생성
-        CrewPointDto crewpointdto=new CrewPointDto();
-        crewpointdto.setCrewname(dto.getCrewName());
-        crewpointdto.setScore(dto.getPrice());
-        crewpointdto.setCrewSeq(dto.getCrewSeq());
-        crewpointdto.setId(dto.getMemId());
+        // 감소 memberdto 생성
+    		MemberDto mdto = new MemberDto();
+    		mdto.setPoint(dto.getPrice());
+    		mdto.setMemId(dto.getMemId());
+    		
         
         File myFile = new File(fileupload_file_path);
         try {
@@ -97,10 +95,10 @@ public class earthController {
             bufoutStream.write(FileLoad.getBytes());
            
             service.crew_buydotMap(dto);
-            crewService.MinusPoint(crewpointdto);
-            crewpointdto.setScore(crewpointdto.getScore()*-1);
             
-            crewService.sendDonation(crewpointdto);
+
+            Mservice.MemberMinusPoint(mdto);
+//          crewService.sendDonation(crewpointdto);
             bufoutStream.close();
             
         } catch (FileNotFoundException e) {
