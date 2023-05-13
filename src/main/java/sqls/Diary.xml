@@ -40,9 +40,9 @@
 	<!-- 다이어리 작성 -->
 	<insert id="insertDiary" parameterType="com.dalrun.dto.DiaryDto">
 	    INSERT INTO diary
-	    (memId, title, content, wdate, postId)
+	    (memId, title, content, wdate)
 	    VALUES
-	    (#{memId}, #{title}, #{content}, #{wdate}, #{postId})
+	    (#{memId}, #{title}, #{content}, #{wdate})
 	    <selectKey keyProperty="diarySeq" resultType="int" order="AFTER">
 	    	SELECT LAST_INSERT_ID()
 	    </selectKey>

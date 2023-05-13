@@ -6,10 +6,12 @@ import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,42 +46,6 @@ public class GpxController {
 	@Autowired
 	DiaryService dService;
 	
-	// 공통 pageNumber
-	private void pageNumber(GpxParam param) {
-		
-		// 글의 시작과 끝
-		int pn = param.getPageNumber();  // 0 1 2 3 4
-		int start = 1 + (pn * 10);	// 1  11 21
-		int end = (pn + 1) * 10;	// 10 20 30
-		
-		param.setStart(start);
-		param.setEnd(end);
-	}
-	
-	// 공통 리스트
-	private Map<String, Object> getList(List<?> list, int cnt) {
-		
-		Map<String, Object> map = new HashMap<>();
-		map.put("list", list);
-		map.put("cnt", cnt); // wrapper 형태로 들어 감
-		
-		return map;
-	}
-	
-//	// gpx 데이터 로드
-//	@GetMapping(value="gpxList")
-//	public Map<String, Object> gpxList(GpxParam param){
-//		
-//		System.out.println("GpxController gpxList " + new Date());
-//		
-//		List<GpxDataDto> list = gdService.gpxDataList(param);
-//		int len = dService.getAllDiary(param);
-//		
-//		return getList(list, len);
-//	}
-	
-	
-	
 	// gpx 파일 업로드
 	@PostMapping(value="/gpxUpload")
 	public String gpxUpload (@ModelAttribute DiaryDto diary,
@@ -95,7 +61,7 @@ public class GpxController {
 		// new 파일 명 : 업로드 시간(초 단위까지) + 멤버ID 
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyMMddHHmmss");
 		String now = dtf.format(LocalDateTime.now());
-		String fileName = diary.getPostId() + "_" + diary.getMemId() + "_" + now + ".gpx";
+		String fileName = now + "_" + diary.getMemId() + ".gpx";
 		
 		
 		// 파일 업로드 경로
@@ -235,5 +201,20 @@ public class GpxController {
 	        return "diary Insert Fail";
 		}
 	}	// <GPX Upload/>
+	
+	
+	// 네이버맵에 gpxData 보내주기
+	@GetMapping(value="/gpxDataList")
+	public List<GpxDataDto> gpxDataList(@RequestParam String diarySeqList) {
+	    System.out.println("GpxController gpxDataList : " + new Date());
+	    
+	    // 배열로 보내면 오류나서 String으로 받아서 다시 리스트로 삽입
+	    List<Integer> diarySeqListInt = Arrays.stream(diarySeqList.split(","))
+	  	      .map(Integer::valueOf)
+	  	      .collect(Collectors.toList());
+	    
+	    return gdService.gpxDataList(diarySeqListInt);
+	}
+
 	
 }	// <Gpx Controller />

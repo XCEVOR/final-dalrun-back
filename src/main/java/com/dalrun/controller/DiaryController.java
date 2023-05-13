@@ -85,7 +85,7 @@ public class DiaryController {
 		// new 파일 명 : ID + 고유 식별 + 숫자(초 단위까지)
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyMMddHHmmss");
 		String now = dtf.format(LocalDateTime.now());
-		String fileName = diary.getPostId() + "_" + diary.getMemId() + "_" + now + fileExtension ;
+		String fileName = now + "_" + diary.getPostId() + "_" + diary.getMemId() + fileExtension ;
 		
 		// 파일 업로드 경로
 		String filePath = path + "/" + fileName;

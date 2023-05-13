@@ -18,19 +18,19 @@ public class CrewBbsCommentDto implements Serializable{
 	private String cbContent; //댓글 내용
 	private String cbWdate; //작성일
 	private int cbSeq; //고유값
-	private int cBbsSeq; //크루모집 게시판 고유값
+	private int crewSeq; //크루모집 게시판 고유값
 	private int cbDel; //댓글 삭제여부
 	
 	public CrewBbsCommentDto() {
 	}
 
-	public CrewBbsCommentDto(String cbMemId, String cbContent, String cbWdate, int cbSeq, int cBbsSeq, int cbDel) {
+	public CrewBbsCommentDto(String cbMemId, String cbContent, String cbWdate, int cbSeq, int crewSeq, int cbDel) {
 		super();
 		this.cbMemId = cbMemId;
 		this.cbContent = cbContent;
 		this.cbWdate = cbWdate;
 		this.cbSeq = cbSeq;
-		this.cBbsSeq = cBbsSeq;
+		this.crewSeq = crewSeq;
 		this.cbDel = cbDel;
 	}
 
@@ -66,12 +66,12 @@ public class CrewBbsCommentDto implements Serializable{
 		this.cbSeq = cbSeq;
 	}
 
-	public int getcBbsSeq() {
-		return cBbsSeq;
+	public int getCrewSeq() {
+		return crewSeq;
 	}
 
-	public void setcBbsSeq(int cBbsSeq) {
-		this.cBbsSeq = cBbsSeq;
+	public void setCrewSeq(int crewSeq) {
+		this.crewSeq = crewSeq;
 	}
 
 	public int getCbDel() {
@@ -85,7 +85,7 @@ public class CrewBbsCommentDto implements Serializable{
 	@Override
 	public String toString() {
 		return "CrewBbsComment [cbMemId=" + cbMemId + ", cbContent=" + cbContent + ", cbWdate=" + cbWdate + ", cbSeq="
-				+ cbSeq + ", cBbsSeq=" + cBbsSeq + ", cbDel=" + cbDel + "]";
+				+ cbSeq + ", crewSeq=" + crewSeq + ", cbDel=" + cbDel + "]";
 	}
 
 }

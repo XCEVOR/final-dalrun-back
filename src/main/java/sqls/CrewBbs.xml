@@ -82,7 +82,7 @@
 	<!--수정-->
 	<update id="updateCrewBbs" parameterType="com.dalrun.dto.CrewDto">
 		update crew 
-		set title=#{title}, content=#{content}, crewCreateDate=now(), type=#{type}, crewName=#{crewName}, crewSetUp=#{crewSetUp}
+		set title=#{title}, content=#{content}, crewUpdate=now(), type=#{type}, crewName=#{crewName}, crewSetUp=#{crewSetUp}
 		where crewSeq=#{crewSeq}
 	</update>
 	
@@ -107,7 +107,7 @@
    </insert>
    
    <!--크루 모집 댓글 리스트 가져옴-->
-   <select id="getCrewBbsCommentList" parameterType="java.lang.Integer" resultType="com.dalrun.dto.CrewDto">
+   <select id="getCrewBbsCommentList" parameterType="java.lang.Integer" resultType="com.dalrun.dto.CrewBbsCommentDto">
 	  	select *
 	  	from crewBbsComment where crewSeq=#{crewSeq} order by crewSeq desc
    </select>

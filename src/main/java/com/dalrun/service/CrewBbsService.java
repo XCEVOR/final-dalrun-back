@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dalrun.dao.CrewBbsDao;
+import com.dalrun.dto.CrewBbsCommentDto;
 import com.dalrun.dto.CrewBbsDto;
 import com.dalrun.dto.CrewBbsParam;
 import com.dalrun.dto.CrewDto;
@@ -65,12 +66,12 @@ public class CrewBbsService {
 		return dao.selectBbsType(type);
 	}
 	
-	public boolean writeCrewBbsComment(CrewDto crewBbs) {
-		int n= dao.writeCrewBbsComment(crewBbs);
+	public boolean writeCrewBbsComment(CrewBbsCommentDto dto) {
+		int n= dao.writeCrewBbsComment(dto);
 		return n>0?true:false;
 	}
 	
-	public List<CrewDto> getCrewBbsCommentList(int crewSeq){
+	public List<CrewBbsCommentDto> getCrewBbsCommentList(int crewSeq){
 		return dao.getCrewBbsCommentList(crewSeq);
 	}
 	
