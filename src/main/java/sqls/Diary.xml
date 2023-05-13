@@ -56,5 +56,11 @@
 		WHERE diarySeq = #{diarySeq}
 	</update>
 
+	<!-- 다이어리 조회 -->
+	<select id="getDiary" parameterType="int" resultType="com.dalrun.dto.DiaryDto">
+		SELECT *
+		FROM DIARY
+		WHERE diarySeq = #{diarySeq}
+	</select>
 
 </mapper>

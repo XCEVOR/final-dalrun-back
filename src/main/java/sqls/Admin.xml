@@ -47,8 +47,8 @@
 			<if test="choice == 'memId'">
 				AND memId LIKE CONCAT('%', #{search}, '%')
 			</if>
-			<if test="choice == 'productId'">
-				AND productId LIKE CONCAT('%', #{search}, '%')
+			<if test="choice == 'productCode'">
+				AND productCode LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'title'">
 				AND inqTitle LIKE CONCAT('%',#{search},'%')

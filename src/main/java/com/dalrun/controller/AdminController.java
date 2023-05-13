@@ -46,6 +46,7 @@ import com.dalrun.dto.ShoeReviewDto;
 import com.dalrun.service.AdminService;
 import com.dalrun.service.CompetitionService;
 import com.dalrun.service.CrewService;
+import com.dalrun.service.DiaryService;
 import com.dalrun.service.ProductService;
 import com.dalrun.service.ShoeReviewService;
 import com.dalrun.util.EditorUtil;
@@ -67,6 +68,8 @@ public class AdminController {
 	CompetitionService compService;
 	@Autowired
 	ShoeReviewService srService;
+	@Autowired
+	DiaryService diaryService;
 	 
 	private void pageNumber(SearchParam params) {
 	    // 글의 시작과 끝
@@ -528,6 +531,14 @@ public class AdminController {
 	}
 	
 	// 다이어리
+	@PostMapping(value = "getdiary")
+	public DiaryDto getDiary(@RequestParam("target") int diarySeq) {
+		System.out.println("AdminController getDiary " + new Date());
+		
+		DiaryDto diary = diaryService.getDiary(diarySeq);
+		return diary;
+	}
+	
 	@PostMapping(value = "admin_deldiary")
 	public String deldiary(@RequestParam("checkedList") int[] checkedList) {
 		System.out.println("AdminController deldiary " + new Date());

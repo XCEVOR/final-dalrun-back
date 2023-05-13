@@ -39,5 +39,9 @@ public class DiaryService {
 		int n = dao.updateRecord(diary);
 		return n>0? true:false;
 	}
+	
+	public DiaryDto getDiary(int diarySeq) {
+		return dao.getDiary(diarySeq);
+	}
 
 }
