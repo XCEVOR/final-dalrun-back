@@ -9,10 +9,12 @@ import com.dalrun.dao.MypageDao;
 import com.dalrun.dto.CrewBbsDto;
 import com.dalrun.dto.CrewDto;
 import com.dalrun.dto.CrewMemberDto;
+import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
 import com.dalrun.dto.OrderDto;
 import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
+import com.dalrun.dto.ShoeReviewDto;
 
 import jakarta.transaction.Transactional;
 
@@ -77,6 +79,37 @@ public class MypageService {
 	
     public List<OrderDto> orderlist () {
         return dao.orderlist();
+              
     }	
     
+	// 다이어리 리스트 조회
+	public List<DiaryDto> diaryList(SearchParam param) {
+		return dao.diaryList(param);
+	}    
+	
+	// 다이어리 총 수
+	public int getAllDiary(SearchParam param) {
+		return dao.getAllDiary(param);
+	}	
+	
+	// 날짜별 다이어리 조회
+	public List<DiaryDto> getDiaryday(SearchParam param) {
+		return dao.getDiaryday(param);
+	}
+    
+	// 크루탈퇴
+	public boolean crewLeave(String memId) {
+		return dao.crewLeave(memId)>0;
+	}
+	
+    public boolean crewmemberLeave (String memId) {
+        int isSucc = dao.crewmemberLeave(memId);
+        return isSucc > 0 ? true : false;
+    }
+    
+   // 크루 업데이트
+	public boolean crewUpdate(CrewDto crdto) {
+		int n = dao.crewUpdate(crdto);
+		return n > 0 ? true:false;
+	}    
 }

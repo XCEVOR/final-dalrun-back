@@ -220,9 +220,6 @@ public class MemberService {
 	public List<MemberDto> mycrewMemberList(int crewSeq) {
 		return dao.mycrewMemberList(crewSeq);
 	}
-	public boolean crewLeave(String memId) {
-		return dao.crewLeave(memId)>0;
-	}
 	
 }
 
