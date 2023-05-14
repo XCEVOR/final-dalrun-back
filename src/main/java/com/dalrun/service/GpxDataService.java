@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dalrun.dao.GpxDataDao;
+import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.GpxDataDto;
 import com.dalrun.dto.GpxFilesDto;
 import com.dalrun.dto.GpxParam;
@@ -19,8 +20,8 @@ public class GpxDataService {
 	GpxDataDao dao;
 
 	// 데이터 전체 조회
-	public List<GpxDataDto> gpxDataList(GpxParam param) {
-		return dao.gpxDataList(param);
+	public List<GpxDataDto> gpxDataList(List<Integer> diarySeqList) {
+		return dao.gpxDataList(diarySeqList);
 	}
 	
 	// 데이터 삽입

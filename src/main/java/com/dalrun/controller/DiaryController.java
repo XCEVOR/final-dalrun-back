@@ -85,7 +85,7 @@ public class DiaryController {
 		// new 파일 명 : ID + 고유 식별 + 숫자(초 단위까지)
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyMMddHHmmss");
 		String now = dtf.format(LocalDateTime.now());
-		String fileName = diary.getPostId() + "_" + diary.getMemId() + "_" + now + fileExtension ;
+		String fileName = now + "_" + diary.getPostId() + "_" + diary.getMemId() + fileExtension ;
 		
 		// 파일 업로드 경로
 		String filePath = path + "/" + fileName;
@@ -113,5 +113,15 @@ public class DiaryController {
 		return response;
 		
 	}
+	
+	
+	// 투데이 기록 1등
+	@GetMapping("getTodayTopScore")
+	public List<DiaryDto> getTodayTopScore(){
+		System.out.println("DiaryController getTodayTopScore : " + new Date());
+		
+		return dService.getTodayTopScore();
+	}
+	
 
 } // <Diary Controller/>

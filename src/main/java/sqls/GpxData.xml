@@ -4,24 +4,15 @@
 	
 <mapper namespace = "com.dalrun.dao.GpxDataDao">
 	
-	<!-- 공통 -->
-	<sql id="searchGpxList">
-		<if test="choice != null and choice != '' and search != null and search != ''">
-			AND memId LIKE CONCAT('%', #{search}, '%')
-		</if>
-	</sql>
-
 	<!-- gpx 데이터 전체 조회-->
-    <select id="gpxDataList" parameterType="com.dalrun.dto.GpxParam"
+    <select id="gpxDataList" parameterType="com.dalrun.dto.DiaryDto"
     	resultType="com.dalrun.dto.GpxDataDto">
         SELECT *
-        FROM 
-        	(SELECT ROW_NUMBER()OVER(ORDER BY diarySeq ASC) AS RNUM, dataSeq, fileSeq, diarySeq,
-        		courseSeq, memId, latitude, altitude, distance, slope, mTime, timeDiff 
-        	 FROM gpxdata
-        	 <include refid="searchGpxList"></include>
-        	 ORDER BY diarySeq ASC) A
-        WHERE RNUM BETWEEN ${start} AND ${end}
+        FROM gpxdata
+        WHERE diarySeq IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+        	#{item}
+        </foreach>
     </select>
     
     <!-- 업로드 시 하나의 기록 insert -->

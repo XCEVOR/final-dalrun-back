@@ -40,9 +40,9 @@
 	<!-- 다이어리 작성 -->
 	<insert id="insertDiary" parameterType="com.dalrun.dto.DiaryDto">
 	    INSERT INTO diary
-	    (memId, title, content, wdate, postId)
+	    (memId, title, content, wdate)
 	    VALUES
-	    (#{memId}, #{title}, #{content}, #{wdate}, #{postId})
+	    (#{memId}, #{title}, #{content}, #{wdate})
 	    <selectKey keyProperty="diarySeq" resultType="int" order="AFTER">
 	    	SELECT LAST_INSERT_ID()
 	    </selectKey>
@@ -55,6 +55,18 @@
 			maxSlope=#{maxSlope}, score=#{score}
 		WHERE diarySeq = #{diarySeq}
 	</update>
+	
+	<!-- 오늘의 1등 -->
+	<select id="getTodayTopScore" parameterType="com.dalrun.dto.DiaryDto" 
+		resultType="com.dalrun.dto.DiaryDto">
+	
+		SELECT * 
+		FROM diary
+		WHERE DATE(wdate) = CURDATE()
+		ORDER BY score DESC, totalDist DESC
+		LIMIT 1
+		
+	</select>
 
 
 </mapper>

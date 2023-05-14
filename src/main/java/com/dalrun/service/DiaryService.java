@@ -40,4 +40,8 @@ public class DiaryService {
 		return n>0? true:false;
 	}
 
+	// 기록 1등 조회
+	public List<DiaryDto> getTodayTopScore() {
+		return dao.getTodayTopScore();
+	}
 }
