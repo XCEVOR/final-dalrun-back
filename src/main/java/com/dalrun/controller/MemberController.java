@@ -184,16 +184,16 @@ public class MemberController {
 		return service.mycrewMemberList(crewSeq);
 	}
 
-	@GetMapping(value = "crewLeave")
-	public boolean crewLeave(String memId,int crewSeq){
-		
-		DotMapDto ddto=new DotMapDto();
-		ddto.setMemId(memId);
-		ddto.setCrewSeq(crewSeq);
-		
-		dservice.crewOutChangeDotmap(ddto);
-		return service.crewLeave(memId);
-	}
+//	@GetMapping(value = "crewLeave")
+//	public boolean crewLeave(String memId,int crewSeq){
+//		
+//		DotMapDto ddto=new DotMapDto();
+//		ddto.setMemId(memId);
+//		ddto.setCrewSeq(crewSeq);
+//		
+//		dservice.crewOutChangeDotmap(ddto);
+//		return service.crewLeave(memId);
+//	}
 	
 //	@PostMapping(value="findRegi")
 //	public String findMemId(@RequestBody MemberDto dto) {
