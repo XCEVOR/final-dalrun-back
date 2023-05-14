@@ -17,7 +17,7 @@ public class CrewMemberController {
 	
 //	@PostMapping("/join")
 //	public ResponseEntity<String> joinCrew(@RequestBody CrewMemberDto memberdto){
-//		int crewSeq = service.getCrewSeq(memberdto);
+//		int crewSeq = service.getUserInfo(0);
 //		
 //	}
 
