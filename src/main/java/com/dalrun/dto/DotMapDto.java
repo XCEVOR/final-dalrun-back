@@ -16,13 +16,14 @@ public class DotMapDto implements Serializable {
         private String sale;
         private int price;
         private int crewSeq;
+        private String myFile; // 나의 정보 사진 
         
        public DotMapDto() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public DotMapDto(int location, String crewName, String memId, String regdate, String message, String groundColor,
-			String dotOrigFile, String dotNewFile, String sale, int price, int crewSeq) {
+			String dotOrigFile, String dotNewFile, String sale, int price, int crewSeq, String myFile) {
 		super();
 		this.location = location;
 		this.crewName = crewName;
@@ -35,6 +36,7 @@ public class DotMapDto implements Serializable {
 		this.sale = sale;
 		this.price = price;
 		this.crewSeq = crewSeq;
+		this.myFile = myFile;
 	}
 
 	public int getLocation() {
@@ -125,12 +127,22 @@ public class DotMapDto implements Serializable {
 		this.crewSeq = crewSeq;
 	}
 
+	public String getMyFile() {
+		return myFile;
+	}
+
+	public void setMyFile(String myFile) {
+		this.myFile = myFile;
+	}
+
 	@Override
 	public String toString() {
 		return "DotMapDto [location=" + location + ", crewName=" + crewName + ", memId=" + memId + ", regdate="
 				+ regdate + ", message=" + message + ", groundColor=" + groundColor + ", dotOrigFile=" + dotOrigFile
-				+ ", dotNewFile=" + dotNewFile + ", sale=" + sale + ", price=" + price + ", crewSeq=" + crewSeq + "]";
+				+ ", dotNewFile=" + dotNewFile + ", sale=" + sale + ", price=" + price + ", crewSeq=" + crewSeq
+				+ ", myFile=" + myFile + "]";
 	}
 
+       
        
 }
