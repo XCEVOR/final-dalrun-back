@@ -113,5 +113,15 @@ public class DiaryController {
 		return response;
 		
 	}
+	
+	
+	// 투데이 기록 1등
+	@GetMapping("getTodayTopScore")
+	public List<DiaryDto> getTodayTopScore(){
+		System.out.println("DiaryController getTodayTopScore : " + new Date());
+		
+		return dService.getTodayTopScore();
+	}
+	
 
 } // <Diary Controller/>
