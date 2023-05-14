@@ -10,4 +10,15 @@
         FROM course
     </select>
     
+      <!-- 코스 작성 -->
+    <insert id="adminCourseUpload" parameterType="com.dalrun.dto.CourseDto">
+    	INSERT INTO course
+    	(areaCode, level, courseTitle, thumbnail, content, star)
+    	VALUES
+    	(#{areaCode}, #{level}, #{courseTitle}, #{thumbnail}, #{content}, #{star})
+    	<selectKey keyProperty="courseSeq" resultType="int" order="AFTER">
+    		SELECT LAST_INSERT_ID()
+    	</selectKey>
+    </insert>
+    
 </mapper>
