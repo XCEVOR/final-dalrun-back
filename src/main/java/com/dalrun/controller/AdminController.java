@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.CrewDto;
 import com.dalrun.dto.CrewMemberDto;
+import com.dalrun.dto.CrewScoreRankDto;
 import com.dalrun.dto.DashboardData;
 import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
@@ -46,6 +47,7 @@ import com.dalrun.dto.ShoeReviewDto;
 import com.dalrun.service.AdminService;
 import com.dalrun.service.CompetitionService;
 import com.dalrun.service.CrewService;
+import com.dalrun.service.DiaryService;
 import com.dalrun.service.ProductService;
 import com.dalrun.service.ShoeReviewService;
 import com.dalrun.util.EditorUtil;
@@ -67,6 +69,8 @@ public class AdminController {
 	CompetitionService compService;
 	@Autowired
 	ShoeReviewService srService;
+	@Autowired
+	DiaryService diaryService;
 	 
 	private void pageNumber(SearchParam params) {
 	    // 글의 시작과 끝
@@ -528,6 +532,14 @@ public class AdminController {
 	}
 	
 	// 다이어리
+	@PostMapping(value = "getdiary")
+	public DiaryDto getDiary(@RequestParam("target") int diarySeq) {
+		System.out.println("AdminController getDiary " + new Date());
+		
+		DiaryDto diary = diaryService.getDiary(diarySeq);
+		return diary;
+	}
+	
 	@PostMapping(value = "admin_deldiary")
 	public String deldiary(@RequestParam("checkedList") int[] checkedList) {
 		System.out.println("AdminController deldiary " + new Date());
@@ -803,5 +815,13 @@ public class AdminController {
 		System.out.println("AdminController getWeekSummaryData " + new Date());
 		
 		return service.getWeekSummaryData();
+	}
+	
+	// 차트
+	@PostMapping(value = "getCrewScoreRank")
+	public List<CrewScoreRankDto> getCrewScoreRank() {
+		System.out.println("AdminController getCrewScoreRank " + new Date());
+		
+		return service.getCrewScoreRank();
 	}
 }
