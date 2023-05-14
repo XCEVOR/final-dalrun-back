@@ -308,12 +308,10 @@ public class CrewBbsController {
 		System.out.println(list.size() +"개 게시글이 넘어간다아아아~~");
 		
 		for(int i=0; i< list.size(); i++) {
-			String imgDump = list.get(i).getCrewImg().split("/")[0];
-			list.get(i).setCrewImg("assets\\img\\dalrun-pyr/" +imgDump);
-			
-			System.out.println("imgDump " + imgDump);
-			//System.out.println(list.get(i).getImg());//확인작업
-		}
+	         String imgDump = list.get(i).getCrewImg().split("/")[0];
+	         list.get(i).setCrewImg(imgDump); //파일명만 넘김
+	         System.out.println("imgDump " + imgDump);
+	      }
 		
 		return getList(list,len);
 	}
@@ -329,12 +327,10 @@ public class CrewBbsController {
 		System.out.println(list.size() +"개 게시글이 넘어간다아아아~~");
 		
 		for(int i=0; i< list.size(); i++) {
-			String imgDump = list.get(i).getCrewImg().split("/")[0];
-			list.get(i).setCrewImg("assets\\img\\dalrun-pyr/" +imgDump);
-			
-			System.out.println("imgDump " + imgDump);
-			//System.out.println(list.get(i).getImg());//확인작업
-		}
+	         String imgDump = list.get(i).getCrewImg().split("/")[0];
+	         list.get(i).setCrewImg(imgDump); //파일명만 넘김
+	         System.out.println("imgDump " + imgDump);
+	      }
 		
 		return getList(list,len);
 	}

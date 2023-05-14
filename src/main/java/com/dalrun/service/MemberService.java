@@ -224,5 +224,9 @@ public class MemberService {
 		return dao.crewLeave(memId)>0;
 	}
 	
+//	public String findMemId(MemberDto dto) {
+//		return dao.findMemId(dto);
+//	}
+	
 }
 
