@@ -143,7 +143,7 @@ public class GpxController {
 					int score = 0;
 					if((totalD/1000) <= 5) {
 					    score += 1;
-					} else if ((totalD/1000) <= 20000) {
+					} else if ((totalD/1000) <= 20) {
 					    score += (int)(totalD/1000) - 4;
 					} else {
 					    score += 16;
