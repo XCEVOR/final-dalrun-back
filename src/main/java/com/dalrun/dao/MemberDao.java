@@ -40,4 +40,11 @@ public interface MemberDao{
 	
 	List<MemberDto>mycrewMemberList(int crewSeq);
 
+	
+	int crewLeave(String memId);
+	
+	//아이디 찾기
+//	String findMemId(MemberDto dto);
+
+
 }

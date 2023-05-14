@@ -221,5 +221,9 @@ public class MemberService {
 		return dao.mycrewMemberList(crewSeq);
 	}
 	
+//	public String findMemId(MemberDto dto) {
+//		return dao.findMemId(dto);
+//	}
+	
 }
 

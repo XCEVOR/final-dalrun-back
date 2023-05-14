@@ -55,6 +55,24 @@
 			maxSlope=#{maxSlope}, score=#{score}
 		WHERE diarySeq = #{diarySeq}
 	</update>
+	
+	<!-- 오늘의 1등 -->
+	<select id="getTodayTopScore" parameterType="com.dalrun.dto.DiaryDto" 
+		resultType="com.dalrun.dto.DiaryDto">
+	
+		SELECT * 
+		FROM diary
+		WHERE DATE(wdate) = CURDATE()
+		ORDER BY score DESC, totalDist DESC
+		LIMIT 1
+		
+	</select>
 
+	<!-- 다이어리 조회 -->
+	<select id="getDiary" parameterType="int" resultType="com.dalrun.dto.DiaryDto">
+		SELECT *
+		FROM DIARY
+		WHERE diarySeq = #{diarySeq}
+	</select>
 
 </mapper>

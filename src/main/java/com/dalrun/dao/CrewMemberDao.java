@@ -12,8 +12,6 @@ public interface CrewMemberDao {
 	
 	CrewDto getUserInfo(int crewSeq);
 	
-	int getCrewSeq(CrewMemberDto memberdto);
-	
 	int insertCrewMember(CrewMemberDto memberdto);
 
 }

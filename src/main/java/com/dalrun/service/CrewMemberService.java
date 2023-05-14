@@ -16,10 +16,6 @@ public class CrewMemberService {
 		return dao.getUserInfo(crewSeq);
 	}
 	
-	public int getCrewSeq(CrewMemberDto memberdto) {
-		return dao.getCrewSeq(memberdto);
-	}
-	
 	public boolean insertCrewMember(CrewMemberDto memberdto) {
 		int n = dao.insertCrewMember(memberdto);
 		return n>0?true:false;

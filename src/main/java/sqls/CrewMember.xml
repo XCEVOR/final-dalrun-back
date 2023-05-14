@@ -12,13 +12,6 @@
 		where crewSeq=#{crewSeq}
 	</select>
 	
-	<!--가입버튼을 누른 사용자의 memId와 crewName을 사용해서 crewSeq값 가져옴-->
-	<select id="getCrewSeq" parameterType="com.dalrun.dto.CrewMemberDto" resultType="Integer">
-		select crewSeq
-		from crew
-		where memId=#{memId} and crewName=#{crewName}
-	</select>
-	
 	<!--가져온 crewSeq로 crewMember table에 insert-->
 	<insert id="insertCrewMember" parameterType="com.dalrun.dto.CrewMemberDto">
 		insert into crewMember(crewSeq, memId) values (#{crewSeq}, #{memId})
