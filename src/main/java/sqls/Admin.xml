@@ -518,7 +518,21 @@
 	</select>
 
 	<!-- 차트 -->
-	<select id="getCrewScoreRank" resultType="com.dalrun.dto.CrewScoreRankDto">
+	<select id="getMemberScoreRank" resultType="com.dalrun.dto.ScoreRankDto">
+		SELECT
+			MONTH(now()) as month,
+			YEAR(now()) as year,
+			memId,
+		    SUM(totalDist) as monthlyTotalDist,
+			SUM(score) as monthlyScore,
+			RANK()OVER(ORDER BY SUM(score) DESC, SUM(totalDist) DESC) as ranking
+		FROM diary
+		WHERE MONTH(wdate) &lt;= MONTH(now()) AND YEAR(wdate) &lt;= YEAR(now()) 
+		GROUP BY year, month, memId
+		ORDER BY year DESC, month DESC, ranking
+		LIMIT 0,7;
+	</select>
+	<select id="getCrewScoreRank" resultType="com.dalrun.dto.ScoreRankDto">
 		SELECT
 			MONTH(now()) as month,
 		    YEAR(now()) as year,
@@ -527,17 +541,10 @@
 		    crewLevel,
 		    SUM(crewScore) as monthlyScore,
 		    RANK()OVER(ORDER BY SUM(crewScore) DESC) as ranking
-		FROM
-		    crew
+		FROM crew
 		WHERE MONTH(crewCreateDate) &lt;= MONTH(now()) AND YEAR(crewCreateDate) &lt;= YEAR(now()) 
-		GROUP BY
-		    year,
-		    month,
-		    crewSeq
-		ORDER BY
-		    year DESC,
-		    month DESC,
-		    ranking
+		GROUP BY year, month, crewSeq
+		ORDER BY year DESC, month DESC, ranking
 	    LIMIT 0,7
 	</select>
 </mapper>
