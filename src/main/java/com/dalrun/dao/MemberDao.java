@@ -6,7 +6,9 @@ import org.apache.ibatis.annotations.Mapper;
 
 import org.springframework.stereotype.Repository;
 
+import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
+import com.dalrun.dto.SearchParam;
 
 @Mapper
 @Repository
@@ -24,7 +26,8 @@ public interface MemberDao{
 	//회원조회
 	MemberDto getmember(String target);
 	  
-
+	// 다이어리 리스트 조회
+	List<DiaryDto> diaryList(SearchParam param);
 	
 	MemberDto getmemberbyemail(String email);
 	
@@ -36,10 +39,12 @@ public interface MemberDao{
     int MemberMinusPoint(MemberDto dto);
 	
 	List<MemberDto>mycrewMemberList(int crewSeq);
+
 	
 	int crewLeave(String memId);
 	
 	//아이디 찾기
 //	String findMemId(MemberDto dto);
+
 
 }

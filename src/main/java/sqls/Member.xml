@@ -49,8 +49,13 @@
 update member  SET point=point-#{point} where memId=#{memId}
 </update>
 <select id="mycrewMemberList" parameterType="Integer" resultType="com.dalrun.dto.MemberDto">
-select * from member where crewSeq=#{crewSeq}
+        SELECT A.*, B.crewAuth 
+        FROM member A
+        INNER JOIN crewmember B
+        ON A.memId = B.memId
+        WHERE A.crewSeq=#{crewSeq}
 </select>
+
 
 <update id="crewLeave" parameterType="String">
 update member set crewSeq=0 where memId=#{memId}
@@ -63,6 +68,7 @@ update member set crewSeq=0 where memId=#{memId}
 	from member
 	where memberName=#{memberName} and email=#{email}
 </select>-->
+
 
 </mapper>
 
