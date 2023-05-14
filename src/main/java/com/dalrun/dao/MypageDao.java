@@ -8,11 +8,13 @@ import org.springframework.stereotype.Repository;
 import com.dalrun.dto.CrewBbsDto;
 import com.dalrun.dto.CrewDto;
 import com.dalrun.dto.CrewMemberDto;
+import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
 import com.dalrun.dto.OrderDto;
 import com.dalrun.dto.ProductDto;
 import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
+import com.dalrun.dto.ShoeReviewDto;
 
 @Repository
 @Mapper
@@ -57,4 +59,17 @@ public interface MypageDao {
 
 	MemberDto myinform(String memId);
 
+	// 다이어리 리스트 조회
+	List<DiaryDto> diaryList(SearchParam param);
+	
+	// 다이어리 총 수
+	int getAllDiary(SearchParam param);
+
+	List<DiaryDto> getDiaryday(SearchParam param);
+	
+	int crewLeave(String memId);
+	
+    int crewmemberLeave (String memId);
+
+	int crewUpdate(CrewDto crdto);
 }

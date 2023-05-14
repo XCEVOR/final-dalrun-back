@@ -1,5 +1,6 @@
 package com.dalrun.controller;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,17 +11,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dalrun.dto.CrewBbsDto;
 import com.dalrun.dto.CrewDto;
 import com.dalrun.dto.CrewMemberDto;
+import com.dalrun.dto.DiaryDto;
+import com.dalrun.dto.DotMapDto;
 import com.dalrun.dto.MemberDto;
 import com.dalrun.dto.OrderDto;
 import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
+import com.dalrun.dto.ShoeReviewDto;
 import com.dalrun.service.AdminService;
+import com.dalrun.service.DotMapService;
 import com.dalrun.service.MypageService;
 import com.dalrun.service.ProductService;
+import com.dalrun.util.FileNameListUtil;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class MypageController {
@@ -31,6 +40,8 @@ public class MypageController {
 	AdminService adminservice;
 	@Autowired
 	ProductService productService;
+	@Autowired
+	DotMapService dservice;	
 	 
 	private void pageNumber(SearchParam params) {
 	    // 글의 시작과 끝
@@ -159,4 +170,78 @@ public class MypageController {
         System.out.println("MypageControllerr my_orderlist  " + new Date());
         return service.orderlist();
     }	
+    
+	// 다이어리 리스트
+	@GetMapping("my_diaryList")
+	public Map<String, Object> DiaryList(SearchParam param){// List -> Map, ajax는 한번에 데이터를 옮기면 안되고 각각 데이터를 따로따로 보내줘야 한다.
+													   // 여러 개의 데이터를 한꺼번에 json 형태로 보내는 법 -> HashMap
+		System.out.println("MypageController diaryList" + new Date());
+		
+		// 글의 시작과 끝
+		int pn = param.getPageNumber();  // 0 1 2 3 4
+		int start = 1 + (pn * 10);	// 1  11 21 
+		int end = (pn + 1) * 10;	// 10 20 30
+		
+		param.setStart(start);
+		param.setEnd(end);
+		
+		List<DiaryDto> list = service.diaryList(param);
+		int cnt = service.getAllDiary(param);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("list", list);
+		map.put("cnt", cnt);	// wrapper 형태로 들어 감
+		
+		return map;
+	}  
+	
+	// 다이어리 리스트
+	@GetMapping("my_diaryday")
+	public Map<String, Object> getDiaryday(SearchParam param){
+													   
+		System.out.println("MypageController getDiaryday" + new Date());
+
+		
+		List<DiaryDto> list = service.getDiaryday(param);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("list", list);
+		
+		return map;
+	}
+	
+	@GetMapping(value = "crewLeave")
+	public boolean crewLeave(String memId,int crewSeq){
+		
+		System.out.println("MypageController crewLeave " + new Date());
+        System.out.println("System.out.println(memId); " + memId);
+        
+		DotMapDto ddto=new DotMapDto();
+		ddto.setMemId(memId);
+		ddto.setCrewSeq(crewSeq);
+		
+		dservice.crewOutChangeDotmap(ddto);
+		return service.crewLeave(memId);
+	}
+	
+    @GetMapping(value = "crewmemberLeave")
+    public String deleteCartItem (String memId) {
+        System.out.println("MypageController crewmemberLeave (String " + memId +" ) { " + new Date());
+        System.out.println("System.out.println(memId); " + memId);
+        boolean isSucc = service.crewmemberLeave(memId);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";
+    }
+    
+    @PostMapping(value = "my_crewUpdate")
+	public String crewUpdate(CrewDto crdto){
+    	System.out.println("MypageController crewUpdate " + new Date());
+		System.out.println(crdto); 	
+		
+        boolean b = service.crewUpdate(crdto);
+        
+		return str(b);
+	}
 }

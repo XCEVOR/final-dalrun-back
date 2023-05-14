@@ -44,4 +44,8 @@ public class DiaryService {
 		return dao.getDiary(diarySeq);
 	}
 
+	// 기록 1등 조회
+	public List<DiaryDto> getTodayTopScore() {
+		return dao.getTodayTopScore();
+	}
 }

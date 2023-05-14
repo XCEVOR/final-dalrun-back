@@ -25,5 +25,10 @@ public interface DiaryDao {
 	// 총 이동거리, 이동시간, 칼로리 추가
 	int updateRecord(DiaryDto diary);
 	
+
 	DiaryDto getDiary(int diarySeq);
+
+	// 기록 1등 조회
+	List<DiaryDto> getTodayTopScore();
+
 }
