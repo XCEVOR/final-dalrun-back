@@ -126,11 +126,17 @@ public class DiaryController {
 		
 		String path = req.getServletContext().getRealPath("/diaryImg");
 		String[] imgList = FileNameListUtil.getFileNameList(path);
-		System.out.println("filelist = " + filelist);
+		
 		for(String img : imgList) {
 			if(img.contains(memId)) {	// 해당 아이디가 포함된 이미지 추출
 				System.out.println("memId " + img);
-				if(!filelist.contains(img)) {	// 수정된 파일리스트에 포함되지 않은 이미지 추출
+				
+				if(filelist.size() == 0) {	// 01. 기존의 파일을 모두 지울 경우, 모두 삭제	
+					String filepath = path + "/" + img;
+					File file = new File(filepath);
+					file.delete();
+				} 
+				else if(!filelist.contains(img)) {	// 02. 기존의 파일에서 일부만 지울 경우, 수정된 파일리스트에 포함되지 않은 이미지 추출
 					System.out.println("img = " + img);
 					
 					String filepath = path + "/" + img;
@@ -138,7 +144,8 @@ public class DiaryController {
 					if(file.exists()) file.delete();
 				}
 			}
-		}
+			}
+		
 	}
 	
 	
