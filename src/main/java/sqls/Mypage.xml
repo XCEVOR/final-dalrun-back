@@ -28,7 +28,7 @@
 	<update id="updatemember" parameterType="com.dalrun.dto.MemberDto">
 		UPDATE MEMBER
 		SET memberName=#{memberName}, email=#{email}, phone=#{phone}, birth=#{birth}, 
-			point=#{point}, grade=#{grade}, foot=#{foot}, memberupdate=now()
+			foot=#{foot}, memberupdate=now()
 		WHERE memId=#{memId}  
 	</update>
 	
@@ -155,29 +155,30 @@
     INNER JOIN productorderdetail B
     ON A.orderNumber = B.orderNumber
     WHERE memId = #{memId}
-    </select>	
-    
+    </select>	   
+	
 	<!-- 다이어리 전체 조회 -->
 	<select id="diaryList" resultType="com.dalrun.dto.DiaryDto">
 		SELECT *
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, diarySeq, memId,
-				title, content, wdate, totalDist, totalTime, kcal, diaryDel
+				title, content, wdate, totalDist, totalTime, meanPace, maxSlope, kcal, 
+				score, diaryDel
 			FROM DIARY
 			ORDER BY wdate DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
-		AND memId = #{memId}
+		AND memId =#{memId}
 	</select>    
 	
 	<!-- 다이어리 총 수 -->
 	<select id="getAllDiary" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM diary
-		Where  memId = #{memId}
+		AND memId =#{memId}
 	</select>	
 	
 	<select id="getDiaryday" resultType="com.dalrun.dto.DiaryDto">	
-		SELECT SUM(totalTime) AS 총시간, SUM(totalDist) AS 총거리, SUM(kcal) AS 칼로리
+		SELECT SUM(totalTime) AS totalTime, SUM(totalDist) AS totalDist, SUM(kcal) AS kcal
 		FROM Diary
 		WHERE wdate BETWEEN #{fromwdate} AND #{towdate}
 		AND memId = #{memId}

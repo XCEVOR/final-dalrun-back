@@ -106,7 +106,6 @@ public class MypageController {
 	    List<QnaDto> myqnalist = service.myqnalist(params);
 		int len = service.myAllqnalist(params);
 		
-		System.out.println(params.toString());
 	    return getList(myqnalist, len);
 
 	}	
@@ -168,6 +167,7 @@ public class MypageController {
     @GetMapping(value = "my_orderlist")
     public List<OrderDto> orderlist () {
         System.out.println("MypageControllerr my_orderlist  " + new Date());
+        
         return service.orderlist();
     }	
     
@@ -195,7 +195,7 @@ public class MypageController {
 		return map;
 	}  
 	
-	// 다이어리 리스트
+	// 다이어리
 	@GetMapping("my_diaryday")
 	public Map<String, Object> getDiaryday(SearchParam param){
 													   
