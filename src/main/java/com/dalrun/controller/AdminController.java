@@ -540,6 +540,14 @@ public class AdminController {
 		return diary;
 	}
 	
+	@PostMapping(value = "admin_updatediary")
+	public String updatediary(DiaryDto diarydto) {
+		System.out.println("AdminController updatediary " + new Date());
+		
+		boolean b = service.updatediary(diarydto);
+		return str(b);
+	}
+	
 	@PostMapping(value = "admin_deldiary")
 	public String deldiary(@RequestParam("checkedList") int[] checkedList) {
 		System.out.println("AdminController deldiary " + new Date());

@@ -170,6 +170,11 @@ public class AdminService {
 		return n>0?true:false;
 	}
 	
+	public boolean updatediary(DiaryDto diarydto) {
+		int n = dao.updatediary(diarydto);
+		return n>0?true:false;
+	}
+	
 	public boolean deldiary(int[] checkedList) {
 		int n = dao.deldiary(checkedList);
 		return n>0?true:false;

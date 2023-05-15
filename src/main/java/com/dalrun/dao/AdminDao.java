@@ -92,6 +92,8 @@ public interface AdminDao {
 	
 	int delshoereviewdetail(int srdSeq);
 	
+	int updatediary(DiaryDto diarydto);
+	
 	int deldiary(int[] checkedList);
 	
 	int updatecomperition(CompetitionDto compdto);
