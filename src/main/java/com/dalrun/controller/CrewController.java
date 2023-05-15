@@ -33,7 +33,21 @@ public class CrewController {
 	@GetMapping("getMyCrewinfo")
 	public CrewDto getMyCrewinfo(int crewSeq){
 		System.out.println("CrewController getMyCrewinfo");
-		return service.getMyCrewinfo(crewSeq);
+		
+		CrewDto dto= service.getMyCrewinfo(crewSeq);
+		if(dto.getCrewLevel()==1) {
+			dto.setCrewTotalScore(Math.round(dto.getCrewTotalScore()*1.1));
+		}else if(dto.getCrewLevel()==2) {
+			dto.setCrewTotalScore(Math.round(dto.getCrewTotalScore()*1.2));
+		}else if(dto.getCrewLevel()==3) {
+			dto.setCrewTotalScore(Math.round(dto.getCrewTotalScore()*1.3));
+		}else if(dto.getCrewLevel()==4) {
+			dto.setCrewTotalScore(Math.round(dto.getCrewTotalScore()*1.4));
+		}else if(dto.getCrewLevel()==5) {
+			dto.setCrewTotalScore(Math.round(dto.getCrewTotalScore()*1.5));
+		}
+		
+		return dto;
 	}
 	
 	@GetMapping("sendDonation")
@@ -62,10 +76,11 @@ public class CrewController {
 	 * service.getCrewMember(crewSeq); }
 	 */
 	
-	@GetMapping(value = "getcrewPoint")
-	public int getcrewPoint(int crewSeq) {
-		return service.getcrewPoint(crewSeq);
-	}
+	/*
+	 * @GetMapping(value = "getcrewPoint") public int getcrewPoint(int crewSeq) {
+	 * return service.getcrewPoint(crewSeq); }
+	 */
+	
 	@GetMapping(value="crewUpgrade")
 	public boolean crewUpgrade(int crewSeq,int score) {
 		
