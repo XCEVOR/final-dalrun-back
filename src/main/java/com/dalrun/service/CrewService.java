@@ -44,10 +44,11 @@ public class CrewService {
 	 * List<CrewMemberDto> getCrewMember(int crewSeq) { return
 	 * dao.getCrewMember(crewSeq); }
 	 */
-	public int getcrewPoint(int crewSeq) {
-		return dao.getcrewPoint(crewSeq);
-		
-	}
+	/*
+	 * public int getcrewPoint(int crewSeq) { return dao.getcrewPoint(crewSeq);
+	 * 
+	 * }
+	 */
 	public boolean crewUpgrade(int crewSeq) {
 		return dao.crewUpgrade(crewSeq)>0;
 		

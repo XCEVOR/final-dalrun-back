@@ -46,11 +46,7 @@ public class earthController {
     public List<DotMapDto> earthPage() {
     	System.out.println("earthController earthPage  abdc"+new Date());
         List<DotMapDto> dotList = service.getDotMapInfo();
-        for(DotMapDto d:dotList) {
-        	System.out.println(d.toString());
-        	System.out.println("출력");
-        }
-    	System.out.println("출력");
+       
         return dotList;
     }
     
