@@ -17,10 +17,16 @@ public interface GpxDataDao {
 	// 데이터 전체 조회
 	List<GpxDataDto> gpxDataList(List<Integer> diarySeqList);
 	
-	// 데이터 삽입
+	// 다이어리 데이터 삽입
 	int insertGpxData(GpxDataDto point);
 	
 	// 특정 데이터 조회
 	List<GpxDataDto> getGPXData(int data);
+	
+	// 코스 데이터 삽입
+	int insertCourseGpxData(GpxDataDto point);
+	
+	// 코스 데이터 삭제
+	int deleteCourseData(int courseSeq);
 
 }

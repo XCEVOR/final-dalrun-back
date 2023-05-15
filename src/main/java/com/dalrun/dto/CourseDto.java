@@ -1,31 +1,44 @@
 package com.dalrun.dto;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 public class CourseDto implements Serializable{
 
 	private int courseSeq; 		// 코스 번호
-	private int areaCode; 		// 지역 번호
+	private String areaName; 	// 지역 이름
 	private String level; 		// 난이도
 	private String courseTitle; // 코스 이름
 	private String thumbnail; 	// 코스 썸네일
 	private String content;		// 코스 소개 내용
 	private int star; 			// 평점
+	private double aCourseTotalDist;	// 추천 코스 거리
+	private double aCourseMaxSlope;		// 추천 코스 최고 경사도
+	private double courseDel;	// 삭제 여부
+	private LocalDateTime wdate;
+	private String postId;
 
 	public CourseDto() {
 	}
 
-	public CourseDto(int courseSeq, int areaCode, String level, String courseTitle, String thumbnail,
-			String content, int star) {
+	public CourseDto(int courseSeq, String areaName, String level, String courseTitle, String thumbnail, String content,
+			int star, double aCourseTotalDist, double aCourseMaxSlope, double courseDel, LocalDateTime wdate,
+			String postId) {
 		super();
 		this.courseSeq = courseSeq;
-		this.areaCode = areaCode;
+		this.areaName = areaName;
 		this.level = level;
 		this.courseTitle = courseTitle;
 		this.thumbnail = thumbnail;
 		this.content = content;
 		this.star = star;
+		this.aCourseTotalDist = aCourseTotalDist;
+		this.aCourseMaxSlope = aCourseMaxSlope;
+		this.courseDel = courseDel;
+		this.wdate = wdate;
+		this.postId = postId;
 	}
+
 
 	public int getCourseSeq() {
 		return courseSeq;
@@ -35,12 +48,12 @@ public class CourseDto implements Serializable{
 		this.courseSeq = courseSeq;
 	}
 
-	public int getAreaCode() {
-		return areaCode;
+	public String getAreaName() {
+		return areaName;
 	}
 
-	public void setAreaCode(int areaCode) {
-		this.areaCode = areaCode;
+	public void setAreaName(String areaName) {
+		this.areaName = areaName;
 	}
 
 	public String getLevel() {
@@ -81,6 +94,60 @@ public class CourseDto implements Serializable{
 
 	public void setStar(int star) {
 		this.star = star;
+	}
+
+
+	public double getaCourseTotalDist() {
+		return aCourseTotalDist;
+	}
+
+
+	public void setaCourseTotalDist(double aCourseTotalDist) {
+		this.aCourseTotalDist = aCourseTotalDist;
+	}
+
+
+	public double getaCourseMaxSlope() {
+		return aCourseMaxSlope;
+	}
+
+
+	public void setaCourseMaxSlope(double aCourseMaxSlope) {
+		this.aCourseMaxSlope = aCourseMaxSlope;
+	}
+
+
+	public double getCourseDel() {
+		return courseDel;
+	}
+
+
+	public void setCourseDel(double courseDel) {
+		this.courseDel = courseDel;
+	}
+	
+	public LocalDateTime getWdate() {
+		return wdate;
+	}
+
+	public void setWdate(LocalDateTime wdate) {
+		this.wdate = wdate;
+	}
+
+	public String getPostId() {
+		return postId;
+	}
+
+	public void setPostId(String postId) {
+		this.postId = postId;
+	}
+
+	@Override
+	public String toString() {
+		return "CourseDto [courseSeq=" + courseSeq + ", areaName=" + areaName + ", level=" + level + ", courseTitle="
+				+ courseTitle + ", thumbnail=" + thumbnail + ", content=" + content + ", star=" + star
+				+ ", aCourseTotalDist=" + aCourseTotalDist + ", aCourseMaxSlope=" + aCourseMaxSlope + ", courseDel="
+				+ courseDel + ", wdate=" + wdate + ", postId=" + postId + "]";
 	}
 
 }
