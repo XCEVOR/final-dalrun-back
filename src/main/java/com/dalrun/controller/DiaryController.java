@@ -75,7 +75,7 @@ public class DiaryController {
 		System.out.println("DiaryController uploadDiaryImg: " + new Date());
 		
 		// 파일 저장 경로 설정 server 단
-		String path = req.getServletContext().getRealPath("/diaryImg");
+		String path = req.getServletContext().getRealPath("/dalrun-jw/diaryImg");
 		
 		// 파일 확장자 명
 		String ogFilename = imageFile.getOriginalFilename(); // 기존 파일 명
