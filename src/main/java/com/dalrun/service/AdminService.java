@@ -232,4 +232,13 @@ public class AdminService {
 	public List<ScoreRankDto> getCrewScoreRank() {
 		return dao.getCrewScoreRank();
 	}
+	
+	// 방문자
+	public boolean saveCookieData(String user) {
+		return dao.saveCookieData(user)>0?true:false;
+	}
+	
+	public boolean updateCookie(String user) {
+		return dao.updateCookie(user)>0?true:false;
+	}
 }

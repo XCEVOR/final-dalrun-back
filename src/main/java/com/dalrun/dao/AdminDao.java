@@ -120,4 +120,9 @@ public interface AdminDao {
 	List<ScoreRankDto> getMemberScoreRank();
 	
 	List<ScoreRankDto> getCrewScoreRank();
+	
+	// 방문자
+	int saveCookieData(String user);
+	
+	int updateCookie(String user);
 }

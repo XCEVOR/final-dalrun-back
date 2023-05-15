@@ -553,4 +553,15 @@
 		ORDER BY year DESC, month DESC, ranking
 	    LIMIT 0,7
 	</select>
+	
+	<!-- 방문자 -->
+	<insert id="saveCookieData" parameterType="String">
+		INSERT INTO VISITORS(user, fistVisitTime, lastVisitTime)
+		VALUES(#{user}, now(), now())
+	</insert>
+	<update id="updateCookie" parameterType="String">
+		UPDATE VISITORS
+		SET lastVisitTime=now()
+		WHERE user = #{user}
+	</update>
 </mapper>
