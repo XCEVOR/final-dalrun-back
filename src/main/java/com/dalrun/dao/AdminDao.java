@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.CrewDto;
-import com.dalrun.dto.CrewScoreRankDto;
+import com.dalrun.dto.ScoreRankDto;
 import com.dalrun.dto.DashboardData;
 import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
@@ -92,6 +92,8 @@ public interface AdminDao {
 	
 	int delshoereviewdetail(int srdSeq);
 	
+	int updatediary(DiaryDto diarydto);
+	
 	int deldiary(int[] checkedList);
 	
 	int updatecomperition(CompetitionDto compdto);
@@ -115,5 +117,7 @@ public interface AdminDao {
 	List<DashboardData> getWeekSummaryData();
 	
 	// 차트
-	List<CrewScoreRankDto> getCrewScoreRank();
+	List<ScoreRankDto> getMemberScoreRank();
+	
+	List<ScoreRankDto> getCrewScoreRank();
 }

@@ -1,24 +1,28 @@
 package com.dalrun.dto;
 
-public class CrewScoreRankDto {
+public class ScoreRankDto {
 	private int month;
 	private int year;
 	private int crewSeq;
 	private String crewName;
+	private String memId;
+	private double monthlyTotalDist;
 	private int crewLevel;
 	private int monthlyScore;
 	private int ranking;
 	
-	public CrewScoreRankDto() {
+	public ScoreRankDto() {
 	}
 
-	public CrewScoreRankDto(int month, int year, int crewSeq, String crewName, int crewLevel, int monthlyScore,
+	public ScoreRankDto(int month, int year, int crewSeq, String crewName, String memId, double monthlyTotalDist, int crewLevel, int monthlyScore,
 			int ranking) {
 		super();
 		this.month = month;
 		this.year = year;
 		this.crewSeq = crewSeq;
 		this.crewName = crewName;
+		this.memId = memId;
+		this.monthlyTotalDist = monthlyTotalDist;
 		this.crewLevel = crewLevel;
 		this.monthlyScore = monthlyScore;
 		this.ranking = ranking;
@@ -56,6 +60,22 @@ public class CrewScoreRankDto {
 		this.crewName = crewName;
 	}
 
+	public String getMemId() {
+		return memId;
+	}
+
+	public void setMemId(String memId) {
+		this.memId = memId;
+	}
+
+	public double getMonthlyTotalDist() {
+		return monthlyTotalDist;
+	}
+
+	public void setMonthlyTotalDist(double monthlyTotalDist) {
+		this.monthlyTotalDist = monthlyTotalDist;
+	}
+
 	public int getCrewLevel() {
 		return crewLevel;
 	}
@@ -82,7 +102,8 @@ public class CrewScoreRankDto {
 
 	@Override
 	public String toString() {
-		return "CrewScoreRankDto [month=" + month + ", year=" + year + ", crewSeq=" + crewSeq + ", crewName=" + crewName
-				+ ", crewLevel=" + crewLevel + ", monthlyScore=" + monthlyScore + ", ranking=" + ranking + "]";
+		return "ScoreRankDto [month=" + month + ", year=" + year + ", crewSeq=" + crewSeq + ", crewName=" + crewName
+				+ ", memId=" + memId + ", monthlyTotalDist=" + monthlyTotalDist + ", crewLevel=" + crewLevel
+				+ ", monthlyScore=" + monthlyScore + ", ranking=" + ranking + "]";
 	}
 }

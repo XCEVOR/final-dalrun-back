@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dalrun.dao.AdminDao;
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.CrewDto;
-import com.dalrun.dto.CrewScoreRankDto;
+import com.dalrun.dto.ScoreRankDto;
 import com.dalrun.dto.DashboardData;
 import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
@@ -170,6 +170,11 @@ public class AdminService {
 		return n>0?true:false;
 	}
 	
+	public boolean updatediary(DiaryDto diarydto) {
+		int n = dao.updatediary(diarydto);
+		return n>0?true:false;
+	}
+	
 	public boolean deldiary(int[] checkedList) {
 		int n = dao.deldiary(checkedList);
 		return n>0?true:false;
@@ -220,7 +225,11 @@ public class AdminService {
 	}
 	
 	// 차트
-	public List<CrewScoreRankDto> getCrewScoreRank() {
+	public List<ScoreRankDto> getMemberScoreRank() {
+		return dao.getMemberScoreRank();
+	}
+	
+	public List<ScoreRankDto> getCrewScoreRank() {
 		return dao.getCrewScoreRank();
 	}
 }
