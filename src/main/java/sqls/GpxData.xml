@@ -30,4 +30,19 @@
     	WHERE fileSeq = #{fileSeq}
     </select>
     
+    
+    <!-- 업로드 시 하나의 기록 insert -->
+    <insert id="insertCourseGpxData" parameterType="com.dalrun.dto.GpxDataDto">
+    	INSERT INTO gpxdata
+    	(fileSeq, CourseSeq, memId, latitude, longitude, altitude, distance, slope, mTime, timeDiff)
+    	VALUES (#{fileSeq}, #{courseSeq}, #{memId}, #{latitude}, #{longitude}, #{altitude}, 
+    			#{distance}, #{slope}, #{mTime}, #{timeDiff})
+    </insert>
+    
+    <!-- Course data 삭제 -->
+    <delete id="deleteCourseData" parameterType="int">
+    	DELETE FROM gpxdata
+    	WHERE courseSeq = #{courseSeq}
+    </delete>
+    
 </mapper>

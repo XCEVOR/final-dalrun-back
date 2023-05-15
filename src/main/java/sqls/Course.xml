@@ -5,20 +5,57 @@
 
 <mapper namespace="com.dalrun.dao.CourseDao">
 
+	<sql id="searchCourseList">
+		<where>
+			<if test="search !=null and search != ''">
+				AND (
+					courseTitle LIKE CONCAT('%', #{search}, '%')
+					areaName LIKE CONCAT('%', #{search}, '%')
+					level LIKE CONCAT('%', #{search}, '%')
+				)
+			</if>
+		</where>
+	</sql>
+
+	<!-- 추천 코스 리스트 조회 -->
     <select id="courseList" resultType="com.dalrun.dto.CourseDto">
         SELECT *
-        FROM course
+        FROM admincourse
+        <include refid="searchCourseList"></include>
+        ORDER BY wdate DESC
     </select>
     
-      <!-- 코스 작성 -->
-    <insert id="adminCourseUpload" parameterType="com.dalrun.dto.CourseDto">
-    	INSERT INTO course
-    	(areaCode, level, courseTitle, thumbnail, content, star)
+    <!-- 추천 코스 작성 -->
+    <insert id="insertCourse" parameterType="com.dalrun.dto.CourseDto">
+    	INSERT INTO admincourse
+    	(areaName, courseTitle, thumbnail, content, wdate)
     	VALUES
-    	(#{areaCode}, #{level}, #{courseTitle}, #{thumbnail}, #{content}, #{star})
+    	(#{areaName}, #{courseTitle}, #{thumbnail}, #{content}, #{wdate})
     	<selectKey keyProperty="courseSeq" resultType="int" order="AFTER">
     		SELECT LAST_INSERT_ID()
     	</selectKey>
     </insert>
+    
+    <!-- 몇몇 기록들 추가 -->
+    <update id="insertInfo" parameterType="com.dalrun.dto.CourseDto">
+    	UPDATE admincourse
+    	SET aCourseTotalDist=#{aCourseTotalDist}, aCourseMaxSlope=#{aCourseMaxSlope}, level=#{level}
+    	WHERE courseSeq = #{courseSeq}
+    </update>
+    
+    <!-- 추천 코스 수정 -->
+    <update id="updateCourse" parameterType="com.dalrun.dto.CourseDto">
+    	UPDATE admincourse
+    	SET areaName = #{areaName}, level=#{level}, thumbnail=#{thumbnail}, content=#{content},
+    		start = #{star}, aCourseTotalDist=#{aCourseTotalDist}, aCourseMaxSlope=#{aCourseMaxSlope}
+    	WHERE courseSeq=#{courseSeq}
+    </update>
+    
+    <!-- 추천 코스 삭제 -->
+    <delete id="deleteCourse" parameterType="Integer">
+    	DELETE FROM admincourse
+    	WHERE courseSeq=#{courseSeq}
+    </delete>
+    
     
 </mapper>
