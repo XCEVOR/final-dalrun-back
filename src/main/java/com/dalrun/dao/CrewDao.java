@@ -22,7 +22,7 @@ public interface CrewDao {
 	/*
 	 * CrewDto getCrew(int crewSeq); List<CrewMemberDto> getCrewMember(int crewSeq);
 	 */
-	int getcrewPoint(int crewSeq);
+//	int getcrewPoint(int crewSeq);
 	int crewUpgrade(int crewSeq);
 	
 }
