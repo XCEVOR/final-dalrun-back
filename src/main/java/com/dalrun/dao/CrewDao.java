@@ -18,7 +18,6 @@ public interface CrewDao {
 	int sendDonation(CrewPointDto dto);
 	int MinusPoint(CrewPointDto dto);
 	int PlusPoint(CrewPointDto dto);
-
 	/*
 	 * CrewDto getCrew(int crewSeq); List<CrewMemberDto> getCrewMember(int crewSeq);
 	 */

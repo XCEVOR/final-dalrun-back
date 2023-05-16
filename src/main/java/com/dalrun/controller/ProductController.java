@@ -200,6 +200,18 @@ public class ProductController {
         return filenamesList;
     }
     
+    @PostMapping(value = "getProductAllRecommPictureList")
+    public String[] getProductAllRecommPictureList (String productCode, HttpServletRequest hsreq) {
+        // 실제 배포시 문제 가능성 예상. 어떻게 될지 모르겠으니 예의주시 바람. HttpServletRequest 에 따름.
+        String fileuploaded_path = hsreq.getServletContext().getRealPath("/dalrun-hc/store/recomproducts/" + productCode);
+      
+        System.out.println("  @@ fileuploaded_path: " + fileuploaded_path);
+        
+        String[] filenamesList = FileNameListUtil.getFileNameList(fileuploaded_path);
+        
+        return filenamesList;
+    }
+    
     
     
     

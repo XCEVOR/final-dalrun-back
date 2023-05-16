@@ -1,6 +1,7 @@
 package com.dalrun.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,10 @@ import com.dalrun.dto.CrewMemberDto;
 public class CrewMemberService {
 	@Autowired
 	private CrewMemberDao dao;
+	
+	public List<CrewMemberDto> getCrewMemberWait(int crewSeq) {
+		return dao.getCrewMemberWait(crewSeq);
+	}
 	
 //	//유저가 다른 크루나 대기열에 있는지
 //	 public boolean isWaiting(String memId){
@@ -63,34 +68,34 @@ public class CrewMemberService {
 //	      }
 //	      return true;
 //	   }
+	public boolean deleteFromList(CrewMemberDto dto) {
+		return dao.deleteFromList(dto)>0;
+	}
+	
 
+		public String getLeader(int crewSeq) {
+			return dao.getLeader(crewSeq);
+		}
+	
 		//유저가 다른 크루대기테이블에 있는지 체크
 		public boolean isWaiting(CrewMemberDto dto){
-		      return dao.checkMember(dto.getMemId())!=null;
+		      return dao.checkMember(dto.getMemId())>0;
 		   }
 	
 		//가입버튼 클릭 시 
 	   public boolean joinCrew(CrewMemberDto dto){
 		   //가입버튼 클릭한 user가 다른 크루대기테이블에 있다면
-	      if(isWaiting(dto)){
-	    	  //false
-	         return false;
-	      }
-	      //없다면 크루대기테이블에 insert
-	      int res = dao.insertMember(dto);
-	      //결과값이 1이면
-	      if(res==1){
-	         return true;
-	      }
-	      return false;
+
+	     
+	      return dao.insertMember(dto)>0;
 	   }
 	
 	   //승인버튼 클릭 시
 	   public boolean approve(CrewMemberDto dto){
 		   //리더 체크
-	      if(dao.getLeader(dao.getCrewSeq(dto.getMemId()))!=dto.getReqMemId()){
-	         return false;
-	      }
+//	      if(dao.getLeader(dao.getCrewSeq(dto.getMemId()))!=dto.getReqMemId()){
+//	         return false;
+//	      }
 	      try{
 	    	  //멤버테이블 update
 	         dao.changeMember(dto);
@@ -106,9 +111,9 @@ public class CrewMemberService {
 	
 	   //거절
 	   public boolean reject(CrewMemberDto dto){
-	      if(dao.getLeader(dao.getCrewSeq(dto.getMemId()))!=dto.getReqMemId()){
-	         return false;
-	      }
+//	      if(dao.getLeader(dao.getCrewSeq(dto.getMemId()))!=dto.getReqMemId()){
+//	         return false;
+//	      }
 	      try{
 	         dao.deleteFromList(dto);
 	      }catch(Exception e){

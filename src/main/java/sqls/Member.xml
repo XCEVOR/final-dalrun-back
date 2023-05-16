@@ -49,11 +49,14 @@
 update member  SET point=point-#{point} where memId=#{memId}
 </update>
 <select id="mycrewMemberList" parameterType="Integer" resultType="com.dalrun.dto.MemberDto">
-        SELECT A.*, B.crewAuth 
+<!--         SELECT A.*, B.crewAuth 
         FROM member A
         INNER JOIN crewmember B
         ON A.memId = B.memId
-        WHERE A.crewSeq=#{crewSeq}
+        WHERE A.crewSeq=#{crewSeq} -->
+        SELECT *
+		FROM member
+		WHERE crewSeq=#{crewSeq}
 </select>
 
 
