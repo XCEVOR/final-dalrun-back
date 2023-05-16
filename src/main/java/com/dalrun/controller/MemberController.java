@@ -202,10 +202,10 @@ public class MemberController {
 //		String memId = service.findMemId(dto);
 //		return memId;
 //	}
-
+	
 	@PostMapping("/findId")
-	   public String findId(@RequestParam(value="name") String name, @RequestParam(value="email") String email){
-	      String id = service.findId(name, email);
+	   public String findId(@RequestBody MemberDto dto){
+	      String id = service.findId(dto);
 	      if (id==null){
 	         return "Not Found";
 	      }else{
@@ -214,13 +214,61 @@ public class MemberController {
 	   }
 
 	   @PostMapping("/findpw")
-	   public String findPw(@RequestParam(value="id") String memId, @RequestParam(value="name") String name, @RequestParam(value="phone") String phone){
-	      boolean res = service.findPw(memId, name, phone);
+	   public String findPw(@RequestBody MemberDto dto){
+	      boolean res = service.findPw(dto);
 	      if(res){
 	         return "success";
 	      }else{
 	         return "failed";
 	      }
 	   }
+	
+		/*@GetMapping("/findId")
+		public String findId(@RequestParam(value = "name") String name, @RequestParam(value = "email") String email) {
+		    String id = service.findId(name, email);
+		    if (id == null) {
+		        return "Not Found";
+		    } else {
+		        return id;
+		    }
+		}*/
+	
+//		@PostMapping("/findId")
+//		public String findId(@RequestBody MemberDto dto) {
+//			System.out.println("MemberController findId " + new Date());
+//		    String name = dto.getMemberName();
+//		    String email = dto.getEmail();
+//		    
+//		    String id=service.findId(name, email);
+//		    if (id == null) {
+//		        return "Not Found";
+//		    } else {
+//		        return id;
+//		    }
+//		}
+		
+	   /*@PostMapping("/findpw")
+	   public String findPw(@RequestParam(value="id") String memId, @RequestParam(value="name") String memberName, @RequestParam(value="phone") String phone){
+	      boolean res = service.findPw(memId, memberName, phone);
+	      if(res){
+	         return "success";
+	      }else{
+	         return "failed";
+	      }
+	   }*/
+		
+//		@PostMapping("/findpw")
+//		public String findPw(@RequestBody MemberDto dto) {
+//		  String id = dto.getMemId();
+//		  String name = dto.getMemberName();
+//		  String phone = dto.getPhone();
+//
+//		  boolean res = service.findPw(id, name, phone);
+//		  if (res) {
+//		    return "success";
+//		  } else {
+//		    return "failed";
+//		  }
+//		}
   
 }
