@@ -131,6 +131,17 @@ public class CartController {
         return "SUCCESS";
     }
     
+    @PostMapping(value = "emptyCart")
+    public String emptyCart (String memId) {
+        System.out.println("  @ CartController String emptyCart (String memId) { " + new Date());
+        System.out.println("System.out.println(productId); " + memId);
+        boolean isSucc = service.emptyCart(memId);
+        if (isSucc == false) {
+            return "FAIL";
+        }
+        return "SUCCESS";
+    }
+    
     
 }
 
