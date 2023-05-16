@@ -4,12 +4,14 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -221,9 +223,93 @@ public class MemberService {
 		return dao.mycrewMemberList(crewSeq);
 	}
 	
-//	public String findMemId(MemberDto dto) {
-//		return dao.findMemId(dto);
-//	}
+	//아이디 찾기
+	public String findId(String name, String email){
+	      MemberDto dto = new MemberDto();
+	      dto.setMemberName(name);
+	      dto.setEmail(email);
+	      return dao.findId(dto);
+	   }
+	
+	//비밀번호 찾기
+	public boolean findPw(String id, String name, String phone){
+	      MemberDto dto = new MemberDto();
+	      dto.setMemId(id);
+	      dto.setMemberName(name);
+	      dto.setPhone(phone);
+	      String res = dao.findPw(dto);
+	      if (res==null) {return false;}
+
+	      Random rd = new Random();
+	      int length = (int) rd.nextInt(4)+8; //8~11
+	      String randomString = rd.ints(48, 123)
+	            .filter(i -> (i<=57||i>=65)&&(i<=90||i>=97))
+	            .limit(length)
+	            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+	            .toString(); //length길이를 가진 랜덤 문자열(알파벳+숫자)
+
+	      if(dao.setNewPw(randomString, id)==1){
+	         sendSMS(phone, name+"고객님의 임시 비밀번호는 "+randomString+"입니다. 로그인 후 비밀번호를 변경해주시기 바랍니다.");
+	         return true;
+	      }
+	      return false;
+	   }
+
+	//nhn클라우드 SMS 발송
+	public boolean sendSMS(String phone, String message){
+	      String appkey = "knTqFyUsdICgAUz1";
+	      String secretKey= "VwLDrAwN";
+	      String sendNo = "01093759907";
+	      String data = "{\"body\" : \""+message+"\", \"sendNo\" : \""+sendNo+"\", \"recipientList\" : [{\"recipientNo\" : \""+phone+"\"}]}";
+	      BufferedReader br = null;
+	      StringBuffer sb;
+	      String returnData = null;
+	      String responseCode = null;
+
+	      try{
+	         URL url = new URL("https://api-sms.cloud.toast.com/sms/v3.0/appKeys/"+appkey+"/sender/sms");
+	         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	         conn.setRequestMethod("POST");
+	         conn.setRequestProperty("Content-Type", "application/json");
+	         conn.setRequestProperty("X-Secret-Key", secretKey);
+	         conn.setDoOutput(true);
+	         try(OutputStream os = conn.getOutputStream()){
+	            byte request_data[] = data.getBytes("utf-8");
+	            os.write(request_data);
+	         }catch(Exception e){
+	            e.printStackTrace();
+	            return false;
+	         }
+
+	         conn.connect();
+
+	         br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+	         sb = new StringBuffer();
+	         String responseData="";
+	         while((responseData = br.readLine())!=null){
+	            sb.append(responseData);
+	         }
+	         returnData = sb.toString();
+	         responseCode = String.valueOf(conn.getResponseCode());
+	         System.out.println("=======================\n\n\n");
+	         System.out.println(responseCode);
+	         System.out.println(returnData);
+	         System.out.println("=======================\n\n\n");
+	      }catch (Exception e){
+	         e.printStackTrace();
+	         return false;
+	      }finally{
+	         try{
+	            if (br!=null){
+	               br.close();
+	            }
+	         }catch(IOException e){
+	            e.printStackTrace();
+	         }
+	      }
+	      return true;
+	   }
+	
 	
 }
 
