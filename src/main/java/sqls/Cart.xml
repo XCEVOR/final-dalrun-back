@@ -20,6 +20,12 @@
         WHERE memId=#{memId}
     </select>
     
+    <select id="getUserCartQuantity" parameterType="String" resultType="Integer">
+        SELECT COUNT(*)
+        FROM cart
+        WHERE memId=#{memId}
+    </select>
+    
     <delete id="deleteCartItem" parameterType="String">
         DELETE FROM cart WHERE productId=#{productId}
     </delete>

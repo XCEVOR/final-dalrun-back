@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.CrewDto;
 import com.dalrun.dto.CrewMemberDto;
-import com.dalrun.dto.CrewScoreRankDto;
+import com.dalrun.dto.ScoreRankDto;
 import com.dalrun.dto.DashboardData;
 import com.dalrun.dto.DiaryDto;
 import com.dalrun.dto.MemberDto;
@@ -44,6 +45,7 @@ import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
 import com.dalrun.dto.ShoeReviewDetailDto;
 import com.dalrun.dto.ShoeReviewDto;
+import com.dalrun.dto.VisitorsDto;
 import com.dalrun.service.AdminService;
 import com.dalrun.service.CompetitionService;
 import com.dalrun.service.CrewService;
@@ -55,7 +57,9 @@ import com.dalrun.util.FileNameListUtil;
 import com.dalrun.util.MultiFileUtil;
 import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 public class AdminController {
@@ -540,6 +544,14 @@ public class AdminController {
 		return diary;
 	}
 	
+	@PostMapping(value = "admin_updatediary")
+	public String updatediary(DiaryDto diarydto) {
+		System.out.println("AdminController updatediary " + new Date());
+		
+		boolean b = service.updatediary(diarydto);
+		return str(b);
+	}
+	
 	@PostMapping(value = "admin_deldiary")
 	public String deldiary(@RequestParam("checkedList") int[] checkedList) {
 		System.out.println("AdminController deldiary " + new Date());
@@ -818,10 +830,45 @@ public class AdminController {
 	}
 	
 	// 차트
-	@PostMapping(value = "getCrewScoreRank")
-	public List<CrewScoreRankDto> getCrewScoreRank() {
-		System.out.println("AdminController getCrewScoreRank " + new Date());
+	@PostMapping(value = "getScoreRank")
+	public Map<String, Object> getScoreRank() {
+		System.out.println("AdminController getScoreRank " + new Date());
 		
-		return service.getCrewScoreRank();
+		List<ScoreRankDto> crewRank = service.getCrewScoreRank();
+		List<ScoreRankDto> memRank = service.getMemberScoreRank();
+		
+		Map<String, Object> rankMap = new HashMap<>();
+		rankMap.put("memRank", memRank);
+		rankMap.put("crewRank", crewRank);
+		
+		return rankMap;
+	}
+	
+	// 방문자
+	@PostMapping(value = "saveCookieData")
+	public String saveCookieData(@RequestParam("user") String user) {
+		System.out.println("AdminController saveCookieData " + new Date());
+		
+    	boolean s = service.saveCookieData(user);
+    	if(!s) return "NO";
+    	else System.out.println("save cookie data");
+		
+		return "YES";
+	}
+	
+	@PostMapping(value = "updateCookie")
+	public String updateCookie(@RequestParam("user") String user) {
+		System.out.println("AdminController updateCookie " + new Date());
+		
+		// 마지막 방문 시간 업데이트
+		boolean b = service.updateCookie(user);
+		if(b) System.out.println("update cookie data");
+		return str(b);
+	}
+	@GetMapping(value = "getDailyVisitorsCnt")
+	public List<VisitorsDto> getDailyVisitorsCnt() {
+		System.out.println("AdminController getDailyVisitorsCnt " + new Date());
+		
+		return service.getDailyVisitorsCnt();
 	}
 }

@@ -6,16 +6,18 @@
 
 <select id="getCrewRank" resultType="com.dalrun.dto.CrewDto">
 
-select * from crew order by crewscore desc limit 3;
+select *,
+ (select count(*) from ground where c1.crewSeq=crewSeq) as groundCount
+ from crew  c1 order by groundCount desc limit 3;
 
 </select>
 
 <select id="getMyCrewinfo" resultType="com.dalrun.dto.CrewDto"  parameterType="Integer">
 
 SELECT *, 
-  (SELECT COUNT(*) FROM crew c2 WHERE c2.crewscore > c1.crewscore) + 1 AS myrank,
-  (select count(*) from member  where crewSeq= #{crewSeq}) as crewMemberCnt 
-   
+  (SELECT COUNT(*) FROM ground WHERE crewSeq=#{crewSeq}) + 1 AS groundCount,
+  (select count(*) from member  where crewSeq= #{crewSeq}) as crewMemberCnt,
+  (select sum(price) from ground  where crewSeq= #{crewSeq}) as crewTotalScore
 FROM crew c1
 WHERE crewSeq =  #{crewSeq}
 
@@ -49,11 +51,11 @@ update crew  SET crewScore=crewScore-#{score} where crewSeq=#{crewSeq}
 	WHERE crewSeq = #{crewSeq};
 </select> -->
 
-<select id="getcrewPoint" parameterType="Integer" resultType="Integer">
+<!-- <select id="getcrewPoint" parameterType="Integer" resultType="Integer">
 
 select sum(score) from crewpoint where crewSeq=#{crewSeq};
 </select>
-
+ -->
 <update id="crewUpgrade" parameterType="Integer">
 
 update crew set crewLevel = crewLevel+1 where crewSeq=#{crewSeq}

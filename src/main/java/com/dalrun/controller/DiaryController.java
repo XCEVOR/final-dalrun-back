@@ -22,6 +22,7 @@ import com.dalrun.dto.DiaryReplyDto;
 import com.dalrun.dto.SearchParam;
 import com.dalrun.service.DiaryReplyService;
 import com.dalrun.service.DiaryService;
+import com.dalrun.util.FileNameListUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -81,12 +82,13 @@ public class DiaryController {
 		String ogFilename = imageFile.getOriginalFilename(); // 기존 파일 명
 		String fileExtension = ogFilename.substring(ogFilename.indexOf('.'));	// 확장자 명
 		
-		
 		// new 파일 명 : ID + 고유 식별 + 숫자(초 단위까지)
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyMMddHHmmss");
 		String now = dtf.format(LocalDateTime.now());
 		String fileName = now + "_" + diary.getPostId() + "_" + diary.getMemId() + fileExtension ;
 		
+		System.out.println("ori = " + ogFilename);
+		System.out.println("new = " + fileName);
 		// 파일 업로드 경로
 		String filePath = path + "/" + fileName;
 		System.out.println("uploadDiaryImg path:" + filePath); // 경로 확인
@@ -111,6 +113,38 @@ public class DiaryController {
 	    response.put("url", imageUrl);
 	    
 		return response;
+		
+	}
+	
+	// 다이어리 수정 시, 삭제된 기존의 사진은 서버에서 삭제
+	@PostMapping("deleteImg")
+	public void deleteImg(@RequestParam(value = "fileList", required=false) List<String> filelist,
+						  @RequestParam("memId") String memId,
+						  HttpServletRequest req) {
+		
+		System.out.println("DiaryController deleteImg: " + new Date());					
+		
+		String path = req.getServletContext().getRealPath("/diaryImg");
+		String[] imgList = FileNameListUtil.getFileNameList(path);
+		
+		for(String img : imgList) {
+			if(img.contains(memId)) {	// 해당 아이디가 포함된 이미지 추출
+				System.out.println("memId " + img);
+				
+				if(filelist.size() == 0) {	// 01. 기존의 파일을 모두 지울 경우, 모두 삭제	
+					String filepath = path + "/" + img;
+					File file = new File(filepath);
+					file.delete();
+				} 
+				else if(!filelist.contains(img)) {	// 02. 기존의 파일에서 일부만 지울 경우, 수정된 파일리스트에 포함되지 않은 이미지 추출
+					System.out.println("img = " + img);
+					
+					String filepath = path + "/" + img;
+					File file = new File(filepath);
+					if(file.exists()) file.delete();
+				}
+			}
+			}
 		
 	}
 	

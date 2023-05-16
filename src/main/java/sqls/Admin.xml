@@ -432,11 +432,17 @@
 	</delete>
 	
 	<!-- 다이어리 -->
-	<delete id="deldiary" parameterType="List">
-		DELETE FROM DIARY
+	<update id="updatediary" parameterType="com.dalrun.dto.DiaryDto">
+		UPDATE DIARY
+		SET memId=#{memId}, title=#{title}, content=#{content}, score=#{score}
+		WHERE diarySeq = #{diarySeq}
+	</update>
+	<update id="deldiary" parameterType="List">
+		UPDATE DIARY
+		SET diaryDel=1
 		WHERE diarySeq IN
 		<include refid="commonForeach"></include>
-	</delete>
+	</update>
 	
 	<!-- 대회일정 -->
 	<update id="updatecomperition" parameterType="com.dalrun.dto.CompetitionDto">
@@ -518,7 +524,21 @@
 	</select>
 
 	<!-- 차트 -->
-	<select id="getCrewScoreRank" resultType="com.dalrun.dto.CrewScoreRankDto">
+	<select id="getMemberScoreRank" resultType="com.dalrun.dto.ScoreRankDto">
+		SELECT
+			MONTH(now()) as month,
+			YEAR(now()) as year,
+			memId,
+		    SUM(totalDist) as monthlyTotalDist,
+			SUM(score) as monthlyScore,
+			RANK()OVER(ORDER BY SUM(score) DESC, SUM(totalDist) DESC) as ranking
+		FROM diary
+		WHERE MONTH(wdate) &lt;= MONTH(now()) AND YEAR(wdate) &lt;= YEAR(now()) 
+		GROUP BY year, month, memId
+		ORDER BY year DESC, month DESC, ranking
+		LIMIT 0,7;
+	</select>
+	<select id="getCrewScoreRank" resultType="com.dalrun.dto.ScoreRankDto">
 		SELECT
 			MONTH(now()) as month,
 		    YEAR(now()) as year,
@@ -527,17 +547,28 @@
 		    crewLevel,
 		    SUM(crewScore) as monthlyScore,
 		    RANK()OVER(ORDER BY SUM(crewScore) DESC) as ranking
-		FROM
-		    crew
+		FROM crew
 		WHERE MONTH(crewCreateDate) &lt;= MONTH(now()) AND YEAR(crewCreateDate) &lt;= YEAR(now()) 
-		GROUP BY
-		    year,
-		    month,
-		    crewSeq
-		ORDER BY
-		    year DESC,
-		    month DESC,
-		    ranking
+		GROUP BY year, month, crewSeq
+		ORDER BY year DESC, month DESC, ranking
 	    LIMIT 0,7
+	</select>
+	
+	<!-- 방문자 -->
+	<insert id="saveCookieData" parameterType="String">
+		INSERT INTO VISITORS(user, firstVisitTime, lastVisitTime)
+		VALUES(#{user}, now(), now())
+	</insert>
+	<update id="updateCookie" parameterType="String">
+		UPDATE VISITORS
+		SET lastVisitTime=now()
+		WHERE user = #{user}
+	</update>
+	<select id="getDailyVisitorsCnt" resultType="com.dalrun.dto.VisitorsDto">
+		SELECT IFNULL(COUNT(firstVisitTime), 0) dailyVisitorsCnt, DATE(NOW() - INTERVAL (6 - t.n) DAY) weekDate
+		FROM 
+			(SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6) t
+			LEFT JOIN visitors ON DATE(firstVisitTime) = DATE(NOW() - INTERVAL (6 - t.n) DAY)
+		GROUP BY DATE(NOW() - INTERVAL (6 - t.n) DAY)
 	</select>
 </mapper>

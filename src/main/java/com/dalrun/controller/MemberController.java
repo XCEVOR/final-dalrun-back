@@ -203,5 +203,24 @@ public class MemberController {
 //		return memId;
 //	}
 
+	@PostMapping("/findId")
+	   public String findId(@RequestParam(value="name") String name, @RequestParam(value="email") String email){
+	      String id = service.findId(name, email);
+	      if (id==null){
+	         return "Not Found";
+	      }else{
+	         return id;
+	      }
+	   }
+
+	   @PostMapping("/findpw")
+	   public String findPw(@RequestParam(value="id") String memId, @RequestParam(value="name") String name, @RequestParam(value="phone") String phone){
+	      boolean res = service.findPw(memId, name, phone);
+	      if(res){
+	         return "success";
+	      }else{
+	         return "failed";
+	      }
+	   }
   
 }

@@ -48,6 +48,13 @@ public class CartController {
         return service.getUserCartList(memId);
     }
     
+    @PostMapping(value = "getUserCartQuantity")
+    public int getUserCartQuantity (String memId) {
+        System.out.println("  @ CartController int getUserCartQuantity (String memId) { " + new Date());
+        System.out.println("  @ memId: " + memId);
+        return service.getUserCartQuantity(memId);
+    }
+    
     @PostMapping(value = "getUserCartInfoList")  // 카트의 상품 내용을 포기하기 위한 메서드
     public List<ProductDto> getUserCartInfoList (String memId) {
         System.out.println("  @ CartController List<CartDto> getUserCartList () { " + new Date());
