@@ -32,6 +32,13 @@ public class CrewMemberController {
 //     int crewSeq = service.getCrewSeq(memberdto);
 //     
 //  }
+	//가입 취소
+	@PostMapping("OutCrew")
+	  public boolean OutCrew(CrewMemberDto dto) {
+	      return service.deleteFromList(dto);
+		      
+		}
+	
 	
 	@GetMapping("getLeader")
 	public String getLeader(int crewSeq) {
@@ -39,8 +46,9 @@ public class CrewMemberController {
 	}
 	
 	//가입 신청
-	@PostMapping("/joinCrew")
-	   public String joinCrew(@RequestBody CrewMemberDto dto){
+	@PostMapping("joinCrew")
+	   public String joinCrew(CrewMemberDto dto){
+	
 	      if(service.joinCrew(dto)){
 	         return "success";
 	      }else{
@@ -48,8 +56,9 @@ public class CrewMemberController {
 	      }
 	   }
 
-	   @PostMapping("/checkWaiting")
-	   public boolean checkWaiting(@RequestBody CrewMemberDto dto){
+	   @GetMapping("checkWaiting")
+	   public boolean checkWaiting(CrewMemberDto dto){
+		   System.out.println("CrewMemberController checkWaiting");
 	      return service.isWaiting(dto);
 	   }
 

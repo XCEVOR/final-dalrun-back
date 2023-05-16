@@ -44,4 +44,5 @@ public String toString() {
 	return "CrewMemberDto [crewSeq=" + crewSeq + ", memId=" + memId + ", reqMemId=" + reqMemId + "]";
 }
    
+
 }
