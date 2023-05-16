@@ -3,7 +3,7 @@ package com.dalrun.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.dalrun.dto.DiaryDto;
@@ -44,7 +44,11 @@ public interface MemberDao{
 	int crewLeave(String memId);
 	
 	//아이디 찾기
-//	String findMemId(MemberDto dto);
+	String findId(MemberDto dto);
+
+   String findPw(MemberDto dto);
+
+   int setNewPw(@Param("newPw") String newPw, @Param("memId") String memId);
 
 
 }

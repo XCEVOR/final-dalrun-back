@@ -63,12 +63,25 @@ update member set crewSeq=0 where memId=#{memId}
 </update>
 
 <!--아이디 찾기-->
-<!--<select id="findMemId" parameterType="com.dalrun.dto.MemberDto" resultType="String">
-	select memId
-	from member
-	where memberName=#{memberName} and email=#{email}
-</select>-->
+<select id="findId" parameterType="com.dalrun.dto.MemberDto" resultType="String">
+      select memId
+      from member
+      where memberName=#{memberName} AND email=#{email}
+</select>
 
+
+<select id="findPw" parameterType="com.dalrun.dto.MemberDto" resultType="String">
+      select phone
+      from member
+      where memId=#{memId} AND memberName=#{memberName} AND phone=#{phone}
+</select>
+
+
+<update id="setNewPw">
+      update member
+      set password=#{newPw}
+      where memId=#{memId}
+</update>
 
 </mapper>
 

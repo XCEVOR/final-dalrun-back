@@ -24,8 +24,8 @@
 	
 	<insert id="writeCrewBbs" parameterType="com.dalrun.dto.CrewDto">
 		insert into crew(memId, title, content, type, crewCreateDate,readcount, likecount, crewDel, crewName, 
-						crewImg, crewSetUp, crewScore, crewcolor,crewLevel)
-		values(#{memId}, #{title}, #{content}, #{type}, now(), 0, 0 , 0, #{crewName}, #{crewImg}, #{crewSetUp}, 0, #{crewcolor}, 1)
+						crewImg, crewSetUp, crewScore, crewcolor,crewLevel, leader)
+		values(#{memId}, #{title}, #{content}, #{type}, now(), 0, 0 , 0, #{crewName}, #{crewImg}, #{crewSetUp}, 0, #{crewcolor}, 1, #{memId})
 	</insert>
 	
 	<!--모든 게시글 리스트 보이기(최신순)-->
