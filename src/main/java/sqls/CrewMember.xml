@@ -17,6 +17,7 @@
 	      where memId=#{memId}
 	</select>
 	
+	
 	<!--승인/거절 후 대기테이블에서 삭제-->
 	<delete id="deleteFromList" parameterType="com.dalrun.dto.CrewMemberDto">
 	   delete from crewMember

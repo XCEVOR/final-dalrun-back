@@ -2,6 +2,7 @@ package com.dalrun.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,10 +22,18 @@ public class CrewMemberController {
 //     int crewSeq = service.getCrewSeq(memberdto);
 //     
 //  }
+	//가입 취소
+	@PostMapping("OutCrew")
+	  public boolean OutCrew(CrewMemberDto dto) {
+	      return service.deleteFromList(dto);
+		      
+		}
+	
 	
 	//가입 신청
-	@PostMapping("/joinCrew")
-	   public String joinCrew(@RequestBody CrewMemberDto dto){
+	@PostMapping("joinCrew")
+	   public String joinCrew(CrewMemberDto dto){
+	
 	      if(service.joinCrew(dto)){
 	         return "success";
 	      }else{
@@ -32,8 +41,9 @@ public class CrewMemberController {
 	      }
 	   }
 
-	   @PostMapping("/checkWaiting")
-	   public boolean checkWaiting(@RequestBody CrewMemberDto dto){
+	   @GetMapping("checkWaiting")
+	   public boolean checkWaiting(CrewMemberDto dto){
+		   System.out.println("CrewMemberController checkWaiting");
 	      return service.isWaiting(dto);
 	   }
 
