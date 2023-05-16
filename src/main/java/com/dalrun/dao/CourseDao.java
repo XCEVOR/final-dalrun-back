@@ -13,7 +13,7 @@ import com.dalrun.dto.SearchParam;
 public interface CourseDao {
 
 	// 코스 전체 리스트 조회
-	List<CourseDto> courseList(SearchParam param);
+	List<CourseDto> courseList(String search);
 	
 	// 추천 코스 정보 삽입
 	int insertCourse(CourseDto course);

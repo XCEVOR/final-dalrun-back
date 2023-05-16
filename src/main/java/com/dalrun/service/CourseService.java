@@ -18,8 +18,8 @@ public class CourseService {
 	CourseDao dao;
 
 	// 코스 리스트 전체 조회
-	public List<CourseDto> courseList(SearchParam param) {
-		return dao.courseList(param);
+	public List<CourseDto> courseList(String search) {
+		return dao.courseList(search);
 	}
 	
 	// 추천 코스 데이터 삽입

@@ -14,15 +14,15 @@ public class CourseDto implements Serializable{
 	private int star; 			// 평점
 	private double aCourseTotalDist;	// 추천 코스 거리
 	private double aCourseMaxSlope;		// 추천 코스 최고 경사도
-	private double courseDel;	// 삭제 여부
 	private LocalDateTime wdate;
+	private double kcal;
 	private String postId;
 
 	public CourseDto() {
 	}
 
 	public CourseDto(int courseSeq, String areaName, String level, String courseTitle, String thumbnail, String content,
-			int star, double aCourseTotalDist, double aCourseMaxSlope, double courseDel, LocalDateTime wdate,
+			int star, double aCourseTotalDist, double aCourseMaxSlope, LocalDateTime wdate, double kcal,
 			String postId) {
 		super();
 		this.courseSeq = courseSeq;
@@ -34,8 +34,8 @@ public class CourseDto implements Serializable{
 		this.star = star;
 		this.aCourseTotalDist = aCourseTotalDist;
 		this.aCourseMaxSlope = aCourseMaxSlope;
-		this.courseDel = courseDel;
 		this.wdate = wdate;
+		this.kcal = kcal;
 		this.postId = postId;
 	}
 
@@ -116,22 +116,20 @@ public class CourseDto implements Serializable{
 		this.aCourseMaxSlope = aCourseMaxSlope;
 	}
 
-
-	public double getCourseDel() {
-		return courseDel;
-	}
-
-
-	public void setCourseDel(double courseDel) {
-		this.courseDel = courseDel;
-	}
-	
 	public LocalDateTime getWdate() {
 		return wdate;
 	}
 
 	public void setWdate(LocalDateTime wdate) {
 		this.wdate = wdate;
+	}
+
+	public double getKcal() {
+		return kcal;
+	}
+
+	public void setKcal(double kcal) {
+		this.kcal = kcal;
 	}
 
 	public String getPostId() {
@@ -146,8 +144,8 @@ public class CourseDto implements Serializable{
 	public String toString() {
 		return "CourseDto [courseSeq=" + courseSeq + ", areaName=" + areaName + ", level=" + level + ", courseTitle="
 				+ courseTitle + ", thumbnail=" + thumbnail + ", content=" + content + ", star=" + star
-				+ ", aCourseTotalDist=" + aCourseTotalDist + ", aCourseMaxSlope=" + aCourseMaxSlope + ", courseDel="
-				+ courseDel + ", wdate=" + wdate + ", postId=" + postId + "]";
+				+ ", aCourseTotalDist=" + aCourseTotalDist + ", aCourseMaxSlope=" + aCourseMaxSlope + ", wdate=" + wdate
+				+ ", kcal=" + kcal + ", postId=" + postId + "]";
 	}
 
 }

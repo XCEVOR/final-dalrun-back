@@ -14,7 +14,7 @@ import com.dalrun.dto.GpxParam;
 @Repository
 public interface GpxDataDao {
 
-	// 데이터 전체 조회
+	// 다이어리 데이터 전체 조회
 	List<GpxDataDto> gpxDataList(List<Integer> diarySeqList);
 	
 	// 다이어리 데이터 삽입
@@ -25,6 +25,9 @@ public interface GpxDataDao {
 	
 	// 코스 데이터 삽입
 	int insertCourseGpxData(GpxDataDto point);
+	
+	// 코스 데이터 전체 조회
+	List<GpxDataDto> courseGpxList();
 	
 	// 코스 데이터 삭제
 	int deleteCourseData(int courseSeq);

@@ -113,7 +113,6 @@ public class GpxController {
 					double totalD = 0;	// 총 거리 초기화
 					double totalT = 0;	// 총 시간 초기화
 					double maxSlope = 0;	// 총 경사도 초기화
-					int length = 0;
 					
 					
 					for (GpxDataDto point : points) {
@@ -291,6 +290,7 @@ public class GpxController {
 					// Gpx Data 파싱하여 DB에 저장
 					List<GpxDataDto> points = GpxParserUtil.parseGPXFile(file);
 					double totalD = 0;	// 총 거리 초기화
+					double totalT = 0;
 					double maxSlope = 0;	// 총 경사도 초기화
 					
 					for (GpxDataDto point : points) {
@@ -307,6 +307,7 @@ public class GpxController {
 					    gpxData.setSlope(point.getSlope());
 					    
 					    totalD += point.getDistance();
+					    totalT += point.getTimeDiff();
 					    if(maxSlope < point.getSlope()) {
 					    	maxSlope = point.getSlope();
 					    }
@@ -318,9 +319,14 @@ public class GpxController {
 					    }
 					}
 					
+					// 칼로리 계산
+					double kcal = ((3.5/60)*7*60*totalT/1000)*5;
+					// ((산소3.5ml/60s) * met(s) * 몸무게(kg) * 운동시간(s)) * 산소 1L 당 5kcal, 조깅 met(s)= 7
+					
 					// 총 이동 거리,최고 경사도 Dto에 저장
 					course.setaCourseTotalDist(totalD);
 					course.setaCourseMaxSlope(maxSlope);
+					course.setKcal(kcal);
 					
 					// 난이도 - ~5 => '초급', 5 ~ 10 => '중급', 10 ~ 15 => '고급', 15 ~ => '최고급'
 					String level = "";
@@ -368,7 +374,18 @@ public class GpxController {
 		        return "diary Insert Fail";
 			}
 	}	// <courseUpload />
-	
+
+	// TODO : 추천 코스 번호에 따른 gpxData 전송
+	@GetMapping(value="/courseGpxList")
+	public List<GpxDataDto> courseGpxList() {
+		System.out.println("GpxController courseGpxList : " + new Date());
+		
+//		List<Integer> courseSeqListInt = Arrays.stream(courseSeqList.split(","))
+//				.map(Integer::valueOf)
+//				.collect(Collectors.toList());
+		
+		return gdService.courseGpxList();
+	}
 	
 	/* User 코스 */
 	// TODO : User gpx 파일 업로드

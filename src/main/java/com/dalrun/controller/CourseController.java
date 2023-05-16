@@ -49,11 +49,11 @@ public class CourseController {
 	GpxFilesService gfService;
 
 	/* 추천 코스 */
-	// 추천 코스 리스트
+	// TODO : 추천 코스 리스트
 	@GetMapping("courseList")
-	public List<CourseDto> courseList(SearchParam param){
+	public List<CourseDto> courseList(@RequestParam(value="search")String search){
 		System.out.println("CourseController courseList" + new Date());
-		return cService.courseList(param);
+		return cService.courseList(search);
 	}
 
 	// 추천 코스 댓글 리스트
@@ -143,7 +143,7 @@ public class CourseController {
 		} 
 		
 		// 이미지 URL 생성
-	    String imageUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/courseImg/" + fileName;
+	    String imageUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/dalrun-jw/courseImg/" + fileName;
 
 	    // CKEditor에서 요구하는 형식에 맞춰서 JSON 응답 생성
 	    Map<String, String> response = new HashMap<>();
