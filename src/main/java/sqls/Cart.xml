@@ -36,6 +36,10 @@
         WHERE cartId=#{cartId}
     </update>
     
+    <delete id="emptyCart" parameterType="String">
+        DELETE FROM cart WHERE memId=#{memId}
+    </delete>
+    
     
     
 

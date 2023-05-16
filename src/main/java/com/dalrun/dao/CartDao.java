@@ -23,6 +23,8 @@ public interface CartDao {
     
     int updateCartItem (CartDto cdto);
     
+    int emptyCart (String memId);
+    
 }
 
 
