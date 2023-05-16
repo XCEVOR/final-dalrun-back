@@ -149,16 +149,16 @@
 		WHERE memId = #{memId}
 	</select>
 	
-    <select id="orderlist" resultType="com.dalrun.dto.OrderDto">
-	SELECT A.orderNumber, productName, productQuantity, productPrice, orderTotalprice, orderDate, orderState
-	FROM productorder A
-    INNER JOIN productorderdetail B
-    ON A.orderNumber = B.orderNumber
-    WHERE memId = #{memId}
+    <select id="orderlist" parameterType="String" resultType="com.dalrun.dto.OrderDto">
+		SELECT A.orderNumber, productName, productQuantity, productPrice, orderTotalprice, orderDate, orderState
+		FROM productorder A
+	    INNER JOIN productorderdetail B
+	    ON A.orderNumber = B.orderNumber
+	    WHERE memId = #{memId}
     </select>	   
 	
 	<!-- 다이어리 전체 조회 -->
-	<select id="diaryList" resultType="com.dalrun.dto.DiaryDto">
+	<select id="diaryList" parameterType="String" resultType="com.dalrun.dto.DiaryDto">
 		SELECT *
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, diarySeq, memId,
@@ -166,18 +166,17 @@
 				score, diaryDel
 			FROM DIARY
 			ORDER BY wdate DESC) A
-		WHERE RNUM BETWEEN ${start} AND ${end}
-		AND memId =#{memId}
+		WHERE memId =#{memId}
 	</select>    
 	
 	<!-- 다이어리 총 수 -->
 	<select id="getAllDiary" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM diary
-		AND memId =#{memId}
+		WHERE memId =#{memId}
 	</select>	
 	
-	<select id="getDiaryday" resultType="com.dalrun.dto.DiaryDto">	
+	<select id="getDiaryday" parameterType="String" resultType="com.dalrun.dto.DiaryDto">	
 		SELECT SUM(totalTime) AS totalTime, SUM(totalDist) AS totalDist, SUM(kcal) AS kcal
 		FROM Diary
 		WHERE wdate BETWEEN #{fromwdate} AND #{towdate}

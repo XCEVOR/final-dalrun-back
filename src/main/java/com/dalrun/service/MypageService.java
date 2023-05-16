@@ -77,14 +77,14 @@ public class MypageService {
 		return dao.getCrewMember(crewSeq);
 	}	
 	
-    public List<OrderDto> orderlist () {
-        return dao.orderlist();
+    public List<OrderDto> orderlist (String memId) {
+        return dao.orderlist(memId);
               
     }	
     
 	// 다이어리 리스트 조회
-	public List<DiaryDto> diaryList(SearchParam param) {
-		return dao.diaryList(param);
+	public List<DiaryDto> diaryList(SearchParam param, String memId) {
+		return dao.diaryList(param, memId);
 	}    
 	
 	// 다이어리 총 수
@@ -93,8 +93,8 @@ public class MypageService {
 	}	
 	
 	// 날짜별 다이어리 조회
-	public List<DiaryDto> getDiaryday(SearchParam param) {
-		return dao.getDiaryday(param);
+	public List<DiaryDto> getDiaryday(SearchParam param, String memId, String fromwdate, String towdate) {
+		return dao.getDiaryday(param, memId, fromwdate, towdate);
 	}
     
 	// 크루탈퇴

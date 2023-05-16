@@ -165,28 +165,39 @@ public class MypageController {
 	
     
     @GetMapping(value = "my_orderlist")
-    public List<OrderDto> orderlist () {
+    public List<OrderDto> orderlist (String memId) {
         System.out.println("MypageControllerr my_orderlist  " + new Date());
         
-        return service.orderlist();
+        List<OrderDto> list = service.orderlist(memId);
+        
+        for(OrderDto d:list) {
+        	System.out.println(d);
+        }
+        
+        return service.orderlist(memId);
     }	
     
 	// 다이어리 리스트
 	@GetMapping("my_diaryList")
-	public Map<String, Object> DiaryList(SearchParam param){// List -> Map, ajax는 한번에 데이터를 옮기면 안되고 각각 데이터를 따로따로 보내줘야 한다.
+	public Map<String, Object> DiaryList(SearchParam param, String memId){// List -> Map, ajax는 한번에 데이터를 옮기면 안되고 각각 데이터를 따로따로 보내줘야 한다.
 													   // 여러 개의 데이터를 한꺼번에 json 형태로 보내는 법 -> HashMap
-		System.out.println("MypageController diaryList" + new Date());
+		System.out.println("MypageController diaryList " + new Date());
+//		
+//		// 글의 시작과 끝
+//		int pn = param.getPageNumber();  // 0 1 2 3 4
+//		int start = 1 + (pn * 10);	// 1  11 21 
+//		int end = (pn + 1) * 10;	// 10 20 30
+//		
+//		param.setStart(start);
+//		param.setEnd(end);
 		
-		// 글의 시작과 끝
-		int pn = param.getPageNumber();  // 0 1 2 3 4
-		int start = 1 + (pn * 10);	// 1  11 21 
-		int end = (pn + 1) * 10;	// 10 20 30
-		
-		param.setStart(start);
-		param.setEnd(end);
-		
-		List<DiaryDto> list = service.diaryList(param);
+		List<DiaryDto> list = service.diaryList(param, memId);
 		int cnt = service.getAllDiary(param);
+		
+        for(DiaryDto d:list) {
+        	System.out.println(d);
+        	System.out.println(memId);
+        }	
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", list);
@@ -197,13 +208,19 @@ public class MypageController {
 	
 	// 다이어리
 	@GetMapping("my_diaryday")
-	public Map<String, Object> getDiaryday(SearchParam param){
+	public Map<String, Object> getDiaryday(SearchParam param, String memId, String fromwdate, String towdate){
 													   
 		System.out.println("MypageController getDiaryday" + new Date());
 
 		
-		List<DiaryDto> list = service.getDiaryday(param);
+		List<DiaryDto> list = service.getDiaryday(param, memId, fromwdate, towdate);
 		
+        for(DiaryDto d:list) {
+        	System.out.println(d);
+        	System.out.println(fromwdate);
+        	System.out.println(towdate);
+        }		
+        
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", list);
 		
