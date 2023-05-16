@@ -553,4 +553,22 @@
 		ORDER BY year DESC, month DESC, ranking
 	    LIMIT 0,7
 	</select>
+	
+	<!-- 방문자 -->
+	<insert id="saveCookieData" parameterType="String">
+		INSERT INTO VISITORS(user, firstVisitTime, lastVisitTime)
+		VALUES(#{user}, now(), now())
+	</insert>
+	<update id="updateCookie" parameterType="String">
+		UPDATE VISITORS
+		SET lastVisitTime=now()
+		WHERE user = #{user}
+	</update>
+	<select id="getDailyVisitorsCnt" resultType="com.dalrun.dto.VisitorsDto">
+		SELECT IFNULL(COUNT(firstVisitTime), 0) dailyVisitorsCnt, DATE(NOW() - INTERVAL (6 - t.n) DAY) weekDate
+		FROM 
+			(SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6) t
+			LEFT JOIN visitors ON DATE(firstVisitTime) = DATE(NOW() - INTERVAL (6 - t.n) DAY)
+		GROUP BY DATE(NOW() - INTERVAL (6 - t.n) DAY)
+	</select>
 </mapper>

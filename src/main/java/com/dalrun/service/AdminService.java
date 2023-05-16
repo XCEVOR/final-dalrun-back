@@ -20,6 +20,7 @@ import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
 import com.dalrun.dto.ShoeReviewDetailDto;
 import com.dalrun.dto.ShoeReviewDto;
+import com.dalrun.dto.VisitorsDto;
 
 @Service
 @Transactional
@@ -231,5 +232,18 @@ public class AdminService {
 	
 	public List<ScoreRankDto> getCrewScoreRank() {
 		return dao.getCrewScoreRank();
+	}
+	
+	// 방문자
+	public boolean saveCookieData(String user) {
+		return dao.saveCookieData(user)>0?true:false;
+	}
+	
+	public boolean updateCookie(String user) {
+		return dao.updateCookie(user)>0?true:false;
+	}
+	
+	public List<VisitorsDto> getDailyVisitorsCnt() {
+		return dao.getDailyVisitorsCnt();
 	}
 }
