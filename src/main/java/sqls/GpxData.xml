@@ -31,13 +31,21 @@
     </select>
     
     
-    <!-- 업로드 시 하나의 기록 insert -->
+    <!-- 코스 업로드 시 하나의 기록 insert -->
     <insert id="insertCourseGpxData" parameterType="com.dalrun.dto.GpxDataDto">
     	INSERT INTO gpxdata
     	(fileSeq, CourseSeq, memId, latitude, longitude, altitude, distance, slope, mTime, timeDiff)
     	VALUES (#{fileSeq}, #{courseSeq}, #{memId}, #{latitude}, #{longitude}, #{altitude}, 
     			#{distance}, #{slope}, #{mTime}, #{timeDiff})
     </insert>
+    
+    <!-- 코스 번호로 코스 데이터 조회 -->
+    <select id="gpxDataList" resultType="com.dalrun.dto.GpxDataDto">
+    	SELECT *
+    	FROM gpxdata
+    	WHERE courseSeq IS NOT NULL
+	</select>
+
     
     <!-- Course data 삭제 -->
     <delete id="deleteCourseData" parameterType="int">
