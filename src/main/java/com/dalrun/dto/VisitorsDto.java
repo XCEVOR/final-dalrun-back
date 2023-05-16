@@ -7,14 +7,20 @@ public class VisitorsDto {
 	private LocalDateTime fistVisitTime;
 	private LocalDateTime lastVisitTime;
 	
+	private int dailyVisitorsCnt;
+	private String weekDate;
+	
 	public VisitorsDto() {
 	}
 
-	public VisitorsDto(String user, LocalDateTime fistVisitTime, LocalDateTime lastVisitTime) {
+	public VisitorsDto(String user, LocalDateTime fistVisitTime, LocalDateTime lastVisitTime, int dailyVisitorsCnt,
+			String weekDate) {
 		super();
 		this.user = user;
 		this.fistVisitTime = fistVisitTime;
 		this.lastVisitTime = lastVisitTime;
+		this.dailyVisitorsCnt = dailyVisitorsCnt;
+		this.weekDate = weekDate;
 	}
 
 	public String getUser() {
@@ -41,9 +47,25 @@ public class VisitorsDto {
 		this.lastVisitTime = lastVisitTime;
 	}
 
+	public int getDailyVisitorsCnt() {
+		return dailyVisitorsCnt;
+	}
+
+	public void setDailyVisitorsCnt(int dailyVisitorsCnt) {
+		this.dailyVisitorsCnt = dailyVisitorsCnt;
+	}
+
+	public String getWeekDate() {
+		return weekDate;
+	}
+
+	public void setWeekDate(String weekDate) {
+		this.weekDate = weekDate;
+	}
+
 	@Override
 	public String toString() {
 		return "VisitorsDto [user=" + user + ", fistVisitTime=" + fistVisitTime + ", lastVisitTime=" + lastVisitTime
-				+ "]";
+				+ ", dailyVisitorsCnt=" + dailyVisitorsCnt + ", weekDate=" + weekDate + "]";
 	}
 }

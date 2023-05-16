@@ -18,6 +18,7 @@ import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
 import com.dalrun.dto.ShoeReviewDetailDto;
 import com.dalrun.dto.ShoeReviewDto;
+import com.dalrun.dto.VisitorsDto;
 
 @Repository
 @Mapper
@@ -125,4 +126,6 @@ public interface AdminDao {
 	int saveCookieData(String user);
 	
 	int updateCookie(String user);
+	
+	List<VisitorsDto> getDailyVisitorsCnt();
 }

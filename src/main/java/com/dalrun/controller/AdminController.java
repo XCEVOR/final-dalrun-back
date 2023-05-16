@@ -45,6 +45,7 @@ import com.dalrun.dto.QnaDto;
 import com.dalrun.dto.SearchParam;
 import com.dalrun.dto.ShoeReviewDetailDto;
 import com.dalrun.dto.ShoeReviewDto;
+import com.dalrun.dto.VisitorsDto;
 import com.dalrun.service.AdminService;
 import com.dalrun.service.CompetitionService;
 import com.dalrun.service.CrewService;
@@ -863,5 +864,11 @@ public class AdminController {
 		boolean b = service.updateCookie(user);
 		if(b) System.out.println("update cookie data");
 		return str(b);
+	}
+	@GetMapping(value = "getDailyVisitorsCnt")
+	public List<VisitorsDto> getDailyVisitorsCnt() {
+		System.out.println("AdminController getDailyVisitorsCnt " + new Date());
+		
+		return service.getDailyVisitorsCnt();
 	}
 }
