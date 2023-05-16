@@ -6,16 +6,17 @@
 <mapper namespace="com.dalrun.dao.CourseDao">
 
 	<sql id="searchCourseList">
-		<where>
-			<if test="search !=null and search != ''">
-				AND (
-					courseTitle LIKE CONCAT('%', #{search}, '%')
-					areaName LIKE CONCAT('%', #{search}, '%')
-					level LIKE CONCAT('%', #{search}, '%')
-				)
-			</if>
-		</where>
+	  <where>
+	    <if test="search !=null and search != ''">
+	      AND (
+	        courseTitle LIKE CONCAT('%', #{search}, '%')
+	        OR areaName LIKE CONCAT('%', #{search}, '%')
+	        OR level LIKE CONCAT('%', #{search}, '%')
+	      )
+	    </if>
+	  </where>
 	</sql>
+
 
 	<!-- 추천 코스 리스트 조회 -->
     <select id="courseList" resultType="com.dalrun.dto.CourseDto">
@@ -39,7 +40,7 @@
     <!-- 몇몇 기록들 추가 -->
     <update id="insertInfo" parameterType="com.dalrun.dto.CourseDto">
     	UPDATE admincourse
-    	SET aCourseTotalDist=#{aCourseTotalDist}, aCourseMaxSlope=#{aCourseMaxSlope}, level=#{level}
+    	SET aCourseTotalDist=#{aCourseTotalDist}, aCourseMaxSlope=#{aCourseMaxSlope}, level=#{level}, kcal=#{kcal}
     	WHERE courseSeq = #{courseSeq}
     </update>
     
