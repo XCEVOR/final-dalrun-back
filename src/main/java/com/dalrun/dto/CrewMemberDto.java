@@ -38,4 +38,11 @@ public class CrewMemberDto implements Serializable{
    public void setReqMemId(String reqMemId) {
 	   this.reqMemId = reqMemId;
    }
+
+@Override
+public String toString() {
+	return "CrewMemberDto [crewSeq=" + crewSeq + ", memId=" + memId + ", reqMemId=" + reqMemId + "]";
+}
+   
+   
 }

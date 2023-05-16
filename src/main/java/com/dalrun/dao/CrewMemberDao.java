@@ -13,7 +13,8 @@ import com.dalrun.dto.CrewMemberDto;
 public interface CrewMemberDao {
 	int insertMember(CrewMemberDto dto);
 	
-    CrewMemberDto checkMember(String memId);
+    int checkMember(String memId);
+    
 
     int deleteFromList(CrewMemberDto dto);
 
@@ -24,5 +25,6 @@ public interface CrewMemberDao {
     String getLeader(int crewSeq);
 
     int getCrewSeq(String memId);
+
 
 }

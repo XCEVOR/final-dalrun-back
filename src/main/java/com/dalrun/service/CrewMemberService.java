@@ -63,26 +63,22 @@ public class CrewMemberService {
 //	      }
 //	      return true;
 //	   }
+	public boolean deleteFromList(CrewMemberDto dto) {
+		return dao.deleteFromList(dto)>0;
+	}
+	
 
 		//유저가 다른 크루대기테이블에 있는지 체크
 		public boolean isWaiting(CrewMemberDto dto){
-		      return dao.checkMember(dto.getMemId())!=null;
+		      return dao.checkMember(dto.getMemId())>0;
 		   }
 	
 		//가입버튼 클릭 시 
 	   public boolean joinCrew(CrewMemberDto dto){
 		   //가입버튼 클릭한 user가 다른 크루대기테이블에 있다면
-	      if(isWaiting(dto)){
-	    	  //false
-	         return false;
-	      }
-	      //없다면 크루대기테이블에 insert
-	      int res = dao.insertMember(dto);
-	      //결과값이 1이면
-	      if(res==1){
-	         return true;
-	      }
-	      return false;
+
+	     
+	      return dao.insertMember(dto)>0;
 	   }
 	
 	   //승인버튼 클릭 시
