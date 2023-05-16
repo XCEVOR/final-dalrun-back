@@ -23,7 +23,7 @@
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, diarySeq, memId,
 				title, content, wdate, totalDist, totalTime, meanPace, maxSlope, kcal, 
-				score, diaryDel
+				score
 			FROM DIARY
 			<include refid="searchDiaryList"></include>
 			ORDER BY wdate DESC) A
@@ -40,9 +40,9 @@
 	<!-- 다이어리 작성 -->
 	<insert id="insertDiary" parameterType="com.dalrun.dto.DiaryDto">
 	    INSERT INTO diary
-	    (memId, title, content, wdate)
+	    (memId, crewSeq, title, content, wdate)
 	    VALUES
-	    (#{memId}, #{title}, #{content}, #{wdate})
+	    (#{memId}, #{crewSeq}, #{title}, #{content}, #{wdate})
 	    <selectKey keyProperty="diarySeq" resultType="int" order="AFTER">
 	    	SELECT LAST_INSERT_ID()
 	    </selectKey>
@@ -69,7 +69,7 @@
 	</select>
 
 	<!-- 다이어리 조회 -->
-	<select id="getDiary" parameterType="int" resultType="com.dalrun.dto.DiaryDto">
+	<select id="getDiary" parameterType="Integer" resultType="com.dalrun.dto.DiaryDto">
 		SELECT *
 		FROM DIARY
 		WHERE diarySeq = #{diarySeq}

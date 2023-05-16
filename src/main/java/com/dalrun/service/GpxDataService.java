@@ -19,12 +19,12 @@ public class GpxDataService {
 	@Autowired
 	GpxDataDao dao;
 
-	// 데이터 전체 조회
+	// 다이어리 데이터 전체 조회
 	public List<GpxDataDto> gpxDataList(List<Integer> diarySeqList) {
 		return dao.gpxDataList(diarySeqList);
 	}
 	
-	// 데이터 삽입
+	// 다이어리 데이터 삽입
 	public boolean insertGpxData(GpxDataDto point) {
 		int n = dao.insertGpxData(point);
 		return n>0? true:false;
@@ -35,5 +35,21 @@ public class GpxDataService {
 		return dao.getGPXData(data);
 	}
 	
+	// 코스 데이터 삽입
+	public boolean insertCourseGpxData(GpxDataDto point) {
+		int n = dao.insertCourseGpxData(point);
+		return n>0? true:false;
+	}
+	
+	// 코스 전체 데이터 조회
+	public List<GpxDataDto> courseGpxList(){
+		return dao.courseGpxList();
+	}
+	
+	// 코스 데이터 삭제
+	public boolean deleteCourseData(int courseSeq) {
+		int n = dao.deleteCourseData(courseSeq);
+		return n>0? true:false;
+	}
 
 }

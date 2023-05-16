@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.dalrun.dao.CourseDao">
+
+	<!-- 유저 코스 기록 작성 -->
+    <insert id="insertUserCourse" parameterType="com.dalrun.dto.UserCourseDto">
+    	INSERT INTO usercourse
+    	(courseSeq, memId, crewSeq, uCourseWdate)
+    	VALUES
+    	(#{courseSeq}, #{memId}, #{crewSeq}, #{uCourseWdate})
+    	<selectKey keyProperty="userCSeq" resultType="int" order="AFTER">
+    		SELECT LAST_INSERT_ID()
+    	</selectKey>
+    </insert>
+    
+    <!-- 몇몇 기록들 추가 -->
+    <update id="insertUserInfo" parameterType="com.dalrun.dto.UserCourseDto">
+    	UPDATE usercourse
+    	SET uCourseTotalDist=#{uCourseTotalDist}, uCouresTotalTime=#{uCouresTotalTime},
+    		uCourseMeanPace=#{uCourseMeanPace}, uCourseMaxSlope=#{uCourseMaxSlope},
+    		uCourseKcal=#{uCourseMaxKcal}
+    	WHERE userCSeq = #{userCSeq}
+    </update> 
+    
+    <!-- courseSeq - 유저 코스 기록 삭제 -->
+    <delete id="deleteUserCourse" parameterType="int">
+    	DELETE FROM usercourse
+    	WHERE courseSeq = #{courseSeq}
+    </delete>
+    
+    <!-- userCSeq - 유저 코스 기록 삭제 -->
+    <delete id="userDeleteCourse" parameterType="int">
+    	DELETE FROM usercourse
+    	WHERE userCSeq = #{userCSeq}
+    </delete>
+    
+    
+</mapper>

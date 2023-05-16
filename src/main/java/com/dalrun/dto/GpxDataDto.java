@@ -8,7 +8,8 @@ public class GpxDataDto {
 	private int dataSeq;	// gpx data 번호
 	private int fileSeq;	// gpx data 초단위 번호(하나의 기록에 대한 초 당 번호)
 	private int diarySeq;	// 다이어리 데이터인지 구분
-	private int courseSeq;	// 코스 데이터인지 구분
+	private int courseSeq;	// 추천 코스 데이터인지 구분
+	private int userCSeq;	// 유저 코스 데이터인지 구분
 	private String memId;	// 유저 ID
 	private double latitude;// 초 당 위도
 	private double longitude;// 초 당 경도
@@ -22,14 +23,17 @@ public class GpxDataDto {
 	public GpxDataDto() {
 	}
 
+	
 
-	public GpxDataDto(int dataSeq, int fileSeq, int diarySeq, int courseSeq, String memId, double latitude,
-			double longitude, double altitude, double distance, double slope, String mTime, int timeDiff) {
+	public GpxDataDto(int dataSeq, int fileSeq, int diarySeq, int courseSeq, int userCSeq, String memId,
+			double latitude, double longitude, double altitude, double distance, double slope, String mTime,
+			int timeDiff) {
 		super();
 		this.dataSeq = dataSeq;
 		this.fileSeq = fileSeq;
 		this.diarySeq = diarySeq;
 		this.courseSeq = courseSeq;
+		this.userCSeq = userCSeq;
 		this.memId = memId;
 		this.latitude = latitude;
 		this.longitude = longitude;
@@ -39,7 +43,7 @@ public class GpxDataDto {
 		this.mTime = mTime;
 		this.timeDiff = timeDiff;
 	}
-
+	
 
 	public int getDataSeq() {
 		return dataSeq;
@@ -79,13 +83,21 @@ public class GpxDataDto {
 	public void setCourseSeq(int courseSeq) {
 		this.courseSeq = courseSeq;
 	}
+	
+	public int getUserCSeq() {
+		return userCSeq;
+	}
 
+	public void setUserCSeq(int userCSeq) {
+		this.userCSeq = userCSeq;
+	}
 
+	
 	public String getMemId() {
 		return memId;
 	}
 
-
+	
 	public void setMemId(String memId) {
 		this.memId = memId;
 	}
@@ -160,13 +172,13 @@ public class GpxDataDto {
 		this.timeDiff = timeDiff;
 	}
 
-
+	
 	@Override
 	public String toString() {
 		return "GpxDataDto [dataSeq=" + dataSeq + ", fileSeq=" + fileSeq + ", diarySeq=" + diarySeq + ", courseSeq="
-				+ courseSeq + ", memId=" + memId + ", latitude=" + latitude + ", longitude=" + longitude + ", altitude="
-				+ altitude + ", distance=" + distance + ", slope=" + slope + ", mTime=" + mTime + ", timeDiff="
-				+ timeDiff + "]";
+				+ courseSeq + ", userCSeq=" + userCSeq + ", memId=" + memId + ", latitude=" + latitude + ", longitude="
+				+ longitude + ", altitude=" + altitude + ", distance=" + distance + ", slope=" + slope + ", mTime="
+				+ mTime + ", timeDiff=" + timeDiff + "]";
 	}
 
 }
