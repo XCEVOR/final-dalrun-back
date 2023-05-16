@@ -3,6 +3,12 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.dalrun.dao.CrewMemberDao">
+	<!-- 해당 크루 대기멤버 리스트 조회 -->
+	<select id="getCrewMemberWait" parameterType="int" resultType="com.dalrun.dto.CrewMemberDto">
+		SELECT *
+		FROM CREWMEMBER
+		WHERE crewSeq=#{crewSeq}
+	</select>
 	
 	<!--가입버튼 누른 user crewMember table insert-->
 	<insert id="insertMember" parameterType="com.dalrun.dto.CrewMemberDto">
@@ -20,7 +26,7 @@
 	
 	<!--승인/거절 후 대기테이블에서 삭제-->
 	<delete id="deleteFromList" parameterType="com.dalrun.dto.CrewMemberDto">
-	   delete from crewMember
+	   delete from crewmember
 	   where memId=#{memId} AND crewSeq=#{crewSeq}
 	</delete>
 	
@@ -48,7 +54,7 @@
 	<!--memIdㄹ crewSeq 가져옴-->
 	<select id="getCrewSeq" parameterType="String" resultType="int">
 	   select crewSeq
-	   from crewMember
+	   from crewmember
 	   where memId=#{memId}
 	</select>
 

@@ -1,5 +1,7 @@
 package com.dalrun.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,14 @@ public class CrewMemberController {
 	@Autowired
 	CrewMemberService service;
 	
+	@GetMapping("getCrewMemberWait")
+	public List<CrewMemberDto> getCrewMemberWait(int crewSeq) {
+		System.out.println("CrewController getCrewMemberWait");
+		
+		return service.getCrewMemberWait(crewSeq);
+	}
+	
+	
 //  @PostMapping("/join")
 //  public ResponseEntity<String> joinCrew(@RequestBody CrewMemberDto memberdto){
 //     int crewSeq = service.getCrewSeq(memberdto);
@@ -29,6 +39,11 @@ public class CrewMemberController {
 		      
 		}
 	
+	
+	@GetMapping("getLeader")
+	public String getLeader(int crewSeq) {
+		return service.getLeader(crewSeq);
+	}
 	
 	//가입 신청
 	@PostMapping("joinCrew")
