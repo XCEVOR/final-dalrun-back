@@ -85,11 +85,11 @@ public class CrewController {
 	public boolean crewUpgrade(int crewSeq,int score) {
 		System.out.println("CrewController crewUpgrade");
 		
-		CrewPointDto pdto=new CrewPointDto();
-		pdto.setCrewSeq(crewSeq);
-		pdto.setScore(score);
-		System.out.println(pdto.toString());
-		service.MinusPoint(pdto);
+//		CrewPointDto pdto=new CrewPointDto();
+//		pdto.setCrewSeq(crewSeq);
+//		pdto.setScore(score);
+//		System.out.println(pdto.toString());
+//		service.MinusPoint(pdto);
 		return service.crewUpgrade(crewSeq);
 		
 	}
