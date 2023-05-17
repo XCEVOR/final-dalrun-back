@@ -83,6 +83,7 @@ public class CrewController {
 	
 	@GetMapping(value="crewUpgrade")
 	public boolean crewUpgrade(int crewSeq,int score) {
+		System.out.println("CrewController crewUpgrade");
 		
 		CrewPointDto pdto=new CrewPointDto();
 		pdto.setCrewSeq(crewSeq);

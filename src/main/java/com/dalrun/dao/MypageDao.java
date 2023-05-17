@@ -55,17 +55,17 @@ public interface MypageDao {
 
 	List<CrewMemberDto> getCrewMember(int crewSeq);	
 
-    List<OrderDto> orderlist ();
+    List<OrderDto> orderlist (String memId);
 
 	MemberDto myinform(String memId);
 
 	// 다이어리 리스트 조회
-	List<DiaryDto> diaryList(SearchParam param);
+	List<DiaryDto> diaryList(SearchParam param, String memId);
 	
 	// 다이어리 총 수
 	int getAllDiary(SearchParam param);
 
-	List<DiaryDto> getDiaryday(SearchParam param);
+	List<DiaryDto> getDiaryday(SearchParam param, String memId, String fromwdate, String towdate);
 	
 	int crewLeave(String memId);
 	
