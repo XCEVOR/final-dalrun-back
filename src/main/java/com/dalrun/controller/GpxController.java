@@ -31,6 +31,7 @@ import com.dalrun.service.CourseService;
 import com.dalrun.service.DiaryService;
 import com.dalrun.service.GpxDataService;
 import com.dalrun.service.GpxFilesService;
+import com.dalrun.service.MemberService;
 import com.dalrun.service.UserCourseService;
 import com.dalrun.util.GpxParserUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -55,6 +56,9 @@ public class GpxController {
 	
 	@Autowired
 	UserCourseService uService;
+	
+	@Autowired
+	MemberService mService;
 	
 	/* diary */
 	// TODO :diary gpx 파일 업로드
@@ -181,6 +185,8 @@ public class GpxController {
 					System.out.println("다이어리 추가 정보 : " + recordResult);
 					
 					
+					boolean plusPostPointResult = mService.plusPostPoint(diary.getMemId());
+					System.out.println("다이어리 업로드 포인트 추가 : " + plusPostPointResult);
 //					// 저장한 데이터들 내보내기
 //					List<GpxDataDto> data = gdService.getGPXData(gpx.getFileSeq());
 //					// List를 JSON 형식으로 변환
