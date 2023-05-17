@@ -80,6 +80,11 @@ update member set crewSeq=0 where memId=#{memId}
       where memId=#{memId}
 </update>
 
+<!-- 게시글 작성 시 포인트 Plus -->
+<update id="plusPostPoint" parameterType="com.dalrun.dto.MemberDto">
+update member  SET point=point+10 where memId=#{memId}
+</update>
+
 </mapper>
 
 

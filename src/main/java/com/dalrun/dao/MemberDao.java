@@ -50,5 +50,9 @@ public interface MemberDao{
 
    int setNewPw(@Param("newPw") String newPw, @Param("memId") String memId);
 
+   
+   // 글 업로드 시 포인트 plus
+   int plusPostPoint(String memId);
+   
 
 }
