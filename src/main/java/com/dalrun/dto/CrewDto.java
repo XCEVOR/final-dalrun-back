@@ -26,6 +26,7 @@ public class CrewDto implements Serializable {
 	private int readCount;
 	private int likeCount;
 	private int groundCount;
+	private String leader;
 	
 //	private String cbMemId; //댓글 작성자
 //	private String cbContent;
@@ -38,7 +39,7 @@ public class CrewDto implements Serializable {
 public CrewDto(int crewSeq, String memId, String crewSetUp, String crewCreateDate, String crewUpdate, int maxMem,
 		int crewDel, int crewLevel, String crewImg, String crewName, int crewScore, int myrank, String crewcolor,
 		int crewMemberCnt, long crewTotalScore, String title, String content, String type, int readCount, int likeCount,
-		int groundCount) {
+		int groundCount, String leader) {
 	super();
 	this.crewSeq = crewSeq;
 	this.memId = memId;
@@ -61,6 +62,7 @@ public CrewDto(int crewSeq, String memId, String crewSetUp, String crewCreateDat
 	this.readCount = readCount;
 	this.likeCount = likeCount;
 	this.groundCount = groundCount;
+	this.leader = leader;
 }
 
 public int getCrewSeq() {
@@ -207,6 +209,14 @@ public void setType(String type) {
 	this.type = type;
 }
 
+public String getLeader() {
+	return leader;
+}
+
+public void setLeader(String leader) {
+	this.leader = leader;
+}
+
 public int getReadCount() {
 	return readCount;
 }
@@ -238,7 +248,8 @@ public String toString() {
 			+ ", crewLevel=" + crewLevel + ", crewImg=" + crewImg + ", crewName=" + crewName + ", crewScore="
 			+ crewScore + ", myrank=" + myrank + ", crewcolor=" + crewcolor + ", crewMemberCnt=" + crewMemberCnt
 			+ ", crewTotalScore=" + crewTotalScore + ", title=" + title + ", content=" + content + ", type=" + type
-			+ ", readCount=" + readCount + ", likeCount=" + likeCount + ", groundCount=" + groundCount + "]";
+			+ ", readCount=" + readCount + ", likeCount=" + likeCount + ", groundCount=" + groundCount + ", leader="
+			+ leader + "]";
 }
 
 	

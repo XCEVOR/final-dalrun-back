@@ -185,16 +185,17 @@
 	
 	<select id="crewlist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.CrewDto">
 		SELECT *
-		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY c.crewCreateDate DESC) AS RNUM, c.crewSeq, c.memId, c.crewSetUp, c.crewUpdate, c.maxMem, c.crewDel, c.crewLevel, 
-				c.crewImg, c.crewName, c.crewScore, c.crewcolor, c.crewCreateDate, c.title, c.content, c.type, c.readCount, c.likeCount,
-				IFNULL(count(CASE WHEN m.crewMemDel IS NULL OR m.crewMemDel = 0 THEN m.memId END),0) AS crewMemberCnt
-			FROM CREW c 
-			LEFT JOIN CREWMEMBER m ON c.crewSeq = m.crewSeq
-			<include refid="searchCrew"></include>
-			GROUP BY c.crewSeq
-			ORDER BY c.crewCreateDate DESC) A
-		WHERE RNUM BETWEEN ${start} AND ${end}
+		FROM (
+		    SELECT ROW_NUMBER() OVER (ORDER BY c.crewCreateDate DESC) AS RNUM, c.crewSeq, c.memId, c.crewSetUp, c.crewUpdate, c.maxMem, c.crewDel, c.crewLevel, 
+		        c.crewImg, c.crewName, c.crewScore, c.crewcolor, c.crewCreateDate, c.title, c.content, c.type, c.readCount, c.likeCount,
+		        (SELECT IFNULL(COUNT(memId), 0) FROM MEMBER WHERE crewSeq = c.crewSeq) AS crewMemberCnt
+		    FROM CREW c 
+		    LEFT JOIN MEMBER m ON c.crewSeq = m.crewSeq
+		    <include refid="searchCrew"></include>
+		    GROUP BY c.crewSeq
+		    ORDER BY c.crewCreateDate DESC
+		) A
+		WHERE RNUM BETWEEN ${start} AND ${end};
 	</select>
 	<select id="getAllCrew" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
@@ -267,7 +268,7 @@
 		SELECT *
 		FROM 
 			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, diarySeq, memId,
-				title, content, wdate, totalDist, totalTime, kcal, diaryDel
+				title, content, wdate, totalDist, totalTime, kcal
 			FROM DIARY
 			<include refid="searchDiary"></include>
 			ORDER BY wdate DESC, diarySeq DESC) A
@@ -437,12 +438,11 @@
 		SET memId=#{memId}, title=#{title}, content=#{content}, score=#{score}
 		WHERE diarySeq = #{diarySeq}
 	</update>
-	<update id="deldiary" parameterType="List">
-		UPDATE DIARY
-		SET diaryDel=1
+	<delete id="deldiary" parameterType="List">
+		DELETE FROM DIARY
 		WHERE diarySeq IN
 		<include refid="commonForeach"></include>
-	</update>
+	</delete>
 	
 	<!-- 대회일정 -->
 	<update id="updatecomperition" parameterType="com.dalrun.dto.CompetitionDto">

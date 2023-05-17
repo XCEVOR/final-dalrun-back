@@ -21,9 +21,32 @@ public class GpxFilesService {
 		return dao.gpxFilesList();
 	}
 	
-	// gpx 파일 입력 후 fileSeq 넘겨줌
-	public boolean insertGpxFile(GpxFilesDto gpx) {
-		int n = dao.insertGpxFile(gpx);
+	// diary gpx 파일 입력 후 fileSeq 넘겨줌
+	public boolean insertDiaryGpxFile(GpxFilesDto gpx) {
+		int n = dao.insertDiaryGpxFile(gpx);
+		return n>0? true:false;
+	}
+	
+	// course gpx 파일 입력 후 fileSeq 넘겨줌
+	public boolean insertCourseGpxFile(GpxFilesDto gpx) {
+		int n = dao.insertCourseGpxFile(gpx);
+		return n>0? true:false;
+	}
+	
+	// user gpx 파일 입력 후 fileSeq 넘겨줌
+	public boolean insertUserGpxFile(GpxFilesDto gpx) {
+		int n = dao.insertUserGpxFile(gpx);
+		return n>0? true:false;
+	}
+	
+	// courseSeq 관련 gpxfile 목록 넘겨줌
+	public List<GpxFilesDto> selectCourseFiles(int courseSeq) {
+		return dao.selectCourseFiles(courseSeq);
+	}
+	
+	// course gpx 파일 db 삭제 여부
+	public boolean deleteCourseFiles(int courseSeq) {
+		int n = dao.deleteCourseFiles(courseSeq);
 		return n>0? true:false;
 	}
 

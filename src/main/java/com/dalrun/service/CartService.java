@@ -43,4 +43,9 @@ public class CartService {
         return isSucc > 0 ? true : false;
     }
     
+    public boolean emptyCart (String memId) {
+        int isSucc = dao.emptyCart(memId);
+        return isSucc > 0 ? true : false;
+    }
+    
 }

@@ -76,7 +76,7 @@ public class DiaryController {
 		System.out.println("DiaryController uploadDiaryImg: " + new Date());
 		
 		// 파일 저장 경로 설정 server 단
-		String path = req.getServletContext().getRealPath("/diaryImg");
+		String path = req.getServletContext().getRealPath("/dalrun-jw/diaryImg");
 		
 		// 파일 확장자 명
 		String ogFilename = imageFile.getOriginalFilename(); // 기존 파일 명
@@ -105,7 +105,7 @@ public class DiaryController {
 		} 
 		
 		// 이미지 URL 생성
-	    String imageUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/diaryImg/" + fileName;
+	    String imageUrl = "http://localhost:3000/dalrun-jw/diaryImg/" + fileName;
 
 	    // CKEditor에서 요구하는 형식에 맞춰서 JSON 응답 생성
 	    Map<String, String> response = new HashMap<>();

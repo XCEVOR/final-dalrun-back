@@ -1,5 +1,6 @@
 package com.dalrun.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -11,6 +12,8 @@ import com.dalrun.dto.CrewMemberDto;
 @Mapper
 @Repository
 public interface CrewMemberDao {
+	List<CrewMemberDto> getCrewMemberWait(int crewSeq);
+	
 	int insertMember(CrewMemberDto dto);
 	
     int checkMember(String memId);
