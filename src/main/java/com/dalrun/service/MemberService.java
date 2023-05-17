@@ -222,7 +222,7 @@ public class MemberService {
 	public List<MemberDto> mycrewMemberList(int crewSeq) {
 		return dao.mycrewMemberList(crewSeq);
 	}
-	
+	/*
 	//아이디 찾기
 	public String findId(String name, String email){
 	      MemberDto dto = new MemberDto();
@@ -249,7 +249,30 @@ public class MemberService {
 	            .toString(); //length길이를 가진 랜덤 문자열(알파벳+숫자)
 
 	      if(dao.setNewPw(randomString, id)==1){
-	         sendSMS(phone, name+"고객님의 임시 비밀번호는 "+randomString+"입니다. 로그인 후 비밀번호를 변경해주시기 바랍니다.");
+	         sendSMS(phone, name+"님의 임시 비밀번호는 "+randomString+"입니다. 로그인 후 비밀번호를 변경해주시기 바랍니다.");
+	         return true;
+	      }
+	      return false;
+	   }*/
+	
+	public String findId(MemberDto dto){
+	      return dao.findId(dto);
+	   }
+
+	   public boolean findPw(MemberDto dto){
+	      String res = dao.findPw(dto);
+	      if (res==null) {return false;}
+
+	      Random rd = new Random();
+	      int length = (int) rd.nextInt(4)+8; //8~11
+	      String randomString = rd.ints(48, 123)
+	            .filter(i -> (i<=57||i>=65)&&(i<=90||i>=97))
+	            .limit(length)
+	            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+	            .toString(); //length길이를 가진 랜덤 문자열(알파벳+숫자)
+
+	      if(dao.setNewPw(randomString, dto.getMemId())==1){
+	         sendSMS(dto.getPhone(), dto.getMemberName()+"고객님의 임시 비밀번호는 "+randomString+"입니다. 로그인 후 비밀번호를 변경해주시기 바랍니다.");
 	         return true;
 	      }
 	      return false;
@@ -257,6 +280,7 @@ public class MemberService {
 
 	//nhn클라우드 SMS 발송
 	public boolean sendSMS(String phone, String message){
+		//Toast sms api
 	      String appkey = "knTqFyUsdICgAUz1";
 	      String secretKey= "VwLDrAwN";
 	      String sendNo = "01093759907";
@@ -270,7 +294,7 @@ public class MemberService {
 	         URL url = new URL("https://api-sms.cloud.toast.com/sms/v3.0/appKeys/"+appkey+"/sender/sms");
 	         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	         conn.setRequestMethod("POST");
-	         conn.setRequestProperty("Content-Type", "application/json");
+	         conn.setRequestProperty("Content-Type", "application/json"); //응답 json형식
 	         conn.setRequestProperty("X-Secret-Key", secretKey);
 	         conn.setDoOutput(true);
 	         try(OutputStream os = conn.getOutputStream()){

@@ -56,12 +56,19 @@ public class CrewMemberController {
 	      }
 	   }
 
-	   @GetMapping("checkWaiting")
-	   public boolean checkWaiting(CrewMemberDto dto){
-		   System.out.println("CrewMemberController checkWaiting");
-	      return service.isWaiting(dto);
-	   }
+//<<<<<<< HEAD
+//	//다른 크루 대기 테이블에 있는지
+//	   @PostMapping("/checkWaiting")
+//	   public boolean checkWaiting(@RequestBody CrewMemberDto dto){
+//=======
+//	   @GetMapping("checkWaiting")
+//	   public boolean checkWaiting(CrewMemberDto dto){
+//		   System.out.println("CrewMemberController checkWaiting");
+//>>>>>>> branch 'master' of https://github.com/realParkYerin/final-dalrun-back.git
+//	      return service.isWaiting(dto);
+//	   }
 
+	   //승인
 	   @PostMapping("/approve")
 	   public String approve(@RequestBody CrewMemberDto dto){
 	      if(service.approve(dto)){
@@ -71,6 +78,7 @@ public class CrewMemberController {
 	      }
 	   }
 
+	   //거절
 	   @PostMapping("/reject")
 	   public String reject(@RequestBody CrewMemberDto dto){
 	      if(service.reject(dto)){

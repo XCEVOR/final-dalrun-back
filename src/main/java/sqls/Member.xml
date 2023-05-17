@@ -13,8 +13,8 @@
 
 <!-- 회원가입 -->
 <insert id="addmember" parameterType="com.dalrun.dto.MemberDto" >
-	insert into member(memId, password, memberName, email, phone, birth, foot, regdate, auth, del, profile, grade, point, totalPoint)
-	values(#{memId}, #{password}, #{memberName}, #{email}, #{phone}, #{birth}, #{foot}, now(), 0, 0, #{profile} , '걸음마', 100, 100)
+	insert into member(memId, password, memberName, email, phone, birth, foot, regdate, auth, del, profile, grade, point, totalPoint, crewSeq)
+	values(#{memId}, #{password}, #{memberName}, #{email}, #{phone}, #{birth}, #{foot}, now(), 0, 0, #{profile} , '걸음마', 100, 100, null)
 </insert>
 
 <!--이미지 memId로 가져옴-->
