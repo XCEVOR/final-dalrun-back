@@ -310,6 +310,12 @@ public class MemberService {
 	      return true;
 	   }
 	
+	// 게시글 작성 시 포인트 plus
+	public boolean plusPostPoint(String memId) {
+		int n = dao.plusPostPoint(memId);
+		return n>0? true:false;
+	}
+	
 	
 }
 
