@@ -20,13 +20,16 @@ public class DiaryDto implements Serializable {
 	private String postId; // 글 고유 아이디
 	private int score;	// 점수
 	private double diaryDel;	// 삭제 여부
+	private String profile;
 
 	public DiaryDto() {
 	}
+	
+	
 
 	public DiaryDto(int diarySeq, String memId, int crewSeq, String title, String content, LocalDateTime wdate,
-			double totalDist, double totalTime, double meanPace, double maxSlope, double kcal, String postId,
-			int score, double diaryDel) {
+			double totalDist, double totalTime, double meanPace, double maxSlope, double kcal, String postId, int score,
+			double diaryDel, String profile) {
 		super();
 		this.diarySeq = diarySeq;
 		this.memId = memId;
@@ -42,6 +45,7 @@ public class DiaryDto implements Serializable {
 		this.postId = postId;
 		this.score = score;
 		this.diaryDel = diaryDel;
+		this.profile = profile;
 	}
 
 	public int getDiarySeq() {
@@ -154,6 +158,14 @@ public class DiaryDto implements Serializable {
 
 	public void setDiaryDel(double diaryDel) {
 		this.diaryDel = diaryDel;
+	}
+	
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
 	}
 
 	@Override
