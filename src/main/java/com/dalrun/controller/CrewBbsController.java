@@ -146,8 +146,8 @@ public class CrewBbsController {
 	private void crewBbsPageNumber(SearchParam param) {
 		//글의 시작과 끝
 		int pn = param.getPageNumber();
-		int start = 1 + (pn * 10);
-		int end = (pn + 1) * 10;
+		int start = 1 + (pn * 50);
+		int end = (pn + 1) * 50;
 		
 		param.setStart(start);
 		param.setEnd(end);
