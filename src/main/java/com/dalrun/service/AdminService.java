@@ -22,6 +22,8 @@ import com.dalrun.dto.ShoeReviewDetailDto;
 import com.dalrun.dto.ShoeReviewDto;
 import com.dalrun.dto.VisitorsDto;
 
+import jakarta.persistence.criteria.CriteriaBuilder.In;
+
 @Service
 @Transactional
 public class AdminService {
@@ -228,6 +230,10 @@ public class AdminService {
 	// 차트
 	public List<ScoreRankDto> getMemberScoreRank() {
 		return dao.getMemberScoreRank();
+	}
+	
+	public List<Integer> getCrweSeqList() {
+		return dao.getCrweSeqList();
 	}
 	
 	public List<ScoreRankDto> getCrewScoreRank() {
