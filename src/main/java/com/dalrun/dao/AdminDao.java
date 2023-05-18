@@ -120,6 +120,7 @@ public interface AdminDao {
 	// 차트
 	List<ScoreRankDto> getMemberScoreRank();
 	
+	List<Integer> getCrweSeqList();
 	List<ScoreRankDto> getCrewScoreRank();
 	
 	// 방문자

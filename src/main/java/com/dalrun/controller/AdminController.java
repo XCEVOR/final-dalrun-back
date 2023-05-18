@@ -1,5 +1,7 @@
 package com.dalrun.controller;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,6 +13,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -834,7 +838,24 @@ public class AdminController {
 	public Map<String, Object> getScoreRank() {
 		System.out.println("AdminController getScoreRank " + new Date());
 		
-		List<ScoreRankDto> crewRank = service.getCrewScoreRank();
+		List<Integer> crewSeqList = service.getCrweSeqList();
+		List<CrewDto> crewList = new ArrayList<>();
+		
+		for(int crewSeq : crewSeqList) {
+			CrewDto crew = crewService.getMyCrewinfo(crewSeq);
+			System.out.println(crew.getCrewTotalScore());
+			crewList.add(crew);
+		}
+		
+		crewList.sort(Comparator.comparingLong(CrewDto::getCrewTotalScore).reversed());
+
+		List<ScoreRankDto> crewRank = new ArrayList<>();
+		for (CrewDto crew : crewList) {
+			System.out.println("2 =" + crew.getCrewTotalScore());
+			ScoreRankDto dto = new ScoreRankDto(5, 2023, crew.getCrewSeq(), crew.getCrewName(), crew.getMemId(), 0, crew.getCrewLevel(), crew.getCrewTotalScore(), 0); 
+			crewRank.add(dto);
+        }
+		
 		List<ScoreRankDto> memRank = service.getMemberScoreRank();
 		
 		Map<String, Object> rankMap = new HashMap<>();
