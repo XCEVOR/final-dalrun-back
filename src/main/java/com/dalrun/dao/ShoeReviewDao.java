@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.dalrun.dto.CompCommentDto;
 import com.dalrun.dto.CompetitionDto;
 import com.dalrun.dto.SearchParam;
+import com.dalrun.dto.ShoeReviewDetailDto;
 import com.dalrun.dto.ShoeReviewDto;
 import com.dalrun.dto.ShoereivewCommentDto;
 
@@ -27,4 +28,10 @@ public interface ShoeReviewDao {
 	
 	int ReviewsendComment(ShoereivewCommentDto dto);
 	List<ShoeReviewDto>getAllShoedetailList(int srSeq);
+	
+	int shoereviewRegi(ShoeReviewDto srdto);
+	int shoereviewDetailRegi(List<ShoeReviewDetailDto> srdList);
+	
+	ShoeReviewDto getShoereview(int srSeq);
+	List<ShoeReviewDetailDto> getShoereviewDetail(int srSeq);
 }

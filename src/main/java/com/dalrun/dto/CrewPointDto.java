@@ -5,41 +5,24 @@ import java.io.Serializable;
 public class CrewPointDto  implements Serializable{
 	
 	private String id;
-	private int pointseq;
+	private int pointSeq;
 	private String crewname;
 	private String regdate;
 	private int score;
-	private String crewseq;
+	private int crewSeq;
 	
 	public CrewPointDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CrewPointDto(String id, int pointseq, String crewname, String regdate, int score, String crewseq) {
+	public CrewPointDto(String id, int pointSeq, String crewname, String regdate, int score, int crewSeq) {
 		super();
 		this.id = id;
-		this.pointseq = pointseq;
+		this.pointSeq = pointSeq;
 		this.crewname = crewname;
 		this.regdate = regdate;
 		this.score = score;
-		this.crewseq = crewseq;
-	}
-
-	public String getCrewseq() {
-		return crewseq;
-	}
-
-	public void setCrewseq(String crewseq) {
-		this.crewseq = crewseq;
-	}
-
-
-	public String getCrewname() {
-		return crewname;
-	}
-
-	public void setCrewname(String crewname) {
-		this.crewname = crewname;
+		this.crewSeq = crewSeq;
 	}
 
 	public String getId() {
@@ -50,12 +33,20 @@ public class CrewPointDto  implements Serializable{
 		this.id = id;
 	}
 
-	public int getPointseq() {
-		return pointseq;
+	public int getPointSeq() {
+		return pointSeq;
 	}
 
-	public void setPointseq(int pointseq) {
-		this.pointseq = pointseq;
+	public void setPointSeq(int pointSeq) {
+		this.pointSeq = pointSeq;
+	}
+
+	public String getCrewname() {
+		return crewname;
+	}
+
+	public void setCrewname(String crewname) {
+		this.crewname = crewname;
 	}
 
 	public String getRegdate() {
@@ -73,6 +64,21 @@ public class CrewPointDto  implements Serializable{
 	public void setScore(int score) {
 		this.score = score;
 	}
+
+	public int getCrewSeq() {
+		return crewSeq;
+	}
+
+	public void setCrewSeq(int crewSeq) {
+		this.crewSeq = crewSeq;
+	}
+
+	@Override
+	public String toString() {
+		return "CrewPointDto [id=" + id + ", pointSeq=" + pointSeq + ", crewname=" + crewname + ", regdate=" + regdate
+				+ ", score=" + score + ", crewSeq=" + crewSeq + "]";
+	}
+
 	
 	
 	

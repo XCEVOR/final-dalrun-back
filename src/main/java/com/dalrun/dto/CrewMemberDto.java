@@ -5,111 +5,44 @@ import java.sql.Date;
 
 //크루에 속한 멤버들
 public class CrewMemberDto implements Serializable{
-	private int cMemberSeq;
 	private int crewSeq;
-	private String memId;
-	private int crewConfirm;
-	private Date crewRegDate;
-	private Date crewMemUpdate;
-	private int crewMemDel;
-	private int crewAuth;
-	
-	public CrewMemberDto() {
-	}
-	
-	public CrewMemberDto(int crewSeq, String memId, int crewConfirm, Date crewRegDate, int crewMemDel, int crewAuth) {
-		super();
-		this.crewSeq = crewSeq;
-		this.memId = memId;
-		this.crewConfirm = crewConfirm;
-		this.crewRegDate = crewRegDate;
-		this.crewMemDel = crewMemDel;
-		this.crewAuth = crewAuth;
-	}
+   private String memId;
+   private String reqMemId;
+   
+   public CrewMemberDto() {
+   }
 
+   public CrewMemberDto(int crewSeq, String memId){
+      this.crewSeq = crewSeq;
+      this.memId = memId;
+   }
 
-	public CrewMemberDto(int cMemberSeq, int crewSeq, String memId, int crewConfirm, Date crewRegDate, Date crewMemUpdate,
-			int crewMemDel, int crewAuth) {
-		super();
-		this.cMemberSeq = cMemberSeq;
-		this.crewSeq = crewSeq;
-		this.memId = memId;
-		this.crewConfirm = crewConfirm;
-		this.crewRegDate = crewRegDate;
-		this.crewMemUpdate = crewMemUpdate;
-		this.crewMemDel = crewMemDel;
-		this.crewAuth = crewAuth;
-	}
+   public int getCrewSeq() {
+      return crewSeq;
+   }
 
-	public int getcMemberSeq() {
-		return cMemberSeq;
-	}
+   public void setCrewSeq(int crewSeq) {
+      this.crewSeq = crewSeq;
+   }
 
-	public void setcMemberSeq(int cMemberSeq) {
-		this.cMemberSeq = cMemberSeq;
-	}
+   public String getMemId() {
+      return memId;
+   }
 
-	public int getCrewSeq() {
-		return crewSeq;
-	}
+   public void setMemId(String memId) {
+      this.memId = memId;
+   }
+   public String getReqMemId(){
+	   return reqMemId;
+   }
+   public void setReqMemId(String reqMemId) {
+	   this.reqMemId = reqMemId;
+   }
 
-	public void setCrewSeq(int crewSeq) {
-		this.crewSeq = crewSeq;
-	}
+@Override
+public String toString() {
+	return "CrewMemberDto [crewSeq=" + crewSeq + ", memId=" + memId + ", reqMemId=" + reqMemId + "]";
+}
+   
 
-	public String getMemId() {
-		return memId;
-	}
-
-	public void setMemId(String memId) {
-		this.memId = memId;
-	}
-
-	public int getCrewConfirm() {
-		return crewConfirm;
-	}
-
-	public void setCrewConfirm(int crewConfirm) {
-		this.crewConfirm = crewConfirm;
-	}
-
-	public Date getCrewRegDate() {
-		return crewRegDate;
-	}
-
-	public void setCrewRegDate(Date crewRegDate) {
-		this.crewRegDate = crewRegDate;
-	}
-
-	public Date getCrewMemUpdate() {
-		return crewMemUpdate;
-	}
-
-	public void setCrewMemUpdate(Date crewMemUpdate) {
-		this.crewMemUpdate = crewMemUpdate;
-	}
-
-	public int getCrewMemDel() {
-		return crewMemDel;
-	}
-
-	public void setCrewMemDel(int crewMemDel) {
-		this.crewMemDel = crewMemDel;
-	}
-
-	public int getCrewAuth() {
-		return crewAuth;
-	}
-
-	public void setCrewAuth(int crewAuth) {
-		this.crewAuth = crewAuth;
-	}
-
-	@Override
-	public String toString() {
-		return "CrewMemberDto [cMemberSeq=" + cMemberSeq + ", crewSeq=" + crewSeq + ", memId=" + memId
-				+ ", crewConfirm=" + crewConfirm + ", crewRegDate=" + crewRegDate + ", crewMemUpdate=" + crewMemUpdate
-				+ ", crewMemDel=" + crewMemDel + ", crewAuth=" + crewAuth + "]";
-	}
-	
 }

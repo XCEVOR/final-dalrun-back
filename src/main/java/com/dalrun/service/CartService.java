@@ -29,8 +29,22 @@ public class CartService {
         return dao.getUserCartList(memId);
     }
     
+    public int getUserCartQuantity (String productId) {
+        return dao.getUserCartQuantity(productId);
+    }
+    
     public boolean deleteCartItem (String productId) {
         int isSucc = dao.deleteCartItem(productId);
+        return isSucc > 0 ? true : false;
+    }
+    
+    public boolean updateCartItem (CartDto cdto) {
+        int isSucc = dao.updateCartItem(cdto);
+        return isSucc > 0 ? true : false;
+    }
+    
+    public boolean emptyCart (String memId) {
+        int isSucc = dao.emptyCart(memId);
         return isSucc > 0 ? true : false;
     }
     

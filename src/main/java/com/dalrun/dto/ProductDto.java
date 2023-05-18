@@ -21,6 +21,7 @@ public class ProductDto  implements Serializable{
 	private int productSale; // 판매 여부 [0 - 품절 / 1- 판매]
 	private String productOrigFile;// 상품 원본 사진
 	private String productNewFile; // 상품 변경 사진
+	private int orderCnt;
 
 	public ProductDto() {
 		// TODO Auto-generated constructor stub
@@ -39,7 +40,7 @@ public class ProductDto  implements Serializable{
     public ProductDto(String productId, String productCode, String productCategory, String productBrand,
             String productName, String productPrice, String productColor, String productSize, String productDescription,
             String productRegiDate, int productView, int productLike, int productRecomm, int productStock,
-            int productSale, String productOrigFile, String productNewFile) {
+            int productSale, String productOrigFile, String productNewFile, int orderCnt) {
         super();
         this.productId = productId;
         this.productCode = productCode;
@@ -58,6 +59,7 @@ public class ProductDto  implements Serializable{
         this.productSale = productSale;
         this.productOrigFile = productOrigFile;
         this.productNewFile = productNewFile;
+        this.orderCnt = orderCnt;
     }
 
     public String getProductId() {
@@ -196,16 +198,24 @@ public class ProductDto  implements Serializable{
         this.productNewFile = productNewFile;
     }
 
-    @Override
-    public String toString() {
-        return "ProductDto [productId=" + productId + ", productCode=" + productCode + ", productCategory="
-                + productCategory + ", productBrand=" + productBrand + ", productName=" + productName
-                + ", productPrice=" + productPrice + ", productColor=" + productColor + ", productSize=" + productSize
-                + ", productDescription=" + productDescription + ", productRegiDate=" + productRegiDate
-                + ", productView=" + productView + ", productLike=" + productLike + ", productRecomm=" + productRecomm
-                + ", productStock=" + productStock + ", productSale=" + productSale + ", productOrigFile="
-                + productOrigFile + ", productNewFile=" + productNewFile + "]";
-    }
+    public int getOrderCnt() {
+		return orderCnt;
+	}
+
+	public void setOrderCnt(int orderCnt) {
+		this.orderCnt = orderCnt;
+	}
+
+	@Override
+	public String toString() {
+		return "ProductDto [productId=" + productId + ", productCode=" + productCode + ", productCategory="
+				+ productCategory + ", productBrand=" + productBrand + ", productName=" + productName
+				+ ", productPrice=" + productPrice + ", productColor=" + productColor + ", productSize=" + productSize
+				+ ", productDescription=" + productDescription + ", productRegiDate=" + productRegiDate
+				+ ", productView=" + productView + ", productLike=" + productLike + ", productRecomm=" + productRecomm
+				+ ", productStock=" + productStock + ", productSale=" + productSale + ", productOrigFile="
+				+ productOrigFile + ", productNewFile=" + productNewFile + ", orderCnt=" + orderCnt + "]";
+	}
 
 
 

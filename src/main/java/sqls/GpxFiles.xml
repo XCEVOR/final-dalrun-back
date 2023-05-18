@@ -10,8 +10,8 @@
         FROM gpxfiles
     </select>
     
-    <!-- gpx 파일 업로드 -->
-    <insert id="insertGpxFile" parameterType="com.dalrun.dto.GpxFilesDto">
+    <!-- diary gpx 파일 업로드 -->
+    <insert id="insertDiaryGpxFile" parameterType="com.dalrun.dto.GpxFilesDto">
     	INSERT INTO gpxFiles
     	(diarySeq, fileName, filePath, memId, uploadDate)
     	VALUES (#{diarySeq}, #{fileName}, #{filePath}, #{memId}, #{uploadDate})
@@ -19,5 +19,38 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>
     </insert>
+    
+    <!-- course gpx 파일 업로드 -->
+    <insert id="insertCourseGpxFile" parameterType="com.dalrun.dto.GpxFilesDto">
+    	INSERT INTO gpxFiles
+    	(courseSeq, fileName, filePath, memId, uploadDate)
+    	VALUES (#{courseSeq}, #{fileName}, #{filePath}, #{memId}, #{uploadDate})
+		<selectKey keyProperty="fileSeq" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+    </insert>
+    
+    <!-- userCourse gpx 파일 업로드 -->
+    <insert id="insertUserGpxFile" parameterType="com.dalrun.dto.GpxFilesDto">
+    	INSERT INTO gpxFiles
+    	(userCSeq, fileName, filePath, memId, uploadDate)
+    	VALUES (#{userCSeq}, #{fileName}, #{filePath}, #{memId}, #{uploadDate})
+		<selectKey keyProperty="fileSeq" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+    </insert>
+    
+    <!-- course gpx 파일 삭제를 위한 조회 -->
+    <select id="selectCourseFiles" parameterType="Integer" resultType="List">
+    	SELECT *
+    	FROM gpxfiles
+    	WHERE courseSeq = #{courseSeq}
+    </select>
+    
+    <!-- course gpx DB 삭제 -->
+    <delete id="deleteCourseFiles" parameterType="Integer">
+    	DELETE FROM gpxfiles
+    	WHERE courseSeq = #{courseSeq}
+    </delete>
     
 </mapper>

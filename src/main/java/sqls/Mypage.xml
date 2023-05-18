@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace = "com.dalrun.dao.MypageDao">
+
+	<select id="myinform" parameterType="java.lang.String" resultType="com.dalrun.dto.MemberDto">
+		SELECT * 
+		FROM member
+		WHERE  memId = #{memId}
+	</select>
+	
+	<select id="mymember" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.MemberDto">
+		SELECT *
+		FROM 
+			 memId, password, memberName, phone, birth, foot, profile,
+			  regdate, memberupdate, auth, del, point, grade, totalpoint
+			FROM MEMBER
+		WHERE memId=#{memId} 
+	</select>	
+	
+	<select id="getmyMember" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
+		SELECT IFNULL(COUNT(*), 0)
+		FROM MEMBER
+
+	</select>	
+	
+	<update id="updatemember" parameterType="com.dalrun.dto.MemberDto">
+		UPDATE MEMBER
+		SET memberName=#{memberName}, email=#{email}, phone=#{phone}, birth=#{birth}, 
+			foot=#{foot}, memberupdate=now(), profile=#{profile}
+		WHERE memId=#{memId}  
+	</update>
+	
+	<update id="updatememberpass" parameterType="com.dalrun.dto.MemberDto">
+		UPDATE MEMBER
+		SET password=#{password}
+		WHERE memId=#{memId}  
+	</update>	
+	
+		<!-- 크루 멤버수를 포함한 크루 정보 -->
+	<select id="getCrew" parameterType="int" resultType="com.dalrun.dto.CrewDto">
+		SELECT *, (SELECT COUNT(*) FROM CREWMEMBER WHERE crewSeq = #{crewSeq}) crewMemberCnt
+		FROM CREW
+		WHERE crewSeq = #{crewSeq};
+	</select>
+
+	<!-- 크루 멤버 정보 -->
+	<select id="getCrewMember" parameterType="int" resultType="com.dalrun.dto.CrewMemberDto">
+		SELECT *
+		FROM CREWMEMBER
+		WHERE crewSeq = #{crewSeq};
+	</select>	
+	
+	<select id="getCrewBbs" parameterType="Integer" resultType="com.dalrun.dto.CrewBbsDto">
+		select cBbSeq, memId, title, content, type, wdate, readcount, likecount, del, img
+		from crewRecruitBbs
+		where cBbsSeq=#{cBbsSeq}
+		AND memId = #{memId}
+	</select>
+
+	<select id="myCbslist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.CrewBbsDto">
+		SELECT *
+		FROM
+			(SELECT ROW_NUMBER()OVER(ORDER BY ‘onlyCrewBbsRegdate’ DESC) AS rnum, 
+			onlyCrewBbsSeq, memId, onlyCrewTitle, onlyCrewContent, type, ‘onlyCrewBbsRegdate’, 
+			onlyCrewReadCount, onlyCrewDel, onlyCrewImg, onlyCrewCategory
+			FROM onlycrewbbs
+			WHERE 1=1 
+			 <if test="choice != null and choice != '' and search != null and search != '' ">
+			 	<if test="choice == 'title'">
+			 		and onlyCrewTitle like concat('%', #{search}, '%') and onlyCrewDel=0
+			 	</if>
+			 	<if test="choice == 'content'">
+			 		and onlyCrewContent like concat('%', #{search}, '%') and onlyCrewDel=0
+			 	</if>
+			 	<if test="choice == 'writer'">
+			 		and memId=#{search} and onlyCrewDel=0
+			 	</if>
+			 </if>		 
+			ORDER BY ‘onlyCrewBbsRegdate’ DESC) A
+		WHERE rnum BETWEEN ${start} AND ${end}			
+		AND memId = #{memId}
+	</select>
+	
+	<select id="myAllCbslist" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
+		SELECT ifnull(Count(*), 0)
+		FROM 
+			(SELECT ROW_NUMBER()OVER(ORDER BY ‘onlyCrewBbsRegdate’ DESC) AS rnum, 
+			onlyCrewBbsSeq, memId, onlyCrewTitle, onlyCrewContent, type, ‘onlyCrewBbsRegdate’, 
+			onlyCrewReadCount, onlyCrewDel, onlyCrewImg, onlyCrewCategory
+			FROM onlycrewbbs
+			 <if test="choice != null and choice != '' and search != null and search != '' ">
+			 	<if test="choice == 'title'">
+			 		and onlyCrewTitle like concat('%', #{search}, '%') and onlyCrewDel=0
+			 	</if>
+			 	<if test="choice == 'content'">
+			 		and onlyCrewContent like concat('%', #{search}, '%') and onlyCrewDel=0
+			 	</if>
+			 	<if test="choice == 'writer'">
+			 		and memId=#{search} and onlyCrewDel=0
+			 	</if>
+			 </if>					
+			ORDER BY ‘onlyCrewBbsRegdate’ DESC) A
+		WHERE memId = #{memId}
+	</select>	
+		
+	<select id="myqnalist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.QnaDto">
+		SELECT *
+		FROM
+			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS rnum, qnaSeq, category, qnaTitle, 
+				wdate, readCount, question, answer, auth, del, memId
+			FROM QNA
+			WHERE 1=1 
+			 <if test="choice != null and choice != '' and search != null and search != '' ">
+			 	<if test="choice == 'title'">
+			 		and qnaTitle like concat('%', #{search}, '%') and del=0
+			 	</if>
+			 	<if test="choice == 'content'">
+			 		and question like concat('%', #{search}, '%') and del=0
+			 	</if>
+			 	<if test="choice == 'writer'">
+			 		and memId=#{search} and del=0
+			 	</if>
+			 </if>		 
+			ORDER BY wdate DESC) A
+		WHERE rnum BETWEEN ${start} AND ${end}			
+		AND memId = #{memId}
+	</select>
+	
+	<select id="myAllqnalist" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
+		SELECT ifnull(Count(*), 0)
+		FROM 
+			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS rnum, qnaSeq, category, qnaTitle, 
+				wdate, readCount, question, answer, auth, del, memId
+			FROM QNA
+			 <if test="choice != null and choice != '' and search != null and search != '' ">
+			 	<if test="choice == 'title'">
+			 		where qnaTitle like concat('%', #{search}, '%') and del=0
+			 	</if>
+			 	<if test="choice == 'content'">
+			 		where question like concat('%', #{search}, '%') and del=0
+			 	</if>
+			 	<if test="choice == 'writer'">
+			 		where memId=#{search} and del=0
+			 	</if>
+			 </if>				
+			ORDER BY wdate DESC) A
+		WHERE memId = #{memId}
+	</select>
+	
+    <select id="orderlist" parameterType="String" resultType="com.dalrun.dto.OrderDto">
+		SELECT A.orderNumber, productName, productQuantity, productPrice, orderTotalprice, orderDate, orderState
+		FROM productorder A
+	    INNER JOIN productorderdetail B
+	    ON A.orderNumber = B.orderNumber
+	    WHERE memId = #{memId}
+    </select>	   
+	
+	<!-- 다이어리 전체 조회 -->
+	<select id="diaryList" parameterType="String" resultType="com.dalrun.dto.DiaryDto">
+		SELECT *
+		FROM 
+			(SELECT ROW_NUMBER()OVER(ORDER BY wdate DESC) AS RNUM, diarySeq, memId,
+				title, content, wdate, totalDist, totalTime, meanPace, maxSlope, kcal, 
+				score
+			FROM DIARY
+			ORDER BY wdate DESC) A
+		WHERE memId =#{memId}
+	</select>    
+	
+	<!-- 다이어리 총 수 -->
+	<select id="getAllDiary" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
+		SELECT IFNULL(COUNT(*), 0)
+		FROM diary
+		WHERE memId =#{memId}
+	</select>	
+	
+	<select id="getDiaryday" parameterType="String" resultType="com.dalrun.dto.DiaryDto">	
+		SELECT SUM(totalTime) AS totalTime, SUM(totalDist) AS totalDist, SUM(kcal) AS kcal
+		FROM Diary
+		WHERE wdate BETWEEN #{fromwdate} AND #{towdate}
+		AND memId = #{memId}
+		
+	</select>	
+	
+	<!-- 크루탈퇴 -->
+	<update id="crewLeave" parameterType="String">
+		UPDATE member SET crewSeq=0 
+		WHERE memId=#{memId}
+	
+	</update>
+	
+	<delete id="crewmemberLeave" parameterType="String">
+		DELETE FROM crewmember
+		WHERE memId=#{memId}
+	</delete>  
+	
+	<update id="crewUpdate">
+		UPDATE crew 
+        SET crewImg=#{crewImg}, crewName=#{crewName}, crewSetUp=#{crewSetUp}, crewUpdate=now()
+		WHERE crewSeq=#{crewSeq}
+	
+	</update>  
+	
+</mapper>

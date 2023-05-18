@@ -3,18 +3,54 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace = "com.dalrun.dao.GpxDataDao">
-
+	
 	<!-- gpx 데이터 전체 조회-->
-    <select id="gpxDataList" resultType="com.dalrun.dto.GpxDataDto">
+    <select id="gpxDataList" parameterType="com.dalrun.dto.DiaryDto"
+    	resultType="com.dalrun.dto.GpxDataDto">
         SELECT *
         FROM gpxdata
+        WHERE diarySeq IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+        	#{item}
+        </foreach>
     </select>
     
     <!-- 업로드 시 하나의 기록 insert -->
     <insert id="insertGpxData" parameterType="com.dalrun.dto.GpxDataDto">
     	INSERT INTO gpxdata
-    	(fileSeq, diarySeq, memId, latitude, longitude, altitude, mTime)
-    	VALUES (#{fileSeq}, #{diarySeq}, #{memId}, #{latitude}, #{longitude}, #{altitude}, #{mTime})
+    	(fileSeq, diarySeq, memId, latitude, longitude, altitude, distance, slope, mTime, timeDiff)
+    	VALUES (#{fileSeq}, #{diarySeq}, #{memId}, #{latitude}, #{longitude}, #{altitude}, 
+    			#{distance}, #{slope}, #{mTime}, #{timeDiff})
     </insert>
+    
+    <!-- insert한 기록 데이터 전달 -->
+    <select id="getGPXData" resultType="com.dalrun.dto.GpxDataDto">
+    	SELECT *
+    	FROM gpxdata
+    	WHERE fileSeq = #{fileSeq}
+    </select>
+    
+    
+    <!-- 코스 업로드 시 하나의 기록 insert -->
+    <insert id="insertCourseGpxData" parameterType="com.dalrun.dto.GpxDataDto">
+    	INSERT INTO gpxdata
+    	(fileSeq, CourseSeq, memId, latitude, longitude, altitude, distance, slope, mTime, timeDiff)
+    	VALUES (#{fileSeq}, #{courseSeq}, #{memId}, #{latitude}, #{longitude}, #{altitude}, 
+    			#{distance}, #{slope}, #{mTime}, #{timeDiff})
+    </insert>
+    
+    <!-- 코스 번호로 코스 데이터 조회 -->
+    <select id="courseGpxList" resultType="com.dalrun.dto.GpxDataDto">
+    	SELECT *
+    	FROM gpxdata
+    	WHERE courseSeq IS NOT NULL
+	</select>
+
+    
+    <!-- Course data 삭제 -->
+    <delete id="deleteCourseData" parameterType="int">
+    	DELETE FROM gpxdata
+    	WHERE courseSeq = #{courseSeq}
+    </delete>
     
 </mapper>

@@ -6,7 +6,8 @@ public class GpxFilesDto {
 
 	private int fileSeq; 		// gpx 파일 번호 pk
 	private int diarySeq;		// 다이어리 번호
-	private int courseSeq;		// 코스 번호
+	private int courseSeq;		// 추천 코스 번호
+	private int userCSeq;		// 유저 코스 번소
 	private String fileName;	// gpx 파일 이름
 	private String filePath;	// gpx 파일 경로
 	private String memId;		// 유저 ID 	   fk
@@ -16,13 +17,16 @@ public class GpxFilesDto {
 
 	public GpxFilesDto() {
 	}
+	
+	
 
-	public GpxFilesDto(int fileSeq, int diarySeq, int courseSeq, String fileName, String filePath, String memId,
-			double distance, double maxAltitude, Date uploadDate) {
+	public GpxFilesDto(int fileSeq, int diarySeq, int courseSeq, int userCSeq, String fileName, String filePath,
+			String memId, double distance, double maxAltitude, Date uploadDate) {
 		super();
 		this.fileSeq = fileSeq;
 		this.diarySeq = diarySeq;
 		this.courseSeq = courseSeq;
+		this.userCSeq = userCSeq;
 		this.fileName = fileName;
 		this.filePath = filePath;
 		this.memId = memId;
@@ -53,6 +57,14 @@ public class GpxFilesDto {
 
 	public void setCourseSeq(int courseSeq) {
 		this.courseSeq = courseSeq;
+	}
+	
+	public int getUserCSeq() {
+		return userCSeq;
+	}
+
+	public void setUserCSeq(int userCSeq) {
+		this.userCSeq = userCSeq;
 	}
 
 	public String getFileName() {
@@ -105,9 +117,9 @@ public class GpxFilesDto {
 
 	@Override
 	public String toString() {
-		return "GpxFilesDto [fileSeq=" + fileSeq + ", diarySeq=" + diarySeq + ", courseSeq=" + courseSeq + ", fileName="
-				+ fileName + ", filePath=" + filePath + ", memId=" + memId + ", distance=" + distance + ", maxAltitude="
-				+ maxAltitude + ", uploadDate=" + uploadDate + "]";
+		return "GpxFilesDto [fileSeq=" + fileSeq + ", diarySeq=" + diarySeq + ", courseSeq=" + courseSeq + ", userCSeq="
+				+ userCSeq + ", fileName=" + fileName + ", filePath=" + filePath + ", memId=" + memId + ", distance="
+				+ distance + ", maxAltitude=" + maxAltitude + ", uploadDate=" + uploadDate + "]";
 	}
 
 }

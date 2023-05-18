@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.dalrun.dao.CrewMemberDao">
+	<!-- 해당 크루 대기멤버 리스트 조회 -->
+	<select id="getCrewMemberWait" parameterType="int" resultType="com.dalrun.dto.CrewMemberDto">
+		SELECT *
+		FROM CREWMEMBER
+		WHERE crewSeq=#{crewSeq}
+	</select>
+	
+	<!--가입버튼 누른 user crewMember table insert-->
+	<insert id="insertMember" parameterType="com.dalrun.dto.CrewMemberDto">
+	   insert into crewMember(crewSeq, memId)
+	   values(#{crewSeq}, #{memId})
+	</insert>
+	
+	<!--가입된 회원 정보 확인-->
+	<select id="checkMember" parameterType="String" resultType="com.dalrun.dto.CrewMemberDto">
+	      select *
+	      from crewMember
+	      where memId=#{memId}
+	</select>
+	
+	
+	<!--승인/거절 후 대기테이블에서 삭제-->
+	<delete id="deleteFromList" parameterType="com.dalrun.dto.CrewMemberDto">
+	   delete from crewmember
+	   where memId=#{memId} AND crewSeq=#{crewSeq}
+	</delete>
+	
+	<!--승인에 따른 member table update-->
+	<update id="changeMember" parameterType="com.dalrun.dto.CrewMemberDto">
+	   update member
+	   set crewSeq=#{crewSeq}
+	   where memId=#{memId}
+	</update>
+	
+	<!--승인에 따른 crewCount update-->
+	<update id="changeCrew" parameterType="int">
+	   update crew
+	   set crewCount = crewCount+1
+	   where crewSeq=#{crewSeq}
+	</update>
+	
+	<!--리더 체크-->
+	<select id="getLeader" parameterType="int" resultType="String">
+	   select leader
+	   from crew
+	   where crewSeq=#{creSeq}
+	</select>
+	
+	<!--memIdㄹ crewSeq 가져옴-->
+	<select id="getCrewSeq" parameterType="String" resultType="int">
+	   select crewSeq
+	   from crewmember
+	   where memId=#{memId}
+	</select>
+
+
+	
+</mapper>

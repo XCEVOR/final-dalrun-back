@@ -48,6 +48,18 @@ public class ProductService {
         return isSucc > 0 ? true : false;
     }
     
+    public List<ProductDto> getProductRecomm () {
+        return dao.getProductRecomm();
+    }
+    
+    public List<ProductDto> getAllProductListSortView () {
+        return dao.getAllProductListSortView();
+    }
+    
+    public List<ProductDto> getAllProductListSortLike () {
+        return dao.getAllProductListSortLike();
+    }
+    
     
     
     

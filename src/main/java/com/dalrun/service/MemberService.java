@@ -4,11 +4,14 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +39,18 @@ public class MemberService {
 	//회원가입
 	public boolean addmember(MemberDto dto) {
 		int n = dao.addmember(dto);
+		
+//		// 멤버 등록이 완료되면 DB에서 생성된 memId 값을 가져옴
+//		String memId = dao.getMemberId(dto.getMemId());
+//		//// 가져온 memId 값을 dto 객체에 설정
+//		dto.setMemId(memId);
+		
 		return n>0?true:false;
+	}
+	
+	//memId로 이미지 가져옴
+	public String getMemId(String memId) {
+		return dao.getMemId(memId);
 	}
 	
 	//로그인
@@ -51,7 +65,7 @@ public class MemberService {
 	    String access_Token = "";
 	    String refresh_Token = "";
 	    //reqURL: String 타입의 카카오 로그인 인증서버의 URL
-	    String reqURL = "https://kauth.kakao.com/oauth/kakao/callback";
+	    String reqURL = "https://kauth.kakao.com/oauth/token";
 	    
 	    try {
 	    	//URL 객체 생성
@@ -70,7 +84,7 @@ public class MemberService {
 			sb.append("grant_type=authorization_code");
 
 			sb.append("&client_id=33861296b5dfb84484e1df231821dd86"); // REST_API키 본인이 발급받은 key 넣어주기
-			sb.append("&redirect_uri=http://localhost:3000/oauth/kakao/callback"); // REDIRECT_URI 본인이 설정한 주소 넣어주기
+			sb.append("&redirect_uri=http://localhost:9200/kakaocallback"); // REDIRECT_URI 본인이 설정한 주소 넣어주기
 
 			sb.append("&code=" + authorize_code);
 			bw.write(sb.toString());
@@ -176,15 +190,156 @@ public class MemberService {
 		return userInfo;
 	}
 	
+//	 public boolean kakaoLoginValidCheck(String email){
+//	      MemberDto dto = dao.getmemberbyemail(email);
+//	      if (dto.getMemId()==null || dto.getMemId()==""){
+//	         return false;
+//	      }
+//	      return true;
+//	 }
+	
+	//db에서 이메일 체크
+	public boolean kakaoLoginValidCheck(String email){
+	      MemberDto dto = getmemberbyemail(email);
+	      if (dto==null){
+	         return false;
+	      }
+	      return true;
+	   }
+	
+	public MemberDto getmemberbyemail(String email){
+		return dao.getmemberbyemail(email);
+	}
+	
 	// 회원 조회
 	public MemberDto getmember(String target) {
 		return dao.getmember(target);
 	}
 	
-	public boolean MinusPoint(MemberDto dto) {
-		return dao.MinusPoint(dto)>0;
+	public boolean MemberMinusPoint(MemberDto dto) {
+		return dao.MemberMinusPoint(dto)>0;
+	}
+	public List<MemberDto> mycrewMemberList(int crewSeq) {
+		return dao.mycrewMemberList(crewSeq);
+	}
+	/*
+	//아이디 찾기
+	public String findId(String name, String email){
+	      MemberDto dto = new MemberDto();
+	      dto.setMemberName(name);
+	      dto.setEmail(email);
+	      return dao.findId(dto);
+	   }
+	
+	//비밀번호 찾기
+	public boolean findPw(String id, String name, String phone){
+	      MemberDto dto = new MemberDto();
+	      dto.setMemId(id);
+	      dto.setMemberName(name);
+	      dto.setPhone(phone);
+	      String res = dao.findPw(dto);
+	      if (res==null) {return false;}
+
+	      Random rd = new Random();
+	      int length = (int) rd.nextInt(4)+8; //8~11
+	      String randomString = rd.ints(48, 123)
+	            .filter(i -> (i<=57||i>=65)&&(i<=90||i>=97))
+	            .limit(length)
+	            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+	            .toString(); //length길이를 가진 랜덤 문자열(알파벳+숫자)
+
+	      if(dao.setNewPw(randomString, id)==1){
+	         sendSMS(phone, name+"님의 임시 비밀번호는 "+randomString+"입니다. 로그인 후 비밀번호를 변경해주시기 바랍니다.");
+	         return true;
+	      }
+	      return false;
+	   }*/
+	
+	public String findId(MemberDto dto){
+	      return dao.findId(dto);
+	   }
+
+	   public boolean findPw(MemberDto dto){
+	      String res = dao.findPw(dto);
+	      if (res==null) {return false;}
+
+	      Random rd = new Random();
+	      int length = (int) rd.nextInt(4)+8; //8~11
+	      String randomString = rd.ints(48, 123)
+	            .filter(i -> (i<=57||i>=65)&&(i<=90||i>=97))
+	            .limit(length)
+	            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+	            .toString(); //length길이를 가진 랜덤 문자열(알파벳+숫자)
+
+	      if(dao.setNewPw(randomString, dto.getMemId())==1){
+	         sendSMS(dto.getPhone(), dto.getMemberName()+"고객님의 임시 비밀번호는 "+randomString+"입니다. 로그인 후 비밀번호를 변경해주시기 바랍니다.");
+	         return true;
+	      }
+	      return false;
+	   }
+
+	//nhn클라우드 SMS 발송
+	public boolean sendSMS(String phone, String message){
+		//Toast sms api
+	      String appkey = "knTqFyUsdICgAUz1";
+	      String secretKey= "VwLDrAwN";
+	      String sendNo = "01093759907";
+	      String data = "{\"body\" : \""+message+"\", \"sendNo\" : \""+sendNo+"\", \"recipientList\" : [{\"recipientNo\" : \""+phone+"\"}]}";
+	      BufferedReader br = null;
+	      StringBuffer sb;
+	      String returnData = null;
+	      String responseCode = null;
+
+	      try{
+	         URL url = new URL("https://api-sms.cloud.toast.com/sms/v3.0/appKeys/"+appkey+"/sender/sms");
+	         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	         conn.setRequestMethod("POST");
+	         conn.setRequestProperty("Content-Type", "application/json"); //응답 json형식
+	         conn.setRequestProperty("X-Secret-Key", secretKey);
+	         conn.setDoOutput(true);
+	         try(OutputStream os = conn.getOutputStream()){
+	            byte request_data[] = data.getBytes("utf-8");
+	            os.write(request_data);
+	         }catch(Exception e){
+	            e.printStackTrace();
+	            return false;
+	         }
+
+	         conn.connect();
+
+	         br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+	         sb = new StringBuffer();
+	         String responseData="";
+	         while((responseData = br.readLine())!=null){
+	            sb.append(responseData);
+	         }
+	         returnData = sb.toString();
+	         responseCode = String.valueOf(conn.getResponseCode());
+	         System.out.println("=======================\n\n\n");
+	         System.out.println(responseCode);
+	         System.out.println(returnData);
+	         System.out.println("=======================\n\n\n");
+	      }catch (Exception e){
+	         e.printStackTrace();
+	         return false;
+	      }finally{
+	         try{
+	            if (br!=null){
+	               br.close();
+	            }
+	         }catch(IOException e){
+	            e.printStackTrace();
+	         }
+	      }
+	      return true;
+	   }
+	
+	// 게시글 작성 시 포인트 plus
+	public boolean plusPostPoint(String memId) {
+		int n = dao.plusPostPoint(memId);
+		return n>0? true:false;
 	}
 	
-
+	
 }
 

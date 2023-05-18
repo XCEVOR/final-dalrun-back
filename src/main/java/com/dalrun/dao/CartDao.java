@@ -17,7 +17,13 @@ public interface CartDao {
     
     List<CartDto> getUserCartList (String memId);
     
+    int getUserCartQuantity (String memId);
+    
     int deleteCartItem (String productId);
+    
+    int updateCartItem (CartDto cdto);
+    
+    int emptyCart (String memId);
     
 }
 
