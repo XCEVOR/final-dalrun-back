@@ -65,6 +65,12 @@ public CrewDto(int crewSeq, String memId, String crewSetUp, String crewCreateDat
 	this.leader = leader;
 }
 
+public CrewDto(int crewSeq, String crewName, long crewTotalScore) {
+	this.crewSeq = crewSeq;
+	this.crewName = crewName;
+	this.crewTotalScore = crewTotalScore;
+}
+
 public int getCrewSeq() {
 	return crewSeq;
 }

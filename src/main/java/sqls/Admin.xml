@@ -176,7 +176,7 @@
 			<include refid="member"></include>
 			ORDER BY regdate DESC) A
 		WHERE RNUM BETWEEN ${start} AND ${end}
-	</select>
+	</select>	
 	<select id="getAllMember" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
 		FROM MEMBER
@@ -538,21 +538,24 @@
 		ORDER BY year DESC, month DESC, ranking
 		LIMIT 0,7;
 	</select>
-	<select id="getCrewScoreRank" resultType="com.dalrun.dto.ScoreRankDto">
-		SELECT
+	<select id="getCrweSeqList" resultType="int">
+		SELECT crewSeq FROM CREW
+	</select>
+	<!-- <select id="getCrewScoreRank" parameterType="com.dalrun.dto.CrewDto" resultType="com.dalrun.dto.ScoreRankDto">
+		 SELECT
 			MONTH(now()) as month,
 		    YEAR(now()) as year,
 		    crewSeq,
 		    crewName,
 		    crewLevel,
-		    SUM(crewScore) as monthlyScore,
-		    RANK()OVER(ORDER BY SUM(crewScore) DESC) as ranking
+		    (#{crewTotalScore}) as monthlyScore,
+		    RANK()OVER(ORDER BY #{crewTotalScore} DESC) as ranking
 		FROM crew
 		WHERE MONTH(crewCreateDate) &lt;= MONTH(now()) AND YEAR(crewCreateDate) &lt;= YEAR(now()) 
 		GROUP BY year, month, crewSeq
 		ORDER BY year DESC, month DESC, ranking
-	    LIMIT 0,7
-	</select>
+	    LIMIT 0,7 
+	</select> -->
 	
 	<!-- 방문자 -->
 	<insert id="saveCookieData" parameterType="String">

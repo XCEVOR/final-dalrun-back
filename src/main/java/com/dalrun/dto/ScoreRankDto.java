@@ -8,13 +8,13 @@ public class ScoreRankDto {
 	private String memId;
 	private double monthlyTotalDist;
 	private int crewLevel;
-	private int monthlyScore;
+	private long monthlyScore;
 	private int ranking;
 	
 	public ScoreRankDto() {
 	}
 
-	public ScoreRankDto(int month, int year, int crewSeq, String crewName, String memId, double monthlyTotalDist, int crewLevel, int monthlyScore,
+	public ScoreRankDto(int month, int year, int crewSeq, String crewName, String memId, double monthlyTotalDist, int crewLevel, long monthlyScore,
 			int ranking) {
 		super();
 		this.month = month;
@@ -84,11 +84,11 @@ public class ScoreRankDto {
 		this.crewLevel = crewLevel;
 	}
 
-	public int getMonthlyScore() {
+	public long getMonthlyScore() {
 		return monthlyScore;
 	}
 
-	public void setMonthlyScore(int monthlyScore) {
+	public void setMonthlyScore(long monthlyScore) {
 		this.monthlyScore = monthlyScore;
 	}
 
