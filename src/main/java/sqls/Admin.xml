@@ -205,24 +205,28 @@
 	
 	<!-- 게시물 관리 -->
 	<select id="productinquirylist" parameterType="com.dalrun.dto.SearchParam" resultType="com.dalrun.dto.ProductInquiryDto">
-		SELECT A.*, (SELECT COUNT(*) FROM PRODUCTINQUIRY WHERE inqRef = A.inqSeq) AS replyCnt
-		FROM 
-			(SELECT ROW_NUMBER()OVER(ORDER BY inqDate DESC) AS RNUM, inqSeq, inqSubseq, inqWriter, inqTitle,
-				inqContent, inqDate, productId, memId, inqRef, inqDepth
-			FROM PRODUCTINQUIRY
-			WHERE inqDepth = 0
-			<include refid="searchProductinqiry"></include>
-			ORDER BY inqDate DESC, inqSeq DESC) A
-			WHERE RNUM BETWEEN ${start} AND ${end}
-		HAVING 1=1
-		<if test="inqState != null and inqState !=''">
-			<if test="inqState == 0">
-				AND replyCnt-1 = #{inqState} 
+		SELECT B.*
+		FROM (
+		    SELECT ROW_NUMBER() OVER (ORDER BY inqDate DESC) AS RNUM, 
+		    		(SELECT COUNT(*) FROM PRODUCTINQUIRY WHERE inqRef = A.inqSeq) AS replyCnt, A.*
+		    FROM 
+				(SELECT *
+		        FROM PRODUCTINQUIRY
+		        WHERE inqDepth = 0
+		        <include refid="searchProductinqiry"></include>
+		        ORDER BY inqDate DESC, inqSeq DESC
+		    ) A
+		    HAVING 1=1
+			<if test="inqState != null and inqState !=''">
+				<if test="inqState == 0">
+					AND replyCnt-1 = #{inqState} 
+				</if>
+				<if test="inqState == 1">
+					AND replyCnt > #{inqState} 
+				</if>
 			</if>
-			<if test="inqState == 1">
-				AND replyCnt > #{inqState} 
-			</if>
-		</if>
+		) B
+		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
 	<select id="getAllProductinquiry" parameterType="com.dalrun.dto.SearchParam" resultType="Integer">
 		SELECT IFNULL(COUNT(*), 0)
