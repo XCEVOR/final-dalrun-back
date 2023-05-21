@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -851,8 +852,10 @@ public class AdminController {
 
 		List<ScoreRankDto> crewRank = new ArrayList<>();
 		for (CrewDto crew : crewList) {
-			System.out.println("2 =" + crew.getCrewTotalScore());
-			ScoreRankDto dto = new ScoreRankDto(5, 2023, crew.getCrewSeq(), crew.getCrewName(), crew.getMemId(), 0, crew.getCrewLevel(), crew.getCrewTotalScore(), 0); 
+			int currMonth = YearMonth.now().getMonthValue();
+			int currYear = YearMonth.now().getYear();
+			
+			ScoreRankDto dto = new ScoreRankDto(currMonth, currYear, crew.getCrewSeq(), crew.getCrewName(), crew.getMemId(), 0, crew.getCrewLevel(), crew.getCrewTotalScore(), 0); 
 			crewRank.add(dto);
         }
 		
